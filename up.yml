@@ -1,0 +1,26 @@
+# `up <any command>` will default to running in this container
+#
+# For example, `up node test` will run `node test` in the `app` container
+# since it doesn't match any other Up commands like `stop` or `install`.
+main_container: app
+
+# You can customize the docker compose command here.
+#
+# Here's an example of how you might customize it:
+#
+#    docker_compose_command: docker-compose -f docker-compose.dev.
+#
+# Note: for most projects the default is fine.
+docker_compose_command: docker-compose
+
+# Automatically rebuild images when these files have changed.
+#
+# Add files/directories your images rely on.
+rebuild_when_changed:
+  - .dockerignore
+  - up.yml
+  - Dockerfile
+  - docker/*
+  - docker-compose.*
+  - shard.*
+  - package.json
