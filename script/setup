@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Exit if any subcommand fails
+set -e
+set -o pipefail
+
+indent() {
+  while read LINE; do
+    echo "  $LINE" || true
+  done
+}
+
+if ! command -v yarn > /dev/null; then
+  printf 'Yarn is not installed.\n'
+  printf 'See https://yarnpkg.com/lang/en/docs/install/ for install instructions.\n'
+  exit 1
+fi
+
+printf "\n▸ Installing node dependencies\n"
+yarn install --no-progress | indent
+
+printf "\n▸ Compiling assets\n"
+yarn dev | indent
+
+printf "\n▸ Installing shards\n"
+shards install | indent
+
+printf "\n▸ Checking that a process runner is installed\n"
+# Only if this isn't CI
+if [ -z "$CI" ]; then
+  lucky ensure_process_runner_installed
+fi
+printf "✔ Done\n" | indent
+
+printf "\n▸ Setting up the database\n"
+lucky db.create | indent
+
+printf "\n▸ Migrating the database\n"
+lucky db.migrate | indent
+
+printf "\n▸ Seed the database with required and sample records\n"
+lucky db.create_required_seeds | indent
+lucky db.create_sample_seeds | indent
+
+printf "\n✔ All done. Run 'lucky dev' to start the app\n"

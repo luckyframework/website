@@ -1,0 +1,28 @@
+name: website_v2
+version: 0.1.0
+
+authors:
+  - Paul Smith <paulcsmith0218@gmail.com>
+
+targets:
+  website_v2:
+    main: src/website_v2.cr
+
+crystal: 0.27.2
+
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    branch: master
+  authentic:
+    github: luckyframework/authentic
+    version: ~> 0.3
+  carbon:
+    github: luckyframework/carbon
+    version: ~> 0.1
+  dotenv:
+    github: gdotdesign/cr-dotenv
+
+  lucky_flow:
+    github: luckyframework/lucky_flow
+    version: ~> 0.4
