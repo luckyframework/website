@@ -1,6 +1,19 @@
-# website_v2
+# Redo of Lucky's website
 
-This is a project written using [Lucky](https://luckyframework.org). Enjoy!
+* Add a blog
+* Screencasts (migrate from crystalmastery.io and add Lucky ones too)
+* Redo guides (see below)
+
+## Guide goals
+
+* Responsive
+* Examples for each section. Lots of examples
+* *Versioned*. Look at old ones, or even look at what's on master
+* Link to relevant screencasts
+* Link to relevant examples
+* Helpful or not button
+	* If not, direct to Gitter to get help
+* Check code snippets in real projects. More confidence code samples work
 
 ### Setting up the project
 
