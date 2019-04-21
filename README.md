@@ -3,6 +3,7 @@
 * Add a blog
 * Screencasts (migrate from crystalmastery.io and add Lucky ones too)
 * Redo guides (see below)
+* Responsive
 
 ## Guide goals
 
