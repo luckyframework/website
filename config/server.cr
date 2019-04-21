@@ -1,7 +1,6 @@
 # Here is where you configure the Lucky server
 #
-# Look at config/route_helper.cr if you want to change the domain used when
-# generating links with `Action.url`.
+# Look at config/route_helper.cr if you want to change the domain used when # generating links with `Action.url`.
 Lucky::Server.configure do |settings|
   if Lucky::Env.production?
     settings.secret_key_base = secret_key_from_env
