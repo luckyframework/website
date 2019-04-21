@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SHARDS_CACHE_PATH: /data/.shards
+    volumes:
+      - .:/data
+    networks:
+      - internal
+      - external
+    command: lucky watch --reload-browser
+    ports:
+      - "3001:3001"
+      - "5000:5000"
+    stdin_open: true
+    tty: true
+
+  assets:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    volumes:
+      - .:/data
+    command: yarn watch
+    stdin_open: true
+    tty: true
+
+networks:
+  external:
+  internal:

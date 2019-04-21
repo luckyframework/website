@@ -1,0 +1,9 @@
+FROM node:10-alpine
+
+RUN mkdir /data
+WORKDIR /data
+
+COPY package.json .
+RUN yarn install
+
+COPY . /data
