@@ -5,7 +5,7 @@
 * Redo guides (see below)
 * Responsive
 
-## Guide goals
+### Guide goals
 
 * Responsive
 * Examples for each section. Lots of examples
@@ -16,11 +16,12 @@
 	* If not, direct to Gitter to get help
 * Check code snippets in real projects. More confidence code samples work
 
-### Setting up the project
+## Setting up the project
 
-1. [Install required dependencies](http://luckyframework.org/guides/installing.html#install-required-dependencies)
-1. Run `script/setup`
-1. Run `lucky dev` to start the app
+1. [Install Docker & Docker Compose](https://docs.docker.com/compose/install/)
+1. [Install Up](https://github.com/paulcsmith/up)
+1. Run `up`
+1. Visit `http://localhost:3001`
 
 ### Learning Lucky
 
