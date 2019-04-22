@@ -128,6 +128,8 @@ let colors = {
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
 
+  'lucky-blue': '#021e37',
+
   'hot-pink': '#ff3266',
   'hot-pink-light': '#ff4d7a',
   'white-opacity-25': 'rgba(255, 255, 255, .25)',

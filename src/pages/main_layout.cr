@@ -18,10 +18,34 @@ abstract class MainLayout
     html lang: "en" do
       mount Shared::LayoutHead.new(page_title: page_title, context: @context)
 
-      body do
-        mount Shared::FlashMessages.new(@context.flash)
-        content
+      body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
+        mount Shared::Header.new(@context.request)
+        div class: "bg-blue-gradient" do
+          div class: "py-16 px-10 max-w-md mx-auto text-center text-white" do
+            div class: "leading-normal uppercase text-xl" do
+              h1 "Build stunning web applications", class: "font-bold"
+              h1 "in less time", class: "font-light"
+            end
+
+            para class: "opacity-75 px-10 leading-loose mt-10 text-xl" do
+              text <<-TEXT
+              A Crystal web framework that catches bugs for you, runs
+              incredibly fast, and helps you write code that lasts.
+              TEXT
+            end
+          end
+        end
+        render_main_content
+        mount Shared::Footer.new
       end
+    end
+  end
+
+  private def render_main_content
+    div class: "container mx-auto px-6" do
+      mount Shared::FlashMessages.new(@context.flash)
+      # TODO: Add real page content later
+      # content
     end
   end
 end
