@@ -18,10 +18,18 @@ abstract class MainLayout
     html lang: "en" do
       mount Shared::LayoutHead.new(page_title: page_title, context: @context)
 
-      body do
-        mount Shared::FlashMessages.new(@context.flash)
-        content
+      body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
+        mount Shared::Header.new(@context.request)
+        render_main_content
+        mount Shared::Footer.new
       end
+    end
+  end
+
+  private def render_main_content
+    div class: "container mx-auto px-6" do
+      mount Shared::FlashMessages.new(@context.flash)
+      content
     end
   end
 end
