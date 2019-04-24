@@ -13,13 +13,14 @@ services:
       - /data/bin
       - /data/build
       - /data/node_modules
+      - /data/.shards
     networks:
       - internal
       - external
     command: lucky watch --reload-browser
     ports:
-      - "3001:3001"
-      - "5000:5000"
+      - 3001:3001
+      - 5000:5000
 
   assets:
     build:
