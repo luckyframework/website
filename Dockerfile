@@ -19,13 +19,18 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN mkdir /data
-RUN rm -rf /data/bin/*
+RUN rm -rf /data/bin/* /data/lib/*
 WORKDIR /data
 
 # Install shards
 COPY shard.* ./
 RUN shards install
 
+# Install node_modules
+COPY package.json .
+RUN yarn install
+
 COPY . /data
+
 EXPOSE 3001
 EXPOSE 5000

@@ -9,6 +9,10 @@ services:
       SHARDS_CACHE_PATH: /data/.shards
     volumes:
       - .:/data
+      - /data/lib
+      - /data/bin
+      - /data/build
+      - /data/node_modules
     networks:
       - internal
       - external
@@ -16,18 +20,15 @@ services:
     ports:
       - "3001:3001"
       - "5000:5000"
-    stdin_open: true
-    tty: true
 
   assets:
     build:
       context: .
-      dockerfile: Dockerfile.node
+      dockerfile: Dockerfile
     volumes:
       - .:/data
+      - /data/node_modules
     command: yarn watch
-    stdin_open: true
-    tty: true
 
 networks:
   external:
