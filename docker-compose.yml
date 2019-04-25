@@ -2,6 +2,7 @@ version: "3"
 
 services:
   app:
+    image: lucky_website_v2
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,9 +26,7 @@ services:
     stdin_open: true
 
   assets:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: lucky_website_v2
     volumes:
       - .:/data
       - /data/node_modules
