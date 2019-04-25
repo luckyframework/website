@@ -33,6 +33,11 @@ abstract class MainLayout
               incredibly fast, and helps you write code that lasts.
               TEXT
             end
+
+            div class: "my-12" do
+              link "Why Lucky?", "#", class: "btn btn--blue mr-5"
+              link "Get Started", "#", class: "btn"
+            end
           end
         end
         render_main_content
