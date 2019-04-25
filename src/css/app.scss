@@ -64,3 +64,27 @@ $transition-base: 0.1s ease-in-out all;
     background-image: linear-gradient(-180deg, #47c4ff 0%, #2ba4ec 100%);
   }
 }
+
+.algolia-docsearch {
+  background: transparentize($color: #fff, $amount: 0.8);
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  margin: 0;
+  max-width: 160px;
+  padding-left: 15px;
+
+  &:focus {
+    background: #fff;
+    color: #000;
+  }
+
+  &::placeholder {
+    color: transparentize($color: #fff, $amount: 0.4);
+    font-style: italic;
+  }
+
+  &:focus::placeholder {
+    color: transparentize($color: #000, $amount: 0.6);
+  }
+}

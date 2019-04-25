@@ -20,6 +20,22 @@ class Shared::Header < BaseComponent
       nav_link("Home", Home::Index, active: @request.resource == Home::Index.path)
       nav_link("Guides", "#")
       nav_link("Settings", "#")
+      a "Star", aria_label: "Star luckyframework/web on GitHub", class: "github-button", data_show_count: "true", data_size: "large", href: "https://github.com/luckyframework/web"
+      input class: "algolia-docsearch", placeholder: "Search...", type: "text"
+      docsearch_js
+    end
+  end
+
+  private def docsearch_js
+    script type: "text/javascript" do
+      raw <<-JS
+        window.docsearch({
+          apiKey: '576424427b2189ea2d57cc245beaa67c',
+          indexName: 'luckyframework',
+          inputSelector: '.algolia-docsearch',
+          debug: false // Set debug to true if you want to inspect the dropdown
+        });
+      JS
     end
   end
 
