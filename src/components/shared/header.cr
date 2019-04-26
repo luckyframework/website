@@ -5,8 +5,11 @@ class Shared::Header < BaseComponent
     header class: "antialiased text-grey-light shadow-inner-bottom bg-lucky-blue" do
       div class: "container mx-auto px-6" do
         div class: "flex justify-between items-center px-6" do
-          link(Home::Index, class: "text-white mr-10 self-center") do
-            img src: asset("images/logo.png"), class: "h-8"
+          div do
+            link(Home::Index, class: "text-white mr-10 self-center") do
+              img src: asset("images/logo.png"), class: "h-8"
+            end
+            a "Star", aria_label: "Star luckyframework/web on GitHub", class: "github-button", data_show_count: "true", data_size: "large", href: "https://github.com/luckyframework/web"
           end
           main_navigation
         end
