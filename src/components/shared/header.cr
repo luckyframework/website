@@ -20,7 +20,7 @@ class Shared::Header < BaseComponent
       nav_link("Chat", "#")
       nav_link("Blog", "#")
       nav_link("GitHub", "#")
-      input class: "bg-gray-lighter appearance-none border-3 border-grey-lighter rounded-full py-2 px-4 text-grey-darker leading-tight focus:shadow-inner focus:outline-none focus:bg-white focus:border-green", placeholder: "Search...", type: "text"
+      input class: "w-32 bg-gray-lighter appearance-none border-2 border-grey-lighter rounded-full py-2 px-4 transition-base text-grey-darker leading-tight focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal", placeholder: "Search...", type: "text"
       docsearch_js
     end
   end

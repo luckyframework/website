@@ -26,6 +26,10 @@
   background-image: linear-gradient(0deg, #274f8c 0%, #002748 100%);
 }
 
+.transition-base {
+  transition: 0.1s ease-in-out all;
+}
+
 .algolia-docsearch {
   background: transparentize($color: #fff, $amount: 0.8);
   border-radius: 20px;
