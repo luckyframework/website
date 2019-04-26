@@ -8,7 +8,7 @@ targets:
   website_v2:
     main: src/website_v2.cr
 
-crystal: 0.27.2
+crystal: 0.28.0
 
 dependencies:
   lucky:

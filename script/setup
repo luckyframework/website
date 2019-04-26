@@ -25,4 +25,4 @@ yarn dev | indent
 printf "\n▸ Installing shards\n"
 shards install | indent
 
-printf "\n✔ All done. Run 'up' to start the app\n"
+printf "\n✔ All done. Run 'lucky dev' to start the app\n"
