@@ -9,7 +9,11 @@ class Shared::Header < BaseComponent
             link(Home::Index, class: "text-white mr-10 self-center") do
               img src: asset("images/logo.png"), class: "h-8"
             end
-            a "Star", aria_label: "Star luckyframework/web on GitHub", class: "github-button", data_show_count: "true", data_size: "large", href: "https://github.com/luckyframework/web"
+            link "Star", "https://github.com/luckyframework/web",
+              aria_label: "Star Lucky on GitHub",
+              class: "github-button",
+              data_size: "large",
+              data_show_count: "true"
           end
           main_navigation
         end
@@ -23,7 +27,7 @@ class Shared::Header < BaseComponent
       nav_link("Chat", "#")
       nav_link("Blog", "#")
       nav_link("GitHub", "#")
-      input class: "w-32 bg-gray-lighter appearance-none border-2 border-grey-lighter rounded-full py-2 px-4 transition-base text-grey-darker leading-tight focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal", placeholder: "Search...", type: "text"
+      input id: "algolia-docsearch", class: "w-32 bg-gray-lighter appearance-none border-2 border-grey-lighter rounded-full py-2 px-4 transition-base text-grey-darker leading-tight focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal", placeholder: "Search...", type: "text"
       docsearch_js
     end
   end
@@ -34,7 +38,7 @@ class Shared::Header < BaseComponent
         window.docsearch({
           apiKey: '576424427b2189ea2d57cc245beaa67c',
           indexName: 'luckyframework',
-          inputSelector: '.algolia-docsearch',
+          inputSelector: '#algolia-docsearch',
           debug: false // Set debug to true if you want to inspect the dropdown
         });
       JS
