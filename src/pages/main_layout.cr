@@ -34,7 +34,11 @@ abstract class MainLayout
               TEXT
             end
 
-            div class: "my-12" do
+            div class: "mt-8" do
+              a "Star", aria_label: "Star luckyframework/web on GitHub", class: "github-button", data_show_count: "true", data_size: "large", href: "https://github.com/luckyframework/web"
+            end
+
+            div class: "my-8" do
               link "Why Lucky?", "#", class: "btn btn--blue mr-5"
               link "Get Started", "#", class: "btn"
             end

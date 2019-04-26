@@ -1,0 +1,33 @@
+$lucky-blue: #1c92b3;
+$medium-green: darken(#36de97, 10%);
+$transition-base: 0.1s ease-in-out all;
+
+.btn {
+  text-shadow: 0 1px 1px rgba(0,0,0,0.30);
+  border-radius: 500px;
+  background: $medium-green;
+  text-transform: uppercase;
+  font-weight: bold;
+  height: 50px;
+  font-size: 14px;
+  color: #fff;
+  padding: 15px 30px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  display: inline-block;
+  transition: $transition-base;
+  box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(-180deg, #3de69f 0%, #22c37f 100%);
+  transform: scale(1);
+
+  &:hover {
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  &--blue {
+    background: $lucky-blue;
+    background-image: linear-gradient(-180deg, #47c4ff 0%, #2ba4ec 100%);
+  }
+}

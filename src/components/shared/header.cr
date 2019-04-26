@@ -4,7 +4,10 @@ class Shared::Header < BaseComponent
   def render
     header class: "antialiased text-grey-light shadow-inner-bottom bg-lucky-blue" do
       div class: "container mx-auto px-6" do
-        div class: "flex justify-between items-center py-5 px-6" do
+        div class: "flex justify-between items-center px-6" do
+          link(Home::Index, class: "text-white mr-10 self-center") do
+            img src: asset("images/logo.png"), class: "h-8"
+          end
           main_navigation
         end
       end
@@ -12,16 +15,12 @@ class Shared::Header < BaseComponent
   end
 
   private def main_navigation
-    # flex flex-wrap
-    nav class: "flex items-center font-semibold" do
-      link(Home::Index, class: "text-white mr-10 self-center") do
-        img src: asset("images/logo.png"), class: "h-8"
-      end
-      nav_link("Home", Home::Index, active: @request.resource == Home::Index.path)
+    nav class: "justify-between flex items-center font-semibold" do
       nav_link("Guides", "#")
-      nav_link("Settings", "#")
-      a "Star", aria_label: "Star luckyframework/web on GitHub", class: "github-button", data_show_count: "true", data_size: "large", href: "https://github.com/luckyframework/web"
-      input class: "algolia-docsearch", placeholder: "Search...", type: "text"
+      nav_link("Chat", "#")
+      nav_link("Blog", "#")
+      nav_link("GitHub", "#")
+      input class: "bg-gray-lighter appearance-none border-3 border-grey-lighter rounded-full py-2 px-4 text-grey-darker leading-tight focus:shadow-inner focus:outline-none focus:bg-white focus:border-green", placeholder: "Search...", type: "text"
       docsearch_js
     end
   end
@@ -40,12 +39,8 @@ class Shared::Header < BaseComponent
   end
 
   private def nav_link(title, href, active : Bool = false)
-    link title, to: href, class: "uppercase font-bold text-white tracking-wide no-underline mr-4 px-4 py-1 rounded-full text-sm hover:bg-black-20 hover:text-white #{active_class(active)}"
-  end
-
-  private def active_class(active)
-    if active
-      "text-white bg-white-opacity-25"
-    end
+    link title,
+      to: href,
+      class: "uppercase font-bold text-white tracking-wide no-underline mr-4 px-4 py-8 text-sm hover:bg-blue-darker hover:text-white"
   end
 end
