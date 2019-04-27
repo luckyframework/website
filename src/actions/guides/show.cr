@@ -7,6 +7,8 @@ class Guides::Show < BrowserAction
 
   def markdown
     File.read(guide_path)
+  rescue e : Errno
+    raise Lucky::RouteNotFoundError.new(@context)
   end
 
   def guide_path
