@@ -35,7 +35,7 @@ abstract class GuideLayout
   def guide_content
     div class: "flex container mx-auto" do
       div class: "ml-sidebar pl-12 text-blue-darker leading-normal" do
-        h1 "Install Required Dependencies", class: "text-2xl text-teal-dark py-6 mt-6 tracking-medium"
+        h1 "Install Required Dependencies", class: "font-normal text-2xl text-teal-dark py-6 mt-6 tracking-medium"
         para <<-TEXT
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -48,7 +48,7 @@ abstract class GuideLayout
 
   def table_of_contents
     div class: "mt-5" do
-      h1 "Lucky Overview", class: "font-xl text-white text-shadow mb-6 tracking-medium"
+      h1 "Lucky Overview", class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
       ul class: "list-reset text-shadow text-lg mb-4" do
         5.times do
           li do
