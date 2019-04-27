@@ -1,5 +1,5 @@
 class Guides::Index < BrowserAction
   route do
-    render IndexPage
+    redirect Show.with("overview")
   end
 end

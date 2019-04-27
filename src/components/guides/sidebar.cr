@@ -1,4 +1,6 @@
 class Guides::Sidebar < BaseComponent
+  needs current_guide_path : String
+
   def render
     div class: "text-black absolute pin-t pin-l bg-white rounded-lg shadow-lg w-sidebar mt-5 ml-2 pb-3 mb-10" do
       ul class: "list-reset" do
@@ -11,6 +13,9 @@ class Guides::Sidebar < BaseComponent
         end
       end
     end
+  end
+
+  def wut
   end
 
   def active_class

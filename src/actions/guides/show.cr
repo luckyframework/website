@@ -1,6 +1,8 @@
 require "markdown"
 
 class Guides::Show < BrowserAction
+  expose guide_path
+
   get "/guides/:guide_filename" do
     render Guides::ShowPage, markdown: markdown
   end
