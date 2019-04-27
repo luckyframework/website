@@ -34,6 +34,14 @@
   transition: 0.1s ease-in-out all;
 }
 
+.w-sidebar {
+  width: 335px;
+}
+
+.text-shadow {
+  text-shadow: 0 1px 1px rgba(0,0,0,0.30);
+}
+
 .algolia-docsearch {
   background: transparentize($color: #fff, $amount: 0.8);
   border-radius: 20px;

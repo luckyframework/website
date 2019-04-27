@@ -129,6 +129,7 @@ let colors = {
   'pink-lightest': '#ffebef',
 
   'lucky-blue': '#021e37',
+  'lucky-teal-blue': '#1c92b3',
 
   'hot-pink': '#ff3266',
   'hot-pink-light': '#ff4d7a',

@@ -24,9 +24,9 @@ abstract class GuideLayout
   def middle_section
     div class: "bg-green-gradient" do
       div class: "flex relative py-8 pr-10 container mx-auto text-white" do
-        div class: "w-1/4 ml-16"
-        div do
-          h1 "Lucky Overview", class: "uppercase font-xl text-white"
+        div class: "w-sidebar ml-12"
+        div class: "mt-5" do
+          h1 "Lucky Overview", class: "uppercase font-xl text-white text-shadow"
         end
         mount Guides::Sidebar.new
       end

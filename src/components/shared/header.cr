@@ -22,7 +22,10 @@ class Shared::Header < BaseComponent
       nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
       nav_link("Blog", "#")
       nav_link("GitHub", "https://github.com/luckyframework/lucky")
-      input id: "algolia-docsearch", class: "w-32 bg-gray-lighter appearance-none border-2 border-grey-lighter rounded-full py-2 px-4 transition-base text-grey-darker leading-tight focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal", placeholder: "Search...", type: "text"
+      input id: "algolia-docsearch",
+        type: "text",
+        placeholder: "Search...",
+        class: "w-32 bg-blue-darker appearance-none border-2 border-grey-dark rounded-full py-2 px-4 transition-base text-white leading-tight focus:text-black focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal"
       docsearch_js
     end
   end
