@@ -41,7 +41,6 @@ abstract class MainLayout
           end
         end
         render_main_content
-        mount Shared::Footer.new
       end
     end
   end
