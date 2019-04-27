@@ -35,6 +35,7 @@ abstract class GuideLayout
   def guide_content
     div class: "flex container mx-auto" do
       div class: "ml-sidebar pl-12 text-blue-darker leading-normal" do
+        content
         h1 "Install Required Dependencies", class: "font-normal text-2xl text-teal-dark py-6 mt-6 tracking-medium"
         para <<-TEXT
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
