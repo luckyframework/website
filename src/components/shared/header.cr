@@ -24,9 +24,9 @@ class Shared::Header < BaseComponent
   private def main_navigation
     nav class: "justify-between flex items-center font-semibold" do
       nav_link("Guides", "#")
-      nav_link("Chat", "#")
+      nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
       nav_link("Blog", "#")
-      nav_link("GitHub", "#")
+      nav_link("GitHub", "https://github.com/luckyframework/lucky")
       input id: "algolia-docsearch", class: "w-32 bg-gray-lighter appearance-none border-2 border-grey-lighter rounded-full py-2 px-4 transition-base text-grey-darker leading-tight focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal", placeholder: "Search...", type: "text"
       docsearch_js
     end
