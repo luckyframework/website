@@ -3,7 +3,7 @@ class Shared::Header < BaseComponent
 
   def render
     header class: "antialiased text-grey-light shadow-inner-bottom bg-lucky-blue" do
-      div class: "container mx-auto px-6" do
+      div class: "container mx-auto" do
         div class: "flex justify-between items-center px-6" do
           div do
             link(Home::Index, class: "text-white mr-10 self-center") do
