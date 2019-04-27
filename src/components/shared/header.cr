@@ -9,11 +9,6 @@ class Shared::Header < BaseComponent
             link(Home::Index, class: "text-white mr-10 self-center") do
               img src: asset("images/logo.png"), class: "h-8"
             end
-            link "Star", "https://github.com/luckyframework/web",
-              aria_label: "Star Lucky on GitHub",
-              class: "github-button",
-              data_size: "large",
-              data_show_count: "true"
           end
           main_navigation
         end
@@ -23,7 +18,7 @@ class Shared::Header < BaseComponent
 
   private def main_navigation
     nav class: "justify-between flex items-center font-semibold" do
-      nav_link("Guides", "#")
+      nav_link("Guides", Guides::Index)
       nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
       nav_link("Blog", "#")
       nav_link("GitHub", "https://github.com/luckyframework/lucky")

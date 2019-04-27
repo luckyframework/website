@@ -35,8 +35,8 @@ abstract class MainLayout
             end
 
             div class: "my-10" do
-              # link "Why Lucky?", "#", class: "btn btn--blue mr-5"
-              link "Getting Started Guide", "#", class: "btn"
+              link "View on GitHub", "https://github.com/luckyframework/lucky", class: "btn btn--blue mr-5"
+              link "Get Started", Guides::Index, class: "btn"
             end
           end
         end
