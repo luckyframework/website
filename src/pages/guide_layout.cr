@@ -1,8 +1,6 @@
 abstract class GuideLayout
   include Lucky::HTMLPage
 
-  needs guide_path : String
-
   abstract def content
   abstract def page_title
 
@@ -29,7 +27,7 @@ abstract class GuideLayout
       div class: "flex relative py-8 pr-10 container mx-auto text-white" do
         div class: "w-sidebar ml-12"
         table_of_contents
-        mount Guides::Sidebar.new(@guide_path)
+        mount Guides::Sidebar.new
       end
     end
   end

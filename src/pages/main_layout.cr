@@ -36,7 +36,7 @@ abstract class MainLayout
 
             div class: "my-10" do
               link "View on GitHub", "https://github.com/luckyframework/lucky", class: "btn btn--blue mr-5"
-              link "Get Started", Guides::Index, class: "btn"
+              link "Get Started", Guides::Basics::Installing, class: "btn"
             end
           end
         end
