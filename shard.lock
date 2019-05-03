@@ -64,6 +64,10 @@ shards:
     github: luckyframework/lucky_router
     version: 0.2.2
 
+  markd:
+    github: icyleaf/markd
+    version: 0.1.1
+
   optarg:
     github: mosop/optarg
     version: 0.5.8

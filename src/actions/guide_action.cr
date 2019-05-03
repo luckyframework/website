@@ -1,5 +1,3 @@
-require "markdown"
-
 abstract class GuideAction < BrowserAction
   include Lucky::ProtectFromForgery
 
@@ -10,7 +8,7 @@ abstract class GuideAction < BrowserAction
   abstract def title : String
 
   macro guide_route(path)
-    get {{ path }} do
+    get {{ "/guides" + path }} do
       render Guides::ShowPage
     end
   end

@@ -1,8 +1,8 @@
 class Guides::ShowPage < GuideLayout
   needs markdown : String
-  needs title : String
 
   def content
-    raw Markdown.to_html(@markdown)
+    options = Markd::Options.new(smart: true)
+    raw Markd.to_html(@markdown, options)
   end
 end

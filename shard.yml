@@ -22,7 +22,9 @@ dependencies:
     version: ~> 0.1
   dotenv:
     github: gdotdesign/cr-dotenv
-
   lucky_flow:
     github: luckyframework/lucky_flow
     version: ~> 0.4
+  markd:
+    github: icyleaf/markd
+    version: ~> 0.1

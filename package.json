@@ -2,6 +2,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "highlight.js": "^9.15.6",
     "normalize-scss": "^7.0.1",
     "rails-ujs": "^5.1.4",
     "turbolinks": "^5.0.3"

@@ -4,8 +4,10 @@ abstract class GuideLayout
   abstract def content
   abstract def page_title
 
+  needs title : String
+
   def page_title
-    "Welcome"
+    @title
   end
 
   def render
@@ -34,22 +36,15 @@ abstract class GuideLayout
 
   def guide_content
     div class: "flex container mx-auto" do
-      div class: "ml-sidebar pl-12 text-blue-darker leading-normal" do
+      div class: "ml-sidebar pl-12 guide-content" do
         content
-        h1 "Install Required Dependencies", class: "font-normal text-2xl text-teal-dark py-6 mt-6 tracking-medium"
-        para <<-TEXT
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat
-        TEXT
       end
     end
   end
 
   def table_of_contents
     div class: "mt-5" do
-      h1 "Lucky Overview", class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
+      h1 @title, class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
       ul class: "list-reset text-shadow text-lg mb-4" do
         5.times do
           li do
