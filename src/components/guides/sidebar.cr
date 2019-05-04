@@ -16,7 +16,11 @@ class Guides::Sidebar < BaseComponent
 
   private getter categories = [
     GuideCategory.new("Basics", [Guides::Basics::Installing, Guides::Basics::WhyLucky] of GuideAction.class),
-    GuideCategory.new("HTTP and Routing", [Guides::Basics::WhyLucky] of GuideAction.class),
+    GuideCategory.new("HTTP and Routing", [
+      Guides::HttpAndRouting::RoutingAndParams,
+      Guides::HttpAndRouting::LinkGeneration,
+      Guides::HttpAndRouting::SessionsAndCookies,
+    ] of GuideAction.class),
   ]
 
   def render

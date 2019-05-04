@@ -26,4 +26,8 @@ hljs.registerLanguage('json', json);
 import sql from 'highlight.js/lib/languages/sql';
 hljs.registerLanguage('sql', sql);
 
-hljs.initHighlightingOnLoad();
+document.addEventListener("turbolinks:load", function () {
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+})
