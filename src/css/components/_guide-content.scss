@@ -22,11 +22,23 @@
   }
 
   ul {
-    list-style-type: disc;
-    margin: 24px 12px 12px 12px;
+    list-style-type: none;
+    margin: 24px 12px 12px 6px;
 
     li {
       margin-bottom: 6px;
+      position: relative;
+
+      &::before {
+        @apply bg-grey;
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        left: -22px;
+        top: 9px;
+        border-radius: 50%;
+      }
     }
 
     ul {
@@ -48,7 +60,7 @@
     padding-right: 5px;
     margin-left: 3px;
     margin-right: 3px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   }
 
   blockquote code:not(.hljs) {
@@ -65,7 +77,7 @@
   }
 
   pre {
-    background: #2E3440;
+    background: #2e3440;
   }
 
   blockquote {
