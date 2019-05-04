@@ -50,9 +50,9 @@ abstract class GuideLayout
       ul class: "list-reset text-shadow text-lg mb-4" do
         guide_sections.each do |section|
           li do
-            link "#", class: "text-white block py-1 no-underline hover:underline" do
-              span "#", class: "opacity-75 mr-2 hover:no-underline"
-              text section
+            link "#", class: "text-white block py-1 no-underline " do
+              span "#", class: "text-teal-lighter mr-2 hover:no-underline"
+              span section, class: "border-b border-teal-light hover:border-white"
             end
           end
         end

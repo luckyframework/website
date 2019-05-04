@@ -32,12 +32,12 @@ class Guides::Sidebar < BaseComponent
                   if guide == @current_guide
                     link guide.title, guide, class: "block text-sm tracking-wide text-grey-darker no-underline pl-12 py-3 hover:bg-grey-lighter hover:underline #{active_class}"
                   else
-                    link guide.title, guide, class: "block text-sm tracking-wide text-grey-darker no-underline pl-12 py-3 hover:bg-grey-light hover:underline hover:text-blue-dark"
+                    link guide.title, guide, class: "block text-sm tracking-wide text-grey-darker no-underline pl-12 py-3 hover:underline hover:text-blue-dark"
                   end
                 end
               end
             else
-              link category.title, category.guides.first, class: "block text-sm tracking-wide text-grey-darker no-underline pl-8 py-3 hover:bg-grey-lighter hover:underline hover:text-blue-dark"
+              link category.title, category.guides.first, class: "block text-sm tracking-wide text-grey-darker no-underline pl-8 py-3 hover:underline hover:text-blue-dark"
             end
           end
         end
