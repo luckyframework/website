@@ -5,6 +5,7 @@ abstract class GuideLayout
   abstract def page_title
 
   needs title : String
+  needs guide_action : GuideAction.class
 
   def page_title
     @title
@@ -29,7 +30,7 @@ abstract class GuideLayout
       div class: "flex relative py-8 pr-10 container mx-auto text-white" do
         div class: "w-sidebar ml-12"
         table_of_contents
-        mount Guides::Sidebar.new
+        mount Guides::Sidebar.new(@guide_action)
       end
     end
   end

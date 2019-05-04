@@ -9,7 +9,7 @@ abstract class GuideAction < BrowserAction
 
   macro guide_route(path)
     get {{ "/guides" + path }} do
-      render Guides::ShowPage
+      render Guides::ShowPage, guide_action: self.class
     end
   end
 
