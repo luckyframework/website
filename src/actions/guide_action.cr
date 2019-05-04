@@ -5,7 +5,10 @@ abstract class GuideAction < BrowserAction
   expose title
 
   abstract def markdown : String
-  abstract def title : String
+
+  def title
+    self.class.title
+  end
 
   macro guide_route(path)
     get {{ "/guides" + path }} do

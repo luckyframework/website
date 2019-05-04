@@ -15,7 +15,8 @@ class Guides::Sidebar < BaseComponent
   @categories : Array(GuideCategory)
 
   private getter categories = [
-    GuideCategory.new("Basics", [Guides::Basics::Installing] of GuideAction.class),
+    GuideCategory.new("Basics", [Guides::Basics::Installing, Guides::Basics::WhyLucky] of GuideAction.class),
+    GuideCategory.new("HTTP and Routing", [Guides::Basics::WhyLucky] of GuideAction.class),
   ]
 
   def render
@@ -25,9 +26,18 @@ class Guides::Sidebar < BaseComponent
         categories.each do |category|
           li do
             if category.active?(@current_guide)
-              link category.title, "#", class: "block text-sm tracking-wide text-grey-darker no-underline pl-8 py-3 hover:bg-grey-lighter hover:underline #{active_class}"
+              div class: "block pb-3 bg-grey-lighter border-t border-b border-grey-light shadow-inner" do
+                span category.title, class: "pl-8 py-3 mb-2 block bold text-sm tracking-wide"
+                category.guides.each do |guide|
+                  if guide == @current_guide
+                    link guide.title, guide, class: "block text-sm tracking-wide text-grey-darker no-underline pl-12 py-3 hover:bg-grey-lighter hover:underline #{active_class}"
+                  else
+                    link guide.title, guide, class: "block text-sm tracking-wide text-grey-darker no-underline pl-12 py-3 hover:bg-grey-light hover:underline hover:text-blue-dark"
+                  end
+                end
+              end
             else
-              link category.title, "#", class: "block text-sm tracking-wide text-grey-darker no-underline pl-8 py-3 hover:bg-grey-lighter hover:underline hover:text-blue-dark"
+              link category.title, category.guides.first, class: "block text-sm tracking-wide text-grey-darker no-underline pl-8 py-3 hover:bg-grey-lighter hover:underline hover:text-blue-dark"
             end
           end
         end

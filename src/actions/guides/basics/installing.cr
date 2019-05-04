@@ -1,7 +1,7 @@
 class Guides::Basics::Installing < GuideAction
   guide_route "/basics/installing"
 
-  def title
+  def self.title
     "Installing Lucky"
   end
 
