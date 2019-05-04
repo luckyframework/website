@@ -6,6 +6,7 @@ abstract class GuideLayout
 
   needs title : String
   needs guide_action : GuideAction.class
+  needs markdown : String
 
   def page_title
     @title
@@ -47,15 +48,19 @@ abstract class GuideLayout
     div class: "mt-5" do
       h1 @title, class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
       ul class: "list-reset text-shadow text-lg mb-4" do
-        5.times do
+        guide_sections.each do |section|
           li do
             link "#", class: "text-white block py-1 no-underline hover:underline" do
               span "#", class: "opacity-75 mr-2 hover:no-underline"
-              text "Test item here"
+              text section
             end
           end
         end
       end
     end
+  end
+
+  def guide_sections
+    @markdown.split("\n").select(&.starts_with?("## ")).map(&.gsub("## ", ""))
   end
 end
