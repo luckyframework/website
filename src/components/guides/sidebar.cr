@@ -19,7 +19,9 @@ class Guides::Sidebar < BaseComponent
     GuideCategory.new("HTTP and Routing", [
       Guides::HttpAndRouting::RoutingAndParams,
       Guides::HttpAndRouting::LinkGeneration,
+      Guides::HttpAndRouting::RequestAndResponse,
       Guides::HttpAndRouting::SessionsAndCookies,
+      Guides::HttpAndRouting::Flash,
     ] of GuideAction.class),
   ]
 
