@@ -23,7 +23,7 @@
 
   ul {
     list-style-type: none;
-    margin: 24px 12px 12px 6px;
+    margin: 24px 12px 24px 6px;
 
     li {
       margin-bottom: 6px;
@@ -44,6 +44,12 @@
     ul {
       margin-top: 12px;
     }
+  }
+
+  .hljs-comment,
+  .hljs-quote {
+    @apply text-blue-lighter;
+    opacity: 0.4;
   }
 
   code {

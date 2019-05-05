@@ -15,13 +15,21 @@ class Guides::Sidebar < BaseComponent
   @categories : Array(GuideCategory)
 
   private getter categories = [
-    GuideCategory.new("Basics", [Guides::Basics::Installing, Guides::Basics::WhyLucky] of GuideAction.class),
+    GuideCategory.new("Basics", [
+      Guides::Basics::Installing,
+      Guides::Basics::WhyLucky,
+    ] of GuideAction.class),
     GuideCategory.new("HTTP and Routing", [
       Guides::HttpAndRouting::RoutingAndParams,
       Guides::HttpAndRouting::LinkGeneration,
       Guides::HttpAndRouting::RequestAndResponse,
       Guides::HttpAndRouting::SessionsAndCookies,
       Guides::HttpAndRouting::Flash,
+    ] of GuideAction.class),
+    GuideCategory.new("Database", [
+      Guides::Database::ManagingAndMigrating,
+      Guides::Database::Models,
+      Guides::Database::Querying,
     ] of GuideAction.class),
   ]
 
