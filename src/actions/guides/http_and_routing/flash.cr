@@ -2,7 +2,7 @@ class Guides::HttpAndRouting::Flash < GuideAction
   guide_route "/http-and-routing/flash"
 
   def self.title
-    "Flash messages"
+    "Flash Messages"
   end
 
   def markdown
