@@ -188,13 +188,6 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.age.gte(18).name.lower.is("sally")
     ```
 
-    ## Deleting a record
-
-    ```crystal
-    user = UserQuery.new.find(id)
-    user.delete
-    ```
-
     ## Using scopes
 
     Generally it's best to name your query methods so they are easy to understand
