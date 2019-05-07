@@ -15,9 +15,11 @@ class Guides::Sidebar < BaseComponent
   @categories : Array(GuideCategory)
 
   private getter categories = [
-    GuideCategory.new("Basics", [
-      Guides::Basics::Installing,
-      Guides::Basics::WhyLucky,
+    GuideCategory.new("Getting Started", [
+      Guides::GettingStarted::WhyLucky,
+      Guides::GettingStarted::Installing,
+      Guides::GettingStarted::Concepts,
+      Guides::GettingStarted::Configuration,
     ] of GuideAction.class),
     GuideCategory.new("HTTP and Routing", [
       Guides::HttpAndRouting::RoutingAndParams,
@@ -25,6 +27,12 @@ class Guides::Sidebar < BaseComponent
       Guides::HttpAndRouting::RequestAndResponse,
       Guides::HttpAndRouting::SessionsAndCookies,
       Guides::HttpAndRouting::Flash,
+      Guides::HttpAndRouting::ErrorHandling,
+    ] of GuideAction.class),
+    GuideCategory.new("Frontend", [
+      Guides::Frontend::RenderingHtml,
+      Guides::Frontend::AssetHandling,
+      Guides::Frontend::Testing,
     ] of GuideAction.class),
     GuideCategory.new("Database", [
       Guides::Database::ManagingAndMigrating,

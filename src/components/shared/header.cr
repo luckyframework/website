@@ -18,7 +18,7 @@ class Shared::Header < BaseComponent
 
   private def main_navigation
     nav class: "justify-between flex items-center font-semibold" do
-      nav_link("Guides", Guides::Basics::Installing)
+      nav_link("Guides", Guides::GettingStarted::Installing)
       nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
       nav_link("Blog", "#")
       nav_link("GitHub", "https://github.com/luckyframework/lucky")

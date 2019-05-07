@@ -1,5 +1,5 @@
-class Guides::Basics::WhyLucky < GuideAction
-  guide_route "/basics/why-lucky"
+class Guides::GettingStarted::WhyLucky < GuideAction
+  guide_route "/getting-started/why-lucky"
 
   def self.title
     "Why use Lucky?"
