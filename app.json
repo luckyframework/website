@@ -1,0 +1,36 @@
+{
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    },
+    {
+      "url": "https://github.com/luckyframework/heroku-buildpack-crystal"
+    }
+  ],
+  "env": {
+    "APP_DOMAIN": {
+      "required": true
+    },
+    "LUCKY_ENV": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SEND_GRID_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "website-v2",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
