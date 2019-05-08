@@ -1,6 +1,39 @@
 .guide-content {
   @apply text-blue-darker leading-normal;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    .md-anchor {
+      display: none;
+    }
+  }
+
+  h2 {
+    position: relative;
+
+    .md-anchor {
+      @apply no-underline text-teal-dark opacity-0;
+      transition: 0.3s ease-in-out all;
+      display: block;
+      position: absolute;
+      border: none;
+      left: -20px;
+    }
+
+    &:hover .md-anchor {
+      @apply opacity-100;
+      display: block;
+
+      &:hover {
+        @apply text-teal-darkest;
+      }
+    }
+  }
+
   h2 {
     @apply font-normal text-2xl text-teal-dark py-6 mt-6 tracking-medium;
   }
