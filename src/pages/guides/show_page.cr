@@ -11,4 +11,6 @@ class Guides::ShowPage < GuideLayout
 end
 
 class CustomRenderer < Markd::HTMLRenderer
+  def test
+  end
 end
