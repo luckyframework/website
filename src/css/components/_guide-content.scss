@@ -24,7 +24,8 @@
       left: -20px;
     }
 
-    &:hover .md-anchor {
+    &:hover .md-anchor,
+    &:target .md-anchor {
       @apply opacity-100;
       display: block;
 
