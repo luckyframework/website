@@ -1,9 +1,9 @@
 require "file_utils"
 
-# This enables the color output when in development
+# This enables the color output when in development or test mode
 # Check out the Colorize docs for more information
 # https://crystal-lang.org/api/Colorize.html
-Colorize.enabled = Lucky::Env.development?
+Colorize.enabled = !Lucky::Env.production?
 
 logger =
   if Lucky::Env.test?
