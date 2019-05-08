@@ -9,10 +9,7 @@ describe CustomMarkdownRenderer do
     parsed = parse(content)
 
     parsed.should contain <<-HTML
-    <h2 id="heading-with-anchor">Heading with anchor</h2>
-    HTML
-    parsed.should contain <<-HTML
-    <a href="#heading-with-anchor" class="md-anchor">#</a>
+    <h2 id=\"heading-with-anchor\"><a href=\"#heading-with-anchor\" class=\"md-anchor\">#</a>Heading with anchor</h2>
     HTML
   end
 end
