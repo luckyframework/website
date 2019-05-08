@@ -29,7 +29,6 @@ abstract class GuideLayout
   def middle_section
     div class: "bg-green-gradient" do
       div class: "flex relative py-8 pr-10 container mx-auto text-white" do
-        div class: "w-sidebar ml-12"
         table_of_contents
         mount Guides::Sidebar.new(@guide_action)
       end
@@ -38,21 +37,21 @@ abstract class GuideLayout
 
   def guide_content
     div class: "flex container mx-auto" do
-      div class: "ml-sidebar pl-12 guide-content" do
+      div class: "ml-sidebar guide-content" do
         content
       end
     end
   end
 
   def table_of_contents
-    div class: "mt-5" do
+    div class: "mt-5 ml-sidebar" do
       h1 @title, class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
-      ul class: "list-reset text-shadow text-lg mb-4" do
+      ul class: "list-reset text-shadow text-lg mb-4 #{guide_sections.size > 6 && "split-columns"}" do
         guide_sections.each do |section|
           li do
             link "##{GenerateHeadingAnchor.new(section).call}", class: "text-white block py-1 no-underline " do
               span "#", class: "text-teal-lighter mr-2 hover:no-underline"
-              span section, class: "border-b border-teal-light hover:border-white"
+              span section, class: "border-b border-teal-light mr-3 hover:border-white"
             end
           end
         end
