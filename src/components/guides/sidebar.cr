@@ -52,6 +52,10 @@ class Guides::Sidebar < BaseComponent
     GuideCategory.new("Authentication", [
       Guides::Authentication::Show,
     ] of GuideAction.class),
+    GuideCategory.new("Command Line Tasks", [
+      Guides::CommandLineTasks::BuiltIn,
+      Guides::CommandLineTasks::CustomTasks,
+    ] of GuideAction.class),
     GuideCategory.new("Emails", [
       Guides::Emails::SendingEmailsWithCarbon,
     ] of GuideAction.class),
