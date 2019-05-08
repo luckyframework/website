@@ -9,6 +9,8 @@ Lucky::AssetHelpers.load_manifest
 require "./models/base_model"
 require "./models/mixins/**"
 require "./models/**"
+require "./posts/base_post"
+require "./posts/*"
 require "./queries/mixins/**"
 require "./queries/**"
 require "./forms/mixins/**"
