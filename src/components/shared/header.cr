@@ -20,7 +20,7 @@ class Shared::Header < BaseComponent
     nav class: "justify-between flex items-center font-semibold" do
       nav_link("Guides", Guides::GettingStarted::Installing)
       nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
-      nav_link("Blog", "#")
+      nav_link("Blog", Blog::Index)
       nav_link("GitHub", "https://github.com/luckyframework/lucky")
       input id: "algolia-docsearch",
         type: "text",

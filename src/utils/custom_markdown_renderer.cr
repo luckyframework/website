@@ -21,4 +21,10 @@ class CustomMarkdownRenderer < Markd::HTMLRenderer
       cr
     end
   end
+
+  def self.render_to_html(content)
+    options = Markd::Options.new(smart: true)
+    document = Markd::Parser.parse(content, options)
+    new(options).render(document)
+  end
 end
