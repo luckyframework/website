@@ -84,7 +84,7 @@ class Guides::Database::ManagingAndMigrating < GuideAction
       end
 
       def rollback
-        drop :things
+        drop :users
       end
     end
     ```
