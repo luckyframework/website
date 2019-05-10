@@ -37,6 +37,10 @@
   background-image: linear-gradient(30deg, #00a7c1 0%, #25e0c1 100%);
 }
 
+.bg-lucky-teal-blue-gradient {
+  background-image: linear-gradient(30deg, #274f8c 0%, lighten(#1c92b3, 10%) 100%);
+}
+
 .transition-base {
   transition: 0.1s ease-in-out all;
 }
