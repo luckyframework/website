@@ -94,6 +94,6 @@ class Guides::Sidebar < BaseComponent
   end
 
   def active_class
-    "text-white bg-lucky-teal-blue text-shadow hover:bg-lucky-teal-blue hover:no-underline hover:text-white"
+    "text-white bg-teal text-shadow hover:bg-lucky-teal-blue hover:no-underline hover:text-white"
   end
 end

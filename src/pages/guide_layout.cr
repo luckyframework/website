@@ -27,7 +27,7 @@ abstract class GuideLayout
   end
 
   def middle_section
-    div class: "bg-green-gradient" do
+    div class: "bg-lucky-teal-blue-gradient" do
       div class: "flex relative py-8 pr-10 container mx-auto text-white" do
         table_of_contents
         mount Guides::Sidebar.new(@guide_action)
@@ -50,8 +50,8 @@ abstract class GuideLayout
         guide_sections.each do |section|
           li do
             link "##{GenerateHeadingAnchor.new(section).call}", class: "text-white block py-1 no-underline " do
-              span "#", class: "text-teal-lighter mr-2 hover:no-underline"
-              span section, class: "border-b border-teal-light mr-3 hover:border-white"
+              span "#", class: "text-blue-lighter mr-2 hover:no-underline"
+              span section, class: "border-b border-blue-light mr-3 hover:border-white"
             end
           end
         end
