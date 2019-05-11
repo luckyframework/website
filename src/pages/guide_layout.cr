@@ -37,7 +37,7 @@ abstract class GuideLayout
 
   def guide_content
     div class: "flex container mx-auto" do
-      div class: "ml-sidebar guide-content" do
+      div class: "ml-sidebar markdown-content" do
         content
       end
     end

@@ -6,9 +6,16 @@ abstract class BasePost
   abstract def title : String
   abstract def content : String
   abstract def summary : String
+  abstract def slug : String
 
   macro title(value)
     def title
+      {{ value }}
+    end
+  end
+
+  macro slug(value)
+    def slug
       {{ value }}
     end
   end

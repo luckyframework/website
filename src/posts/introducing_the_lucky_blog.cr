@@ -1,5 +1,6 @@
 class IntroducingTheLuckyBlog < BasePost
   title "Introducing the Lucky Blog"
+  slug "introducing-lucky"
 
   def summary
     <<-TEXT
