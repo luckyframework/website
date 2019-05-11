@@ -1,3 +1,5 @@
+require "./html_autolink"
+
 class CustomMarkdownRenderer < Markd::HTMLRenderer
   def heading(node : Markd::Node, entering : Bool)
     level = node.data["level"]
@@ -25,6 +27,7 @@ class CustomMarkdownRenderer < Markd::HTMLRenderer
   def self.render_to_html(content)
     options = Markd::Options.new(smart: true)
     document = Markd::Parser.parse(content, options)
-    new(options).render(document)
+    html = new(options).render(document)
+    HtmlAutolink.new(html).call
   end
 end
