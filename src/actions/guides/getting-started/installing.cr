@@ -15,13 +15,19 @@ class Guides::GettingStarted::Installing < GuideAction
       [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
       [forego](https://github.com/ddollar/forego#installation),
       or [foreman](https://github.com/ddollar/foreman#installation).
+    * [Crystal v0.28](https://crystal-lang.org/docs/installation/)
+    * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
+    
+    ### Debian and Fedora dependencies
+    
+    * Debian (Ubuntu should be similar): run `apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev`
+    * Fedora (28): run `dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel`. libpng-devel is for Laravel Mix
+
+    ### For building assets (skip if building APIs)
+    
     * [Node](https://nodejs.org/en/download/). Requires at least v6
     * [Yarn](https://yarnpkg.com/lang/en/docs/install/)
-    * [Crystal v0.27](https://crystal-lang.org/docs/installation/)
-    * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
-    * Necessary libraries: On Debian (Ubuntu should be similar) run "apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev"
-    * Necessary libraries on Fedora (28): run "dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel". libpng-devel is for Laravel Mix
-
+    
     ## Install Lucky CLI
 
     Once the required dependencies are installed, set up Lucky for your system.
@@ -56,7 +62,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ## Create a New Project
 
-    To start a new project, run `lucky init`.
+    To create a new project, run `lucky init`.
 
     This will start the new project wizard. You can set up the project name, choose API only,
     and whether you want Lucky to generate authentication for you.
@@ -65,11 +71,11 @@ class Guides::GettingStarted::Installing < GuideAction
 
     To start the server and run your project, first change into the directory for your
     newly created app with `cd {project_name}`. Then run `script/setup` to install dependencies
-    and `lucky dev` to start the server.
+    and then `lucky dev` to start the server.
 
     Running `lucky dev` will use an installed process manager (Overmind, Foreman,
     etc.) to start the processes defined in `Procfile.dev`. By default
-    `Procfile.dev` will start the lucky server, and will start asset compilation.
+    `Procfile.dev` will start the lucky server, and will start asset compilation not in API mode.
 
     > Lucky will look for a number of process managers. So if you prefer Forego
     and someone else on your team prefers to use Overmind, `lucky dev` will work
