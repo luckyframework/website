@@ -17,6 +17,19 @@ class Shared::Header < BaseComponent
   end
 
   private def main_navigation
+    small_screen_menu_button
+    nav_and_search
+  end
+
+  private def nav_and_search
+    nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-no-grow md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
+      nav_links
+      docsearch_input
+      docsearch_js
+    end
+  end
+
+  private def small_screen_menu_button
     div class: "block md:hidden" do
       button id: "menu-btn", class: "flex items-center mr-5 px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white" do
         tag "svg", class: "fill-current h-3 w-3", viewBox: "0 0 20 20", xmlns: "http://www.w3.org/2000/svg" do
@@ -25,19 +38,17 @@ class Shared::Header < BaseComponent
         end
       end
 
-      script do
-        raw <<-JS
-        document.getElementById("menu-btn").addEventListener("click", function() {
-          document.getElementById("nav-links").classList.toggle("hidden");
-        });
-        JS
-      end
+      toggle_menu_js
     end
+  end
 
-    nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-no-grow md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
-      nav_links
-      docsearch_input
-      docsearch_js
+  private def toggle_menu_js
+    script do
+      raw <<-JS
+      document.getElementById("menu-btn").addEventListener("click", function() {
+        document.getElementById("nav-links").classList.toggle("hidden");
+      });
+      JS
     end
   end
 
