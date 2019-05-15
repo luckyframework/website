@@ -2,17 +2,13 @@ class Blog::ShowPage < BlogLayout
   needs post : BasePost
 
   def middle_section
-    div class: "bg-lucky-teal-blue-gradient" do
-      div class: "flex container mx-auto" do
-        div class: "mx-auto pt-12 pb-16 #{width_classes}" do
-          div class: "mb-2" do
-            mount PublishedAt.new(@post.published_at, color: "text-blue-lighter")
-          end
-          h1 @post.title, class: " text-white font-normal text-4xl mb-3 text-shadow font-bold"
-          para class: "text-white text-xl leading-loose text-blue-lightest" do
-            raw @post.summary
-          end
-        end
+    div class: "mx-auto pt-12 pb-16 #{width_classes}" do
+      div class: "mb-2" do
+        mount PublishedAt.new(@post.published_at, color: "text-blue-lighter")
+      end
+      h1 @post.title, class: " text-white font-normal text-4xl mb-3 text-shadow font-bold"
+      para class: "text-white text-xl leading-loose text-blue-lightest" do
+        raw @post.summary
       end
     end
   end

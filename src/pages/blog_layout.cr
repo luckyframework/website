@@ -19,7 +19,11 @@ abstract class BlogLayout
 
       body class: "font-sans text-grey-darkest leading-tight bg-white" do
         mount Shared::Header.new(@context.request)
-        middle_section
+        div class: "bg-lucky-teal-blue-gradient" do
+          div class: "flex container mx-auto" do
+            middle_section
+          end
+        end
         div class: "flex flex-col container mx-auto min-h-screen" do
           content
         end
