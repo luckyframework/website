@@ -21,6 +21,7 @@
 @tailwind utilities;
 
 @import "components/btn";
+@import "components/algolia-docsearch";
 @import "components/markdown-content";
 @import "vendor/nord-highlightjs-theme";
 
@@ -63,28 +64,4 @@
 
 .text-shadow {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-.algolia-docsearch {
-  background: transparentize($color: #fff, $amount: 0.8);
-  border-radius: 20px;
-  border: none;
-  color: #fff;
-  margin: 0;
-  max-width: 160px;
-  padding-left: 15px;
-
-  &:focus {
-    background: #fff;
-    color: #000;
-  }
-
-  &::placeholder {
-    color: transparentize($color: #fff, $amount: 0.4);
-    font-style: italic;
-  }
-
-  &:focus::placeholder {
-    color: transparentize($color: #000, $amount: 0.6);
-  }
 }
