@@ -3,7 +3,7 @@ class Blog::IndexPage < BlogLayout
 
   def middle_section
     div class: "#{responsive_container_classes} pt-8 pb-10 md:pt-12 md:pb-16" do
-      h1 "Want to stay up to date?", class: " text-white font-normal md:text-2xl mb-5 md:mb-3 text-shadow"
+      h1 "Want to stay up to date?", class: " text-white font-normal text-2xl mb-5 md:mb-3 text-shadow"
       div class: "flex flex-row w-full shadow-lg rounded-lg" do
         input type: "email",
           class: "bg-white p-4 md:p-4 md:text-lg w-full rounded-l md:rounded-l-lg border-b border-teal-darker",
