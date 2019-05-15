@@ -17,7 +17,7 @@ abstract class BlogLayout
     html lang: "en" do
       mount Shared::LayoutHead.new(page_title: page_title, context: @context)
 
-      body class: "font-sans text-grey-darkest leading-tight bg-white" do
+      body class: "font-sans text-grey-darkest leading-tight bg-grey-lightest" do
         mount Shared::Header.new(@context.request)
         div class: "bg-lucky-teal-blue-gradient" do
           div class: "flex container mx-auto" do
