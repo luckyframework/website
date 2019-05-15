@@ -2,8 +2,8 @@ class Blog::IndexPage < BlogLayout
   needs posts : Array(BasePost)
 
   def middle_section
-    div class: "mx-auto w-full md:w-3/4 lg:w-3/5 xl:w-1/2 px-3 pt-6 pb-8 md:pt-12 md:pb-16" do
-      h1 "Want to stay up to date?", class: " text-white font-normal text-lg md:text-2xl mb-3 text-shadow"
+    div class: "#{responsive_container_classes} pt-6 pb-8 md:pt-12 md:pb-16" do
+      h1 "Want to stay up to date?", class: " text-white font-normal text-xl md:text-2xl mb-3 text-shadow"
       div class: "flex flex-row w-full shadow-lg rounded-lg" do
         input type: "email",
           class: "bg-white p-4 md:p-4 md:text-lg w-full rounded-l md:rounded-l-lg border-b border-teal-darker",
@@ -16,9 +16,9 @@ class Blog::IndexPage < BlogLayout
   end
 
   def content
-    div class: "mt-6" do
+    div class: "md:mt-6" do
       @posts.each do |post|
-        div class: "py-8 flex flex-col mx-auto w-full md:w-3/4 lg:w-3/5 xl:w-1/2" do
+        div class: "py-8 flex flex-col #{responsive_container_classes}" do
           link post.title,
             to: Blog::Show.with(post.slug),
             class: "no-underline hover:underline hover:text-teal-darker font-normal text-2xl text-teal-dark tracking-medium"
@@ -29,5 +29,9 @@ class Blog::IndexPage < BlogLayout
         end
       end
     end
+  end
+
+  def responsive_container_classes
+    "mx-auto w-full md:w-3/4 lg:w-3/5 xl:w-1/2 px-5"
   end
 end
