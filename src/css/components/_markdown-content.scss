@@ -94,17 +94,18 @@
   }
 
   code:not(.hljs) {
-    background: #fff;
+    @apply bg-blue-lightest;
     color: #16417c;
     padding-left: 5px;
     padding-right: 5px;
     margin-left: 3px;
     margin-right: 3px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    @apply border border-blue-lighter;
   }
 
   blockquote code:not(.hljs) {
-    @apply bg-grey-lighter;
+    @apply bg-blue-lightest;
   }
 
   pre,
