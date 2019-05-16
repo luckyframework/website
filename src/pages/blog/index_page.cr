@@ -19,13 +19,13 @@ class Blog::IndexPage < BlogLayout
     div class: "md:mt-6" do
       @posts.each do |post|
         div class: "py-8 flex flex-col #{responsive_container_classes}" do
+          mount PublishedAt.new(post.published_at)
           link post.title,
             to: Blog::Show.with(post.slug),
-            class: "no-underline hover:underline hover:text-teal-darker font-normal text-2xl text-teal-dark tracking-medium"
+            class: "no-underline mt-2 hover:underline hover:text-teal-darker font-normal text-2xl text-teal-dark tracking-medium"
           para class: "my-3 leading-loose" do
             raw post.summary
           end
-          mount PublishedAt.new(post.published_at)
         end
       end
     end

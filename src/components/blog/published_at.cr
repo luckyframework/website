@@ -7,8 +7,7 @@ class Blog::PublishedAt < BaseComponent
 
     span class: "font-normal text-sm #{@color} uppercase tracking-wide mt-1" do
       if published_at
-        text "Published "
-        time_ago_in_words published_at
+        text published_at.to_s("%^B %-d, %Y")
       else
         text "Unpublished"
       end
