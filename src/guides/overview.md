@@ -1,5 +1,0 @@
-# Installing
-
-Something
-
-## Something else
