@@ -3,18 +3,18 @@ class PostQuery
 
   def all
     if Lucky::Env.development?
-      include_unpublished_posts
+      all_posts_newest_first
     else
-      published_today_or_earlier
+      only_published_today_or_earlier
     end
   end
 
-  def include_unpublished_posts
-    POSTS
+  def all_posts_newest_first
+    POSTS.sort_by(&.published_at).reverse
   end
 
-  def published_today_or_earlier
-    POSTS.select { |post| post.published_at <= Time.utc }
+  def only_published_today_or_earlier
+    all_posts_newest_first.select { |post| post.published_at <= Time.utc }
   end
 
   def find?(slug : String) : BasePost?
