@@ -95,6 +95,7 @@
 
   code:not(.hljs) {
     @apply bg-blue-lightest;
+    word-break: break-word;
     color: #16417c;
     padding-left: 5px;
     padding-right: 5px;
