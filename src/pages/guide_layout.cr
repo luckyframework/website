@@ -27,8 +27,8 @@ abstract class GuideLayout
   end
 
   def middle_section
-    div class: "bg-lucky-teal-blue-gradient" do
-      div class: "flex relative py-8 pr-10 container mx-auto text-white" do
+    div class: "md:bg-lucky-teal-blue-gradient" do
+      div class: "flex relative md:py-8 md:pr-10 container mx-auto text-white" do
         table_of_contents
         mount Guides::Sidebar.new(@guide_action)
       end
@@ -37,14 +37,14 @@ abstract class GuideLayout
 
   def guide_content
     div class: "flex container mx-auto" do
-      div class: "pl-sidebar markdown-content container" do
+      div class: "px-5 md:px-0 md:pl-sidebar markdown-content container" do
         content
       end
     end
   end
 
   def table_of_contents
-    div class: "mt-5 pl-sidebar" do
+    div class: "hidden md:block mt-5 pl-sidebar" do
       h1 @title, class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
       ul class: "list-reset text-shadow text-lg mb-4 #{guide_sections.size > 6 && "split-columns"}" do
         guide_sections.each do |section|
