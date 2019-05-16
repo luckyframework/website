@@ -20,10 +20,6 @@ abstract class BasePost
     end
   end
 
-  def published? : Bool
-    published_at.nil?
-  end
-
   def published_at : Time?
   end
 
