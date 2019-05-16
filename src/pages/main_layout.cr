@@ -21,13 +21,13 @@ abstract class MainLayout
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
         mount Shared::Header.new(@context.request)
         div class: "bg-blue-gradient" do
-          div class: "py-16 px-10 max-w-md mx-auto text-center text-white" do
-            div class: "leading-normal uppercase text-xl" do
-              h1 "Build stunning web applications", class: "font-bold"
-              h1 "in less time", class: "font-light"
+          div class: "py-10 md:py-16 px-6 sm:px-10 max-w-md mx-auto text-center text-white" do
+            div class: "leading-normal uppercase" do
+              h1 "Build stunning web applications", class: "font-bold text-3xl md:text-5xl"
+              h1 "in less time", class: "font-light text-3xl md:text-5xl"
             end
 
-            para class: "opacity-75 px-10 leading-loose mt-10 text-xl" do
+            para class: "opacity-75 sm:px-10 leading-loose mt-10 text-lg sm:text-xl" do
               text <<-TEXT
               A Crystal web framework that catches bugs for you, runs
               incredibly fast, and helps you write code that lasts.
@@ -35,8 +35,8 @@ abstract class MainLayout
             end
 
             div class: "my-10" do
-              link "View on GitHub", "https://github.com/luckyframework/lucky", class: "btn btn--blue mr-5"
-              link "Get Started", Guides::GettingStarted::Installing, class: "btn"
+              link "View on GitHub", "https://github.com/luckyframework/lucky", class: "btn btn--blue w-full sm:w-auto sm:mr-5"
+              link "Get Started", Guides::GettingStarted::Installing, class: "btn w-full sm:w-auto mt-6 sm:mt-0"
             end
           end
         end
