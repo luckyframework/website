@@ -7,6 +7,7 @@ abstract class BasePost
   abstract def content : String
   abstract def summary : String
   abstract def slug : String
+  abstract def published_at : Time
 
   macro title(value)
     def title
@@ -20,7 +21,8 @@ abstract class BasePost
     end
   end
 
-  def published_at : Time?
+  def unpublished? : Bool
+    published_at > Time.utc
   end
 
   def html_content : String

@@ -1,16 +1,13 @@
 class Blog::PublishedAt < BaseComponent
-  needs published_at : Time?
+  needs post : BasePost
   needs color : String = "text-grey-dark"
 
   def render
-    published_at = @published_at
-
     span class: "font-normal text-sm #{@color} uppercase tracking-wide mt-1" do
-      if published_at
-        text published_at.to_s("%^B %-d, %Y")
-      else
-        text "Unpublished"
+      if @post.unpublished?
+        span "unpublished", class: "mr-2 bg-orange text-white rounded px-3 py-2"
       end
+      text @post.published_at.to_s("%^B %-d, %Y")
     end
   end
 end

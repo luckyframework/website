@@ -2,6 +2,10 @@ class IntroducingTheLuckyBlog < BasePost
   title "Introducing the Lucky Blog"
   slug "introducing-lucky"
 
+  def published_at
+    Time.utc(year: 2019, month: 5, day: 16)
+  end
+
   def summary
     <<-TEXT
     Before now Lucky's updates were scattered across various mediums, but not
