@@ -4,7 +4,7 @@ class Blog::ShowPage < BlogLayout
   def middle_section
     div class: "mx-auto pt-6 pb-8 md:pt-12 md:pb-16 #{responsive_container_classes}" do
       div class: "mb-2" do
-        mount PublishedAt.new(@post.published_at, color: "text-blue-lighter")
+        mount PublishedAt.new(@post, color: "text-blue-lighter")
       end
       h1 @post.title, class: " text-white font-normal text-2xl md:text-4xl mb-3 text-shadow font-bold"
       para class: "text-white md:text-xl leading-loose text-blue-lightest" do

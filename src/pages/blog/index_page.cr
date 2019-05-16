@@ -19,7 +19,7 @@ class Blog::IndexPage < BlogLayout
     div class: "md:mt-6" do
       @posts.each do |post|
         div class: "py-8 flex flex-col #{responsive_container_classes}" do
-          mount PublishedAt.new(post.published_at)
+          mount PublishedAt.new(post)
           link post.title,
             to: Blog::Show.with(post.slug),
             class: "no-underline mt-2 hover:underline hover:text-teal-darker font-normal text-2xl text-teal-dark tracking-medium"
