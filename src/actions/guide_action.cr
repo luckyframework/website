@@ -3,6 +3,7 @@ abstract class GuideAction < BrowserAction
 
   expose markdown
   expose title
+  expose guide_file_path
 
   abstract def markdown : String
 
@@ -18,5 +19,11 @@ abstract class GuideAction < BrowserAction
 
   private def render_guide
     render Guides::ShowPage
+  end
+
+  macro inherited
+    private def guide_file_path
+      __FILE__
+    end
   end
 end
