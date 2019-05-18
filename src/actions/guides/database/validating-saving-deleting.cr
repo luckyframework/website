@@ -14,7 +14,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     filled. `{ModelName}::BaseForm` automatically defines a form field for each model field.
 
     We’ll be using the migration and model from the [Querying
-    guide](/guides/querying-the-database/). Once you have that set up, let’s set
+    guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
     up a form:
 
     ```crystal
@@ -49,7 +49,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     > Actions have a `params` method that returns a `LuckyWeb::Params` object.
     This is used by the form to get form params that are set by [submitting an
-    HTML form](#using-with-html-forms) or [when saving with a JSON API](/guides/writing-json-apis#saving-to-the-database).
+    HTML form](#using-with-html-forms) or [when saving with a JSON API](#{Guides::JsonAndApis::RenderingJson.path(anchor: "saving-to-the-database")}).
 
     To create a record, you pass a block that is run whether the save is
     successful or not.
@@ -90,7 +90,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ### Update with `update!`
 
     `update!` will raise if the form fails to save or is invalid.
-    This version is often used when [writing JSON APIs](/guides/writing-json-apis)
+    This version is often used when [writing JSON APIs](#{Guides::JsonAndApis::RenderingJson.path})
     or for creating sample data in your the seed tasks in the `/tasks` folder.
 
     ```crystal
@@ -101,7 +101,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ## Using with JSON endpoints
 
-    See [Writing JSON APIs guide](/guides/writing-json-apis#saving-to-the-database).
+    See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: "saving-to-the-database")}).
 
     ## Using with HTML forms
 
