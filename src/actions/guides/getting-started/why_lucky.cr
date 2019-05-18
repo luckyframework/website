@@ -24,9 +24,9 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     ## Spend less time writing tests and debugging
 
-    [Type safe database queries](/guides/querying-the-database), [rock solid
-    routing](/guides/actions-and-routing), [type safe forms and
-    validations](/guides/saving-with-forms), and more. This is how Lucky helps you
+    [Type safe database queries](#{Guides::Database::Querying.path}), [rock solid
+    routing](#{Guides::HttpAndRouting::RoutingAndParams.path}), [type safe forms and
+    validations](#{Guides::Database::ValidatingSavingDeleting.path}), and more. This is how Lucky helps you
     find errors before they reach your customers, write fewer tests, and spend less
     time fixing embarrassing bugs.
 
@@ -59,7 +59,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     that many frameworks can't or don't. This means you spend less time shipping
     embarrassing bugs to customers.
 
-    For example, when you [define a model](/guides/querying-the-database) it will
+    For example, when you [define a model](#{Guides::Database::Models.path}) it will
     create some classes and methods for querying, creating, and updating records in
     a type safe way. If you write a query with a mistyped column name or with the
     wrong type, Crystal will let you know. If you try to save a field that doesn't
@@ -72,10 +72,10 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     [router], [HTML], [actions], params, and [forms] so that Crystal can catch as
     many `nil` errors as possible.
 
-    [router]: /guides/actions-and-routing
-    [HTML]: /guides/rendering-html
-    [actions]: /guides/actions-and-routing
-    [forms]: /guides/saving-with-forms
+    [router]: #{Guides::HttpAndRouting::RoutingAndParams.path}
+    [HTML]: #{Guides::Frontend::RenderingHtml.path}
+    [actions]: #{Guides::HttpAndRouting::RoutingAndParams.path}
+    [forms]: #{Guides::Database::ValidatingSavingDeleting.path}
 
     ## Catch missing assets at compile time
 
@@ -129,7 +129,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     ## Powerful HTML layouts and components
 
     Lucky uses [Crystal classes and methods to generate
-    HTML](/guides/rendering-html). It may sound crazy at first, but the advantages
+    HTML](#{Guides::Frontend::RenderingHtml.path}). It may sound crazy at first, but the advantages
     are numerous.
 
     Never accidentally print `nil` to the page, extract and share partials using

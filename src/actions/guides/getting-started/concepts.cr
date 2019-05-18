@@ -95,7 +95,7 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     ### `emails` folder
 
-    The classes used by [Carbon](/guides/sending-emails/) along with the email templates are placed in here.
+    The classes used by [Carbon](#{Guides::Emails::SendingEmailsWithCarbon.path}) along with the email templates are placed in here.
 
     ### `forms` folder
 
