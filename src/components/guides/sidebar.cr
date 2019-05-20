@@ -18,6 +18,7 @@ class Guides::Sidebar < BaseComponent
     GuideCategory.new("Getting Started", [
       Guides::GettingStarted::WhyLucky,
       Guides::GettingStarted::Installing,
+      Guides::GettingStarted::StartingProject,
       Guides::GettingStarted::Concepts,
       Guides::GettingStarted::Configuration,
     ] of GuideAction.class),

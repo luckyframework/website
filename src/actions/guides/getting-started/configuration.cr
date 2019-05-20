@@ -29,6 +29,11 @@ class Guides::GettingStarted::Configuration < GuideAction
 
     `LUCKY_ENV=environment_name` to set the environment. By default it is `development`
 
+    ## Add custom environment
+
+    If you need a custom environment like `staging`, for example, you can add this option in `config/env.cr`.
+    This will give you the helper method `Lucky::Env.staging?` for use in your app.
+
     ## Configuring Lucky
 
     By default there are some files in the `config/` folder that are used to configure Lucky.
@@ -40,7 +45,8 @@ class Guides::GettingStarted::Configuration < GuideAction
 
     All application configuration is found in the `config/` folder.
 
-    If you want to add additional config, put it in a new file in the `config/` folder.
+    If you want to add additional config, create a new file in the `config/` folder.
+    Lucky will require these files for you automatically.
 
     ## Configuring your own code
 
@@ -64,7 +70,7 @@ class Guides::GettingStarted::Configuration < GuideAction
 
     ```crystal
     # config/my_stripe_processor.cr
-    MyStripeProcessor.configure do
+    MyStripeProcessor.configure do |settings|
       settings.api_token = "super secret"
     end
     ```
@@ -75,7 +81,7 @@ class Guides::GettingStarted::Configuration < GuideAction
     add a `.env` file to your project root and change your configuration to use the
     ENV variable:
 
-    ```
+    ```bash
     # .env
     # this will be loaded in development when you call `lucky dev`
     STRIPE_API_TOKEN=123abc
@@ -85,7 +91,7 @@ class Guides::GettingStarted::Configuration < GuideAction
 
     ```crystal
     # config/my_stripe_processor.cr
-    MyStripeProcessor.configure do
+    MyStripeProcessor.configure do |settings|
       settings.api_token = ENV.fetch("STRIPE_API_TOKEN")
     end
     ```
