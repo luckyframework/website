@@ -39,9 +39,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
       # GET requests to the /users path are handled by this action
-      get "/users" do
+      route do
         # `text` sends plain/text to the client
-        text "List of users goes here"
+        text "Render something in Users::Index"
       end
     end
     ```
@@ -104,7 +104,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### You can use as many parameters as you want
 
-    Every named parameter will have a method generated for it that so that you can
+    Every named parameter will have a method generated for it so that you can
     access the value. You can have as many as you want.
 
     For example, `delete "/projects/:project_id/tasks/:task_id"` would have a
@@ -143,6 +143,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
+    > If the route requires an identifier for a specific resource, Lucky will generate a method by the name of that resource `_id`. (e.g. Users::Show generates user_id, and Projects::Show generates project_id)
+
     ### `nested_route`
 
     For a nested resource it will use the third to last part as the
@@ -162,10 +164,14 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
+    > Likewise, defining `Projects::Users::Show` would generate both `project_id` and `user_id`.
+
     ### Namespaces are handled automatically
 
+    You can namespace your actions by creating subfolders like `src/actions/admin/projects/index.cr`.
+
     ```crystal
-    # Anything before the resource (in this case, `Projects`) will be treated as a namespace
+    # Anything before the resource (`Projects`) will be treated as a namespace (`Admin`)
     class Admin::Projects::Index < BrowserAction
       # Same as:
       #   get "/admin/projects"
@@ -174,6 +180,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       end
     end
     ```
+
+    > Note the use of `route` here and not `nested_route`. These change how the routes are generated.
 
     ### Examples of automatically generated routes
 
@@ -270,7 +278,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     Actions go in `src/actions` and follow the structure of the class.
 
-    For example `Users::Show` would go in `src/actions/users/show.cr` and `Api::V1::Users::Delete` would go in `src/actions/api/v1/users/delete.cr`roductive with its unique approach to actions and routing.
+    For example `Users::Show` would go in `src/actions/users/show.cr` and `Api::V1::Users::Delete` would go in `src/actions/api/v1/users/delete.cr`.
     MD
   end
 end

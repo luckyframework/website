@@ -14,9 +14,11 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     You can access them as class methods on the action itself. They are:
 
     * `route` - will return a `LuckyWeb::RouteHelper` object that contains both the
-      path, and the method HTTP method
+      path, the HTTP method, and the full URL as methods `path`, `method`, `url`
     * `with` - an alias for `route` that is used for passing parameters
-    * `path` - will return a string
+    * `path` - will return a string of just the path
+    * `url` - will return a string with the whole URL including query params
+    * `url_without_query_params` - will return the URL but without query params
 
     ```crystal
     class Projects::Users::Index < BrowserAction
@@ -37,8 +39,8 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
       `"/projects/my_project_id/users"` and `#method` method return `"GET"`. This
       is what you'll usually use for generating links, submitting forms, and redirecting.
 
-    We'll talk about this more in the Pages guide. You can use the route helper with
-    links and form to automatically set the path *and* HTTP method at the same time.
+    We'll talk about this more in the [Pages guide](#{Guides::Frontend::RenderingHtml.path}). You can use the route helper with
+    links and forms to automatically set the path *and* HTTP method at the same time.
     MD
   end
 end
