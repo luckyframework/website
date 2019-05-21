@@ -98,6 +98,53 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
+    ### Creating custom HTML tags
+
+    If you need to create a non-standard HTML tag for your application, you can use the `tag` method.
+
+    ```crystal
+    def content
+      # Renders <my-custom-tag class="special control">Special</my-custom-tag>
+      tag("my-custom-tag", class: "special control") do
+        text "Special"
+      end
+    end
+    ```
+
+    ### Examples of HTML attributes
+
+    All of the HTML tag methods allow for passing in any HTML attribute.
+
+    ```crystal
+    def content
+      div(id: "someID", class: "row highlight special") do
+        span "A special code", class: "text-note"
+      end
+    end
+    ```
+
+    If you need to pass in data attributes, or any arbitrary attributes for use in SPAs (i.e. ng-app, v-bind:click, etc...), you can also use a string.
+
+    ```crystal
+    def content
+      div(ng_model: "something", data_action: "someAction", "v-bind:click": "update")
+    end
+    ```
+
+    In some cases, you find that you want to use [boolean attributes](http://w3c.github.io/html/infrastructure.html#sec-boolean-attributes) for forms or working with SPAs. For these, you just pass an `Array(Symbol)` to the `attrs` option for the tag.
+
+    ```crystal
+    def content
+      # Renders <div id="application" ng-app></div>
+      div(id: "application", attrs: [:ng_app])
+
+      # Renders <button disabled>Click</button>
+      button("Click", attrs: [:disabled])
+    end
+    ```
+
+    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs, crystal allows you to use quotes like in `:"v-bind:click"`
+
     ## Special tags (link, form helpers, etc.)
 
     There are a few specials helpers that make it easier. For creating links with an
