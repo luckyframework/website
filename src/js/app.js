@@ -14,6 +14,9 @@ import hljs from 'highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
 
+import scss from 'highlight.js/lib/languages/scss';
+hljs.registerLanguage('scss', scss);
+
 import crystal from 'highlight.js/lib/languages/crystal';
 hljs.registerLanguage('crystal', crystal);
 

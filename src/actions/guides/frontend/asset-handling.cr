@@ -10,7 +10,7 @@ class Guides::Frontend::AssetHandling < GuideAction
     ## Asset handling with Webpack and Laravel Mix
 
     By default Lucky comes set up with asset handling using Webpack through
-    [Laravel Mix](https://www.npmjs.com/package/laravel-mix). Laravel Mix is a wrapper
+    [Laravel Mix](https://laravel-mix.com/). Laravel Mix is a wrapper
     for common Webpack functionality that makes configuring Webpack much simpler.
 
     ## Why Laravel Mix instead of plain Webpack?
@@ -23,12 +23,14 @@ class Guides::Frontend::AssetHandling < GuideAction
     For a lot of people the default Laravel Mix setup will work out of the box, or with
     little configuration.
 
+    > Keep in mind that Lucky does not lock you in to using webpack. You can configure other build methods such as Gulp, Grunt, or your own custom at any time.
+
     ## Configuring Webpack
 
     There is a `webpack.mix.js` file in your project root. You can modify this to
     set up React, change your entry points, etc.
 
-    Check out the [Laravel Mix documentation](https://github.com/JeffreyWay/laravel-mix/tree/master/docs#summary)
+    Check out the [Laravel Mix documentation](https://laravel-mix.com/docs)
     for more examples of what you can do.
 
     ## Structuring your JavaScript
@@ -60,7 +62,6 @@ class Guides::Frontend::AssetHandling < GuideAction
 
     Lucky comes with some helpful plugins to make CSS a pleasure to write:
 
-    * [Lost grid system](http://lostgrid.org) for easily writing grids
     * [Normalize.css](https://necolas.github.io/normalize.css/) for making styles consistent
 
     ## Removing unwanted packages
@@ -84,7 +85,7 @@ class Guides::Frontend::AssetHandling < GuideAction
     fingerprinted. To have Webpack check your background images and make sure
     they are ready for caching, make sure to use relative URLs:
 
-    ```sass
+    ```scss
     // Webpack will find the image and rewrite the URL
     background: url("../public/assets/images/my-background.jpg")
 
