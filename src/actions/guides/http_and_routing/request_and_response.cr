@@ -47,6 +47,23 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `head` - return a head response with a 204 status
     * `file` - return a file for download
 
+    ```crystal
+    class Jobs::Reports::Create < ApiAction
+      post "/jobs/reports/" do
+        # Run some fancy background job
+        if plain?
+          # plain text request, return some plain text
+          text "Job sent for processing"
+        else
+          # Respond with HEAD 201
+          head 201
+        end
+      end
+    end
+    ```
+
+    > You also have access to the `response` object itself for additional custom handling.
+
     ## Redirecting
 
     You can redirect using the `redirect` method:

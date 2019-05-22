@@ -143,7 +143,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    > If the route requires an identifier for a specific resource, Lucky will generate a method by the name of that resource `_id`. (e.g. Users::Show generates user_id, and Projects::Show generates project_id)
+    > Routes that require an "id" param will be prefixed with the resource name like `user_id`. (e.g. `Users::Show` generates `user_id`, and `Projects::Show` generates `project_id`)
 
     ### `nested_route`
 
