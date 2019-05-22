@@ -36,6 +36,23 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
+    ### Accessing Headers
+
+    If you need to access the request headers, you can use the `headers` method.
+
+    ```crystal
+    class Dashboard::Index < BrowserAction
+      route do
+        remote_ip = headers["X-Forwarded-For"]?
+        if remote_ip
+          text "The remote IP is \#{remote_ip}"
+        else
+          text "No remote IP found"
+        end
+      end
+    end
+    ```
+
     ## Handling Responses
 
     Once you've recieved your request, and handled it, you'll need to return a response. Every Lucky::Action requires that a response is returned.
@@ -62,7 +79,20 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    > You also have access to the `response` object itself for additional custom handling.
+    > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html)
+
+    ### Setting Response Headers
+
+    For things like handling CORS, and many other operations like cacheing, it may be necessary to set special response headers. Set these values through the `response.headers` object.
+
+    ```crystal
+    class Admin::Reports::Show < BrowserAction
+      route do
+        response.headers["Cache-Control"] = "max-age=150"
+        render ShowPage
+      end
+    end
+    ```
 
     ## Redirecting
 
