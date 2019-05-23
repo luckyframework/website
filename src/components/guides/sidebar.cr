@@ -30,6 +30,7 @@ class Guides::Sidebar < BaseComponent
       Guides::HttpAndRouting::SessionsAndCookies,
       Guides::HttpAndRouting::Flash,
       Guides::HttpAndRouting::ErrorHandling,
+      Guides::HttpAndRouting::HTTPHandlers,
     ] of GuideAction.class),
     GuideCategory.new("Frontend", [
       Guides::Frontend::RenderingHtml,
