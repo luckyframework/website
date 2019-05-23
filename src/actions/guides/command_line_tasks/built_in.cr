@@ -14,7 +14,7 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     You can think of a Luck Task just like a [Rake task](https://github.com/ruby/rake) in Ruby, [npm script](https://docs.npmjs.com/misc/scripts) for Node, or [Mix Task](https://hexdocs.pm/mix/Mix.Task.html) for Elixir.
 
     To run a task, you just run
-    ```
+    ```plaintext
     lucky name.of.task [options]
     ```
 
@@ -22,7 +22,7 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
 
     By default, Lucky has a few tasks already built in that you may find really handy while developing your application. These are the ones that you get by default.
 
-    ```
+    ```plaintext
     # Generated with lucky --help
     lucky db.create       - Create the database
     lucky db.drop         - Drop the database
