@@ -50,7 +50,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     > Actions have a `params` method that returns a `LuckyWeb::Params` object.
     This is used by the form to get form params that are set by [submitting an
-    HTML form](#using-with-html-forms) or [when saving with a JSON API](#{Guides::JsonAndApis::SavingToTheDatabase.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
+    HTML form](##{ANCHOR_USING_WITH_HTML_FORMS}) or [when saving with a JSON API](#{Guides::JsonAndApis::SavingToTheDatabase.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
 
     To create a record, you pass a block that is run whether the save is
     successful or not.

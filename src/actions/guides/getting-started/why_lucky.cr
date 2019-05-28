@@ -160,7 +160,6 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     easily test pages on your mobile device, or simulate slow connections to make
     sure all your customers are happy, even on slow connections.
 
-    <a id="disallowed-fields" style="display: none;"></a>
     ## Never let an unhandled form param through
 
     Lucky makes sure only allowed parameters are saved to the database. It even

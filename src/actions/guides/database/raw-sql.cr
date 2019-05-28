@@ -13,7 +13,7 @@ class Guides::Database::RawSql < GuideAction
 
     ```crystal
     posts_result_set = Avram::Repo.run do |db|
-      db.query_all `SELECT * FROM posts;`
+      db.query_all "SELECT * FROM posts;"
     end
     ```
 
