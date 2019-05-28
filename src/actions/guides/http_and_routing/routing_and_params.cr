@@ -247,7 +247,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    > Learn more about [error handling and logging](/guides/logging-and-error-handling).
+    > Learn more about [error handling and logging](#{Guides::Logging.path}).
 
     ## Query parameters
 

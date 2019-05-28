@@ -21,6 +21,10 @@ abstract class GuideAction < BrowserAction
     render Guides::ShowPage
   end
 
+  private def permalink(anchor : String) : String
+    %(<div id="#{anchor}"></div>\n)
+  end
+
   macro inherited
     private def guide_file_path
       __FILE__

@@ -1,4 +1,5 @@
 class Guides::HttpAndRouting::RequestAndResponse < GuideAction
+  ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES = "perma-run-code-before-or-after-actions-with-pipes"
   guide_route "/http-and-routing/request-and-response"
 
   def self.title
@@ -117,9 +118,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     The default status for a redirect is `Lucky::Action::Status::Found` (302), but if you need a different status code, you can pass any [Lucky Action Status Enum](https://github.com/luckyframework/lucky/blob/v0.14.0/src/lucky/action.cr#L20)
 
-
-
-
+    #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD
   end
 end

@@ -225,7 +225,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ### Rendering HTML forms
 
     There are some helpers for rendering HTML forms. For more info see the [saving
-    data with forms](/guides/saving-with-forms/#using-with-html-forms) guide.
+    data with forms](#{Guides::Database::ValidatingSavingDeleting.path(anchor: Guides::Database::ValidatingSavingDeleting::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
     ## Rendering text
 

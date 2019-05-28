@@ -26,7 +26,7 @@ class Guides::JsonAndApis::Cors < GuideAction
     end
     ```
 
-    > Note: the before action method must return `continue`, or a `LuckyWeb::Response`. See [Actions and Routing](/guides/actions-and-routing/#run-code-before-or-after-actions-with-pipes) for more info.
+    > Note: the before action method must return `continue`, or a `LuckyWeb::Response`. See [Actions and Routing](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}) for more info.
     MD
   end
 end

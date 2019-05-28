@@ -1,4 +1,5 @@
 class Guides::GettingStarted::Installing < GuideAction
+  ANCHOR_INSTALL_REQUIRED_DEPENDENCIES = "perma-install-required-dependencies"
   guide_route "/getting-started/installing"
 
   def self.title
@@ -7,6 +8,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
   def markdown
     <<-MD
+    #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
     ## Install Required Dependencies
 
     To get Lucky, you need to install these first.
