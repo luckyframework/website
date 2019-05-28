@@ -227,6 +227,18 @@ class Guides::Frontend::RenderingHtml < GuideAction
     There are some helpers for rendering HTML forms. For more info see the [saving
     data with forms](#{Guides::Database::ValidatingSavingDeleting.path(anchor: Guides::Database::ValidatingSavingDeleting::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
+    ### Other special helpers
+
+    * `html_doctype` - Renders `<!DOCTYPE html>`
+    * `css_link(href, **options)` - Renders a `<link rel="stylesheet" media="sceen">` tag with `href` and any additional/override `options`
+    * `js_link(src, **options)` - Renders a `<script>` tag with `src` and any additional/override `options`
+    * `utf8_charset` - Renders a `<meta charset="utf8">` tag
+    * `responsive_meta_tag` - Another meta tag for responsive design.
+    * `nbsp(how_many)` - Renders `&nbsp;` entity for the number of times in `how_many` (1 by default).
+    * `raw` - Render RAW string to the page.
+
+    > Note: Using `raw` can be dangerous and should **never** be used with unescaped user-generated data.
+
     ## Rendering text
 
     Sometimes you want to render plain text. To do that use the `text` method.
