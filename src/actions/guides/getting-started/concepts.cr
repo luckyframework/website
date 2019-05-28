@@ -124,21 +124,25 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     ### `app.cr`
 
-    This requires all the files and folders that your app needs to run. It includes your middleware stack. Add your custom HTTP::Handlers to the `middleware` method array.
+    This requires all the files and folders that your app needs to run.
 
-    ### `dependencies.cr`
+    ### `app_server.cr`
+
+    This includes your middleware stack. Add your custom HTTP::Handlers to the `middleware` method array.
+
+    ### `shards.cr`
 
     Require your third party dependencies (shards) here.
 
-    ### `server.cr`
+    ### `start_server.cr`
 
     This file requires the app and starts an HTTP server.
 
     ## Adding custom files and folders
 
-    The structure in Lucky is to create a folder for like objects/modules, etc... You may find yourself adding things like service objects, custom http handlers, mutations, or maybe even other asset files like images for preprocessing. For each of these, just create a new folder in `src/` and be sure to add the require in your `app.cr`.
+    The structure in Lucky is to create a folder for like objects/modules, etc... You may find yourself adding things like service objects, custom http handlers, mutations, or maybe even other asset files like images for preprocessing. For each of these, just create a new folder in `src/` and be sure to add the require in your `src/app.cr`.
 
-    e.g. Creating a `src/handlers/http_basic_auth_handler.cr`, be sure to add `require "./handlers/**"` to `app.cr`.
+    e.g. Creating a `src/handlers/http_basic_auth_handler.cr`, be sure to add `require "./handlers/**"` to `src/app.cr`.
     MD
   end
 end
