@@ -1,4 +1,5 @@
 class Guides::Database::ValidatingSavingDeleting < GuideAction
+  ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
   guide_route "/database/validating-saving-deleting"
 
   def self.title
@@ -101,8 +102,9 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ## Using with JSON endpoints
 
-    See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: "saving-to-the-database")}).
+    See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
 
+    #{permalink(ANCHOR_USING_WITH_HTML_FORMS)}
     ## Using with HTML forms
 
     You can use forms in HTML like this:

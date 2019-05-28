@@ -66,7 +66,7 @@ class Guides::Deploying::Heroku < GuideAction
     [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
     will let us manage our app from the command line.
     A normal installation of Lucky
-    [requires](#{Guides::GettingStarted::Installing.path(anchor: "install-required-dependencies")})
+    [requires](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)})
     that it's installed,
     so we should already have the `heroku` command.
     The first thing we'll do is to connect our Lucky app to the Heroku app by adding a git remote:

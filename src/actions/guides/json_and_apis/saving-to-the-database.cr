@@ -1,5 +1,5 @@
 class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
-  ANCHOR_SAVING_TO_THE_DATABASE = "saving-to-the-database_"
+  ANCHOR_SAVING_TO_THE_DATABASE = "perma-saving-to-the-database"
   guide_route "/json-and-apis/saving-to-the-database"
 
   def self.title
@@ -8,8 +8,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
 
   def markdown
     <<-MD
-    <div id="#{ANCHOR_SAVING_TO_THE_DATABASE}"></div>
-
+    #{permalink(ANCHOR_SAVING_TO_THE_DATABASE)}
     ## Saving to the database
 
     Forms automatically know how to handle JSON params. They just need to be
