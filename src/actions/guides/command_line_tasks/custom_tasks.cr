@@ -9,11 +9,11 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     <<-MD
     ## Creating Custom Tasks
 
-    Custom tasks you need will be placed in the `tasks` folder of your application.
-    The three main things to creating a custom task is
-    1. Your class must inherit from `LuckyCli::Task`
-    2. It must implement a `call` method
-    3. It must include a `summary`
+    Place custom tasks in the `tasks` folder of your application.
+    Your custom task must:
+    1. Inherit from `LuckyCli::Task`
+    2. Implement a `call` method
+    3. Include a `summary`
 
     ```crystal
     # tasks/generate_sitemaps.cr
@@ -33,7 +33,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     ```crystal
     class GenerateSitemaps < LuckyCli::Task
       summary "Generate the sitemap.xml for this site"
-      name "generate.sitemaps"
+      name "custom.task"
 
       def call
         # Implement your task here
@@ -41,7 +41,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     end
     ```
 
-    This will generate a task called `generate.sitemaps`
+    This will generate a task called `custom.task`
 
     ## Running Custom Tasks
 
@@ -61,7 +61,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     As you can see, your summary will be shown next to the name of the task name. To run this task, just run `lucky generate_sitemaps`
 
-    > Alternatively, if you used the custom name, it would show `generate.sitemaps Generate the sitemap.xml for this site`, and you would run it with `lucky generate.sitemaps`
+    > Alternatively, if you used the custom name, it would show `custom.task Generate the sitemap.xml for this site`, and you would run it with `lucky custom.task`
     MD
   end
 end
