@@ -37,7 +37,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     and `lower`, but if you try to use those on an integer column, Lucky will tell
     you at compile time that it won't work.
 
-    ```ruby
+    ```crystal
     # Users that are 30 or older, are admins and whose email ends with thoughtbot.com
     UserQuery.new.age.gte(30).admin(true).email.ilike("%thoughtbot.com")
     ```
@@ -47,7 +47,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     Lucky helps you spend less time fixing performance issues, and more time
     delighting your customers with fast applications.
 
-    ```
+    ```bash
     # HTML and JSON with thousands of nodes render in a couple milliseconds
     # This is rendering the Lucky welcome page in 1/10th of a millisecond
     Rendered GET / - 200 (94.0µs)
@@ -83,7 +83,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     Lucky will catch it for you at compile time. It checks a list of all available
     assets and will even suggest the right one if you have a typo.
 
-    ```plain
+    ```plaintext
     "images/logo.jpeg" does not exist in the manifest
     Did you mean "images/logo.jpg"?
     ```
@@ -96,18 +96,21 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     It will also fail to compile if one of your dependencies changes its
     configuration options and let you know what to do to fix it.
 
-    ```
-    LuckyWeb::Session::Store.configure do
+    ```crystal
+    LuckyWeb::Session::Store.configure do |settings|
       settings.key = "my_app"
     end
 
     # When you try to compile, you'll see this error because
     # LuckyWeb::Session::Store has marked "secret" as required
+    ```
+
+    ```plaintext
     LuckyWeb::Session::Store.settings.secret was nil, but the setting is required. Please set it.
 
     Example:
 
-      LuckyWeb::Session::Store.configure do
+      LuckyWeb::Session::Store.configure do |settings|
         settings.secret = "some_value"
       end
     ```
@@ -144,7 +147,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     this easy by setting both the path and HTTP method when generating links, forms,
     and redirects.
 
-    ```
+    ```crystal
     # Lucky will set the path and the DELETE HTTP method
     link "Delete", to: Tasks::Delete.with(task_id: task.id)
     ```
@@ -164,7 +167,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     catches issues at compile time when you try to add a form input for a parameter
     that isn’t allowed to be filled out.
 
-    ```
+    ```crystal
     # A form that is used to register a new user
     class RegistrationForm < User::BaseForm
       fillable name, email # company_name is not allowed to be filled out
@@ -173,8 +176,8 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     # An HTML form for a user to fill out
     form = RegistrationForm.new
     form_for Registrations::Create do
-    # Will fail to compile because this field is not allowed
-    text_input form.company_name
+      # Will fail to compile because this field is not allowed
+      text_input form.company_name
     end
     ```
     MD
