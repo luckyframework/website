@@ -24,11 +24,13 @@ class Guides::Sidebar < BaseComponent
     ] of GuideAction.class),
     GuideCategory.new("HTTP and Routing", [
       Guides::HttpAndRouting::RoutingAndParams,
-      Guides::HttpAndRouting::LinkGeneration,
       Guides::HttpAndRouting::RequestAndResponse,
+      Guides::HttpAndRouting::BeforeAfterActions,
+      Guides::HttpAndRouting::LinkGeneration,
       Guides::HttpAndRouting::SessionsAndCookies,
       Guides::HttpAndRouting::Flash,
       Guides::HttpAndRouting::ErrorHandling,
+      Guides::HttpAndRouting::HTTPHandlers,
     ] of GuideAction.class),
     GuideCategory.new("Frontend", [
       Guides::Frontend::RenderingHtml,
