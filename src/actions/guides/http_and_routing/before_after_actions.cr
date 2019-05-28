@@ -33,7 +33,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
     end
     ```
 
-    Pipes *must* return `continue` or a standard [`Lucky::Response`](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: "handling-responses")}). If a `Lucky::Response` is returned by rendering or redirecting, then no other pipe will run.
+    Pipes *must* return `continue` or a standard [`Lucky::Response`](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_HANDLING_RESPONSES)}). If a `Lucky::Response` is returned by rendering or redirecting, then no other pipe will run.
 
     > If your `before` pipe returns with a render or redirect, then the action will not be called
 

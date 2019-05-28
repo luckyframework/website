@@ -1,5 +1,6 @@
 class Guides::HttpAndRouting::RequestAndResponse < GuideAction
   ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES = "perma-run-code-before-or-after-actions-with-pipes"
+  ANCHOR_HANDLING_RESPONSES = "perma-hanlding-responses"
   guide_route "/http-and-routing/request-and-response"
 
   def self.title
@@ -54,6 +55,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
 
     Once you've recieved your request, and handled it, you'll need to return a response. Every Lucky::Action requires that a response is returned.

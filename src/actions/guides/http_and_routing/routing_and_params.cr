@@ -1,4 +1,5 @@
 class Guides::HttpAndRouting::RoutingAndParams < GuideAction
+  ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES = "perma-automatically-generate-restful-routes"
   guide_route "/http-and-routing/routing-and-params"
 
   def self.title
@@ -18,7 +19,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     which route it handles in the class itself.
 
     You can route to an action by using `get`, `put`, `post`, `patch`, `trace`, and `delete` macros, or
-    [Lucky can figure it out for you](#automatically-generate-restful-routes).
+    [Lucky can figure it out for you](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
 
     If you need access to a different method like `options`, you can also use the `match` macro.
 
@@ -111,6 +112,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     `project_id` and `task_id` method generated on the class for accessing the named
     parameters.
 
+    #{permalink(ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES)}
     ## Automatically generate RESTful routes
 
     REST is a way to make access to resources more uniform. It consists of the following actions:
