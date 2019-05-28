@@ -118,7 +118,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ### Redirect statuses
 
-    The default status for a redirect is `Lucky::Action::Status::Found` (302), but if you need a different status code, you can pass any [Lucky Action Status Enum](https://github.com/luckyframework/lucky/blob/v0.14.0/src/lucky/action.cr#L20)
+    The default status for a redirect is `HTTP::Status::FOUND` (302), but if you need a different status code, you can pass any [HTTP Status Enum](https://crystal-lang.org/api/HTTP/Status.html)
 
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD
