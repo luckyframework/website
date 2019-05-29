@@ -35,7 +35,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     end
     ```
 
-    The `request` object will start in the `Lucky::HttpMethodOverrideHandler`, do some processing, then move on to the `Lucky::LogHandler`, and so on.
+    The `request` object will start in the `Lucky::ForceSSLHandler`, do some processing, then move on to the `Lucky::LogHandler`, and so on.
     In the `Lucky::RouteHandler` it will look for a `Lucky::Action` that mathes the request, run any pipes, then run the action. If no action is found,
     we check to see if there's a static file in `Lucky::StaticFileHandler`. Finally, if no route or file matches the request, we run the `Lucky::RouteNotFoundHandler`.
 

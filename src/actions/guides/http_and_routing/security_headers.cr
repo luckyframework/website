@@ -57,7 +57,7 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
     end
     ```
 
-    ## Using HSTS
+    ## Forcing SSL and HSTS
 
     ['Strict-Transport-Security' header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) is used for telling a browser that this site should only be accessed using HTTPS. 
     Lucky comes with a `Lucky::ForceSSLHandler` handler already included, but disabled by default. To enable this, go to `config/server.cr`, and set the `settings.enabled` option to `true`.

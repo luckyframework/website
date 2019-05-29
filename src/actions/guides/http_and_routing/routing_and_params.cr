@@ -233,7 +233,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    > ProTip: The `fallback` should always contain a `Lucky::RouteNotFoundError` error. This is to throw a 404 when an asset, or some other file is not found.
+    > The `fallback` should always contain a `Lucky::RouteNotFoundError` error. This is to throw a 404 when an asset, or some other file is not found.
 
     ## 404 errors
 
