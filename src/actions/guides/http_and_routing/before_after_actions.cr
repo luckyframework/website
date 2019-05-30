@@ -66,7 +66,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
     end
     ```
 
-    > ProTip: Create an [abstract class](https://crystal-lang.org/reference/syntax_and_semantics/virtual_and_abstract_types.html) like `AdminAction` that inherits from `BrowserAction` and includes your authorization based pipes. Now all admin classes can inherit from `AdminAction` and have auth.
+    > Use an [abstract class](https://crystal-lang.org/reference/syntax_and_semantics/virtual_and_abstract_types.html) like `AdminAction` that inherits from `BrowserAction` and includes your authorization based pipes. Now all admin classes can inherit from `AdminAction` and have auth.
     MD
   end
 end

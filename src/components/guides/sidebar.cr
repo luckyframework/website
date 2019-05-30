@@ -31,6 +31,7 @@ class Guides::Sidebar < BaseComponent
       Guides::HttpAndRouting::Flash,
       Guides::HttpAndRouting::ErrorHandling,
       Guides::HttpAndRouting::HTTPHandlers,
+      Guides::HttpAndRouting::SecurityHeaders,
     ] of GuideAction.class),
     GuideCategory.new("Frontend", [
       Guides::Frontend::RenderingHtml,

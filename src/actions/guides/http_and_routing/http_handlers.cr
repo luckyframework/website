@@ -14,7 +14,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
 
     ## Built-in handlers
 
-    Lucky comes with some built-in handlers that you can see in your `src/app.cr` file under the `middleware` method.
+    Lucky comes with some built-in handlers that you can see in your `src/app_server.cr` file under the `middleware` method.
     The order of this middleware stack is the order Lucky will send a web request with the first in the stack getting the initial request, and the last finishing out the stack.
 
     By default when you generate a full application, your middleware stack will look like this:
@@ -22,6 +22,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     ```crystal
     def middleware
       [
+        Lucky::ForceSSLHandler.new,
         Lucky::HttpMethodOverrideHandler.new,
         Lucky::LogHandler.new,
         Lucky::SessionHandler.new,
@@ -34,7 +35,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     end
     ```
 
-    The `request` object will start in the `Lucky::HttpMEthodOverrideHandler`, do some processing, then move on to the `Lucky::LogHandler`, and so on.
+    The `request` object will start in the `Lucky::ForceSSLHandler`, do some processing, then move on to the `Lucky::LogHandler`, and so on.
     In the `Lucky::RouteHandler` it will look for a `Lucky::Action` that mathes the request, run any pipes, then run the action. If no action is found,
     we check to see if there's a static file in `Lucky::StaticFileHandler`. Finally, if no route or file matches the request, we run the `Lucky::RouteNotFoundHandler`.
 
@@ -68,12 +69,12 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     end
     ```
 
-    Lastly, we need to make sure our new custom handler is in our stack. Open up `src/app.cr`, and place a new instance in the stack!
+    Lastly, we need to make sure our new custom handler is in our stack. Open up `src/app_server.cr`, and place a new instance in the stack!
 
     ```crystal
-    # src/app.cr
+    # src/app_server.cr
     #...
-    class App < Lucky::BaseApp
+    class App < Lucky::BaseAppServer
       def middleware
         [
           Lucky::HttpMethodOverrideHandler.new,

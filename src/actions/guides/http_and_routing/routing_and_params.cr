@@ -211,7 +211,31 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     * Multiple namespaces: `Api::V1::Projects::Users::Show`  -> `get "/api/v1/projects/:project_id/users/:user_id"`
     * Multi-word namespace: `MyAdminSection::Projects::Users::Show`  -> `get "/my_admin_section/projects/:project_id/users/:user_id"`
 
-    ## Catch-all and 404 errors
+    ## Fallback routing
+
+    For some apps you may want a wildcard/catch-all behavior instead of rendering
+    some HTML when Lucky can't find a route. For example, this type of behavior
+    can be useful for Single Page Applications (SPAs) so that you can handle
+    routing client-side.
+
+    To do this, use the `fallback` macro.
+
+    ```crystal
+    # in src/actions/frontend/index.cr
+    class Frontend::Index < BrowserAction
+      fallback do
+        if html?
+          render Home::IndexPage
+        else
+          raise Lucky::RouteNotFoundError.new(context)
+        end
+      end
+    end
+    ```
+
+    > The `fallback` should always contain a `Lucky::RouteNotFoundError` error. This is to throw a 404 when an asset, or some other file is not found.
+
+    ## 404 errors
 
     By default Lucky will respond with a 404 when neither a route nor a static
     file in public is found. You can change what is rendered in `Errors::Show` which
@@ -228,23 +252,6 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
         json Errors::ShowSerializer.new("Not found"), status: 404
       else
         render_error_page title: "Sorry, we couldn't find that page.", status: 404
-      end
-    end
-    ```
-
-    For some apps you may want a wildcard/catch-all behavior instead of rendering
-    some HTML when Lucky can't find a route. For example, this type of behavior
-    can be useful for Single Page Applications (SPAs) so that you can handle
-    routing client-side.
-
-    ```crystal
-    # in src/actions/errors/show.cr
-    def handle_error(error : Lucky::RouteNotFoundError)
-      if json?
-        json Errors::ShowSerializer.new("Not found"), status: 404
-      else
-        # Render a page that loads your SPA app
-        render CatchallPage
       end
     end
     ```
