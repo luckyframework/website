@@ -320,9 +320,36 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Sentence lists
 
+    Creates a comma-separated sentence from the provided `Enumerable` list.
+
     ```crystal
     to_sentence(["Tacos", "Burritos", "Salsa"])
     # => Tacos, Burritos, and Salsa
+    to_sentence(words, last_word_connector: " and ")
+    # => Tacos, Burritos and Salsa
+    ```
+
+    > By default `to_sentence` will include a [serial comma](https://en.wikipedia.org/wiki/Serial_comma). Override that with the `last_word_connector` option.
+
+    ### Excerpt from a paragraph
+
+    Similar to `truncate`, but for the middle of a large body of text.
+
+    ```crystal
+    excerpt("This is a beautiful morning", "beautiful", radius: 5)
+    # => "...is a beautiful morn..."
+    ```
+
+    ### Cycle
+
+    Use this to alternate between different values
+
+    ```crystal
+    array = [1, 2, 3]
+    cycle(array) #=> 1
+    cycle(array) #=> 2
+    cycle(array) #=> 3
+    cycle(array) #=> 1
     ```
 
     ## Layouts
