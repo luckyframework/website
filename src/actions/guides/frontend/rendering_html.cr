@@ -263,6 +263,68 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
+    ## Page helpers
+
+    Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
+
+    ### Converting a number to currency format
+
+    ```crystal
+    # Returns standard U.S. format
+    number_to_currency(1234.43)
+    # => $1234.43
+
+    # Additional options supported for other formats
+    number_to_currency(1234.32, unit: "€", separator: ",", delimiter: ".")
+    # => €1.234,32
+    ```
+
+    ### Truncating text
+
+    ```crystal
+    truncate("some really long text here", length: 12)
+    # => some real...
+    ```
+
+    ### Highlighting text
+
+    This takes `phrases` in the form of `Array(String | Regex)` and wraps the matching phrases in a `<mark></mark>` tag.
+
+    ```crystal
+    highlight("From this taco meat we shall eat for days!", phrases: ["taco", /eat/])
+    # => From this <mark>taco</mark> m<mark>eat</mark> we shall <mark>eat</mark> for days!
+    ```
+
+    ### Pluralizing a word
+
+    ```crystal
+    pluralize(2, "shoe")
+    # => 2 shoes
+    ```
+
+    ### Wrapping words
+
+    ```crystal
+    word_wrap("Maybe some code would go here", line_width: 6)
+    # => Maybe \\nsome \\ncode \\nwould \\ngo \\nhere"
+    word_wrap("Maybe some code would go here", line_width: 6, break_sequence: "<br>")
+    # => Maybe <br>some <br>code <br>would <br>go <br>here"
+    ```
+
+    ### Simple text format
+
+    ```crystal
+    simple_format("Nice\\neasy\\nformat!")
+    # => <p>Nice<br>easy<br>format!</p>
+    ```
+
+    ### Sentence lists
+
+    ```crystal
+    to_sentence(["Tacos", "Burritos", "Salsa"])
+    # => Tacos, Burritos, and Salsa
+    ```
+
     ## Layouts
 
     Pages have layouts that make it easier to share common elements.
