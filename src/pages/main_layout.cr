@@ -110,18 +110,17 @@ abstract class MainLayout
 
         If this sounds interesting, [let's get started](#{Guides::GettingStarted::Installing.path}).
 
-        ### Who shouldn't use Lucky?
+        ### Is Lucky right for me?
 
-        Lucky is new software. If you need a stable set of methods and
-        lots of third party libraries, Lucky is probably not for you (yet!).
+        Lucky is new software. Don't see a feature that you need? Not sure
+        Lucky is right for you?
 
-        Still not sure? Talk to us in our
-        [chatroom](https://gitter.im/luckyframework/Lobby) and we'd be happy
-        to help you figure out if Lucky is a good fit for you.
-
-        If you're not quite ready to use Lucky in production, consider
-        [subscribing to our blog](#{Blog::Index.path}) or [following us
-        @luckyframework](https://twitter.com/luckyframework).
+        Lucky is in active development and we'd love
+        to hear what features you need. Join us in our
+        [chatroom](https://gitter.im/luckyframework/Lobby) and keep up to
+        date date by [subscribing to our
+        blog](#{Blog::Index.path}) or [following us on
+        Twitter](https://twitter.com/luckyframework).
         TEXT
       end
     end
