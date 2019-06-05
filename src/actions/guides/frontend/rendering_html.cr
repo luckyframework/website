@@ -267,23 +267,40 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
 
+    > Some page helpers return a `String`, and some page helpers will write directly to the page.
+
     ### Converting a number to currency format
+
+    Returns a `String` formatted to a currency format.
 
     ```crystal
     # Returns standard U.S. format
-    number_to_currency(1234.43)
+    text number_to_currency(1234.43)
     # => $1234.43
 
     # Additional options supported for other formats
-    number_to_currency(1234.32, unit: "€", separator: ",", delimiter: ".")
+    text number_to_currency(1234.32, unit: "€", separator: ",", delimiter: ".")
     # => €1.234,32
     ```
 
     ### Truncating text
 
+    Returns a `String` truncated to `length`.
+
     ```crystal
-    truncate("some really long text here", length: 12)
+    text truncate_text("some really long text here", length: 12)
     # => some real...
+    ```
+
+    ### Truncating HTML
+
+    Truncates the text, and writes HTML directly to the page.
+
+    ```crystal
+    truncate("Four score and seven years ago", length: 20) do
+      link "Read more", to: "#"
+    end
+    # => "Four score and se...<a href="#">Read more</a>"
     ```
 
     ### Highlighting text
@@ -297,21 +314,29 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Pluralizing a word
 
+    Returns a `String` using the first arg to determine how to pluralize the second arg.
+
     ```crystal
-    pluralize(2, "shoe")
-    # => 2 shoes
+    text "I have \#{pluralize(2, "shoe")}"
+    # => I have 2 shoes
     ```
 
     ### Wrapping words
 
+    Returns a `String`. Adds new lines (`\\n`) after the nearest word limited to `line_width`.
+
     ```crystal
     word_wrap("Maybe some code would go here", line_width: 6)
     # => Maybe \\nsome \\ncode \\nwould \\ngo \\nhere"
+
+    # Change the new line character with `break_sequence`.
     word_wrap("Maybe some code would go here", line_width: 6, break_sequence: "<br>")
     # => Maybe <br>some <br>code <br>would <br>go <br>here"
     ```
 
     ### Simple text format
+
+    Formats the text with some simple HTML and writes directly to the page.
 
     ```crystal
     simple_format("Nice\\neasy\\nformat!")
@@ -320,12 +345,12 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Sentence lists
 
-    Creates a comma-separated sentence from the provided `Enumerable` list.
+    Returns a `String`, and creates a comma-separated sentence from the provided `Enumerable` list.
 
     ```crystal
-    to_sentence(["Tacos", "Burritos", "Salsa"])
+    text to_sentence(["Tacos", "Burritos", "Salsa"])
     # => Tacos, Burritos, and Salsa
-    to_sentence(words, last_word_connector: " and ")
+    text to_sentence(words, last_word_connector: " and ")
     # => Tacos, Burritos and Salsa
     ```
 
@@ -333,23 +358,11 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Excerpt from a paragraph
 
-    Similar to `truncate`, but for the middle of a large body of text.
+    Returns a `String`. Similar to `truncate_text`, but for the middle of a large body of text.
 
     ```crystal
-    excerpt("This is a beautiful morning", "beautiful", radius: 5)
+    text excerpt("This is a beautiful morning", "beautiful", radius: 5)
     # => "...is a beautiful morn..."
-    ```
-
-    ### Cycle
-
-    Use this to alternate between different values
-
-    ```crystal
-    array = [1, 2, 3]
-    cycle(array) #=> 1
-    cycle(array) #=> 2
-    cycle(array) #=> 3
-    cycle(array) #=> 1
     ```
 
     ## Layouts
