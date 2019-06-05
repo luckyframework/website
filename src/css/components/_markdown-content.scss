@@ -36,7 +36,7 @@
   }
 
   h2 {
-    @apply font-normal text-2xl text-teal-dark py-6 mt-6 tracking-medium;
+    @apply font-normal text-2xl text-teal-dark py-2 mb-5 mt-8 tracking-medium;
   }
 
   h3 {
@@ -91,6 +91,17 @@
     font-family: Menlo, Roboto Mono, Courier New, monospace;
     border-radius: 4px;
     padding: 2px 4px;
+  }
+
+  &.-large-code {
+    pre {
+      border-radius: 6px;
+      padding: 12px 18px;
+    }
+
+    code {
+      font-size: 18px;
+    }
   }
 
   code:not(.hljs) {
