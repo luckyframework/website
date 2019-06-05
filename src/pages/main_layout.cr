@@ -60,17 +60,17 @@ abstract class MainLayout
       div class: "text-center lg:mx-5 md:text-left px-6 py-5 bg-white md:bg-transparent border-b border-grey-light md:border-none" do
         mount Shared::FlashMessages.new(@context.flash)
         div class: "flex flex-col md:flex-row md:bg-white mx-auto md:rounded-lg md:shadow md:-mt-12 md:px-5 md:py-12" do
-          content_block "Say goodbye to slow", <<-TEXT
+          content_block "🚀 Say goodbye to slow", <<-TEXT
           Lucky is extremely fast and uses very little memory. You and
           your users will love the extra dose of speed.
           TEXT
 
-          content_block "Batteries included", <<-TEXT
+          content_block "🔋 Batteries included", <<-TEXT
           Authentication, asset management, CORS, database ORM, and more can
           all be included when creating a new Lucky project.
           TEXT
 
-          content_block "Fewer bugs. More joy", <<-TEXT
+          content_block "😁 Fewer bugs. More joy", <<-TEXT
           Instead of finding bugs in QA or in production, Lucky is designed to
           catch as many bugs as possible at compile time.
           TEXT
