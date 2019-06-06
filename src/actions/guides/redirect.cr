@@ -4,7 +4,7 @@ class Guides::Redirect < BrowserAction
     "overview"                   => Guides::GettingStarted::Concepts,
     "installing"                 => Guides::GettingStarted::Installing,
     "configuration"              => Guides::GettingStarted::Configuration,
-    "database-migrations"        => Guides::Database::ManagingAndMigrating,
+    "database-migrations"        => Guides::Database::Migrations,
     "actions-and-routing"        => Guides::HttpAndRouting::RoutingAndParams,
     "rendering-html"             => Guides::Frontend::RenderingHtml,
     "querying-the-database"      => Guides::Database::Querying,

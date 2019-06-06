@@ -39,7 +39,9 @@ class Guides::Sidebar < BaseComponent
       Guides::Frontend::Testing,
     ] of GuideAction.class),
     GuideCategory.new("Database", [
-      Guides::Database::ManagingAndMigrating,
+      Guides::Database::ORMsAndAvram,
+      Guides::Database::DatabaseSetup,
+      Guides::Database::Migrations,
       Guides::Database::Models,
       Guides::Database::Querying,
       Guides::Database::ValidatingSavingDeleting,

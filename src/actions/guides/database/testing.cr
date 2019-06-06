@@ -9,6 +9,8 @@ class Guides::Database::Testing < GuideAction
     <<-MD
     ## Creating a Box
 
+    More docs on how this all works. Show examples used in specs.
+
     ```crystal
     # spec/support/boxes/post_box.cr
     class PostBox < Avram::Box
