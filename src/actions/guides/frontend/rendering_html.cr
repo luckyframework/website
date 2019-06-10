@@ -263,6 +263,108 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
+    ## Page helpers
+
+    Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
+
+    > Some page helpers return a `String`, and some page helpers will write directly to the page.
+
+    ### Converting a number to currency format
+
+    Returns a `String` formatted to a currency format.
+
+    ```crystal
+    # Returns standard U.S. format
+    text number_to_currency(1234.43)
+    # => $1234.43
+
+    # Additional options supported for other formats
+    text number_to_currency(1234.32, unit: "€", separator: ",", delimiter: ".")
+    # => €1.234,32
+    ```
+
+    ### Truncating text
+
+    Returns a `String` truncated to `length`.
+
+    ```crystal
+    text truncate_text("some really long text here", length: 12)
+    # => some real...
+    ```
+
+    ### Truncating HTML
+
+    Truncates the text, and writes HTML directly to the page.
+
+    ```crystal
+    truncate("Four score and seven years ago", length: 20) do
+      link "Read more", to: "#"
+    end
+    # => "Four score and se...<a href="#">Read more</a>"
+    ```
+
+    ### Highlighting text
+
+    This takes `phrases` in the form of `Array(String | Regex)` and wraps the matching phrases in a `<mark></mark>` tag.
+
+    ```crystal
+    highlight("From this taco meat we shall eat for days!", phrases: ["taco", /eat/])
+    # => From this <mark>taco</mark> m<mark>eat</mark> we shall <mark>eat</mark> for days!
+    ```
+
+    ### Pluralizing a word
+
+    Returns a `String` using the first arg to determine how to pluralize the second arg.
+
+    ```crystal
+    text "I have \#{pluralize(2, "shoe")}"
+    # => I have 2 shoes
+    ```
+
+    ### Wrapping words
+
+    Returns a `String`. Adds new lines (`\\n`) after the nearest word limited to `line_width`.
+
+    ```crystal
+    word_wrap("Maybe some code would go here", line_width: 6)
+    # => Maybe \\nsome \\ncode \\nwould \\ngo \\nhere"
+
+    # Change the new line character with `break_sequence`.
+    word_wrap("Maybe some code would go here", line_width: 6, break_sequence: "<br>")
+    # => Maybe <br>some <br>code <br>would <br>go <br>here"
+    ```
+
+    ### Simple text format
+
+    Formats the text with some simple HTML and writes directly to the page.
+
+    ```crystal
+    simple_format("Nice\\neasy\\nformat!")
+    # => <p>Nice<br>easy<br>format!</p>
+    ```
+
+    ### Sentence lists
+
+    Returns a `String`, and creates a comma-separated sentence from the provided `Enumerable` list.
+
+    ```crystal
+    text to_sentence(["Tacos", "Burritos", "Salsa"])
+    # => Tacos, Burritos, and Salsa
+    text to_sentence(words, last_word_connector: " and ")
+    # => Tacos, Burritos and Salsa
+    ```
+
+    > By default `to_sentence` will include a [serial comma](https://en.wikipedia.org/wiki/Serial_comma). Override that with the `last_word_connector` option.
+
+    ### Excerpt from a paragraph
+
+    Returns a `String`. Similar to `truncate_text`, but for the middle of a large body of text.
+
+    ```crystal
+    text excerpt("This is a beautiful morning", "beautiful", radius: 5)
+    # => "...is a beautiful morn..."
+    ```
+
     ## Layouts
 
     Pages have layouts that make it easier to share common elements.
