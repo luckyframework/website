@@ -372,9 +372,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ### Layouts in a default Lucky application
 
     * `MainLayout` - The layout used when a user is signed in
-    * `GuestLayout` - The layout used when the user is not signed in
+    * `AuthLayout` - The layout used when the user is not signed in
 
-    Pages inherit from `MainLayout`, `GuestLayout` or another layout you decide to create.
+    Pages inherit from `MainLayout`, `AuthLayout` or another layout you decide to create.
     Layouts can declare [abstract
     methods](https://crystal-lang.org/docs/syntax_and_semantics/virtual_and_abstract_types.html)
     or use
