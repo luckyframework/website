@@ -7,6 +7,23 @@ class Guides::Database::Models < GuideAction
 
   def markdown
     <<-MD
+    ## Introduction
+
+    A Model is an object used to map a corresponding database table to a class. These objects model real-world objects to give you a better understanding on how they should interact within your application.
+
+    Models in Lucky define methods associated with each column in the table. These methods return the value set in that column.
+
+    ## Generate a model
+
+    Lucky gives you a task for generating a model along with several other files that you will need for interacting with your database.
+
+    Use the `lucky gen.model {ModelName}` task to generate your model. If you're generating a `User` model, you would run `lucky gen.model User`. Running this will generate four files for you.
+
+    * [User model]() - Located in `./src/models/user.cr`
+    * [User form]() - Located in `./src/forms/user_form.cr`
+    * [User query]() - Located in `./src/queries/user_query.cr`
+    * [User migration]() - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
+
     ## Setting up a model
 
     Let's create a `User` model with `lucky gen.model User` and then add some
