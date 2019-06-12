@@ -35,7 +35,7 @@ class IntroducingTheLuckyBlog < BasePost
 
     ## Lucky 0.15
 
-    Lucky 0.15 of bug fixes and improvements. We'd like to
+    Lucky 0.15 contains lots of bug fixes and improvements. We'd like to
     highlight a few of our favorite new features.
 
     ### New class based components
@@ -93,6 +93,27 @@ class IntroducingTheLuckyBlog < BasePost
       end
     end
     ```
+
+    ### Fallback routing
+
+    You can think of this like a "catch-all" route. If no other route matches in your application,
+    Lucky will run this as a last try. To use it, just create your action and use `fallback`.
+
+    This can be a great way to have Lucky pass route handling over to your front-end framework!
+
+    ```crystal
+    class VueHandlerAction < BrowserAction
+      fallback do
+        if html?
+          render VueApp::IndexPage
+        else
+          raise Lucky::RouteNotFoundError.new(context)
+        end
+      end
+    end
+    ```
+
+    [Learn more about fallback routing](#{Guides::HttpAndRouting::RoutingAndParams.path(anchor: Guides::HttpAndRouting::RoutingAndParams::ANCHOR_FALLBACK_ROUTING)})
 
     ## New goodies in Avram (Lucky's ORM)
 
