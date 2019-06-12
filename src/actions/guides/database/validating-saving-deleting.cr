@@ -161,29 +161,25 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     and is used in pages like this:
 
     ```crystal
-    # in a page
-    field(f.name) { |i| text_input(i) }
+    # This will render a label, an input, and any errors for the 'name'
+    mount Shared::Field.new(f.name)
 
-    # equivalent to
-    label_for f.name
-    text_input f.name
-    errors_for f.name
-    ```
+    # You can customize the generated input
+    mount Shared::Field.new(form.email), &.email_input
+    mount Shared::Field.new(form.email), &.email_input(autofocus: "true")
+    mount Shared::Field.new(form.username), &.email_input(placeholder: "Username")
 
-    You can pass the same options to `text_input` as you normally would:
-
-    ```crystal
-    field(f.name) { |i| text_input(i, autofocus: "true", class: "input") }
-    ```
-
-    Or use a different kind of input
-
-    ```crystal
-    field(f.email) { |i| email_input(i) }
+    # You can append to or replace the HTML class on the input
+    mount Shared::Field.new(form.name), &.text_input(append_class: "custom-input-class")
+    mount Shared::Field.new(form.nickname), &.text_input(replace_class: "compact-input")
     ```
 
     Look in `src/components/shared/field.cr` to see even more options and customize
     the generated markup.
+
+    > You can also duplicate and rename the component for different styles of input
+    > fields in your app. For example, you might have a `CompactField` component,
+    > or a `FieldWithoutLabel` component.
 
     ### Select, email input, and other special inputs
 
