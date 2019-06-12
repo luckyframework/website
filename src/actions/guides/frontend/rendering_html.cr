@@ -467,7 +467,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     > Common layout components could be extracted to
     `src/components/shared/{component_name}.cr`. See ["Extract partials and shared code"](#extract-partials-and-shared-code)
 
-    ## Extract partials and shared code
+    ## Extracting methods for code clarity
 
     Extracting code for reuse or clarity is easy since pages are made of classes and
     methods.
@@ -478,7 +478,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
         render_user_header
       end
 
-      # We can extract a private method to make our code easier to understand
+      # We can extract a method to make our code easier to understand
       private def render_user_header
         div class: "user-header" do
           h1 "Users"
@@ -488,26 +488,64 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    ### Share between pages with a module
+    ## Creating and using components
+
+    The most powerful and flexible way to share code is to use a Component.
+    Components are Crystal classes that declare what objects they need, and then
+    render HTML.
+
+    Let's generate one with the command `lucky gen.component Users::Row`:
 
     ```crystal
-    # in src/components/users/header.cr
-    module Users::Header
-      private def render_user_header
-        div class: "user-header" do
-          h1 "Users"
-          link "Back to users index", to: Users::Index
+    # in src/components/users/row.cr
+    class Users::Row < BaseComponent
+      needs user : User
+
+      def render
+        div class: "user-row" do
+          link @user.name, to: Users::Show.with(@user)
         end
       end
     end
+    ```
 
-    # and use it in the view
-    class Users::ShowPage < MainLayout
-      include Users::Header
+    Now we can mount the component in the view:
+
+    ```crystal
+    class Users::IndexPage < MainLayout
+      needs user : User
 
       def content
-        render_user_header
+        mount Users::Row.new(@user)
       end
+    end
+    ```
+
+    > You can also mount components from within other components in the same
+    > way as in pages.
+
+    ### Yielding a block function to a component
+
+    You can also render a block in a component. This is helpful for when
+    you want have custom content injected into the component
+
+    `lucky gen.component RoundedContainer`:
+
+    ```crystal
+    class RoundedContainer < BaseComponent
+      def render
+        div class: "rounded-container" do
+          yield
+        end
+      end
+    end
+    ```
+
+    Now use it in a page:
+
+    ```crystal
+    mount RoundedContainer.new do
+      h1 "This will be inside the div defined in the component"
     end
     ```
 
