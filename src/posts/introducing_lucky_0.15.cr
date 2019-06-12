@@ -113,6 +113,8 @@ class IntroducingTheLuckyBlog < BasePost
     end
     ```
 
+    [Learn more about fallback routing](#{Guides::HttpAndRouting::RoutingAndParams.path(anchor: Guides::HttpAndRouting::RoutingAndParams::ANCHOR_FALLBACK_ROUTING)})
+
     ## New goodies in Avram (Lucky's ORM)
 
     ### Introducing `nilable_eq`
