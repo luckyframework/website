@@ -13,7 +13,7 @@ crystal: 0.29.0
 dependencies:
   lucky:
     github: luckyframework/lucky
-    branch: master
+    version: ~> 0.15.0
   authentic:
     github: luckyframework/authentic
     version: ~> 0.3
@@ -24,7 +24,7 @@ dependencies:
     github: gdotdesign/cr-dotenv
   lucky_flow:
     github: luckyframework/lucky_flow
-    version: ~> 0.4
+    version: ~> 0.4.1
   markd:
     github: icyleaf/markd
     version: ~> 0.1
