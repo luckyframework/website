@@ -23,7 +23,8 @@ class Guides::Frontend::AssetHandling < GuideAction
     For a lot of people the default Laravel Mix setup will work out of the box, or with
     little configuration.
 
-    > Keep in mind that Lucky does not lock you in to using webpack. You can configure other build methods such as Gulp, Grunt, or your own custom at any time.
+    > Keep in mind that Lucky does not lock you in to using webpack.
+    > You can configure other build methods such as Gulp, Grunt, or your own custom at any time.
 
     ## Configuring Webpack
 
@@ -127,7 +128,9 @@ class Guides::Frontend::AssetHandling < GuideAction
 
     ## Asset host
 
-    Once your app is in production, you may want to serve up your assets through a [CDN](https://en.wikipedia.org/wiki/Content_delivery_network). To specify a differnt host, you'll use the `asset_host` option in `config/server.cr`.
+    Once your app is in production, you may want to serve up your assets through a
+    [CDN](https://en.wikipedia.org/wiki/Content_delivery_network). To specify a different
+    host, you'll use the `asset_host` option in `config/server.cr`.
 
     ```crystal
     # config/server.cr
