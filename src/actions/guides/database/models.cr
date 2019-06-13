@@ -96,6 +96,21 @@ class Guides::Database::Models < GuideAction
 
     All associations will be defined in the `table` block. You can use `has_one`, `has_many`, and `belongs_to`.
 
+    To avoid running in to an "Undefined Constant" error, be sure to require each model you want to associate.
+
+    ```crystal
+    require "./supervisor"
+    require "./task"
+    require "./company"
+    class User < BaseModel
+      table :user do
+        has_one supervisor : Supervisor
+        has_many tasks : Task
+        belongs_to company : Company
+      end
+    end
+    ```
+
     ## Belongs to
 
     A `belongs_to` will assume you have a foreign key column related to the other model defined as `{model_name}_id`.
