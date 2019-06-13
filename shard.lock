@@ -50,7 +50,7 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    version: 0.15.0
+    version: 0.15.1
 
   lucky_cli:
     github: luckyframework/lucky_cli
