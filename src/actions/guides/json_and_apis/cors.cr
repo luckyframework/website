@@ -29,28 +29,59 @@ class Guides::JsonAndApis::Cors < GuideAction
     end
     ```
 
-    > Note: the before action method must return `continue`, or a `LuckyWeb::Response`. See [Actions and Routing](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}) for more info.
+    This will set these headers before every action in your API.
+
+    > Note: the `before` pipe must return `continue`, or a `LuckyWeb::Response`. See [Actions and Routing](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}) for more info.
 
     ### Complex example
 
     You may find that you need a little more than a simple setup to handle CORS.
-    Some requests may require a preflight `OPTIONS` call. You can check for that request method.
+    Some requests may require a preflight `OPTIONS` call. We have two ways we can handle this.
+    We can create a `match :options, "/api/"` route block for every action in our API, or move this
+    to a handler.
+
+    Add a new folder called `src/handlers/`, and be sure to add a require in `src/app.cr`.
+    We can place our new `CORSHandler` in `src/handlers/cors_handler.cr`.
 
     ```crystal
-    def set_cors_headers
-      response.headers["Access-Control-Allow-Origin"] = "*"
-      response.headers["Access-Control-Allow-Credentials"] = "true"
-      response.headers["Access-Control-Allow-Methods"] = "POST,GET,OPTIONS"
-      response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authentication"
+    # src/handlers/cors_handler.cr
+    class CORSHandler
+      include HTTP::Handler
 
-      # If this is an OPTIONS call, respond with just the needed headers and
-      # respond with an empty response.
-      if request.method == "OPTIONS"
-        response.headers["Access-Control-Max-Age"] = "\#{20.days.total_seconds.to_i}"
-        head HTTP::Status::NO_CONTENT
-      else
-        continue
+      def call(context)
+        context.response.headers["Access-Control-Allow-Origin"] = "*"
+        context.response.headers["Access-Control-Allow-Credentials"] = "true"
+        context.response.headers["Access-Control-Allow-Methods"] = "POST,GET,OPTIONS"
+        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authentication"
+
+        # If this is an OPTIONS call, respond with just the needed headers and
+        # respond with an empty response.
+        if context.request.method == "OPTIONS"
+          context.response.status = HTTP::Status::NO_CONTENT
+          context.response.headers["Access-Control-Max-Age"] = "\#{20.days.total_seconds.to_i}"
+          context.response.headers["Content-Type"] = "text/plain"
+          context.response.headers["Content-Length"] = "0"
+          context
+        else
+          call_next(context)
+        end
       end
+    end
+    ```
+
+    Lastly, we just need to place this new handler in our stack. Add it in to your
+    `src/app_server.cr` just before your `Lucky::RouteHandler`.
+
+    ```crystal
+    # src/app_server.cr
+    def middleware
+      [
+        #...
+        Lucky::ErrorHandler.new(action: Errors::Show),
+        CORSHandler.new,
+        Lucky::RouteHandler.new,
+        #...
+      ]
     end
     ```
 
@@ -60,10 +91,10 @@ class Guides::JsonAndApis::Cors < GuideAction
     restrict this with a check against the request `Origin` header.
 
     ```crystal
-    def set_cors_headers
-      request_origin = request.headers["Origin"]
+    def call(context)
+      request_origin = context.request.headers["Origin"]
 
-      response.headers["Access-Control-Allow-Origin"] = allowed_origin(request_origin)
+      context.response.headers["Access-Control-Allow-Origin"] = allowed_origin(request_origin)
       # ... rest of the implementation ...
     end
 
@@ -86,36 +117,39 @@ class Guides::JsonAndApis::Cors < GuideAction
     to ensure you're using the correct configuration for your needs.
 
     ```crystal
-    abstract class ApiAction < Lucky::Action
+    # src/handlers/cors_handler.cr
+    class CORSHandler
+      include HTTP::Handler
       # Origins that your API allows
       ALLOWED_ORIGINS = [
         # Allows for local development
-        /\.lvh\.me/,
+        /\\.lvh\\.me/,
         /localhost/,
-        /127\.0\.0\.1/,
+        /127\\.0\\.0\\.1/,
 
         # Add your production domains here
-        # /production\.com/
+        # /production\\.com/
       ]
 
-      before set_cors_headers
-
-      def set_cors_headers
-        request_origin = request.headers["Origin"]
+      def call(context)
+        request_origin = context.request.headers["Origin"]
 
         # Setting the CORS specific headers.
         # Modify according to your apps needs.
-        response.headers["Access-Control-Allow-Origin"] = allowed_origin?(request_origin) ? request_origin : ""
-        response.headers["Access-Control-Allow-Credentials"] = "true"
-        response.headers["Access-Control-Allow-Methods"] = "POST,GET,OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authentication"
+        context.response.headers["Access-Control-Allow-Origin"] = allowed_origin?(request_origin) ? request_origin : ""
+        context.response.headers["Access-Control-Allow-Credentials"] = "true"
+        context.response.headers["Access-Control-Allow-Methods"] = "POST,GET,OPTIONS"
+        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authentication"
 
         # If this is an OPTIONS call, respond with just the needed headers.
-        if request.method == "OPTIONS"
-          response.headers["Access-Control-Max-Age"] = 20.days.total_seconds.to_i.to_s
-          head HTTP::Status::NO_CONTENT
+        if context.request.method == "OPTIONS"
+          context.response.status = HTTP::Status::NO_CONTENT
+          context.response.headers["Access-Control-Max-Age"] = "\#{20.days.total_seconds.to_i}"
+          context.response.headers["Content-Type"] = "text/plain"
+          context.response.headers["Content-Length"] = "0"
+          context
         else
-          continue
+          call_next(context)
         end
       end
 
@@ -124,6 +158,30 @@ class Guides::JsonAndApis::Cors < GuideAction
           pattern === request_origin
         end
       end
+    end
+    ```
+
+    ```crystal
+    # src/app.cr
+    require "./shards"
+    require "./models/*"
+    require "./handlers/*"
+    #...
+    ```
+
+    ```crystal
+    # src/app_server.cr
+    class AppServer < Lucky::BaseAppServer
+      def middleware
+        [
+          #...
+          Lucky::ErrorHandler.new(action: Errors::Show),
+          CORSHandler.new,
+          Lucky::RouteHandler.new,
+          #...
+        ]
+      end
+      #...
     end
     ```
     MD
