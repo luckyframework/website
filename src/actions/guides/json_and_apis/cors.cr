@@ -9,38 +9,53 @@ class Guides::JsonAndApis::Cors < GuideAction
     <<-MD
     ## Handling CORS
 
-    When working with an API, you may need to set some [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers. Doing this in Lucky is pretty easy!
+    When working with an API, you may need to set some
+    [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers.
+    Doing this in Lucky is pretty easy!
 
-    ### Basic example
+    ### Handler Setup
 
-    In your `src/actions/api_action.cr`, you can use a `before` action to set your headers.
+    We will create a new [handler](#{Guides::HttpAndRouting::HTTPHandlers.path}) for setting
+    these headers on every request.
+
+    Start by adding a new folder called `src/handlers/`, and be sure to add a require in `src/app.cr`.
+    We can place our new `CORSHandler` in `src/handlers/cors_handler.cr`.
 
     ```crystal
-    abstract class ApiAction < Lucky::Action
-      before set_cors_headers
+    # src/handlers/cors_handler.cr
+    class CORSHandler
+      include HTTP::Handler
 
-      def set_cors_headers
-        response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Headers"] =
-          "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
-        response.headers["Access-Control-Allow-Methods"] = "*"
-        continue
+      def call(context)
+        context.response.headers["Access-Control-Allow-Origin"] = "*"
+        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+        context.response.headers["Access-Control-Allow-Methods"] = "*"
+        call_next(context)
       end
     end
     ```
 
-    This will set these headers before every action in your API.
+    Lastly, we just need to place this new handler in our stack. Add it in to your
+    `src/app_server.cr` just before your `Lucky::RouteHandler`.
 
-    > Note: the `before` pipe must return `continue`, or a `LuckyWeb::Response`. See [Actions and Routing](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}) for more info.
+    ```crystal
+    # src/app_server.cr
+    def middleware
+      [
+        #...
+        Lucky::ErrorHandler.new(action: Errors::Show),
+        CORSHandler.new,
+        Lucky::RouteHandler.new,
+        #...
+      ]
+    end
+    ```
 
-    ### Complex example
+    ### Preflight Options
 
     You may find that you need a little more than a simple setup to handle CORS.
-    Some requests may require a preflight `OPTIONS` call. To best handle this,
-    we will create a new [handler](#{Guides::HttpAndRouting::HTTPHandlers.path}).
-
-    Add a new folder called `src/handlers/`, and be sure to add a require in `src/app.cr`.
-    We can place our new `CORSHandler` in `src/handlers/cors_handler.cr`.
+    Some requests may require a preflight `OPTIONS` call, or maybe you need a little more
+    control over the header values.
 
     ```crystal
     # src/handlers/cors_handler.cr
@@ -65,22 +80,6 @@ class Guides::JsonAndApis::Cors < GuideAction
           call_next(context)
         end
       end
-    end
-    ```
-
-    Lastly, we just need to place this new handler in our stack. Add it in to your
-    `src/app_server.cr` just before your `Lucky::RouteHandler`.
-
-    ```crystal
-    # src/app_server.cr
-    def middleware
-      [
-        #...
-        Lucky::ErrorHandler.new(action: Errors::Show),
-        CORSHandler.new,
-        Lucky::RouteHandler.new,
-        #...
-      ]
     end
     ```
 
