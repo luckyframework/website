@@ -167,7 +167,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    > The `param_key` wraps all fields, and is required in the form. (i.e. `user:email=abc@example.com`)
+    > The `param_key` wraps all fields, and is required in the form. (e.g. HTML `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
 
     ### Simplify inputs with `Shared::Field`
 
