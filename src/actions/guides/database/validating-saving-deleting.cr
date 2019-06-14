@@ -153,6 +153,22 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
+    ### Specifying the form name
+
+    When a form is submitted, it's param key will be derived from the form object's class name.
+    (e.g. a `UserForm` will submit a `user` param key).
+
+    If you need to customize this, use the `param_key` macro in your form.
+
+    ```crystal
+    class UserForm < BaseForm
+      # Sets the param key to `custom_form`
+      param_key :custom_form
+    end
+    ```
+
+    > The `param_key` wraps all fields, and is required in the form. (e.g. HTML `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
+
     ### Simplify inputs with `Shared::Field`
 
     In the above form we had to write a fair amount of code to show a label, input,
