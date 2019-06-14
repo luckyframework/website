@@ -36,9 +36,8 @@ class Guides::JsonAndApis::Cors < GuideAction
     ### Complex example
 
     You may find that you need a little more than a simple setup to handle CORS.
-    Some requests may require a preflight `OPTIONS` call. We have two ways we can handle this.
-    We can create a `match :options, "/api/"` route block for every action in our API, or move this
-    to a handler.
+    Some requests may require a preflight `OPTIONS` call. To best handle this,
+    we will create a new [handler](#{Guides::HttpAndRouting::HTTPHandlers.path}).
 
     Add a new folder called `src/handlers/`, and be sure to add a require in `src/app.cr`.
     We can place our new `CORSHandler` in `src/handlers/cors_handler.cr`.
