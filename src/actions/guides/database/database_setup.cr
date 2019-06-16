@@ -15,14 +15,16 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     ### Standard Options
 
-    To configure Lucky to connect to your database, you can define a `DATABASE_URL` environment variable. (e.g. `postgres://root@localhost:5432/my_database`). To see more options, look in your app's `config/database.cr` file.
-    In this file, you'll find options for configuring
+    To configure Lucky to connect to your database, open up your `config/database.cr` file.
+    You'll find a few standard options within the `Avram::Repo` configure block.
 
     * database_name
     * hostname
     * username
     * password
     * port
+
+    > You can also set a `DATABASE_URL` environment variable. (e.g. `postgres://root@localhost:5432/my_database`)
 
     ### Connection Pool
 
@@ -39,9 +41,9 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     ### Avram Configuration
 
-    Avram requires a `url` option to be set. If you decide to not use Avram as your ORM, you can set this option to a string like `"noop"`.
+    Avram requires a `url` option to be set. If you decide to not use Avram as your ORM, you can set this option to a string like `"unused"`.
 
-    Optionally, the `lazy_load_enabled` is set to `false` for development and test. This causes Lucky to raise an exception if you forget to preload an association.
+    Optionally, the `lazy_load_enabled` is set to `false` for development and test. This causes Lucky to raise an exception if you forget to preload an association, but will not raise an exception in production.
 
     ## Test Setup
 
@@ -61,9 +63,9 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     ## Seeding Data
 
-    Seeding is the process of putting initial data in to your database. This could be fake placeholder data you use in development, or even special data your application expects to exist in production.
+    Seeding is the process of putting data in to your database. This could be fake placeholder data you use in development, or even special data your application expects to exist in production.
 
-    By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`, and `Db::CreateSampleSeeds`. You can use [Boxes]() or [Forms]() to create the data. Then you will place this code in the `call` method of those tasks
+    By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`, and `Db::CreateSampleSeeds`. You can use [Boxes]() or [Forms]() to create the data.
 
     ### Required Seeds
 
@@ -74,16 +76,17 @@ class Guides::Database::DatabaseSetup < GuideAction
     ```crystal
     def call
       # Using a Box
-      UserBox.create &.email("developer@example.com").status(User::Status::Admin.value)
+      UserBox.create &.email("developer@example.com").admin(true)
 
       # Using a Form
-      UserForm.create!(email: "developer@example.com", status: User::Status::Admin.value)
+      UserForm.create!(email: "developer@example.com", admin: true)
     end
     ```
 
     Run this task with `lucky db.create_required_seeds`.
 
-    > This task should be ran after your first deployment of your application.
+    > This task should be ran after your first deployment, and whenever your seeds change.
+    > Running `./script/setup` will run the `db.create_required_seeds` task for you.
 
     ### Sample Seeds
 
