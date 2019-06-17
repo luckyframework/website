@@ -1,5 +1,6 @@
 class Guides::HttpAndRouting::RoutingAndParams < GuideAction
   ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES = "perma-automatically-generate-restful-routes"
+  ANCHOR_FALLBACK_ROUTING = "perma-fallback-routing"
   guide_route "/http-and-routing/routing-and-params"
 
   def self.title
@@ -211,6 +212,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     * Multiple namespaces: `Api::V1::Projects::Users::Show`  -> `get "/api/v1/projects/:project_id/users/:user_id"`
     * Multi-word namespace: `MyAdminSection::Projects::Users::Show`  -> `get "/my_admin_section/projects/:project_id/users/:user_id"`
 
+    #{permalink(ANCHOR_FALLBACK_ROUTING)}
     ## Fallback routing
 
     For some apps you may want a wildcard/catch-all behavior instead of rendering

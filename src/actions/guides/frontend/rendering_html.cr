@@ -263,6 +263,108 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
+    ## Page helpers
+
+    Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
+
+    > Some page helpers return a `String`, and some page helpers will write directly to the page.
+
+    ### Converting a number to currency format
+
+    Returns a `String` formatted to a currency format.
+
+    ```crystal
+    # Returns standard U.S. format
+    text number_to_currency(1234.43)
+    # => $1234.43
+
+    # Additional options supported for other formats
+    text number_to_currency(1234.32, unit: "€", separator: ",", delimiter: ".")
+    # => €1.234,32
+    ```
+
+    ### Truncating text
+
+    Returns a `String` truncated to `length`.
+
+    ```crystal
+    text truncate_text("some really long text here", length: 12)
+    # => some real...
+    ```
+
+    ### Truncating HTML
+
+    Truncates the text, and writes HTML directly to the page.
+
+    ```crystal
+    truncate("Four score and seven years ago", length: 20) do
+      link "Read more", to: "#"
+    end
+    # => "Four score and se...<a href="#">Read more</a>"
+    ```
+
+    ### Highlighting text
+
+    This takes `phrases` in the form of `Array(String | Regex)` and wraps the matching phrases in a `<mark></mark>` tag.
+
+    ```crystal
+    highlight("From this taco meat we shall eat for days!", phrases: ["taco", /eat/])
+    # => From this <mark>taco</mark> m<mark>eat</mark> we shall <mark>eat</mark> for days!
+    ```
+
+    ### Pluralizing a word
+
+    Returns a `String` using the first arg to determine how to pluralize the second arg.
+
+    ```crystal
+    text "I have \#{pluralize(2, "shoe")}"
+    # => I have 2 shoes
+    ```
+
+    ### Wrapping words
+
+    Returns a `String`. Adds new lines (`\\n`) after the nearest word limited to `line_width`.
+
+    ```crystal
+    word_wrap("Maybe some code would go here", line_width: 6)
+    # => Maybe \\nsome \\ncode \\nwould \\ngo \\nhere"
+
+    # Change the new line character with `break_sequence`.
+    word_wrap("Maybe some code would go here", line_width: 6, break_sequence: "<br>")
+    # => Maybe <br>some <br>code <br>would <br>go <br>here"
+    ```
+
+    ### Simple text format
+
+    Formats the text with some simple HTML and writes directly to the page.
+
+    ```crystal
+    simple_format("Nice\\neasy\\nformat!")
+    # => <p>Nice<br>easy<br>format!</p>
+    ```
+
+    ### Sentence lists
+
+    Returns a `String`, and creates a comma-separated sentence from the provided `Enumerable` list.
+
+    ```crystal
+    text to_sentence(["Tacos", "Burritos", "Salsa"])
+    # => Tacos, Burritos, and Salsa
+    text to_sentence(words, last_word_connector: " and ")
+    # => Tacos, Burritos and Salsa
+    ```
+
+    > By default `to_sentence` will include a [serial comma](https://en.wikipedia.org/wiki/Serial_comma). Override that with the `last_word_connector` option.
+
+    ### Excerpt from a paragraph
+
+    Returns a `String`. Similar to `truncate_text`, but for the middle of a large body of text.
+
+    ```crystal
+    text excerpt("This is a beautiful morning", "beautiful", radius: 5)
+    # => "...is a beautiful morn..."
+    ```
+
     ## Layouts
 
     Pages have layouts that make it easier to share common elements.
@@ -270,9 +372,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ### Layouts in a default Lucky application
 
     * `MainLayout` - The layout used when a user is signed in
-    * `GuestLayout` - The layout used when the user is not signed in
+    * `AuthLayout` - The layout used when the user is not signed in
 
-    Pages inherit from `MainLayout`, `GuestLayout` or another layout you decide to create.
+    Pages inherit from `MainLayout`, `AuthLayout` or another layout you decide to create.
     Layouts can declare [abstract
     methods](https://crystal-lang.org/docs/syntax_and_semantics/virtual_and_abstract_types.html)
     or use
@@ -365,7 +467,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     > Common layout components could be extracted to
     `src/components/shared/{component_name}.cr`. See ["Extract partials and shared code"](#extract-partials-and-shared-code)
 
-    ## Extract partials and shared code
+    ## Extracting methods for code clarity
 
     Extracting code for reuse or clarity is easy since pages are made of classes and
     methods.
@@ -376,7 +478,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
         render_user_header
       end
 
-      # We can extract a private method to make our code easier to understand
+      # We can extract a method to make our code easier to understand
       private def render_user_header
         div class: "user-header" do
           h1 "Users"
@@ -386,26 +488,64 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    ### Share between pages with a module
+    ## Creating and using components
+
+    The most powerful and flexible way to share code is to use a Component.
+    Components are Crystal classes that declare what objects they need, and then
+    render HTML.
+
+    Let's generate one with the command `lucky gen.component Users::Row`:
 
     ```crystal
-    # in src/components/users/header.cr
-    module Users::Header
-      private def render_user_header
-        div class: "user-header" do
-          h1 "Users"
-          link "Back to users index", to: Users::Index
+    # in src/components/users/row.cr
+    class Users::Row < BaseComponent
+      needs user : User
+
+      def render
+        div class: "user-row" do
+          link @user.name, to: Users::Show.with(@user)
         end
       end
     end
+    ```
 
-    # and use it in the view
-    class Users::ShowPage < MainLayout
-      include Users::Header
+    Now we can mount the component in the view:
+
+    ```crystal
+    class Users::IndexPage < MainLayout
+      needs user : User
 
       def content
-        render_user_header
+        mount Users::Row.new(@user)
       end
+    end
+    ```
+
+    > You can also mount components from within other components in the same
+    > way as in pages.
+
+    ### Yielding a block function to a component
+
+    You can also render a block in a component. This is helpful for when
+    you want have custom content injected into the component
+
+    `lucky gen.component RoundedContainer`:
+
+    ```crystal
+    class RoundedContainer < BaseComponent
+      def render
+        div class: "rounded-container" do
+          yield
+        end
+      end
+    end
+    ```
+
+    Now use it in a page:
+
+    ```crystal
+    mount RoundedContainer.new do
+      h1 "This will be inside the div defined in the component"
     end
     ```
 

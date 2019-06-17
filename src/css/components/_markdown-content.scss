@@ -82,8 +82,8 @@
 
   .hljs-comment,
   .hljs-quote {
-    @apply text-blue-lighter;
-    opacity: 0.4;
+    @apply text-blue-lighter italic;
+    opacity: 0.5;
   }
 
   code {
