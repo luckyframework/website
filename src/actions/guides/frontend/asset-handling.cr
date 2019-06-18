@@ -13,7 +13,7 @@ class Guides::Frontend::AssetHandling < GuideAction
     [Laravel Mix](https://laravel-mix.com/). Laravel Mix is a wrapper
     for common Webpack functionality that makes configuring Webpack much simpler.
 
-    ## Why Laravel Mix instead of plain Webpack?
+    ### Why Laravel Mix instead of plain Webpack?
 
     Lucky uses Laravel Mix because it is very simple to configure, it's fast, and
     it works well for a lot of apps. It is also has methods for configuring
@@ -23,7 +23,8 @@ class Guides::Frontend::AssetHandling < GuideAction
     For a lot of people the default Laravel Mix setup will work out of the box, or with
     little configuration.
 
-    > Keep in mind that Lucky does not lock you in to using webpack. You can configure other build methods such as Gulp, Grunt, or your own custom at any time.
+    > Keep in mind that Lucky does not lock you in to using webpack.
+    > You can configure other build methods such as Gulp, Grunt, or your own custom at any time.
 
     ## Configuring Webpack
 
@@ -124,6 +125,24 @@ class Guides::Frontend::AssetHandling < GuideAction
     asset changes, the fingerprint changes and the browser will use the new version.
 
     Make sure to use the `asset` macro to get fingerprinted assets.
+
+    ## Asset host
+
+    Once your app is in production, you may want to serve up your assets through a
+    [CDN](https://en.wikipedia.org/wiki/Content_delivery_network). To specify a different
+    host, you'll use the `asset_host` option in `config/server.cr`.
+
+    ```crystal
+    # config/server.cr
+    Lucky::Server.configure do |settings|
+      if Lucky::Env.production?
+        settings.asset_host = "https://mycdnhost.com"
+      else
+        # Serve up assets locally in development
+        settings.asset_host = ""
+      end
+    end
+    ```
 
     ## Deploying to production
 

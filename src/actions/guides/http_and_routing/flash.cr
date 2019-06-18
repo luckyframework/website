@@ -28,7 +28,7 @@ class Guides::HttpAndRouting::Flash < GuideAction
 
     These will be rendered by the flash component in
     `src/components/shared/flash_messages.cr`. The flash component is called from
-    your `MainLayout` and `GuestLayout` (found in `src/pages/`) by the
+    your `MainLayout` and `AuthLayout` (found in `src/pages/`) by the
     `render_flash` method.
 
     You can modify the layout or the component to add HTML classes, change where

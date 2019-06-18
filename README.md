@@ -1,20 +1,13 @@
-# Redo of Lucky's website
+# Lucky's New Website
 
-* Add a blog
-* Screencasts (migrate from crystalmastery.io and add Lucky ones too)
-* Redo guides (see below)
-* Responsive
+### Future guide goals
 
-### Guide goals
-
-* Responsive
-* Examples for each section. Lots of examples
+* Add screencasts
 * *Versioned*. Look at old ones, or even look at what's on master
 * Link to relevant screencasts
-* Link to relevant examples
 * Helpful or not button
-	* If not, direct to Gitter to get help
-* Check code snippets in real projects. More confidence code samples work
+  * If not, direct to Gitter to get help
+* Check code snippets in real projects. More confidence code samples work.
 
 ## Setting up the project
 
