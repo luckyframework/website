@@ -11,24 +11,32 @@ class Guides::Database::Migrations < GuideAction
 
     ### Introduction
 
-    You can think of migrations like version control for your database. These are classes that are scoped with a timestamp to allow you to update your database in versions as well as undo changes that you've made previously while keeping track of the order you made them in.
+    You can think of migrations like version control for your database.
+    These are classes that are scoped with a timestamp to allow you to update your database
+    in versions as well as undo changes that you've made previously.
 
-    ### Generating a new one
+    ### Generating a new migration
 
-    To create a new migration, run the `lucky gen.migration {PurposeOfMigration}`. (e.g. If you need to add a `name` column to `users`, you would run `lucky gen.migration AddNameToUsers`). This would generate a `db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_name_to_users.cr` file.
+    To create a new migration, run the `lucky gen.migration {PurposeOfMigration}`.
+    (e.g. If you need to add a `name` column to `users`, you would run `lucky gen.migration AddNameToUsers`).
+    This would generate a `db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_name_to_users.cr` file.
 
     > When you generate a new model, a migration file is created for you.
 
     ### Anatomy
 
-    A new migration file will always start with a timestamp. This is to keep the order in which they are ran. You may have a migration that adds a column, and then a year later, another one that removes that column. You want to run these in the correct order.
+    A new migration file name will always start with a timestamp. This is to keep the order
+    in which they are ran. You may have a migration that adds a column, and then a year later,
+    another one that removes that column. You want to run these in the correct order.
 
     In that file, you'll find two methods `migrate`, and `rollback`.
 
-    * migrate - Use this method to create your migration code.
-    * rollback - This method should un-do everything the `migrate` method does.
+    * migrate - This method runs your new SQL when moving forward (migrating).
+    * rollback - This method should undo everything the `migrate` method does.
 
-    > The `rollback` method should do the opposite of `migrate` in reverse order. (e.g. If `migrate` adds a column, then adds an index for that column, `rollback` should remove the index first, then remove the column.)
+    > The `rollback` method should do the opposite of `migrate` in reverse order.
+    > (e.g. If `migrate` adds a column, then adds an index for that column, `rollback` should
+    > remove the index first, then remove the column.)
 
     ### DB Tasks
 
@@ -42,7 +50,9 @@ class Guides::Database::Migrations < GuideAction
 
     ## Create table
 
-    Use the `create` method for creating a table. You will place all of the table definitions inside of the `create` block. By default, Lucky will generate 3 columns for you with this: `id : Int32`, `created_at : Time`, and `updated_at : Time`.
+    Use the `create` method for creating a table. You will place all of the table definitions
+    inside of the `create` block. By default, Lucky will generate 3 columns for you with this:
+    `id : Int32`, `created_at : Time`, and `updated_at : Time`.
 
     ```crystal
     def migrate
@@ -52,7 +62,8 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    Optionally, if you need your `id` column to be of type `UUID`, you can specify the `primary_key_type: :uuid` option.
+    Optionally, if you need your `id` column to be of type `UUID`, you can specify the
+    `primary_key_type: :uuid` option.
 
     ```crystal
     def migrate
@@ -62,7 +73,7 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    > Be sure to update your model with `primary_key_type: :uuid` as well.
+    > If you do this, be sure to update your model with `primary_key_type: :uuid` as well.
 
     ## Drop table
 
@@ -78,7 +89,8 @@ class Guides::Database::Migrations < GuideAction
 
     ## Alter table
 
-    If your table exists, but you need to make changes to it, use the `alter` method. All of your changes will go in the `alter` block.
+    If your table exists, and you need to make changes to *this* table, use the `alter` method.
+    All of your changes will go in the `alter` block.
 
     ```crystal
     def migrate
@@ -90,13 +102,20 @@ class Guides::Database::Migrations < GuideAction
 
     ## Add column
 
-    To add a new column, you'll use the `add` method inside of a `[create](#create-table)` block.
+    To add a new column, you'll use the `add` method inside of a `[create](#create-table)`
+    or `[alter](#alter-table)` block.
 
     ```crystal
     create :users do
       add email : String
       add birthdate : Time
-      add login_count : Int32
+      add login_count : Int32, default: 0
+    end
+    ```
+
+    ```crystal
+    alter :users do
+      add last_known_ip : String?
     end
     ```
 
@@ -128,6 +147,17 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
+
+    If your column is required, you will need to set a default value on all records otherwise you'll have errors.
+
+    ```crystal
+    alter :users do
+      add active : Bool, default: true, fill_existing_with: true
+      add otp_code : String, fill_existing_with: my_custom_otp_code_generator
+    end
+    ```
+
     ## Remove column
 
     The `remove` method must go in the `[alter](#alter-table)` block.
@@ -141,7 +171,8 @@ class Guides::Database::Migrations < GuideAction
 
     ## Add index
 
-    The easiest way is to add the `index: true` option on the `add` method. However, if you're adding indicies after the table is created, you can use the `create_index` method.
+    The easiest way is to add the `index: true` option on the `add` method.
+    However, if you're adding indicies after the table is created, you can use the `create_index` method.
 
     ```crystal
     def migrate
@@ -161,7 +192,10 @@ class Guides::Database::Migrations < GuideAction
 
     ## Associations
 
-    If your tables have a one-to-many or a many-to-many relation, you can use these methods to create a foreign key constraint, or remove that constraint from your tables.
+    If your tables have a one-to-many or a many-to-many relation, you can use these
+    methods to create a foreign key constraint, or remove that constraint from your tables.
+
+    [Learn more about associations with models](#{Guides::Database::Models.path})
 
     ### Add belongs_to
 
@@ -180,9 +214,14 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    You must include the `on_delete` option which can be one of `:cascade`, `:restrict`, `:nullify`, or `:do_nothing`.
+    You must include the `on_delete` option which can be one of
+    * `:cascade` - if the parent (i.e. `User`) is deleted, then also delete the associated records in this table (i.e. `comments`)
+    * `:restrict` - if the parent is deleted, and there are associated records, then restrict the parent (i.e. `User`) from being deleted.
+    * `:nullify` - if the parent is deleted, it should nullify the foreign key for all associated records. This should only be used if the `belongs_to` is optional.
+    * `:do_nothing` - just do nothing.
 
-    If the foreign key is `UUID`, you will need to specify the `foreign_key_type` option so the proper type is added.
+    If the foreign key is `UUID`, you will need to specify the `foreign_key_type` option
+    so the proper type is added.
 
     ```crystal
     def migrate

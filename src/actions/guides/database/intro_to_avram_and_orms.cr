@@ -58,7 +58,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
 
     Unlike the other files which live in your app's `src/` folder, these are located in the `db/migrations/` folder.
 
-    [Learn more about migrations](#{Guides::Database::ManagingAndMigrating.path})
+    [Learn more about migrations](#{Guides::Database::Migrations.path})
 
     ## Boxes
 
