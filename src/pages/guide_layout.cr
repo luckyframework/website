@@ -37,14 +37,17 @@ abstract class GuideLayout
 
   def guide_content
     div class: "flex container mx-auto" do
-      div class: "mb-24 px-5 md:px-0 md:pl-sidebar markdown-content container" do
+      # Must be a section for Algolia docsearch to index it
+      #
+      # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
+      section class: "mb-24 px-5 md:px-0 md:pl-sidebar markdown-content container" do
         content
       end
     end
   end
 
   def table_of_contents
-    div class: "hidden md:block mt-5 pl-sidebar" do
+    div class: "hidden md:block mt-5 pl-sidebar #{algolia_docsearch_class}" do
       h1 @title, class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
       ul class: "list-reset text-shadow text-lg mb-4 #{guide_sections.size > 6 && "split-columns"}" do
         guide_sections.each do |section|
@@ -57,6 +60,13 @@ abstract class GuideLayout
         end
       end
     end
+  end
+
+  # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
+  #
+  # Algolia looks for an h1 in this class to figure out the top level heading
+  private def algolia_docsearch_class : String
+    "page-intro"
   end
 
   def guide_sections

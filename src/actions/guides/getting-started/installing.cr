@@ -17,7 +17,7 @@ class Guides::GettingStarted::Installing < GuideAction
       [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
       [forego](https://github.com/ddollar/forego#installation),
       or [foreman](https://github.com/ddollar/foreman#installation).
-    * [Crystal v0.28](https://crystal-lang.org/docs/installation/)
+    * [Crystal v0.29](https://crystal-lang.org/reference/installation/)
     * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
     ### Debian and Fedora dependencies
@@ -53,11 +53,11 @@ class Guides::GettingStarted::Installing < GuideAction
 
     * `git clone` the CLI repo at https://github.com/luckyframework/lucky_cli
     * cd into the newly cloned directory
-    * Check out latest [released version](https://github.com/luckyframework/lucky_cli/releases) `git checkout v0.13.2`
+    * Check out latest [released version](https://github.com/luckyframework/lucky_cli/releases) `git checkout #{LuckyCliVersion.current_tag}`
     * Run `shards install`
     * Run `crystal build src/lucky.cr`
     * Move the generated `lucky` binary to your path. Most of the time you can move
-      it to `/usr/local/bin` and it should work.
+      it to `/usr/local/bin` and it should work: `mv lucky /usr/local/bin`.
 
     If you needed different steps, please help contribute to this section by
     [editing this page on GitHub](https://github.com/luckyframework/website/blob/master/source/guides/installing.html.md.erb).
