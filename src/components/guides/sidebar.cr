@@ -41,7 +41,7 @@ class Guides::Sidebar < BaseComponent
     GuideCategory.new("Database", [
       Guides::Database::IntroToAvramAndORMs,
       Guides::Database::DatabaseSetup,
-      Guides::Database::ManagingAndMigrating,
+      Guides::Database::Migrations,
       Guides::Database::Models,
       Guides::Database::Querying,
       Guides::Database::ValidatingSavingDeleting,
