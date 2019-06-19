@@ -1,5 +1,6 @@
 class Guides::Database::Models < GuideAction
   ANCHOR_SETTING_UP_A_MODEL = "perma-setting-up-a-model"
+  ANCHOR_MODEL_ASSOCIATIONS = "perma-model-associations"
   guide_route "/database/models"
 
   def self.title
@@ -10,20 +11,28 @@ class Guides::Database::Models < GuideAction
     <<-MD
     ## Introduction
 
-    A Model is an object used to map a corresponding database table to a class. These objects model real-world objects to give you a better understanding on how they should interact within your application.
+    A Model is an object used to map a corresponding database table to a class.
+    These objects model real-world objects to give you a better understanding on
+    how they should interact within your application.
 
-    Models in Lucky allow you to define methods associated with each column in the table. These methods return the value set in that column.
+    Models in Lucky allow you to define methods associated with each column in the table.
+    These methods return the value set in that column.
+
+    Avram models also generate other classes you can use to save new records, and
+    query existing ones.
 
     ## Generate a model
 
-    Lucky gives you a task for generating a model along with several other files that you will need for interacting with your database.
+    Lucky gives you a task for generating a model along with several other files that you
+    will need for interacting with your database.
 
-    Use the `lucky gen.model {ModelName}` task to generate your model. If you're generating a `User` model, you would run `lucky gen.model User`. Running this will generate a few files for you.
+    Use the `lucky gen.model {ModelName}` task to generate your model. If you're generating a
+    `User` model, you would run `lucky gen.model User`. Running this will generate a few files for you.
 
     * [User model](##{ANCHOR_SETTING_UP_A_MODEL}) - Located in `./src/models/user.cr`
     * [User form](#{Guides::Database::ValidatingSavingDeleting.path}) - Located in `./src/forms/user_form.cr`
     * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
-    * [User migration](#{Guides::Database::ManagingAndMigrating.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
+    * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
     #{permalink(ANCHOR_SETTING_UP_A_MODEL)}
     ## Setting up a model
@@ -34,13 +43,17 @@ class Guides::Database::Models < GuideAction
     # src/models/user.cr
     class User < BaseModel
       table :users do
-        # You will define columns here
+        # You will define columns here. For example:
+        # column name : String
       end
     end
     ```
 
-    Your model will inherit from `BaseModel` which is just an abstract class. You can use this to define methods all of your models should have access to.
-    Next you'll see the `table` block that defines which table this model is connected to. If your table defined the primary key column as `UUID`, you'll need to add the `primary_key_type` option here as well.
+    Your model will inherit from `BaseModel` which is just an abstract class. You can use
+    this to define methods all of your models should have access to.
+    Next you'll see the `table` block that defines which table this model is connected to.
+    If your table defined the primary key column as `UUID`, you'll need to add the `primary_key_type`
+    option here as well.
 
     ```crystal
     # src/models/user.cr
@@ -71,6 +84,7 @@ class Guides::Database::Models < GuideAction
     table :users do
       column email : String
       column active : Bool
+      # This column can be `nil` because the type ends in `?`
       column ip_address : String?
       column last_active_at : Time
     end
@@ -88,11 +102,15 @@ class Guides::Database::Models < GuideAction
     * `Time` - `timestamptz` column type.
     * `UUID` - `uuid` column type.
 
-    Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`. This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an `int` or `NULL` value).
+    Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`.
+    This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an
+    `int` or `NULL` value).
 
+    #{permalink(ANCHOR_MODEL_ASSOCIATIONS)}
     ## Model associations
 
-    In a [RDBMS](https://en.wikipedia.org/wiki/Relational_database) you may have tables that are related to each other. With Avram, we can associate two models to make some common queries a lot more simple.
+    In a [RDBMS](https://en.wikipedia.org/wiki/Relational_database) you may have tables that are
+    related to each other. With Avram, we can associate two models to make some common queries a lot more simple.
 
     All associations will be defined in the `table` block. You can use `has_one`, `has_many`, and `belongs_to`.
 
@@ -113,7 +131,8 @@ class Guides::Database::Models < GuideAction
 
     ## Belongs to
 
-    A `belongs_to` will assume you have a foreign key column related to the other model defined as `{model_name}_id`.
+    A `belongs_to` will assume you have a foreign key column related to the other model defined
+    as `{model_name}_id`.
 
     ```crystal
     table :users do
@@ -124,7 +143,7 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    > When you create the migration, be sure you've set `[add_belongs_to](#{Guides::Database::ManagingAndMigrating.path})`.
+    > When you create the migration, be sure you've set [add_belongs_to](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}).
 
     You can preload these associations in your queries, and return the associated model.
 
@@ -137,7 +156,7 @@ class Guides::Database::Models < GuideAction
 
     Sometimes associations are not required. To do that add a `?` to the end of the type.
 
-     ```crystal
+    ```crystal
     belongs_to company : Company?
     ```
 
@@ -151,6 +170,14 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
+    This would match up with the `Supervisor` having `belongs_to`.
+
+    ```crystal
+    table :supervisors do
+      belongs_to user : User
+    end
+    ```
+
     ## Has many (one to many)
 
     ```crystal
@@ -159,7 +186,8 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    > The name of the association should be the plural version of the model's name, and the type is the model. (e.g. `Task` model, `tasks` association)
+    > The name of the association should be the plural version of the model's name, and the type
+    > is the model. (e.g. `Task` model, `tasks` association)
 
     ## Has many through (many to many)
 
@@ -175,6 +203,7 @@ class Guides::Database::Models < GuideAction
         belongs_to post : Post
       end
     end
+
     class Tag < BaseModel
       table :tags do
         column name : String
@@ -182,6 +211,7 @@ class Guides::Database::Models < GuideAction
         has_many posts : Post, through: :taggings
       end
     end
+
     class Post < BaseModel
       table :posts do
         column title : String
@@ -191,7 +221,8 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    > The associations *must* be declared on both ends (the Post and the Tag in this example), otherwise you will get a compile time error
+    > The associations *must* be declared on both ends (the Post and the Tag in this example),
+    > otherwise you will get a compile time error
     MD
   end
 end

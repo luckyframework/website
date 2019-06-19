@@ -1,4 +1,5 @@
 class Guides::Database::Migrations < GuideAction
+  ANCHOR_ASSOCIATIONS = "perma-associations"
   guide_route "/database/migrations"
 
   def self.title
@@ -190,12 +191,13 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_ASSOCIATIONS)}
     ## Associations
 
     If your tables have a one-to-many or a many-to-many relation, you can use these
     methods to create a foreign key constraint, or remove that constraint from your tables.
 
-    [Learn more about associations with models](#{Guides::Database::Models.path})
+    [Learn more about associations with models](#{Guides::Database::Models.path(anchor: Guides::Database::Models::ANCHOR_MODEL_ASSOCIATIONS)})
 
     ### Add belongs_to
 
