@@ -2,11 +2,11 @@ version: 1.0
 shards:
   authentic:
     github: luckyframework/authentic
-    version: 0.3.0
+    commit: eedb7b605e65eded42ad09a7f994c187e29d3b21
 
   avram:
     github: luckyframework/avram
-    version: 0.10.0
+    commit: 5d7a5090d37a702ff7b7f5b59fb602e4d29dc6e5
 
   blank:
     github: kostya/blank
@@ -50,7 +50,7 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    version: 0.15.1
+    commit: 250cfd442c5a29dec3687bf746ce5f446080231f
 
   lucky_cli:
     github: luckyframework/lucky_cli
@@ -58,7 +58,7 @@ shards:
 
   lucky_flow:
     github: luckyframework/lucky_flow
-    version: 0.4.1
+    commit: a8b3158e0dfe0316f513bf09a36e8b967d18756f
 
   lucky_router:
     github: luckyframework/lucky_router
