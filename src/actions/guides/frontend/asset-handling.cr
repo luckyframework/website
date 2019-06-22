@@ -133,12 +133,12 @@ class Guides::Frontend::AssetHandling < GuideAction
     host, you'll use the `asset_host` option in `config/server.cr`.
 
     ```crystal
-    # config/server.cr
+    # In config/server.cr
     Lucky::Server.configure do |settings|
       if Lucky::Env.production?
         settings.asset_host = "https://mycdnhost.com"
       else
-        # Serve up assets locally in development
+        # Serve up assets locally in development and test
         settings.asset_host = ""
       end
     end
