@@ -347,11 +347,22 @@ class Guides::Database::Querying < GuideAction
     When you have a model that is associated to another, your association is a method you can use
     to return those records.
 
+    ### Associations
+
+    Each association defined on your model will have a method that takes a block, and passed in the
+    query for that association.
+
+    You can use this to help refine your association.
+
     ```crystal
-    UserQuery.new.join_tasks.tasks.map(&.title)
+    UserQuery.new.join_taks.tasks { |task_query|
+      # WHERE tasks.title = 'Clean up notes'
+      task_query.title("Clean up notes")
+    }
     ```
 
-    > `UserQuery` has a `tasks` method because the `User` model `has_many tasks` which returns `Array(Task)`.
+    > Note this example shows the `has_many`, but all associations including `has_one`, and `belongs_to`
+    > take a block in the same format.
 
     ### Inner joins
 
@@ -447,6 +458,28 @@ class Guides::Database::Querying < GuideAction
 
     UserQuery.new.adults.search("Sal")
     ```
+
+    ### Using with associations
+
+    ```crystal
+    class UserQuery < Uery::BaseQuery
+      def recently_completed_admin_tasks
+        admin(true)
+          .join_tasks
+          .tasks { |task_query|
+            task_query
+              .completed(true)
+              .updated_at.gte(1.day.ago)
+          }
+      end
+    end
+
+    # Then to use it
+    UserQuery.new.recently_completed_admin_tasks
+    ```
+
+    > Since associations take a block, you can also use [Short one-argument syntax](https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html#short-one-argument-syntax).
+    > (e.g. `tasks(&.completed(true).updated_at.get(1.day.ago))`)
 
     ## Deleting Records
 
