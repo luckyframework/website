@@ -344,6 +344,15 @@ class Guides::Database::Querying < GuideAction
 
     ## Associations and Joins
 
+    When you have a model that is associated to another, your association is a method you can use
+    to return those records.
+
+    ```crystal
+    UserQuery.new.join_tasks.tasks.map(&.title)
+    ```
+
+    > `UserQuery` has a `tasks` method because the `User` model `has_many tasks` which returns `Array(Task)`.
+
     ### Inner joins
 
     `SELECT COLUMNS FROM users INNER JOIN tasks ON users.id = tasks.user_id`
