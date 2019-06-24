@@ -1,6 +1,7 @@
 class Guides::Database::Models < GuideAction
   ANCHOR_SETTING_UP_A_MODEL = "perma-setting-up-a-model"
   ANCHOR_MODEL_ASSOCIATIONS = "perma-model-associations"
+  ANCHOR_GENERATE_A_MODEL = "perma-generate-a-model"
   guide_route "/database/models"
 
   def self.title
@@ -21,6 +22,7 @@ class Guides::Database::Models < GuideAction
     Avram models also generate other classes you can use to save new records, and
     query existing ones.
 
+    #{permalink(ANCHOR_GENERATE_A_MODEL)}
     ## Generate a model
 
     Lucky gives you a task for generating a model along with several other files that you
