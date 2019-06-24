@@ -492,7 +492,7 @@ class Guides::Database::Querying < GuideAction
     instance of the model, you can just call `delete` on that record.
 
     ```crystal
-    user = User.find(4)
+    user = UserQuery.find(4)
 
     # DELETE FROM users WHERE users.id = 4
     user.delete
