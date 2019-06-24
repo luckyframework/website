@@ -192,7 +192,7 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.not.eq("Billy")
     ```
 
-    > The `not` method can be used to negate other methods like `eq`, `gt`, `lt`, `in`.
+    > The `not` method can be used to negate other methods like `eq`, `gt`, `lt`, and `in`.
 
     ### A gt/lt B
 
@@ -361,8 +361,11 @@ class Guides::Database::Querying < GuideAction
     }
     ```
 
-    > Note this example shows the `has_many`, but all associations including `has_one`, and `belongs_to`
-    > take a block in the same format.
+    This will return all users who have a task with a title "Clean up notes". You can continue to scope
+    this on both the `User` and `Task` side.
+
+    > This example shows the `has_many` association, but all associations including `has_one`, and
+    > `belongs_to` take a block in the same format.
 
     ### Inner joins
 
@@ -389,8 +392,8 @@ class Guides::Database::Querying < GuideAction
     association, a runtime error will be raised when you try to access it. In production, the association will
     be lazy loaded so that users do not see errors.
 
-    This solution means you will find N+1 queries in development and test, and users will never see an error
-    in production.
+    This solution means you will find N+1 queries as you develop instead of in productionm and users will never
+    see an error.
 
     To preload, just call `preload_{association name}` on the query:
 
