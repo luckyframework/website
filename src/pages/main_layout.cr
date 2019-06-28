@@ -9,14 +9,14 @@ abstract class MainLayout
   # Add a `page_title` method to pages to override it. You can also remove
   # This method so every page is required to have its own page title.
   def page_title
-    "Welcome"
+    "Web framework for Crystal"
   end
 
   def render
     html_doctype
 
     html lang: "en" do
-      mount Shared::LayoutHead.new(page_title: page_title, context: @context)
+      mount Shared::LayoutHead.new(seo: SEO.new(page_title), context: @context)
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
         mount Shared::Header.new(@context.request)
