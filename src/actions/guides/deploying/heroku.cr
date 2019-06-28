@@ -141,12 +141,10 @@ class Guides::Deploying::Heroku < GuideAction
     we can set the `SECRET_KEY_BASE` environment variable with that key:
 
     ```bash
-    $ lucky gen.secret_key
-    <GENERATED_SECRET_KEY>
-    $ heroku config:set SECRET_KEY_BASE=<GENERATED_SECRET_KEY>
+    $ heroku config:set SECRET_KEY_BASE=$(lucky gen.secret_key)
     ```
 
-    ### `SEND_GRID_KEY` (optional)
+    ### `SEND_GRID_KEY` (set to "unused" if not sending emails)
 
     If you are sending emails, you'll need to sign up for an account and get an
     API key from SendGrid.com. Once you have it we can set the `SECRET_KEY_BASE`
@@ -156,9 +154,11 @@ class Guides::Deploying::Heroku < GuideAction
     $ heroku config:set SEND_GRID_KEY=<KEY>
     ```
 
-    If you don't need to send emails, you'll need to change the config in
-    `config/email.cr` to use the `Carbon::DevAdapter`. When you open the file there
-    will be comments showing you what to do.
+    If you don't need to send emails you can set the value to `unused`.
+    
+    Alternatively, you can change the config in `config/email.cr` to use the
+    `Carbon::DevAdapter`. When you open the file there
+    will be comments showing you how to do this.
 
     ## Adding a database
 
