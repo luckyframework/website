@@ -54,6 +54,11 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ever again. If you forget, the compiler will tell you that you’re missing
     something.
 
+    ## Converting HTML to Lucky
+
+    If you need to convert HTML markup to the Lucky format, you can use the
+    [HTML to Lucky converter](#{ConvertHtmlToLucky::Index.path}) tool.
+
     ## Rendering HTML in our page
 
     We then wrote a `content` method in our class to render our HTML. The

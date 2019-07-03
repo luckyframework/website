@@ -68,6 +68,10 @@ shards:
     github: icyleaf/markd
     version: 0.1.1
 
+  myhtml:
+    github: kostya/myhtml
+    version: 1.3.0
+
   optarg:
     github: mosop/optarg
     version: 0.5.8
