@@ -117,7 +117,7 @@ class Guides::Authentication::Show < GuideAction
     * If you remove `needs current_user` because the layout is *only for signed
       out users* then remember to include `Auth::RedirectIfSignedIn` in your actions
       so that the `current_user` is not exposed to the page. If the layout is for users
-      that may or may not be signed in then include `Auth::SkipRequireSignIn` in
+      that may or may not be signed in then include `Auth::AllowGuests` in
       the actions that do not require sign in.
     MD
   end
