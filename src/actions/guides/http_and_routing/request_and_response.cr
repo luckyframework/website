@@ -11,10 +11,10 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     <<-MD
     ## Handling Requests
 
-    When a request comes in to an Action, Lucky gives you access to the request object through the `request` method.
+    When a request for a route path triggers an action, the action has access to the request object through a `request` method.
     > The `request` object is an instance of [HTTP::Request](https://crystal-lang.org/api/HTTP/Request.html).
 
-    Lucky gives you access to a few helpful methods based on the request Content-Type.
+    Lucky also provides access to a some helpful methods to determine the requested Content-Type.
 
     * `json?` - true if the Content-Type header is "application/json"
     * `ajax?` - true if the X-Requested-With header is "XMLHttpRequest"
@@ -22,11 +22,11 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `xml?` - true if the Content-Type header is "application/xml" or "application/xhtml+xml"
     * `plain?` - true if the Content-Type header is "text/plain"
 
-    You can use these methods to help direct the request or return different responses.
+    You can use these methods to direct the request or return different responses.
 
     ```crystal
     class Users::Show < BrowserAction
-      route do
+      action do
         if json?
           # The Content-Type is a json request, so let's return some json
           json(Users::ShowSerializer.new(current_user))
@@ -44,7 +44,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Dashboard::Index < BrowserAction
-      route do
+      action do
         remote_ip = headers["X-Forwarded-For"]?
         if remote_ip
           text "The remote IP is \#{remote_ip}"
@@ -58,7 +58,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
 
-    Once you've recieved your request, and handled it, you'll need to return a response. Every Lucky::Action requires that a response is returned.
+    Finally, every action is required to return one of the available responses:
 
     * `render` - render a Lucky::HTMLPage
     * `redirect` - redirect the request to another location
