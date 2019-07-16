@@ -14,7 +14,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     When a request for a path triggers an action, the action has access to the request object through a `request` method.
     > The `request` object is an instance of [HTTP::Request](https://crystal-lang.org/api/HTTP/Request.html).
 
-    Lucky also provides access to a some helpful methods to determine the requested Content-Type.
+    Lucky also provides access to some helpful methods to determine the requested Content-Type.
 
     * `json?` - true if the Content-Type header is "application/json"
     * `ajax?` - true if the X-Requested-With header is "XMLHttpRequest"
