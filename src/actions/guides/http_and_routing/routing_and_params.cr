@@ -18,11 +18,11 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     Unlike many frameworks, there is no separate route definition file.
     
-    The name of an action class defines the route that triggers the action by default.
+    The name of an action class defines the route that triggers thist action by default.
     Lucky automatically configures [RESTful routes (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
     
     For example, an action class `Item::Show` defaults to handle `get "/item/:item_id"`, a HTTP GET request to show a specific item.
-    Actions can also be defined for specific request types by using `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
+    The route can also be defined for specific request types by using `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
 
     If you need access to a different method like `options`, you can also use the `match` macro.
 
@@ -42,8 +42,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```crystal
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
-      # GET requests to the /users path are handled by this action
-      action do
+      # The name of this action lets it get triggered
+      # by GET requests for the path "/users"
+      route do
         # `text` sends plain/text to the client
         text "Rendering something in Users::Index"
       end
