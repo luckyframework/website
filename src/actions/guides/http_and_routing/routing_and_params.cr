@@ -16,11 +16,13 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Routing
 
-    Unlike many frameworks, there is no separate routes file. An action declares
-    which route it handles in the class itself.
-
-    You can route to an action by using `get`, `put`, `post`, `patch`, `trace`, and `delete` macros, or
-    [Lucky can figure it out for you](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
+    Unlike many frameworks, there is no separate route definition file.
+    
+    The name of an action class defines the route that triggers the action by default.
+    Lucky automatically configures [RESTful routes (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
+    
+    For example, an action class `Item::Show` defaults to handle `get "/item/:item_id"`, a HTTP GET request to show a specific item.
+    Actions can also be defined for specific request types by using `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
 
     If you need access to a different method like `options`, you can also use the `match` macro.
 
@@ -41,9 +43,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
       # GET requests to the /users path are handled by this action
-      route do
+      action do
         # `text` sends plain/text to the client
-        text "Render something in Users::Index"
+        text "Rendering something in Users::Index"
       end
     end
     ```
@@ -85,8 +87,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Path parameters
 
-    Sometimes you want to name certain parts of the path and access them as parameters.
-
+    When defining an explicit path, you may mark certain parts of the path for later access as parameters.
+    Sections of the path that start with `:` will generate a method returning that param in your action.
     ```crystal
     # src/actions/users/show.cr
     class Users::Show < BrowserAction
@@ -95,14 +97,11 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       end
     end
     ```
-
-    When you start a section of the path with `:` it will generate method for
-    that param in your action.
-
     In this case anything you pass in the part of the URL for `:my_user_id` will
     be available in the `my_user_id` method. So in this example if you visited
     `/users/123` then the `my_user_id` would return a text response of `User with
     an id of 123`.
+
 
     ### You can use as many parameters as you want
 
