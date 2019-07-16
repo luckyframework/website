@@ -109,7 +109,11 @@ abstract class MainLayout
     If this sounds interesting, [let's get started](#{Guides::GettingStarted::Installing.path}).
 
     ## What does Lucky look like?
-
+    
+    Separate action classes define routing paths, and allow overriding both, the default for the route and the response.
+    
+    Using classes allows for [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing) automatic error detection, method and helper creation.
+    
     ### JSON API
 
     ```crystal
