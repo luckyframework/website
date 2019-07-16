@@ -88,20 +88,19 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Path parameters
 
-    When defining an explicit path, you may mark certain parts of the path for later access as parameters.
-    Sections of the path that start with `:` will generate a method returning that param in your action.
+    When defining an explicit path, you may mark certain parts of the path, to have them available later.
+    Sections of the path that start with a `:` will generate a method that returns that param in the action.
     ```crystal
     # src/actions/users/show.cr
     class Users::Show < BrowserAction
       get "/users/:my_user_id" do
-        text "User with an id of \#{my_user_id}"
+        text "User has id \#{my_user_id}"
       end
     end
     ```
     In this case anything you pass in the part of the URL for `:my_user_id` will
     be available in the `my_user_id` method. So in this example if you visited
-    `/users/123` then the `my_user_id` would return a text response of `User with
-    an id of 123`.
+    `/users/123` then the `my_user_id` would return a text response of `User has id 123`.
 
 
     ### You can use as many parameters as you want
