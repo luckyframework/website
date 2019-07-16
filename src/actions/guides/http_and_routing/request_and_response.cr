@@ -11,7 +11,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     <<-MD
     ## Handling Requests
 
-    When a request for a route path triggers an action, the action has access to the request object through a `request` method.
+    When a request for a path triggers an action, the action has access to the request object through a `request` method.
     > The `request` object is an instance of [HTTP::Request](https://crystal-lang.org/api/HTTP/Request.html).
 
     Lucky also provides access to a some helpful methods to determine the requested Content-Type.
@@ -26,7 +26,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Users::Show < BrowserAction
-      action do
+      route do
         if json?
           # The Content-Type is a json request, so let's return some json
           json(Users::ShowSerializer.new(current_user))
@@ -44,7 +44,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Dashboard::Index < BrowserAction
-      action do
+      route do
         remote_ip = headers["X-Forwarded-For"]?
         if remote_ip
           text "The remote IP is \#{remote_ip}"
