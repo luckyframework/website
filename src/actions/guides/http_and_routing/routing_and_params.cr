@@ -16,10 +16,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Routing
 
-    Unlike many frameworks, there is no separate route definition file.
+    Unlike many frameworks, Lucky has no separate definition file for routes.
 
-    And Lucky can automatically infer [RESTful routes (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}),
-    based on the name of the class.
+    And Lucky can automatically infer the route path if the name of the class ends with one of the known [RESTful actions (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
     
     For example, an action named `Item::Show` defaults to handle `get "/item/:item_id"`,
     a HTTP GET request to show a specific item.
