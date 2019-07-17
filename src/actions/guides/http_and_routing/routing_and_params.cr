@@ -17,19 +17,25 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ## Routing
 
     Unlike many frameworks, there is no separate route definition file.
-    
-    The name of an action class defines the route that triggers that action by default.
-    Lucky automatically configures [RESTful routes (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
-    
-    For example, an action class `Item::Show` defaults to handle `get "/item/:item_id"`, a HTTP GET request to show a specific item.
-    The route can also be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
 
-    If you need access to a different method like `options`, you can also use the `match` macro.
+    And Lucky can automatically infer [RESTful routes (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}),
+    based on the name of the class.
+    
+    For example, an action named `Item::Show` defaults to handle `get "/item/:item_id"`,
+    a HTTP GET request to show a specific item.
+    Executing `lucky gen.action Item::Show` will create the action with this default route.
+    
+    The macros `route` and `nested-route` do also still automatically imply these default route paths,
+    however, their depreciation is [discussed](https://github.com/luckyframework/lucky/issues/789). 
+    
+    Explicit routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
+    
+    If you need access to still different methods like `options`, you can use the `match` macro.
 
     ```crystal
     # src/actions/profile/show.cr
     class Profile::Show < BrowserAction
-      # Will respond to an `HTTP OPTIONS` request.
+      # Respond to an `HTTP OPTIONS` request
       match :options, "/profile" do
         # action code here
       end
