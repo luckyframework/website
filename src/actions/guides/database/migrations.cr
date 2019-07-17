@@ -166,7 +166,7 @@ class Guides::Database::Migrations < GuideAction
     If a static value will not work, try this:
     
     * If you have not yet released the app, consider using `fill_existing_with: :nothing`
-      and dropping the database `lucky db.drop` and recreating it `lucky db.create && lucky db.migrate`.
+      and dropping the database `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
     * Consider making the type nilable `add otp_code : String?`, then fill the values with whatever value you need.
       Then later make it required with `make_required :otp_code`
 
