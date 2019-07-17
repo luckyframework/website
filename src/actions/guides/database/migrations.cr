@@ -147,6 +147,8 @@ class Guides::Database::Migrations < GuideAction
       add login_count : Int32, default: 0
     end
     ```
+    
+    ## Using 'fill_existing_with'
 
     When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
 
@@ -155,8 +157,34 @@ class Guides::Database::Migrations < GuideAction
     ```crystal
     alter :users do
       add active : Bool, default: true, fill_existing_with: true
-      add otp_code : String, fill_existing_with: my_custom_otp_code_generator
+      add otp_code : String, fill_existing_with: "fake-otp-code-123"
     end
+    ```
+    
+    > You can also use `fill_existing_with: :nothing` if your table is empty.
+    
+    If a static value will not work, try this:
+    
+    * If you have not yet released the app, consider using `fill_existing_with: :nothing`
+      and dropping the database `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
+    * Consider making the type nilable `add otp_code : String?`, then fill the values with whatever value you need.
+      Then later make it required with `make_required :otp_code`
+    
+    ``` crystal
+    def migrate
+      alter :users do
+        # Add nullable column first
+        add otp_code : String?
+      end
+
+      # Then add values to it
+      UserQuery.new.each do |user|
+        User::BaseForm.udpate!(user, otp_code: CodeGenerator.generate)
+      end
+
+      # Then make it non-nullable
+      make_required :otp_code
+  end
     ```
 
     ## Remove column
