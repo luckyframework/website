@@ -169,6 +169,21 @@ class Guides::Database::Migrations < GuideAction
       and dropping the database `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
     * Consider making the type nilable `add otp_code : String?`, then fill the values with whatever value you need.
       Then later make it required with `make_required :otp_code`
+    
+    ``` crystal
+    alter :users do
+      # Add nullable column first
+      add otp_code : String?
+    end
+    
+    # Then add values to it
+    UserQuery.new.each do |user|
+      User::BaseForm.udpate!(user, otp_code: CodeGenerator.generate)
+    end
+    
+    # Then make it non-nullable
+    make_required :otp_code
+    ```
 
     ## Remove column
 
