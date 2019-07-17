@@ -171,18 +171,20 @@ class Guides::Database::Migrations < GuideAction
       Then later make it required with `make_required :otp_code`
     
     ``` crystal
-    alter :users do
-      # Add nullable column first
-      add otp_code : String?
-    end
-    
-    # Then add values to it
-    UserQuery.new.each do |user|
-      User::BaseForm.udpate!(user, otp_code: CodeGenerator.generate)
-    end
-    
-    # Then make it non-nullable
-    make_required :otp_code
+    def migrate
+      alter :users do
+        # Add nullable column first
+        add otp_code : String?
+      end
+
+      # Then add values to it
+      UserQuery.new.each do |user|
+        User::BaseForm.udpate!(user, otp_code: CodeGenerator.generate)
+      end
+
+      # Then make it non-nullable
+      make_required :otp_code
+  end
     ```
 
     ## Remove column
