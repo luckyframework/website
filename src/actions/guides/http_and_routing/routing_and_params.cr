@@ -22,7 +22,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Lucky automatically configures [RESTful routes (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
     
     For example, an action class `Item::Show` defaults to handle `get "/item/:item_id"`, a HTTP GET request to show a specific item.
-    The route can also be defined for specific request types by using `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
+    The route can also be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
 
     If you need access to a different method like `options`, you can also use the `match` macro.
 
