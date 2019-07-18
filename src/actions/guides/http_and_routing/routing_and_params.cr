@@ -26,7 +26,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     for a specific item, and have the requested item_id available as #{:item_id}.
 
     To see what a simple action looks like, let's generate an index action for showing users with
-    `lucky gen.action.browser Users::Index`:
+    `lucky gen.action.browser Users::Index`.
 
     ```crystal
     class Users::Index < BrowserAction
@@ -179,9 +179,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Namespaces are handled automatically
 
-    You can namespace your actions by creating subfolders like `src/actions/admin/projects/index.cr`.
+    You can namespace your routes by prefixing the class name, e.g. with `Admin::`.
 
     ```crystal
+    # in src/actions/admin/projects/index.cr
     class Admin::Projects::Index < BrowserAction
       # From the name,
       # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
