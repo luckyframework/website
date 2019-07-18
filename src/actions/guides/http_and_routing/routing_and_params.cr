@@ -148,7 +148,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ### `route`
 
     [The macros `route` and `nested_route` do still exist, and automatically imply the default route paths,
-    however, their depreciation is [discussed](https://github.com/luckyframework/lucky/issues/789). Moving
+    however, their deprecation is [discussed](https://github.com/luckyframework/lucky/issues/789). Moving
     the automatic path inference to the generators will make the actions more concrete and directly readable.]
 
     The `route` macro uses the first part of the class name as the resource name,
