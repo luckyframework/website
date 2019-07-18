@@ -110,7 +110,7 @@ abstract class MainLayout
 
     ## What does Lucky look like?
     
-    In Lucky we generate **action classes**, using names that determine inferred default routing path(s).
+    In Lucky we generate **action classes**, from class names that determine inferred default routing path(s).
     The classes then map a routing path definition to a response block.
     
     Using classes allows to provide very [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing) automatic
