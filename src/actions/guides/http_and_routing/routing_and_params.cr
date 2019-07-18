@@ -182,6 +182,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     You can namespace your routes by prefixing the class name, e.g. with `Admin::`.
 
     ```crystal
+    # in src/actions/admin/projects/index.cr
     class Admin::Projects::Index < BrowserAction
       # From the name,
       # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
