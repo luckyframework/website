@@ -26,7 +26,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     for a specific item, and have the requested item_id available as #{:item_id}.
 
     To see what a simple action looks like, let's generate an index action for showing users with
-    `lucky gen.action.browser Users::Index`:
+    `lucky gen.action.browser Users::Index`.
 
     ```crystal
     class Users::Index < BrowserAction
