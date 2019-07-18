@@ -104,6 +104,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Here, any string from the request will be returned by the `some_user_id` method. So in this example if 
     `/users/1-2-foobar` is requested `some_user_id` would return a text response of `Requested user id: 1-2-foobar`.
 
+<details><summary>Matching feature yet to be implemented</summary>
+<p>
     To ensure that the action is only called with an actually existing User::ID the class can be passed
     to the helper in the path definition `get "/users/:user_id(User::ID)"`:
     
@@ -114,6 +116,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       end
     end
     ```
+</p>
+</details>
 
 
     ### You can use as many parameters as you want
@@ -143,7 +147,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### `route`
 
-    [The macros `route` and `nested-route` do still exist, and automatically imply the default route paths,
+    [The macros `route` and `nested_route` do still exist, and automatically imply the default route paths,
     however, their depreciation is [discussed](https://github.com/luckyframework/lucky/issues/789). Moving
     the automatic path inference to the generators will make the actions more concrete and directly readable.]
 
