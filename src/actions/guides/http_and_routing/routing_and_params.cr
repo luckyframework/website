@@ -16,18 +16,29 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Routing
 
-    Unlike many frameworks, Lucky has no separate definition file for routes.
+    Instead of separate definition files for routes and cotrollers, Lucky uses action classes.
+    This allows for solid error detection, and method and helper creation.
 
-    And Lucky can automatically infer the route path if the name of the class ends with one of the known [RESTful actions (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
+    A default route path is automatically inferred from the name of the class, if it ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
     
-    For example, an action named `Item::Show` defaults to handle `get "/item/:item_id"`,
-    a HTTP GET request to show a specific item.
-    Executing `lucky gen.action Item::Show` will create the action with this default route.
+    For example, an `Item::Show` action will by default respond to `get "/item/:item_id"`, a HTTP GET request
+    for a specific item, and have the requested item_id available as #{:item_id}.
+
+    Let's generate an index action for showing users with
+    `lucky gen.action.browser Users::Index`
+    to see what a simple action looks like:
+
+    ```crystal
+    class Users::Index < BrowserAction
+      get "/users/:user_id" do
+        # `text` sends plain/text to the client
+        text "Rendering something in Users::Index"
+      end
+    end
+    ```
     
-    The macros `route` and `nested-route` do also still automatically imply these default route paths,
-    however, their depreciation is [discussed](https://github.com/luckyframework/lucky/issues/789). 
     
-    Explicit routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
+    Routes can be defined manually for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
     
     If you need access to still different methods like `options`, you can use the `match` macro.
 
@@ -41,20 +52,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    Let's generate an index action for showing users with `lucky
-    gen.action.browser Users::Index` to see what a simple action looks like:
 
-    ```crystal
-    # src/actions/users/index.cr
-    class Users::Index < BrowserAction
-      # The name of this action lets it respond to
-      # GET requests for the path "/users" by default.
-      route do
-        # `text` sends plain/text to the client
-        text "Rendering something in Users::Index"
-      end
-    end
-    ```
 
     > Note `lucky gen.action.browser` is used to create actions that should be
     shown in a browser. You can also use `lucky gen.action.api` for actions meant
@@ -93,19 +91,30 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Path parameters
 
-    When defining an explicit path, you may mark certain parts of the path, to have them available later.
-    Sections of the path that start with a `:` will generate a method that returns that param in the action.
+    When defining an explicit path, you may mark parts of the path with a `:`,
+    to have a method generated that returns that param in the action.
+
     ```crystal
     # src/actions/users/show.cr
     class Users::Show < BrowserAction
-      get "/users/:my_user_id" do
-        text "User has id \#{my_user_id}"
+      get "/users/:some_user_id" do
+        text "Requested user id: \#{some_user_id}"
       end
     end
     ```
-    In this case anything you pass in the part of the URL for `:my_user_id` will
-    be available in the `my_user_id` method. So in this example if you visited
-    `/users/123` then the `my_user_id` would return a text response of `User has id 123`.
+    Here, any string from the request will be returned by the `some_user_id` method. So in this example if 
+    `/users/1-2-foobar` is requested `some_user_id` would return a text response of `Requested user id: 1-2-foobar`.
+
+    To ensure that the action is only called with an actually existing User::ID the class can be passed
+    to the helper in the path definition `get "/users/:user_id(User::ID)"`:
+    
+    ```crystal
+    class Users::Show < BrowserAction
+      get "/users/:user_id(User::ID)" do
+        text "Now \#{user_id} is ensured to be a known user."
+      end
+    end
+    ```
 
 
     ### You can use as many parameters as you want
@@ -135,17 +144,22 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### `route`
 
-    For `route`, it will use the first part of the class name as the resource name,
+    [The macros `route` and `nested-route` do still exist, and automatically imply the default route paths,
+    however, their depreciation is [discussed](https://github.com/luckyframework/lucky/issues/789). Moving
+    the automatic path inference to the generators will make the actions more concrete and directly readable.]
+
+    The `route` macro uses the first part of the class name as the resource name,
     and the second part as one of the resourceful actions listed above.
 
     ```crystal
-    # Users is the resource
-    # Show is the RESTful action
-    class Users::Show < BrowserAction
-      # Same as:
-      #   get "/users/:user_id"
-      route do
-        text "The user with id of \#{user_id}"
+     class Users::Show < BrowserAction
+     # From the name,
+     #   "Users" is the resource, and
+     #   "Show" is the RESTful action.
+ 
+      route do   # The infered route is:  get "/users/:user_id"
+    
+        text "A request was made for the user_id: \#{user_id}"
       end
     end
     ```
@@ -159,13 +173,14 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     name,  and the last part as one of the resourceful actions listed above.
 
     ```crystal
-    # Projects is the parent resource
-    # Users is the nested resource
-    # Index is the RESTful action
     class Projects::Users::Index < BrowserAction
-      # Same as:
-      #   get "/projects/:project_id/users"
-      nested_route do
+      # From the name,
+      #   "Projects" is the parent resource
+      #   "Users" is the nested resource
+      #   "Index" is the RESTful action
+    
+      nested_route do  # The infered route is: get "/projects/:project_id/users"
+    
         text "Render list of users in project \#{project_id}"
       end
     end
@@ -173,16 +188,18 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > Likewise, defining `Projects::Users::Show` would generate both `project_id` and `user_id`.
 
+
     ### Namespaces are handled automatically
 
     You can namespace your actions by creating subfolders like `src/actions/admin/projects/index.cr`.
 
     ```crystal
-    # Anything before the resource (`Projects`) will be treated as a namespace (`Admin`)
     class Admin::Projects::Index < BrowserAction
-      # Same as:
-      #   get "/admin/projects"
-      route do
+      # From the name,
+      # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
+ 
+      route do   # The infered route is: get "/admin/projects"
+    
         text "Render list of projects"
       end
     end
