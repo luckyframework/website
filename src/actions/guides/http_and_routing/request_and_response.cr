@@ -11,7 +11,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     <<-MD
     ## Handling Requests
 
-    When a request for a path triggers an action, the action has access to the request object through a `request` method.
+    When a request for a path calls an action, the action has access to the request object through a `request` method.
     > The `request` object is an instance of [HTTP::Request](https://crystal-lang.org/api/HTTP/Request.html).
 
     Lucky also provides access to some helpful methods to determine the requested Content-Type.
