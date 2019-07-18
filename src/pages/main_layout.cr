@@ -109,7 +109,13 @@ abstract class MainLayout
     If this sounds interesting, [let's get started](#{Guides::GettingStarted::Installing.path}).
 
     ## What does Lucky look like?
-
+    
+    In Lucky we generate separate action classes with names that describe the route.
+    The resulting file maps routing path definitions to a response block.
+    
+    Using classes allows to provide very [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing) automatic
+    error detection, as well as generation of routing, path, and link methods and helpers.
+    
     ### JSON API
 
     ```crystal
