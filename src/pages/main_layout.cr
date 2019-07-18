@@ -110,9 +110,11 @@ abstract class MainLayout
 
     ## What does Lucky look like?
     
-    Separate action classes define routing paths, and allow overriding both, the default for the route and the response.
+    In Lucky we use separate action classes, with names that describe the route,
+    to define the routing paths together with the response.
     
-    Using classes allows for [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing) automatic error detection, method and helper creation.
+    Using classes allows to provide very [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing) automatic
+    error detection, as well as methods and helpers.
     
     ### JSON API
 
