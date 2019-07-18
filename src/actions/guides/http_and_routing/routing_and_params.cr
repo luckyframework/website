@@ -16,17 +16,17 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Routing
 
-    Instead of separate definition files for routes and cotrollers, Lucky uses action classes.
+    Instead of having separate definition files for routes and cotrollers, Lucky combines them in action classes.
     This allows for solid error detection, and method and helper creation.
 
-    A default route path is automatically inferred from the name of the class, if it ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
+    To save some typing, Lucky automatically infers a default route path from the name of the action class,
+    if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
     
-    For example, an `Item::Show` action will by default respond to `get "/item/:item_id"`, a HTTP GET request
+    For example, an action nemed `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
     for a specific item, and have the requested item_id available as #{:item_id}.
 
-    Let's generate an index action for showing users with
-    `lucky gen.action.browser Users::Index`
-    to see what a simple action looks like:
+    To see what a simple action looks like, let's generate an index action for showing users with
+    `lucky gen.action.browser Users::Index`:
 
     ```crystal
     class Users::Index < BrowserAction
@@ -36,9 +36,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       end
     end
     ```
-    
-    
-    Routes can be defined manually for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
+        
+    Routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
     
     If you need access to still different methods like `options`, you can use the `match` macro.
 
@@ -54,16 +53,16 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
 
 
-    > Note `lucky gen.action.browser` is used to create actions that should be
-    shown in a browser. You can also use `lucky gen.action.api` for actions meant
-    to be used for a JSON API.
+    > Note that `lucky gen.action.browser` is used to create actions that should be
+    shown in a browser. Whereas `lucky gen.action.api` is used for actions meant
+    to be used for an API (e.g. JSON).
 
     ### Root page
 
     By default Lucky generates a `Home::Index` action that handles the root path `"/"`.
-    This is the action that shows you the Lucky welcome page when you first run `lucky dev`.
+    This is the action that renders the Lucky welcome page when you first run `lucky dev`.
 
-    Change `Home::Index` to redirect the user to whatever action you want:
+    Change `Home::Index` to redirect to whatever action you want:
 
     ```crystal
     # src/actions/home/index.cr
