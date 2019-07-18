@@ -101,24 +101,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       end
     end
     ```
-    Here, any string from the request will be returned by the `some_user_id` method. So in this example if 
-    `/users/1-2-foobar` is requested `some_user_id` would return a text response of `Requested user id: 1-2-foobar`.
-
-<details><summary>Matching feature yet to be implemented</summary>
-<p>
-    To ensure that the action is only called with an actually existing User::ID the class can be passed
-    to the helper in the path definition `get "/users/:user_id(User::ID)"`:
     
-    ```crystal
-    class Users::Show < BrowserAction
-      get "/users/:user_id(User::ID)" do
-        text "Now \#{user_id} is ensured to be a known user."
-      end
-    end
-    ```
-</p>
-</details>
-
+    Here, the string from the request path will be returned by the `some_user_id` method. So in this example if 
+    `/users/123-foo` is requested `some_user_id` would return a text response of `Requested user id: 123-foo`.
 
     ### You can use as many parameters as you want
 
