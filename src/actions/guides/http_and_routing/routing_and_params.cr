@@ -179,7 +179,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Namespaces are handled automatically
 
-    You can namespace your actions by creating subfolders like `src/actions/admin/projects/index.cr`.
+    You can namespace your routes by prefixing the class name, e.g. with `Admin::`.
 
     ```crystal
     class Admin::Projects::Index < BrowserAction
