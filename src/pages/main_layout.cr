@@ -110,11 +110,11 @@ abstract class MainLayout
 
     ## What does Lucky look like?
 
-    Lucky uses **action classes** for handling HTTP request routes and responses.
+    Lucky uses Action classes for handling HTTP request and responses.
     The classes map the routes and parameters it handles to a response block.
     Lucky can generate these classes for you with 'lucky gen.action`.
 
-    Using a class per action (route+response) allows to provide very [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing)
+    Using a class per action provides very [solid](https://thoughtbot.com/blog/designing-lucky-actions-routing)
     automatic error detection, as well as generation of routing, path, and link helpers and methods.
 
     ### JSON API
