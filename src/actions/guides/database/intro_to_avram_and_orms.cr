@@ -77,23 +77,23 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     * Be sure to include the adapter in your `shard.yml` file
     * Update your `config/database.cr` file with the new adapter's configuration settings
     * Still place your models in the `src/models` directory
-    * `Avram::Repo` needs a `url` setting value, just set the value to something like "noop"
+    * `Avram::Database` needs a `url` setting value, just set the value to something like "unused"
 
     ```crystal
     # config/database.cr
-    Avram::Repo.configure do |settings|
-      settings.url = "noop"
+    Avram::Database.configure do |settings|
+      settings.url = "unused"
     end
 
     MyOtherAdapter.configure do |settings|
-      settings.url = "my"
+      settings.url = "my_other_adapter_url"
     end
     ```
 
     * Place migrations (if necessary) in `db/migrations/`.
     * Boxes, and Queries are specific to Avram Models, but you can still use Forms with a feature called [Virtual Forms](#{Guides::Database::ValidatingSavingDeleting.path}).
 
-    > If your app doesn't need a database, you should still set the `Avram::Repo` configure setting to some non-empty string. Avram Forms can still be quite useful for things like contact forms, or email subscribe forms.
+    > If your app doesn't need a database, you should still set the `Avram::Database` configure setting to some non-empty string. Avram Forms can still be quite useful for things like contact forms, or email subscribe forms.
     MD
   end
 end

@@ -9,10 +9,13 @@ class Guides::Database::RawSql < GuideAction
     <<-MD
     ## Executing Raw SQL
 
-    We can execute raw sql using `Avram::Repo` which gives us direct access to our app's [database instance](http://crystal-lang.github.io/crystal-db/api/latest/DB.html). The result of the query will be a [DB::ResultSet](http://crystal-lang.github.io/crystal-db/api/latest/DB/ResultSet.html) which we will later map to classes that can be easily used in our app.
+    We can execute raw sql using `Avram::Database` which gives us direct access to our app's
+    [database instance](http://crystal-lang.github.io/crystal-db/api/latest/DB.html). The result
+    of the query will be a [DB::ResultSet](http://crystal-lang.github.io/crystal-db/api/latest/DB/ResultSet.html)
+    which we will later map to classes that can be easily used in our app.
 
     ```crystal
-    posts_result_set = Avram::Repo.run do |db|
+    posts_result_set = Avram::Database.run do |db|
       db.query_all "SELECT * FROM posts;"
     end
     ```
@@ -68,7 +71,7 @@ class Guides::Database::RawSql < GuideAction
     Now we can make our query and instantiate `ComplexPosts` from the result easily using the `as` method.
 
     ```crystal
-    complex_posts = Avram::Repo.run do |db|
+    complex_posts = Avram::Database.run do |db|
       db.query_all sql, as: ComplexPost
     end
     ```
