@@ -48,7 +48,7 @@ class Guides::Database::Migrations < GuideAction
     * `db.migrate.one` - Run only the next pending migration.
     * `db.redo` - Rollback to the previous migration, then re-run the last migration again.
     * `db.rollback` - Undo the last migration ran.
-    * `db.rollback_to MIGRATION` - Undo all migrations back to `MIGRATION`
+    * `db.rollback_to MIGRATION_TIMESTAMP` - Undo all migrations back to `MIGRATION_TIMESTAMP`
     * `db.rollback_all` - Undo all of the migrations back to the beginning.
     * `db.migrations.status` - Displays the current status of migrations.
     * `db.verify_connection` - Tests that Avram can connect to your database.
@@ -140,6 +140,8 @@ class Guides::Database::Migrations < GuideAction
       add email : String
       add birthdate : Time
       add login_count : Int32, default: 0
+      add tags : Array(String)
+      add preferences : JSON::Any
     end
     ```
 
@@ -221,7 +223,7 @@ class Guides::Database::Migrations < GuideAction
 
     ## Remove column
 
-    The `remove` method must go in the `[alter](#alter-table)` block.
+    The `remove` method must go in the [`alter`](#alter-table) block.
 
     ```crystal
     alter :users do
@@ -287,8 +289,9 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      create :comments, primary_key_type: :uuid do
-        add_belongs author : User, on_delete: :cascade, foreign_key_type: Avram::Migrator::PrimaryKeyType::UUID
+      create :comments do
+        primary_key id : UUID
+        add_belongs author : User, on_delete: :cascade, foreign_key_type: UUID
       end
     end
     ```
