@@ -32,7 +32,7 @@ class Guides::Database::Models < GuideAction
     `User` model, you would run `lucky gen.model User`. Running this will generate a few files for you.
 
     * [User model](##{ANCHOR_SETTING_UP_A_MODEL}) - Located in `./src/models/user.cr`
-    * [User form](#{Guides::Database::ValidatingSavingDeleting.path}) - Located in `./src/forms/user_form.cr`
+    * [User Operation](#{Guides::Database::ValidatingSavingDeleting.path}) - Located in `./src/operations/save_user.cr`
     * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
     * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
@@ -136,12 +136,7 @@ class Guides::Database::Models < GuideAction
 
     All associations will be defined in the `table` block. You can use `has_one`, `has_many`, and `belongs_to`.
 
-    To avoid running in to an "Undefined Constant" error, be sure to require each model you want to associate.
-
     ```crystal
-    require "./supervisor"
-    require "./task"
-    require "./company"
     class User < BaseModel
       table :user do
         has_one supervisor : Supervisor
