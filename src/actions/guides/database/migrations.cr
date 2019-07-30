@@ -179,7 +179,7 @@ class Guides::Database::Migrations < GuideAction
 
       # Then add values to it
       UserQuery.new.each do |user|
-        User::BaseForm.udpate!(user, otp_code: CodeGenerator.generate)
+        User::SaveOperation.udpate!(user, otp_code: CodeGenerator.generate)
       end
 
       # Then make it non-nullable

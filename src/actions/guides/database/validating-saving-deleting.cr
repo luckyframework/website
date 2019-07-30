@@ -8,24 +8,24 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
   def markdown
     <<-MD
-    ## Setting up a form
+    ## Setting up an operation
 
-    When you set up a model, a `{ModelName}::BaseForm` will be created so that you can inherit
+    When you set up a model, a `{ModelName}::SaveOperation` will be created so that you can inherit
     from it and customize validations, callbacks, and what fields are allowed to be
-    filled. `{ModelName}::BaseForm` automatically defines a form field for each model field.
+    filled. `{ModelName}::SaveOperation` automatically defines a form field for each model field.
 
     We’ll be using the migration and model from the [Querying
     guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
     up a form:
 
     ```crystal
-    # src/forms/user_form.cr
-    class UserForm < User::BaseForm
+    # src/operations/save_user.cr
+    class SaveUser < User::SaveOperation
     end
     ```
 
     > You can have more than one form object to save a record in different ways.
-    For example, default Lucky apps have a `SignUpForm` specifically for handling
+    For example, default Lucky apps have a `SignUserUp` specifically for handling
     user sign ups.
 
     ## Allowing params to be saved
@@ -38,8 +38,8 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     To allow a field to be saved to the database, use the `permit_columns` macro:
 
     ```crystal
-    # src/forms/user_form.cr
-    class UserForm < User::BaseForm
+    # src/operations/save_user.cr
+    class SaveUser < User::SaveOperation
       permit_columns name
     end
     ```
@@ -107,7 +107,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     #{permalink(ANCHOR_USING_WITH_HTML_FORMS)}
     ## Using with HTML forms
 
-    You can use forms in HTML like this:
+    You can use operations in HTML like this:
 
     > Remember: you *must* mark a field in `permit_columns` in order to use it in a
     > form. If it isn’t permitted the program will not compile.
@@ -115,17 +115,17 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```crystal
     # src/pages/users/new_page.cr
     class Users::NewPage < MainLayout
-      needs user_form : UserForm
+      needs user_operation : SaveUser
 
       def content
-        render_form(@user_form)
+        render_form(@user_operation)
       end
 
-      private def render_form(f)
+      private def render_form(operation)
         form_for Users::Create do
-          label_for f.name
-          text_input f.name
-          errors_for f.name
+          label_for operation.name
+          text_input operation.name
+          errors_for operation.name
 
           submit "Save User"
         end
@@ -161,7 +161,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     If you need to customize this, use the `param_key` macro in your form.
 
     ```crystal
-    class UserForm < BaseForm
+    class SaveUser < User::SaveOperation
       # Sets the param key to `custom_form`
       param_key :custom_form
     end
@@ -282,7 +282,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     You can use validations inside of the `prepare` callback:
 
     ```crystal
-    class UserForm < User::BaseForm
+    class SaveUser < User::SaveOperation
       permit_columns name, password, password_confirmation, terms_of_service, age
 
       def prepare
@@ -315,7 +315,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     This means that to access their value you must call `value` on the field.
 
     ```crystal
-    class UserForm < User::BaseForm
+    class SaveUser < User::SaveOperation
       def prepare
         pp name.value
       end
@@ -359,7 +359,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     that is required for validation generally go in this callback.
 
     ```crystal
-    class PostForm < Post::BaseForm
+    class SavePost < Post::SaveOperation
       def prepare
         validate_size_of title, min: 3
       end
@@ -380,7 +380,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     to accept the newly created record. In this example, a `Post`.
 
     ```crystal
-    class PostForm < Post::BaseForm
+    class SavePost < Post::SaveOperation
       before_save run_this_before_save
       after_create run_this_after_create
 
@@ -418,15 +418,15 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     safe, so you don't need to worry about typos or passing the wrong types.
     Lucky is set up to make sure it works automatically.
 
-    ## Passing extra data to forms
+    ## Passing extra data to operations
 
-    Sometimes you need to pass extra data to forms that aren't in the form params.
+    Sometimes you need to pass extra data to operations that aren't in the form params.
     For example you might want to pass the currently signed in user so that you know
     who created a record. Here's how you do this:
 
     ```crystal
     # This is a great way to pass in an associated record
-    class UserForm < User::BaseForm
+    class SaveUser < User::SaveOperation
       needs current_user : User
 
       def prepare
@@ -453,7 +453,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     * `:save` if required for update and create, but not when calling `new`
 
     ```crystal
-    class CommentForm < Comment::BaseForm
+    class SaveComment < Comment::SaveOperation
       needs author : User, on: :create # can also be `:update`, `:save`
 
       def prepare
@@ -510,10 +510,10 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```
 
     ```crystal
-    # src/forms/sign_up_form.cr
+    # src/operations/sign_user_up.cr
     require "crypto/bcrypt/password"
 
-    class SignUpForm < User::BaseForm
+    class SignUserUp < User::SaveOperation
       # These are fields that will be saved to the database
       permit_columns name, email
       # Fields that users can fill out, but aren't saved to the database
@@ -572,8 +572,8 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     For these, you can use `Avram::VirtualForm`:
 
     ```crystal
-    # src/forms/search_form.cr
-    class SearchForm < Avram::VirtualForm
+    # src/operations/search_data.cr
+    class SearchData < Avram::Operation
       virtual query : String = ""
       virtual active : Bool = true
 
@@ -586,24 +586,24 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```
     > Note: The convention is to define a `submit` method that yields the form, and your result; however, you can name this method whatever you want with any signature.
 
-    Using virtual forms in HTML works exactly the same as the rest:
+    Using operations in HTML works exactly the same as the rest:
 
     ```crystal
     # src/pages/searches/new_page.cr
     class Searches::NewPage < MainLayout
-      needs search_form : SearchForm
+      needs search_data : SearchData
 
       def content
-        render_form(@search_form)
+        render_form(@search_data)
       end
 
-      private def render_form(f)
+      private def render_form(op)
         form_for Searches::Create do
-          label_for f.query
-          text_input f.query
+          label_for op.query
+          text_input op.query
 
-          label_for f.active
-          checkbox f.active
+          label_for op.active
+          checkbox op.active
 
           submit "Filter Results"
         end
@@ -628,7 +628,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```
 
 
-    ## Saving forms without a params object
+    ## Saving without a params object
 
     This can be helpful if you’re saving something that doesn’t need an HTML form,
     like if you only need the params passed in the path.
@@ -642,13 +642,13 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ## Sharing common validations, callbacks, etc.
 
-    When using multiple forms for one model you often want to share a common set of
+    When using multiple operations for one model you often want to share a common set of
     validations, allowances, etc.
 
     You can do this with a module:
 
     ```crystal
-    # src/forms/mixins/age_validation.cr
+    # src/operations/mixins/age_validation.cr
     module AgeValidation
       private def validate_old_enough_to_use_website
         # The value of age might be `nil` so we need to use `try`
@@ -664,8 +664,8 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     Then in your form:
 
     ```crystal
-    # src/forms/admin_user_form.cr
-    class AdminUserForm < User::BaseForm
+    # src/operations/save_admin_user.cr
+    class SaveAdminUser < User::SaveOperation
       include AgeValidation
       permit_columns email, age
 
@@ -679,16 +679,16 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ## Ideas for naming
 
-    In Lucky it is common to have multiple forms per model. This makes it easier to
-    understand what a form does and makes them easier to change later without
+    In Lucky it is common to have multiple operations per model. This makes it easier to
+    understand what an operation does and makes them easier to change later without
     breaking other flows.
 
     Here are some ideas for naming:
 
-    * `Csv{ModelName}Form` - great for forms that get data from a CSV. e.g. `CsvUserImportForm`
-    * `SignUpForm` - for signing up a new user. Encrypt passwords, send welcome emails, etc.
-    * `SignInForm` - check that passwords match
-    * `Admin{ModelName}Form` - sometimes admin can set more fields than a regular user. It’s
+    * `ImportCsvUser` - great for operations that get data from a CSV.
+    * `SignUpUser` - for signing up a new user. Encrypt passwords, send welcome emails, etc.
+    * `SignInUser` - check that passwords match
+    * `AdminSaveUser` - sometimes admin can set more fields than a regular user. It’s
       often a good idea to extract a new form for those cases.
     MD
   end

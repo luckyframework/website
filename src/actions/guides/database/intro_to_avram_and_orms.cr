@@ -47,8 +47,8 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
 
     Avram forms are classes used for creating and updating records in the database. This process is generally for interaction with users through HTML forms.
 
-    Similar to the `Query` object, these classes will inherit from a subclass of your model called `BaseForm`. If you create a `User` model, Lucky will create a `User::BaseForm` class for you. (e.g. `UserForm < User::BaseForm`)
-    The naming convention for forms is the name of your model followed by the word "Form". (e.g. `User` model, `UserForm` form).
+    Similar to the `Query` object, these classes will inherit from a subclass of your model called `SaveOperation`. If you create a `User` model, Lucky will create a `User::SaveOperation` class for you. (e.g. `SaveUser < User::SaveOperation`)
+    The naming convention for save operations is the word "Save" followed by the name of your model. (e.g. `User` model, `SaveUser` form).
 
     [Learn more about forms](#{Guides::Database::ValidatingSavingDeleting.path})
 
