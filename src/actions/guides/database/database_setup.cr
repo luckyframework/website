@@ -16,9 +16,9 @@ class Guides::Database::DatabaseSetup < GuideAction
     ### Standard Options
 
     To configure Lucky to connect to your database, open up your `config/database.cr` file.
-    You'll find a few standard options within the `Avram::Repo` configure block.
+    You'll find a few standard options within the `AppDatabase` configure block.
 
-    * database_name
+    * database
     * hostname
     * username
     * password
@@ -48,6 +48,55 @@ class Guides::Database::DatabaseSetup < GuideAction
     Optionally, the `lazy_load_enabled` is set to `false` for development and test.
     This causes Lucky to raise an exception if you forget to preload an association,
     but will not raise an exception in production.
+
+    ## Multiple Databases
+
+    Avram supports a multi-database setup which you may need to use for connecting to a legacy
+    db, or maybe doing a read/write replica setup.
+
+    By default, Lucky gives you the `AppDatabase` class for your primary DB. To add a second one,
+    you'll need to create a new class and inherit from `Avram::Database`.
+
+    ```crystal
+    # config/database.cr
+    class SecondaryDatabase < Avram::Database
+    end
+    ```
+
+    Next, you'll need to add the connection info for the `SecondaryDatabase`.
+
+    ```crystal
+    # config/database.cr
+    SecondaryDatabase.configure do |settings|
+      settings.url = ENV["SECOND_DATABASE_URL"]? || Avram::PostgresURL.build(
+        database: "db_two",
+        hostname: "localhost",
+        username: "postgres",
+        password: "postgres"
+      )
+    end
+    ```
+
+    Lastly, any models that need to use this database will need to inherit from a new
+    base model class that specifies the `SecondaryDatabase`
+
+    ```crystal
+    # src/models/secondary_db_base.cr
+    class SecondaryBaseModel < Avram::Model
+      def self.database
+        SecondaryDatabase
+      end
+    end
+
+    # src/models/legacy_user.cr
+    class LegacyUser < SecondaryBaseModel
+      table :users do
+      end
+    end
+    ```
+
+    > Migrations are ran against the `AppDatabase`. If you need to run migrations against
+    > another database, you'll need to update the `database_to_migrate` option in `config/database.cr`
 
     ## Test Setup
 
