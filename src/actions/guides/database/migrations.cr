@@ -1,5 +1,6 @@
 class Guides::Database::Migrations < GuideAction
   ANCHOR_ASSOCIATIONS = "perma-associations"
+  ANCHOR_PRIMARY_KEYS = "perma-primary-keys"
   guide_route "/database/migrations"
 
   def self.title
@@ -52,8 +53,7 @@ class Guides::Database::Migrations < GuideAction
     ## Create table
 
     Use the `create` method for creating a table. You will place all of the table definitions
-    inside of the `create` block. By default, Lucky will generate 3 columns for you with this:
-    `id : Int32`, `created_at : Time`, and `updated_at : Time`.
+    inside of the `create` block.
 
     ```crystal
     def migrate
@@ -63,18 +63,44 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    Optionally, if you need your `id` column to be of type `UUID`, you can specify the
-    `primary_key_type: :uuid` option.
+    ### Special columns
+
+    When adding in columns, you'll use the [add](#add-column) method in your `create` block, but there are
+    some special considerations.
+
+    ```crystal
+    create :users do
+      # for adding your primary key
+      primary_key id : Int64
+
+      # adds `created_at : Time`, and `updated_at : Time` columns
+      add_timestamps
+    end
+    ```
+
+    #{permalink(ANCHOR_PRIMARY_KEYS)}
+    ## Primary keys
+
+    You will need to specify your primary key in your `create` block using the `primary_key` method.
+    Avram currently supports these key types:
+
+    * `Int16` - maps to postgres `smallserial`.
+    * `Int32` - maps to postgres `serial`.
+    * `Int64` - maps to postgres `bigserial`.
+    * `UUID` - maps to postgres `uuid`. Generates V4 UUID
+
+    To specify your primary key, you'll use the `primary_key` method.
 
     ```crystal
     def migrate
-      create :users, primary_key_type: :uuid do
-        add email : String
+      create :users do
+        # creates a primary key column named `id`
+        primary_key id : Int64
       end
     end
     ```
 
-    > If you do this, be sure to update your model with `primary_key_type: :uuid` as well.
+    > Avram also supports changing your primary key column name. (e.g. `primary_key custom : Int16`)
 
     ## Drop table
 
@@ -103,8 +129,8 @@ class Guides::Database::Migrations < GuideAction
 
     ## Add column
 
-    To add a new column, you'll use the `add` method inside of a `[create](#create-table)`
-    or `[alter](#alter-table)` block.
+    To add a new column, you'll use the `add` method inside of a [`create`](#create-table)
+    or [`alter`](#alter-table) block.
 
     ```crystal
     create :users do
@@ -129,7 +155,7 @@ class Guides::Database::Migrations < GuideAction
     * `Int64` - Maps to postgres `bigint`.
     * `Time` - Maps to postgres `timestamptz`.
     * `Bool` - Maps to postgres `boolean`.
-    * `Float` - Maps to postgres `decimal`. With options for precision and scale.
+    * `Float64` - Maps to postgres `decimal`. With options for precision and scale.
     * `UUID` - Maps to postgres `uuid`.
     * `JSON::Any` - Maps to postgres `jsonb`.
 
