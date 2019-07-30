@@ -61,7 +61,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ```crystal
     # inside of an action with some form params
-    UserForm.create(params) do |form, user|
+    SaveUser.create(params) do |form, user|
       if user # the user was saved
         render Users::ShowPage, user: user
       else
@@ -79,7 +79,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```crystal
     # inside of an action with some form params
     user = UserQuery.new.first
-    UserForm.update(user, params) do |form, updated_user|
+    SaveUser.update(user, params) do |form, updated_user|
       if form.saved?
         render Users::ShowPage, user: updated_user
       else
@@ -97,7 +97,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```crystal
     user = UserQuery.new.first
     # Returns the updated user or raises
-    updated_user = UserForm.update!(user, params)
+    updated_user = SaveUser.update!(user, params)
     ```
 
     ## Using with JSON endpoints
@@ -141,7 +141,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     class Users::Create < BrowserAction
       route do
         # params will have the form params sent from the HTML form
-        UserForm.create(params) do |form, user|
+        SaveUser.create(params) do |form, user|
           if user # if the user was saved
             redirect to: Home::Index
           else
@@ -156,7 +156,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ### Specifying the form name
 
     When a form is submitted, it's param key will be derived from the form object's class name.
-    (e.g. a `UserForm` will submit a `user` param key).
+    (e.g. a `SaveUser` will submit a `user` param key).
 
     If you need to customize this, use the `param_key` macro in your form.
 
@@ -167,7 +167,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    > The `param_key` wraps all fields, and is required in the form. (e.g. HTML `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
+    > The `param_key` wraps all fields, and is required in the operation. (e.g. HTML `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
 
     ### Simplify inputs with `Shared::Field`
 
@@ -178,16 +178,16 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ```crystal
     # This will render a label, an input, and any errors for the 'name'
-    mount Shared::Field.new(f.name)
+    mount Shared::Field.new(op.name)
 
     # You can customize the generated input
-    mount Shared::Field.new(form.email), &.email_input
-    mount Shared::Field.new(form.email), &.email_input(autofocus: "true")
-    mount Shared::Field.new(form.username), &.email_input(placeholder: "Username")
+    mount Shared::Field.new(operation.email), &.email_input
+    mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
+    mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
 
     # You can append to or replace the HTML class on the input
-    mount Shared::Field.new(form.name), &.text_input(append_class: "custom-input-class")
-    mount Shared::Field.new(form.nickname), &.text_input(replace_class: "compact-input")
+    mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
+    mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
     ```
 
     Look in `src/components/shared/field.cr` to see even more options and customize
@@ -215,7 +215,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ```crystal
     # Example using an email input
-    email_input f.email, optional_html_attributes: "anything"
+    email_input op.email, optional_html_attributes: "anything"
     ```
 
     ### Submit
@@ -231,15 +231,15 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ```crystal
     # If checked, will set the `admin` column to true
-    checkbox f.admin, value: "true"
+    checkbox op.admin, value: "true"
     ```
 
     ### Select with options
 
     ```crystal
     # Assuming you have a form with a permitted category_id
-    select_input f.category_id do
-      options_for_select(f.category_id, categories_for_select)
+    select_input op.category_id do
+      options_for_select(op.category_id, categories_for_select)
     end
 
     private def categories_for_select
@@ -254,9 +254,9 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ### Labels
 
     ```crystal
-    label_for f.title # Will display "Title"
-    label_for f.title, "Custom Title" # Will display "Custom Title"
-    label_for f.title do
+    label_for op.title # Will display "Title"
+    label_for op.title, "Custom Title" # Will display "Custom Title"
+    label_for op.title do
       text "Custom Title"
       strong "(required)"
     end
@@ -285,7 +285,9 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     class SaveUser < User::SaveOperation
       permit_columns name, password, password_confirmation, terms_of_service, age
 
-      def prepare
+      before_save validate_data
+
+      def validate_data
         validate_required name
         validate_confirmation_of password, with: password_confirmation
         validate_acceptance_of terms_of_service
