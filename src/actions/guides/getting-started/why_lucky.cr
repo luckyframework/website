@@ -169,7 +169,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     ```crystal
     # A form that is used to register a new user
     class RegistrationForm < User::BaseForm
-      fillable name, email # company_name is not allowed to be filled out
+      permit_columns name, email # company_name is not allowed to be filled out
     end
 
     # An HTML form for a user to fill out

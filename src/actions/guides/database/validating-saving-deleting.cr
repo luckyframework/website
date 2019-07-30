@@ -35,12 +35,12 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     users to fill out. For example, you might not want your users to be able to
     set an admin status through the `UserForm`.
 
-    To allow a field to be saved to the database, use the `fillable` macro:
+    To allow a field to be saved to the database, use the `permit_columns` macro:
 
     ```crystal
     # src/forms/user_form.cr
     class UserForm < User::BaseForm
-      fillable name
+      permit_columns name
     end
     ```
 
@@ -109,8 +109,8 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     You can use forms in HTML like this:
 
-    > Remember: you *must* mark a field as `fillable` in order to use it in a
-    > form. If it isn’t fillable the program will not compile.
+    > Remember: you *must* mark a field in `permit_columns` in order to use it in a
+    > form. If it isn’t permitted the program will not compile.
 
     ```crystal
     # src/pages/users/new_page.cr
@@ -237,7 +237,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ### Select with options
 
     ```crystal
-    # Assuming you have a form with a fillable category_id
+    # Assuming you have a form with a permitted category_id
     select_input f.category_id do
       options_for_select(f.category_id, categories_for_select)
     end
@@ -283,7 +283,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ```crystal
     class UserForm < User::BaseForm
-      fillable name, password, password_confirmation, terms_of_service, age
+      permit_columns name, password, password_confirmation, terms_of_service, age
 
       def prepare
         validate_required name
@@ -515,7 +515,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     class SignUpForm < User::BaseForm
       # These are fields that will be saved to the database
-      fillable name, email
+      permit_columns name, email
       # Fields that users can fill out, but aren't saved to the database
       virtual password : String
       virtual password_confirmation : String
@@ -667,7 +667,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     # src/forms/admin_user_form.cr
     class AdminUserForm < User::BaseForm
       include AgeValidation
-      fillable email, age
+      permit_columns email, age
 
       def prepare
         # Call the validation
