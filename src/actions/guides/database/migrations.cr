@@ -50,6 +50,7 @@ class Guides::Database::Migrations < GuideAction
     * `db.rollback` - Undo the last migration ran.
     * `db.rollback_to MIGRATION` - Undo all migrations back to `MIGRATION`
     * `db.rollback_all` - Undo all of the migrations back to the beginning.
+    * `db.migrations.status` - Displays the current status of migrations.
 
     ## Create table
 
