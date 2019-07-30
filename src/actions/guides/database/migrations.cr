@@ -51,6 +51,7 @@ class Guides::Database::Migrations < GuideAction
     * `db.rollback_to MIGRATION` - Undo all migrations back to `MIGRATION`
     * `db.rollback_all` - Undo all of the migrations back to the beginning.
     * `db.migrations.status` - Displays the current status of migrations.
+    * `db.verify_connection` - Tests that Avram can connect to your database.
 
     ## Create table
 
