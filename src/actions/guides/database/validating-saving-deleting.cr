@@ -308,7 +308,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ## What are fields?
 
     First you’ll need to know that the fields defined in the form do not return the
-    value of the field. They return a `Avram::Field` that contains the value
+    value of the field. They return a `Avram::Attribute` that contains the value
     of the field, the name of the field, the param value, and any errors the field
     has.
 
