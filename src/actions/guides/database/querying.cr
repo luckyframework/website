@@ -386,6 +386,22 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.left_join_tasks
     ```
 
+    ### Right joins
+
+    `SELECT COLUMNS FROM users RIGHT JOIN tasks ON users.id = tasks.user_id`
+
+    ```crystal
+    UserQuery.new.right_join_tasks
+    ```
+
+    ### Full joins
+
+    `SELECT COLUMNS FROM users FULL JOIN tasks ON users.id = tasks.user_id`
+
+    ```crystal
+    UserQuery.new.full_join_tasks
+    ```
+
     ## Preloading
 
     In development and test environemnts Lucky requries preloading associations. If you forget to preload an
