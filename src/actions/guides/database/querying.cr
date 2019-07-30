@@ -514,14 +514,24 @@ class Guides::Database::Querying < GuideAction
     user.delete
     ```
 
-    ### Delete all
+    ### Delete bulk
 
-    If you need to just delete every record in the entire table, you can use `destroy_all` to truncate.
+    If you need to bulk delete a group of records based on a where query, you can use `delete` at
+    the end of your query. This returns the number of records deleted.
+
+    ```crystal
+    # DELETE FROM users WHERE banned_at IS NOT NULL
+    UserQuery.new.banned_at.not.eq(nil).delete
+    ```
+
+    ### Truncate
+
+    If you need to just delete every record in the entire table, you can use `truncate`.
 
     `TRUNCATE TABLE users`
 
     ```crystal
-    UserQuery.new.destroy_all
+    UserQuery.truncate
     ```
 
     > This method is not chainable, and may be renamed in the future.
