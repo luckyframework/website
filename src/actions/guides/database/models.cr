@@ -114,13 +114,15 @@ class Guides::Database::Models < GuideAction
     Avram supports several types that map to Postgres column types.
 
     * `String` - `text` column type. In Postgres [`text` can store strings of any length](https://stackoverflow.com/questions/4848964/postgresql-difference-between-text-and-varchar-character-varying)
+    * `Int16` - `smallint` column type.
     * `Int32` - `int` column type.
     * `Int64` - `bigint` column type.
-    * `Float` - `decimal` column type.
+    * `Float64` - `decimal` column type.
     * `Bool` - `boolean` column type.
     * `Time` - `timestamptz` column type.
     * `UUID` - `uuid` column type.
     * `JSON::Any` - `jsonb` column type.
+    * `Array(T)` - `[]` column type where `T` is any other supported type.
 
     Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`.
     This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an

@@ -151,13 +151,15 @@ class Guides::Database::Migrations < GuideAction
     There are a few different datatypes that you can use to declare the column type.
 
     * `String` - Maps to postgres `text`.
-    * `Int32` - Maps tp postgres `int`.
+    * `Int16` - Maps to postgres `smallint`.
+    * `Int32` - Maps to postgres `int`.
     * `Int64` - Maps to postgres `bigint`.
     * `Time` - Maps to postgres `timestamptz`.
     * `Bool` - Maps to postgres `boolean`.
     * `Float64` - Maps to postgres `decimal`. With options for precision and scale.
     * `UUID` - Maps to postgres `uuid`.
     * `JSON::Any` - Maps to postgres `jsonb`.
+    * `Array(T)` - Maps to postgres array fields where `T` is any of the other datatypes.
 
     ### Advanced Options
 
