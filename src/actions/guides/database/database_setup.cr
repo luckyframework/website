@@ -123,7 +123,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     data you use in development, or even special data your application expects to exist in production.
 
     By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`,
-    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Database::Testing.path}) or [Forms](#{Guides::Database::ValidatingSavingDeleting.path}) to create the data.
+    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Database::Testing.path}) or [Operations](#{Guides::Database::ValidatingSavingDeleting.path}) to create the data.
 
     ### Required Seeds
 
@@ -137,8 +137,8 @@ class Guides::Database::DatabaseSetup < GuideAction
       # Using a Box
       UserBox.create &.email("developer@example.com").admin(true)
 
-      # Using a Form
-      UserForm.create!(email: "developer@example.com", admin: true)
+      # Using an Operation
+      SaveUser.create!(email: "developer@example.com", admin: true)
     end
     ```
 
@@ -161,9 +161,9 @@ class Guides::Database::DatabaseSetup < GuideAction
         ProductBox.create
       end
 
-      # Using a Form
+      # Using an Operation
       100.times do |i|
-        ProductForm.create(name: "Product \#{i}")
+        SaveProduct.create(name: "Product \#{i}")
       end
     end
     ```
