@@ -48,6 +48,7 @@ class Guides::Database::Migrations < GuideAction
     * `db.migrate.one` - Run only the next pending migration.
     * `db.redo` - Rollback to the previous migration, then re-run the last migration again.
     * `db.rollback` - Undo the last migration ran.
+    * `db.rollback_to MIGRATION` - Undo all migrations back to `MIGRATION`
     * `db.rollback_all` - Undo all of the migrations back to the beginning.
 
     ## Create table
