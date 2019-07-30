@@ -108,7 +108,7 @@ class Guides::Database::Querying < GuideAction
 
     ### Select first
 
-    `SELECT COLUMNS FROM users LIMIT 1`
+    `SELECT COLUMNS FROM users ORDER BY users.id ASC LIMIT 1`
 
     ```crystal
     # raise Avram::RecordNotFound if nil
@@ -355,7 +355,7 @@ class Guides::Database::Querying < GuideAction
     You can use this to help refine your association.
 
     ```crystal
-    UserQuery.new.join_taks.tasks { |task_query|
+    UserQuery.new.join_tasks.where_tasks { |task_query|
       # WHERE tasks.title = 'Clean up notes'
       task_query.title("Clean up notes")
     }
@@ -485,7 +485,7 @@ class Guides::Database::Querying < GuideAction
       def recently_completed_admin_tasks
         admin(true)
           .join_tasks
-          .tasks { |task_query|
+          .where_tasks { |task_query|
             task_query
               .completed(true)
               .updated_at.gte(1.day.ago)
@@ -498,7 +498,7 @@ class Guides::Database::Querying < GuideAction
     ```
 
     > Since associations take a block, you can also use [Short one-argument syntax](https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html#short-one-argument-syntax).
-    > (e.g. `tasks(&.completed(true).updated_at.get(1.day.ago))`)
+    > (e.g. `where_tasks(&.completed(true).updated_at.get(1.day.ago))`)
 
     ## Deleting Records
 
