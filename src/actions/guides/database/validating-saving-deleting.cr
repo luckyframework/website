@@ -490,21 +490,21 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     `on` then you don't need to worry about the value ever being `nil`, which can
     make your program more reliable and easier to understand.
 
-    ## Virtual fields
+    ## Non-model fields
 
     Sometimes you want users to submit data that isn't saved to the database. For that
-    we use `virtual`.
+    we use `attribute`.
 
-    Here's an example of using `virtual` to create a sign up form:
+    Here's an example of using `attribute` to create a sign up form:
 
     ```crystal
     # First we create a model
     # src/models/user.cr
     class User < BaseModel
       table :users do
-        field name : String
-        field email : String
-        field encrypted_password : String
+        column name : String
+        column email : String
+        column encrypted_password : String
       end
     end
     ```
@@ -517,9 +517,9 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
       # These are fields that will be saved to the database
       permit_columns name, email
       # Fields that users can fill out, but aren't saved to the database
-      virtual password : String
-      virtual password_confirmation : String
-      virtual terms_of_service : Bool
+      attribute password : String
+      attribute password_confirmation : String
+      attribute terms_of_service : Bool
 
       def prepare
         # Make sure the user has checked the terms of service box
@@ -537,27 +537,27 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    ### Using virtual fields in an HTML form
+    ### Using attribute fields in an HTML form
 
-    Using virtual fields in HTML works exactly the same as with database fields:
+    Using attribute fields in HTML works exactly the same as with database fields:
 
     ```crystal
     # src/pages/sign_ups/new_page.cr
     class SignUps::NewPage < MainLayout
-      needs sign_up_form : SignUpForm
+      needs sign_up_user : SignUpUser
 
       def content
-        render_form(@sign_up_form)
+        render_form(@sign_up_user)
       end
 
-      private def render_form(f)
+      private def render_form(op)
         form_for SignUps::Create do
           # labels and errors_for ommitted for brevity
-          f.text_input f.name
-          f.text_input f.email
-          f.password_input f.password
-          f.password_input f.password_confirmation
-          f.checkbox f.terms_of_service
+          text_input op.name
+          email_input op.email
+          password_input op.password
+          password_input op.password_confirmation
+          checkbox op.terms_of_service
 
           submit "Sign up"
         end
@@ -565,17 +565,18 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    ## Virtual Forms
+    ## Basic Operations
 
-    Just like `virtual` fields, there may also be a time where you have a form **not** tied to the database. Maybe a search form, or a contact form that just sends an email.
+    Just like `attribute` fields, there may also be a time where you have a form **not** tied to the database.
+    Maybe a search form, or a contact form that just sends an email.
 
-    For these, you can use `Avram::VirtualForm`:
+    For these, you can use `Avram::Operation`:
 
     ```crystal
     # src/operations/search_data.cr
     class SearchData < Avram::Operation
-      virtual query : String = ""
-      virtual active : Bool = true
+      attribute query : String = ""
+      attribute active : Bool = true
 
       def submit
         validate_required query
@@ -584,6 +585,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
       end
     end
     ```
+
     > Note: The convention is to define a `submit` method that yields the form, and your result; however, you can name this method whatever you want with any signature.
 
     Using operations in HTML works exactly the same as the rest:
@@ -611,12 +613,12 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    Finally, using the virtual form in your action:
+    Finally, using the operation in your action:
 
     ```crystal
     class Searches::Create < BrowserAction
       route do
-        SearchForm.new(params).submit do |form, results|
+        SearchData.new(params).submit do |form, results|
           if form.valid?
             render SearchResults::IndexPage, users: results
           else
@@ -634,10 +636,10 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     like if you only need the params passed in the path.
 
     ```crystal
-    UserForm.create!(name: "Paul")
+    SaveUser.create!(name: "Paul")
 
     # for updates
-    UserForm.update!(existing_user, name: "David")
+    SaveUser.update!(existing_user, name: "David")
     ```
 
     ## Sharing common validations, callbacks, etc.
