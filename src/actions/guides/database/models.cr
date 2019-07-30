@@ -103,6 +103,7 @@ class Guides::Database::Models < GuideAction
     * `Bool` - `boolean` column type.
     * `Time` - `timestamptz` column type.
     * `UUID` - `uuid` column type.
+    * `JSON::Any` - `jsonb` column type.
 
     Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`.
     This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an
