@@ -32,7 +32,7 @@ class Guides::Database::Models < GuideAction
     `User` model, you would run `lucky gen.model User`. Running this will generate a few files for you.
 
     * [User model](##{ANCHOR_SETTING_UP_A_MODEL}) - Located in `./src/models/user.cr`
-    * [User Operation](#{Guides::Database::ValidatingSavingDeleting.path}) - Located in `./src/operations/save_user.cr`
+    * [SaveUser Operation](#{Guides::Database::ValidatingSavingDeleting.path}) - Located in `./src/operations/save_user.cr`
     * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
     * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
@@ -65,7 +65,19 @@ class Guides::Database::Models < GuideAction
     * `created_at` - default `Time` type.
     * `updated_at` - default `Time` type.
 
-    To skip adding these, call the `skip_default_columns` macro in your model or `BaseModel`.
+    To change your defaults, define a macro called `default_columns` in your model.
+
+    ```crystal
+    macro default_columns
+      # Defines a custom primary key
+      primary_key custom_key : UUID
+
+      # adds the `created_at` and `updated_at`
+      timestamps
+    end
+    ```
+
+    If you need to skip adding these, call the `skip_default_columns` macro in your model or `BaseModel`.
 
     ```crystal
     class BaseModel < Avram::Model
@@ -240,6 +252,66 @@ class Guides::Database::Models < GuideAction
 
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
+
+    ## Polymorphic
+
+    [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) is describes
+    the concept that objects of different types can be accessed through the same interface.
+
+    This allows us to have a single method to define an association, but that method can return
+    many different types. A bit confusing, but best explained with some code!
+
+    ```crystal
+    class User < BaseModel
+      table do
+        has_many events : Event
+      end
+    end
+
+    class Organization < BaseModel
+      table do
+        has_many events : Event
+      end
+    end
+
+    class Event < BaseModel
+      table do
+        # Note that these are both nilable
+        belongs_to user : User?
+        belongs_to organization : Organization?
+
+        # Now `eventable` could be a `user` or `organization`
+        polymorphic eventable, associations: [:user, :organization]
+      end
+    end
+    ```
+
+    And to use it
+
+    ```crystal
+    user = SaveUser.create!
+    event = SaveEvent.create!(user_id: user.id)
+
+    event.eventable == user
+    ```
+
+    The `Event` model now has an `eventable` method which could return a `user` object
+    or an `organization` object depending on which was associated.
+    <!-- go go polymorphin power rangers -->
+    For each polymorphic association, you'll need to add a `belongs_to`. This helps to keep
+    our polymorphic associations type-safe! [See migrations](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}) for `add_belongs_to`.
+
+    You'll also note that the `belongs_to` has nillable models. This is required for the polymorphic
+    association. Even though these are set as nilable, the association still requires at least 1 of the
+    `associations` to exist. This means that `eventable` is never actually `nil`.
+
+    If you need this association to be fully optional where `eventable` could be `nil`, you'll add the
+    `optional` option.
+
+    ```crystal
+    # eventable can now be nil
+    polymorphic eventable, optional: true, associations: [:user, :organization]
+    ```
     MD
   end
 end

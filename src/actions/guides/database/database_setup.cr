@@ -49,55 +49,6 @@ class Guides::Database::DatabaseSetup < GuideAction
     This causes Lucky to raise an exception if you forget to preload an association,
     but will not raise an exception in production.
 
-    ## Multiple Databases
-
-    Avram supports a multi-database setup which you may need to use for connecting to a legacy
-    db, or maybe doing a read/write replica setup.
-
-    By default, Lucky gives you the `AppDatabase` class for your primary DB. To add a second one,
-    you'll need to create a new class and inherit from `Avram::Database`.
-
-    ```crystal
-    # config/database.cr
-    class SecondaryDatabase < Avram::Database
-    end
-    ```
-
-    Next, you'll need to add the connection info for the `SecondaryDatabase`.
-
-    ```crystal
-    # config/database.cr
-    SecondaryDatabase.configure do |settings|
-      settings.url = ENV["SECOND_DATABASE_URL"]? || Avram::PostgresURL.build(
-        database: "db_two",
-        hostname: "localhost",
-        username: "postgres",
-        password: "postgres"
-      )
-    end
-    ```
-
-    Lastly, any models that need to use this database will need to inherit from a new
-    base model class that specifies the `SecondaryDatabase`
-
-    ```crystal
-    # src/models/secondary_db_base.cr
-    class SecondaryBaseModel < Avram::Model
-      def self.database
-        SecondaryDatabase
-      end
-    end
-
-    # src/models/legacy_user.cr
-    class LegacyUser < SecondaryBaseModel
-      table :users do
-      end
-    end
-    ```
-
-    > Migrations are ran against the `AppDatabase`. If you need to run migrations against
-    > another database, you'll need to update the `database_to_migrate` option in `config/database.cr`
-
     ## Test Setup
 
     If you'd like to use separate credentials for your testing database, you can add
@@ -163,7 +114,7 @@ class Guides::Database::DatabaseSetup < GuideAction
 
       # Using an Operation
       100.times do |i|
-        SaveProduct.create(name: "Product \#{i}")
+        SaveProduct.create!(name: "Product \#{i}")
       end
     end
     ```
@@ -173,6 +124,55 @@ class Guides::Database::DatabaseSetup < GuideAction
     > Running `./script/setup` in development will run the `db.create_sample_seeds` task for you.
     > If you need to re-seed, you can run `lucky db.drop` and then `./script/setup` to re-create
     > and seed your local database.
+
+    ## Multiple Databases
+
+    Avram supports a multi-database setup which you may need to use for connecting to a legacy
+    db, or maybe doing a read/write replica setup.
+
+    By default, Lucky gives you the `AppDatabase` class for your primary DB. To add a second one,
+    you'll need to create a new class and inherit from `Avram::Database`.
+
+    ```crystal
+    # config/database.cr
+    class SecondaryDatabase < Avram::Database
+    end
+    ```
+
+    Next, you'll need to add the connection info for the `SecondaryDatabase`.
+
+    ```crystal
+    # config/database.cr
+    SecondaryDatabase.configure do |settings|
+      settings.url = ENV["SECOND_DATABASE_URL"]? || Avram::PostgresURL.build(
+        database: "db_two",
+        hostname: "localhost",
+        username: "postgres",
+        password: "postgres"
+      )
+    end
+    ```
+
+    Lastly, any models that need to use this database will need to define a class
+    method `def self.database` with this database.
+
+    ```crystal
+    # src/models/legacy_user.cr
+    class LegacyUser < Avram::Model
+      table :users do
+      end
+
+      def self.database
+        SecondaryDatabase
+      end
+    end
+    ```
+
+    If you have many models that require connection to the `SecondaryDatabase`, you can place
+    this method in its own `SecondaryBaseModel` class, then have those models inherit from that class.
+
+    > Migrations are ran against the `AppDatabase`. If you need to run migrations against
+    > another database, you'll need to update the `database_to_migrate` option in `config/database.cr`
     MD
   end
 end

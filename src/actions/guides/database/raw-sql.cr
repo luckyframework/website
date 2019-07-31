@@ -71,7 +71,7 @@ class Guides::Database::RawSql < GuideAction
     Now we can make our query and instantiate `ComplexPosts` from the result easily using the `as` method.
 
     ```crystal
-    complex_posts = Avram::Database.run do |db|
+    complex_posts = AppDatabase.run do |db|
       db.query_all sql, as: ComplexPost
     end
     ```

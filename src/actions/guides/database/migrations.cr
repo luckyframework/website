@@ -291,6 +291,7 @@ class Guides::Database::Migrations < GuideAction
     def migrate
       create :comments do
         primary_key id : UUID
+        add_timestamps
         add_belongs author : User, on_delete: :cascade, foreign_key_type: UUID
       end
     end

@@ -483,13 +483,9 @@ class Guides::Database::Querying < GuideAction
     ```crystal
     class UserQuery < Uery::BaseQuery
       def recently_completed_admin_tasks
-        admin(true)
-          .join_tasks
-          .where_tasks { |task_query|
-            task_query
-              .completed(true)
-              .updated_at.gte(1.day.ago)
-          }
+        task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
+
+        admin(true).where_tasks(task_query)
       end
     end
 
@@ -497,14 +493,25 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.recently_completed_admin_tasks
     ```
 
-    > Since associations take a block, you can also use [Short one-argument syntax](https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html#short-one-argument-syntax).
-    > (e.g. `where_tasks(&.completed(true).updated_at.get(1.day.ago))`)
+    When adding an associated query (like `task_query`), Avram will handle adding the join
+    for you. By default, this is an `INNER JOIN`, but if you need to customize that, you can
+    use the `auto_inner_join` option.
+
+    ```crystal
+    def recently_completed_admin_tasks
+      task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
+
+      # Tell the `where_tasks` to skip adding the `inner_join` so we can
+      # use the `left_join_tasks` instead.
+      admin(true).left_join_tasks.where_tasks(task_query, auto_inner_join: false)
+    end
+    ```
 
     ## Deleting Records
 
     ### Delete one
 
-    Deteling a single record is actually done on the [model]() directly. Since each query returns an
+    Deteling a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
     instance of the model, you can just call `delete` on that record.
 
     ```crystal
