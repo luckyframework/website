@@ -96,9 +96,6 @@ class Guides::Sidebar < BaseComponent
     end
   end
 
-  def wut
-  end
-
   def active_class
     "text-white bg-teal text-shadow hover:no-underline hover:text-white"
   end
