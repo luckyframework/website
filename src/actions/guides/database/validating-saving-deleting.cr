@@ -274,18 +274,23 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     * `validate_uniqueness_of` - to only allow one record with a field's value
 
     > Note: non-nillable (required) fields automatically use
-    `validate_required`. They will run after the `prepare` callback. This way data
+    `validate_required`. They will run after all other `before_save` callbacks have run. This way data
     with missing fields will never be sent to the database.
 
     ### Using validations
 
-    You can use validations inside of the `prepare` callback:
+    You can use validations inside of `before_save` callbacks:
 
     ```crystal
     class SaveUser < User::SaveOperation
       permit_columns name, password, password_confirmation, terms_of_service, age
 
       before_save validate_data
+      before_save {
+        if name.value == "Skeletor"
+          name.add_error "Mmmyyaahhh!"
+        end
+      }
 
       def validate_data
         validate_required name
@@ -304,21 +309,21 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    The `prepare` method is called when you call `valid?` on the form or when you
-    try to `save` or `update` it.
+    The `before_save` callbacks will run just before calling `save`. They each return `true` if
+    the attributes are all `valid?`.
 
-    ## What are fields?
+    ## What are attributes?
 
-    First you’ll need to know that the fields defined in the form do not return the
-    value of the field. They return a `Avram::Attribute` that contains the value
-    of the field, the name of the field, the param value, and any errors the field
+    First you’ll need to know that the attributes defined in the operation do not return the
+    value of the attribute. They return a `Avram::Attribute` that contains the value
+    of the attribute, the name of the attribute, the param value, and any errors the attribute
     has.
 
-    This means that to access their value you must call `value` on the field.
+    This means that to access their value you must call `value` on the attribute.
 
     ```crystal
     class SaveUser < User::SaveOperation
-      def prepare
+      def print_name_value
         pp name.value
       end
     end
@@ -330,9 +335,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     make sure the user is old enough to use the site.
 
     ```crystal
-    def prepare
-      validate_user_is_old_enough
-    end
+    before validate_user_is_old_enough
 
     private def validate_user_is_old_enough
       # The value might be `nil` so we need to use `try`.
@@ -349,33 +352,16 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     > Callbacks often get a bad rep because they can quickly lead to hard to
     maintain code. One reason for this is situations arrive when you want callbacks
     to run only in certain conditions. In Lucky this situation is quickly solved
-    by adding a new form. For example you might have a `SignUpForm` for a `User`
+    by adding a new operation. For example you might have a `SignUpUser` for a `User`
     that encrypts the users password and sends a welcome email after saving. Or you
-    might have an `AdminUserForm` that saves a user and sends an admin specific
+    might have an `SaveAdminUser` that saves a user and sends an admin specific
     email.
-
-    ### Prepare callback
-
-    The `prepare` callback is run whenever a form is validated or saved. It is
-    customized by defining a `prepare` method. Validations and custom parsing
-    that is required for validation generally go in this callback.
-
-    ```crystal
-    class SavePost < Post::SaveOperation
-      def prepare
-        validate_size_of title, min: 3
-      end
-    end
-    ```
 
     ### Callbacks for running before and after save
 
-    * `before_save`
-    * `before_create`
-    * `before_update`
-    * `after_save`
-    * `after_create`
-    * `after_update`
+    * `before_save` - Ran before the record is saved.
+    * `after_save` - Ran after the record is saved.
+    * `after_commit` - Ran after `after_save`, and the database transaction has committed.
 
     Create a method you'd like to run and then pass the method name to the
     callback macro. Note that the methods used by the `after_*` callbacks needs
@@ -384,13 +370,18 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```crystal
     class SavePost < Post::SaveOperation
       before_save run_this_before_save
-      after_create run_this_after_create
+      after_save run_this_after_save
+      after_commit run_this_after_commit
 
       def run_this_before_save
         # do something
       end
 
-      def run_this_after_create(newly_created_post : Post)
+      def run_this_after_save(newly_created_post : Post)
+        # do something
+      end
+
+      def run_this_after_commit(newly_created_post : Post)
         # do something
       end
     end
@@ -408,15 +399,15 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
         post = PostQuery.find(id)
         # Params contain the title and body, but not the post_id
         # So we set it ourselves
-        CommentForm.create(params, post_id: post.id) do |form, comment|
+        SaveComment.create(params, post_id: post.id) do |operation, comment|
           # Do something with the form and comment
         end
       end
     end
     ```
 
-    This sets the `post_id` when instantiating the form. You can pass anything
-    that is defined as a `column` on your model. Note that the fields are type
+    This sets the `post_id` when instantiating the operation. You can pass anything
+    that is defined as a `column` on your model. Note that the attributes are type
     safe, so you don't need to worry about typos or passing the wrong types.
     Lucky is set up to make sure it works automatically.
 
@@ -431,19 +422,21 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     class SaveUser < User::SaveOperation
       needs current_user : User
 
-      def prepare
+      before_save assign_user_id
+
+      def assign_user_id
         modified_by_id.value = current_user.id
       end
     end
 
-    UserForm.create(params, current_user: a_user) do |form, user|
+    SaveUser.create(params, current_user: a_user) do |operation, user|
       # do something
     end
     ```
 
     This will make it so that you must pass in `current_user` when creating or updating
-    the `UserForm`. It will make a getter available for `current_user` so you can use
-    it in the form, like in the `prepare` method shown in the example.
+    the `SaveUser`. It will make a getter available for `current_user` so you can use
+    it in the form, like in the `before_save` macro shown in the example.
 
     ### Declaring needs only for update, create, or save
 
@@ -458,7 +451,9 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     class SaveComment < Comment::SaveOperation
       needs author : User, on: :create # can also be `:update`, `:save`
 
-      def prepare
+      before_save prepare_comment
+
+      def prepare_comment
         author.try do |user|
           authored_by_id.value = user.id
         end
@@ -466,44 +461,44 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    > Note that `author` is not required when calling `UserForm.new` when using
+    > Note that `author` is not required when calling `SaveUser.new` when using
     the `on` option. This means `author` can be `nil` in the form. That's why we
-    needed to use `try` in the `prepare` method.
+    needed to use `try` in the `prepare_comment` method.
 
     ```crystal
     # You must pass an author when creating
-    CommentForm.create(params, author: a_user) do |form, user|
+    SaveComment.create(params, author: a_user) do |operation, user|
       # do something
     end
 
     # But you can't when you are updating
-    CommentForm.update(comment, params) do |form, user|
+    SaveComment.update(comment, params) do |operation, user|
       # do something
     end
 
-    # You also can't pass it in when instantiating a new CommentForm
-    CommentForm.new
+    # You also can't pass it in when instantiating a new SaveComment
+    SaveComment.new
     ```
 
-    > **When should I use `on`?** If you are building an server rendered HTML app
+    > **When should I use `on`?** If you are building a server rendered HTML app,
     then you will almost always wants to use `on :save|:update|:create` because
-    you will call `MyForm.new` without the needs. If you are building a JSON API
+    you will call `SaveComment.new` without the needs. If you are building a JSON API
     you may want to omit the `on` option since you rarely use `.new`. If you omit
     `on` then you don't need to worry about the value ever being `nil`, which can
     make your program more reliable and easier to understand.
 
-    ## Non-model fields
+    ## Non-model attributes
 
     Sometimes you want users to submit data that isn't saved to the database. For that
     we use `attribute`.
 
-    Here's an example of using `attribute` to create a sign up form:
+    Here's an example of using `attribute` to create a sign up user operation:
 
     ```crystal
     # First we create a model
     # src/models/user.cr
     class User < BaseModel
-      table :users do
+      table do
         column name : String
         column email : String
         column encrypted_password : String
@@ -518,12 +513,14 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     class SignUserUp < User::SaveOperation
       # These are fields that will be saved to the database
       permit_columns name, email
-      # Fields that users can fill out, but aren't saved to the database
+      # Attributes that users can fill out, but aren't saved to the database
       attribute password : String
       attribute password_confirmation : String
       attribute terms_of_service : Bool
 
-      def prepare
+      before_save validate_data_inputs
+
+      def validate_data_inputs
         # Make sure the user has checked the terms of service box
         validate_acceptance_of terms_of_service
         # Make sure the passwords match
@@ -539,9 +536,9 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    ### Using attribute fields in an HTML form
+    ### Using attributes in an HTML form
 
-    Using attribute fields in HTML works exactly the same as with database fields:
+    Using attributes in HTML works exactly the same as with database fields:
 
     ```crystal
     # src/pages/sign_ups/new_page.cr
@@ -569,7 +566,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     ## Basic Operations
 
-    Just like `attribute` fields, there may also be a time where you have a form **not** tied to the database.
+    Just like `attribute`, there may also be a time where you have an operation **not** tied to the database.
     Maybe a search form, or a contact form that just sends an email.
 
     For these, you can use `Avram::Operation`:
@@ -588,7 +585,8 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    > Note: The convention is to define a `submit` method that yields the form, and your result; however, you can name this method whatever you want with any signature.
+    > Note: The convention is to define a `submit` method that yields the operation, and your result;
+    > however, you can name this method whatever you want with any signature.
 
     Using operations in HTML works exactly the same as the rest:
 
@@ -620,17 +618,17 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```crystal
     class Searches::Create < BrowserAction
       route do
-        SearchData.new(params).submit do |form, results|
-          if form.valid?
+        SearchData.new(params).submit do |operation, results|
+          # `valid?` is defined on `operation` for you!
+          if operation.valid?
             render SearchResults::IndexPage, users: results
           else
-            render Searches::NewPage, search_form: form
+            render Searches::NewPage, search_data: operation
           end
         end
       end
     end
     ```
-
 
     ## Saving without a params object
 
@@ -673,11 +671,10 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
       include AgeValidation
       permit_columns email, age
 
-      def prepare
-        # Call the validation
+      before_save {
         validate_old_enough_to_use_website
         admin.value = true
-      end
+      }
     end
     ```
 
