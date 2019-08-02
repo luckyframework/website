@@ -195,6 +195,24 @@ class Guides::Database::Querying < GuideAction
 
     > The `not` method can be used to negate other methods like `eq`, `gt`, `lt`, and `in`.
 
+    ### A IS NULL / IS NOT NULL
+
+    Find rows where `A` is `nil`.
+
+    `SELECT COLUMNS FROM users WHERE users.name IS NULL`
+
+    ```crystal
+    UserQuery.new.name.is_nil
+    ```
+
+    Find rows where `A` is *not* `nil`.
+
+    `SELECT COLUMNS FROM users WHERE users.name IS NOT NULL`
+
+    ```crystal
+    UserQuery.new.name.is_not_nil
+    ```
+
     ### A gt/lt B
 
     Find rows where `A` is greater than or equal to `B`.
@@ -532,7 +550,7 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     # DELETE FROM users WHERE banned_at IS NOT NULL
-    UserQuery.new.banned_at.not.eq(nil).delete
+    UserQuery.new.banned_at.is_not_nil.delete
     ```
 
     ### Truncate
