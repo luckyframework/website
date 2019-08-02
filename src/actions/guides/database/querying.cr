@@ -368,16 +368,14 @@ class Guides::Database::Querying < GuideAction
 
     ### Associations
 
-    Each association defined on your model will have a method that takes a block, and passed in the
-    query for that association.
+    Each association defined on your model will have a method prefixed with `where_` that takes a
+    query from the association.
 
     You can use this to help refine your association.
 
     ```crystal
-    UserQuery.new.join_tasks.where_tasks { |task_query|
-      # WHERE tasks.title = 'Clean up notes'
-      task_query.title("Clean up notes")
-    }
+    # SELECT COLUMNS FROM users WHERE tasks.title = 'Clean up notes'
+    UserQuery.new.where_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
     This will return all users who have a task with a title "Clean up notes". You can continue to scope
@@ -543,7 +541,7 @@ class Guides::Database::Querying < GuideAction
     user.delete
     ```
 
-    ### Delete bulk
+    ### Bulk delete
 
     If you need to bulk delete a group of records based on a where query, you can use `delete` at
     the end of your query. This returns the number of records deleted.

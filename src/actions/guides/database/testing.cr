@@ -9,8 +9,7 @@ class Guides::Database::Testing < GuideAction
     <<-MD
     ## Introduction
 
-    A Box is an object used to map a corresponding [model](#{Guides::Database::Models.path}) to your
-    test database. It allows you to easily create test data for your specs.
+    A Box is a class that allows you to easily create test data.
 
     Even though a Box is generally used for test data, you can also use it to seed your database with
     development data as mentioned in [database setup](#{Guides::Database::DatabaseSetup.path(anchor: Guides::Database::DatabaseSetup::ANCHOR_SEEDING_DATA)}).

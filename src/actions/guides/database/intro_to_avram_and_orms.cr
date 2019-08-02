@@ -62,9 +62,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
 
     ## Operations
 
-    Avram operations are classes used for creating and updating records in the database. This process
-    is generally for interaction with users through HTML forms, but it could be used anywhere in the app
-    to change data.
+    Avram operations are classes used for creating and updating records in the database.
 
     Similar to the `Query` object, these classes will inherit from a subclass of your model called
     `SaveOperation`. If you create a `User` model, Lucky will create a `User::SaveOperation` class for you.
