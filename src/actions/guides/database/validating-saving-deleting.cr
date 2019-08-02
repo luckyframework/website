@@ -16,7 +16,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     We’ll be using the migration and model from the [Querying
     guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
-    up a form:
+    up a save operation:
 
     ```crystal
     # src/operations/save_user.cr
@@ -24,7 +24,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    > You can have more than one form object to save a record in different ways.
+    > You can have more than one operation object to save a record in different ways.
     For example, default Lucky apps have a `SignUserUp` specifically for handling
     user sign ups.
 
@@ -33,7 +33,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     By default you won’t be able to set any data from params. This is a security
     measure to make sure that parameters can only be set that you want to allow
     users to fill out. For example, you might not want your users to be able to
-    set an admin status through the `UserForm`.
+    set an admin status through the `SaveUser` operation.
 
     To allow a field to be saved to the database, use the `permit_columns` macro:
 
@@ -44,28 +44,28 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     end
     ```
 
-    Now you will be able to fill out the user’s name with form params.
+    Now you will be able to fill out the user’s name from params.
 
     ## Creating records
 
     > Actions have a `params` method that returns a `LuckyWeb::Params` object.
-    This is used by the form to get form params that are set by [submitting an
+    This is used by the operation to get form params that are set by [submitting an
     HTML form](##{ANCHOR_USING_WITH_HTML_FORMS}) or [when saving with a JSON API](#{Guides::JsonAndApis::SavingToTheDatabase.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
 
     To create a record, you pass a block that is run whether the save is
     successful or not.
 
-    You will *always* receive the form object, but you will only get the saved
-    user if there are no errors while saving. If there are errors, the user will
+    You will *always* receive the operation object, but you will only get the saved
+    record if there are no errors while saving. If there are errors, the record will
     be `nil`.
 
     ```crystal
     # inside of an action with some form params
-    SaveUser.create(params) do |form, user|
+    SaveUser.create(params) do |operation, user|
       if user # the user was saved
         render Users::ShowPage, user: user
       else
-        render Users::NewPage, form: form
+        render Users::NewPage, save_operation: operation
       end
     end
     ```
@@ -73,29 +73,29 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ## Updating records
 
     In contrast to `create`, `update` will always pass the record to the block. To check
-    if any changes were persisted, you can call `form.saved?`, or `form.valid?`
+    if any changes were persisted, you can call `operation.saved?`, or `operation.valid?`
     to check if the submitted data was saved.
 
     ```crystal
     # inside of an action with some form params
     user = UserQuery.new.first
-    SaveUser.update(user, params) do |form, updated_user|
-      if form.saved?
+    SaveUser.update(user, params) do |operation, updated_user|
+      if operation.saved?
         render Users::ShowPage, user: updated_user
       else
-        render Users::NewPage, form: form
+        render Users::NewPage, save_operation: operation
       end
     end
     ```
 
     ### Update with `update!`
 
-    `update!` will raise if the form fails to save or is invalid.
+    `update!` will raise if the record fails to save or is invalid.
     This version is often used when [writing JSON APIs](#{Guides::JsonAndApis::RenderingJson.path})
     or for creating sample data in your the seed tasks in the `/tasks` folder.
 
     ```crystal
-    user = UserQuery.new.first
+    user = UserQuery.first
     # Returns the updated user or raises
     updated_user = SaveUser.update!(user, params)
     ```
@@ -109,8 +109,8 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     You can use operations in HTML like this:
 
-    > Remember: you *must* mark a field in `permit_columns` in order to use it in a
-    > form. If it isn’t permitted the program will not compile.
+    > Remember: you *must* mark a field in `permit_columns` in order to use it in an
+    > operation. If it isn’t permitted the program will not compile.
 
     ```crystal
     # src/pages/users/new_page.cr
@@ -121,11 +121,11 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
         render_form(@user_operation)
       end
 
-      private def render_form(operation)
+      private def render_form(op)
         form_for Users::Create do
-          label_for operation.name
-          text_input operation.name
-          errors_for operation.name
+          label_for op.name
+          text_input op.name
+          errors_for op.name
 
           submit "Save User"
         end
@@ -134,7 +134,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     ```
 
     > A private method `render_form` is extracted because it makes it easier to
-    reference the form as `f`. It also makes it easier to see what a page looks like
+    reference the form as `op`. It also makes it easier to see what a page looks like
     with a quick glance at the `render` method.
 
     ```crystal

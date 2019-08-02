@@ -1,4 +1,5 @@
 class Guides::Database::Querying < GuideAction
+  ANCHOR_PRELOADING = "perma-preloading"
   guide_route "/database/querying"
 
   def self.title
@@ -402,6 +403,7 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.full_join_tasks
     ```
 
+    #{permalink(ANCHOR_PRELOADING)}
     ## Preloading
 
     In development and test environemnts Lucky requries preloading associations. If you forget to preload an
@@ -495,7 +497,7 @@ class Guides::Database::Querying < GuideAction
 
     When adding an associated query (like `task_query`), Avram will handle adding the join
     for you. By default, this is an `INNER JOIN`, but if you need to customize that, you can
-    use the `auto_inner_join` option.
+    set the `auto_inner_join` option to `false`.
 
     ```crystal
     def recently_completed_admin_tasks
@@ -503,7 +505,9 @@ class Guides::Database::Querying < GuideAction
 
       # Tell the `where_tasks` to skip adding the `inner_join` so we can
       # use the `left_join_tasks` instead.
-      admin(true).left_join_tasks.where_tasks(task_query, auto_inner_join: false)
+      admin(true)
+        .left_join_tasks
+        .where_tasks(task_query, auto_inner_join: false)
     end
     ```
 

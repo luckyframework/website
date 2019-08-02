@@ -69,7 +69,7 @@ class Guides::Database::Migrations < GuideAction
     ### Special columns
 
     When adding in columns, you'll use the [add](#add-column) method in your `create` block, but there are
-    some special considerations.
+    some special considerations when adding a different primary key or timestamp fields.
 
     ```crystal
     create :users do

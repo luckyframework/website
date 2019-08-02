@@ -20,8 +20,8 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     ### What does Avram mean?
 
     Originally called "LuckyRecord", the name change was decided because this ORM is not tied directly
-    to the Lucky framework. You could choose to use it in any number of other crystal frameworks if you
-    chose to. When deciding the name, we wanted something easily searchable, and meaningful. Thanks to all
+    to the Lucky framework. You could choose to use it in any number of other Crystal frameworks.
+    When deciding the name, we wanted something easily searchable, and meaningful. Thanks to all
     the suggestions from [the community](https://github.com/luckyframework/lucky_record/issues/238#issuecomment-426107202), we landed on Avram.
 
     [Henriette Avram](https://en.wikipedia.org/wiki/Henriette_Avram) was a computer programmer and systems
@@ -31,13 +31,13 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     ### What does Avram include?
 
     Every ORM will have a different pattern, and different set of tools included. With Avram, we took a
-    pattern breaking out where business logic is stored VS. where database queries are handled. This pattern
+    pattern breaking out where business logic is stored vs. where database queries are handled. This pattern
     helps to keep code organized by it's purpose within your application. This includes `Models`, `Queries`,
     `Operations`, `Migrations`, and `Boxes`.
 
     ## Models
 
-    Avram models are classes that map each database table to a specific object. The naming convention for
+    Avram's models use classes to map each database table to a specific object. The naming convention for
     each model is to be the singular word as where the table name is the plural form.
     (e.g. `User` model, and `users` table.).
 
@@ -63,7 +63,8 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     ## Operations
 
     Avram operations are classes used for creating and updating records in the database. This process
-    is generally for interaction with users through HTML forms.
+    is generally for interaction with users through HTML forms, but it could be used anywhere in the app
+    to change data.
 
     Similar to the `Query` object, these classes will inherit from a subclass of your model called
     `SaveOperation`. If you create a `User` model, Lucky will create a `User::SaveOperation` class for you.

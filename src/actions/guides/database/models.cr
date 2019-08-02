@@ -65,22 +65,25 @@ class Guides::Database::Models < GuideAction
     * `created_at` - default `Time` type.
     * `updated_at` - default `Time` type.
 
-    To change your defaults, define a macro called `default_columns` in your model.
+    To change your defaults, define a macro called `default_columns` in your `BaseModel`.
 
     ```crystal
-    macro default_columns
-      # Defines a custom primary key
-      primary_key custom_key : UUID
+    abstract class BaseModel < Avram::Model
+      macro default_columns
+        # Defines a custom primary key
+        primary_key custom_key : UUID
 
-      # adds the `created_at` and `updated_at`
-      timestamps
+        # adds the `created_at` and `updated_at`
+        timestamps
+      end
     end
     ```
 
-    If you need to skip adding these, call the `skip_default_columns` macro in your model or `BaseModel`.
+    If you don't need the default columns in your model , call the `skip_default_columns` macro
+    at the top of the model class.
 
     ```crystal
-    class BaseModel < Avram::Model
+    class CustomModel < Avram::Model
       skip_default_columns
     end
     ```
@@ -253,35 +256,35 @@ class Guides::Database::Models < GuideAction
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
 
-    ## Polymorphic
+    ## Polymorphic associations
 
-    [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) is describes
+    [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) describes
     the concept that objects of different types can be accessed through the same interface.
 
     This allows us to have a single method to define an association, but that method can return
     many different types. A bit confusing, but best explained with some code!
 
     ```crystal
-    class User < BaseModel
+    class Photo < BaseModel
       table do
-        has_many events : Event
+        has_many comments : Comment
       end
     end
 
-    class Organization < BaseModel
+    class Video < BaseModel
       table do
-        has_many events : Event
+        has_many comments : Comment
       end
     end
 
-    class Event < BaseModel
+    class Comment < BaseModel
       table do
-        # Note that these are both nilable
-        belongs_to user : User?
-        belongs_to organization : Organization?
+        # Note that both these `belongs_to` *must* be nilable
+        belongs_to photo : Photo?
+        belongs_to video : Video?
 
-        # Now `eventable` could be a `user` or `organization`
-        polymorphic eventable, associations: [:user, :organization]
+        # Now `commentable` could be a `photo` or `video`
+        polymorphic commentable, associations: [:photo, :video]
       end
     end
     ```
@@ -289,28 +292,45 @@ class Guides::Database::Models < GuideAction
     And to use it
 
     ```crystal
-    user = SaveUser.create!
-    event = SaveEvent.create!(user_id: user.id)
+    photo = SavePhoto.create!
+    comment = SaveComment.create!(phot_id: photo.id)
 
-    event.eventable == user
+    comment.commentable == photo
     ```
 
-    The `Event` model now has an `eventable` method which could return a `user` object
-    or an `organization` object depending on which was associated.
+    The `Comment` model now has a `commentable` method which could return a `photo` object
+    or a `video` object depending on which was associated.
     <!-- go go polymorphin power rangers -->
     For each polymorphic association, you'll need to add a `belongs_to`. This helps to keep
     our polymorphic associations type-safe! [See migrations](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}) for `add_belongs_to`.
 
     You'll also note that the `belongs_to` has nillable models. This is required for the polymorphic
     association. Even though these are set as nilable, the association still requires at least 1 of the
-    `associations` to exist. This means that `eventable` is never actually `nil`.
+    `associations` to exist. This means that `commentable` is never actually `nil`.
 
-    If you need this association to be fully optional where `eventable` could be `nil`, you'll add the
+    If you need this association to be fully optional where `commentable` could be `nil`, you'll add the
     `optional` option.
 
     ```crystal
-    # eventable can now be nil
-    polymorphic eventable, optional: true, associations: [:user, :organization]
+    # commentable can now be nil
+    polymorphic commentable, optional: true, associations: [:photo, :video]
+    ```
+
+    ### Preloading polymorphic associations
+
+    Since the polymorphic associations are just regular `belongs_to` associations with some sweet
+    helper methods, all of the [preloading](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_PRELOADING)}) still exists.
+
+    ```crystal
+    comment = CommentQuery.new.preload_commentable
+    comment.commentable #=> Safely access this association
+    ```
+
+    To skip preloading the polymorphic association, just add a bang `!`.
+
+    ```crystal
+    comment = CommentQuery.first
+    comment.commentable! #=> no preloading required here
     ```
     MD
   end

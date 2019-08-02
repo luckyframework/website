@@ -1,4 +1,5 @@
 class Guides::Database::DatabaseSetup < GuideAction
+  ANCHOR_SEEDING_DATA = "perma-seeding-data"
   guide_route "/database/database-setup"
 
   def self.title
@@ -68,6 +69,7 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     > Please *please* don't ever do this in production
 
+    #{permalink(ANCHOR_SEEDING_DATA)}
     ## Seeding Data
 
     Seeding is the process of putting data in to your database. This could be fake placeholder
