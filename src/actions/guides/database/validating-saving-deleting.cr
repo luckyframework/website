@@ -35,7 +35,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     users to fill out. For example, you might not want your users to be able to
     set an admin status through the `SaveUser` operation.
 
-    To allow users to set columns from JSON/form params, use the `permit_columns' macro:
+    To allow users to set columns from JSON/form params, use the `permit_columns` macro:
 
     ```crystal
     # src/operations/save_user.cr
