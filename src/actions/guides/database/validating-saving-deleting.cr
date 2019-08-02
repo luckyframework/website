@@ -12,7 +12,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     When you set up a model, a `{ModelName}::SaveOperation` will be created so that you can inherit
     from it and customize validations, callbacks, and what fields are allowed to be
-    filled. `{ModelName}::SaveOperation` automatically defines a form field for each model field.
+    filled. `{ModelName}::SaveOperation` automatically defines an attribute for each model field.
 
     We’ll be using the migration and model from the [Querying
     guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
@@ -35,7 +35,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     users to fill out. For example, you might not want your users to be able to
     set an admin status through the `SaveUser` operation.
 
-    To allow a field to be saved to the database, use the `permit_columns` macro:
+    To allow users to set columns from JSON/form params, use the `permit_columns' macro:
 
     ```crystal
     # src/operations/save_user.cr
@@ -65,7 +65,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
       if user # the user was saved
         render Users::ShowPage, user: user
       else
-        render Users::NewPage, save_operation: operation
+        render Users::NewPage, operation: operation
       end
     end
     ```
@@ -109,16 +109,16 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
     You can use operations in HTML like this:
 
-    > Remember: you *must* mark a field in `permit_columns` in order to use it in an
-    > operation. If it isn’t permitted the program will not compile.
+    > Remember: you *must* mark a field in `permit_columns` in order to set it from JSON/form params.
+    > If it isn’t permitted the program will not compile.
 
     ```crystal
     # src/pages/users/new_page.cr
     class Users::NewPage < MainLayout
-      needs user_operation : SaveUser
+      needs operation : SaveUser
 
       def content
-        render_form(@user_operation)
+        render_form(@operation)
       end
 
       private def render_form(op)
@@ -285,14 +285,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     class SaveUser < User::SaveOperation
       permit_columns name, password, password_confirmation, terms_of_service, age
 
-      before_save validate_data
-      before_save {
-        if name.value == "Skeletor"
-          name.add_error "Mmmyyaahhh!"
-        end
-      }
-
-      def validate_data
+      before_save do
         validate_required name
         validate_confirmation_of password, with: password_confirmation
         validate_acceptance_of terms_of_service
@@ -306,11 +299,19 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
         validate_size_of name, min: 4 # Can't be too short
         validate_size_of name, max: 8 # Must have a short name
       end
+
+      before_save reject_scary_monsters
+
+      def reject_scary_monsters
+        if name.value == "Skeletor"
+          name.add_error "Mmmyyaahhh!"
+        end
+      end
     end
     ```
 
     The `before_save` callbacks will run just before calling `save`. They each return `true` if
-    the attributes are all `valid?`.
+    the attributes are all `valid?`. They will also run if you call the `valid?` method.
 
     ## What are attributes?
 
@@ -383,6 +384,35 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
 
       def run_this_after_commit(newly_created_post : Post)
         # do something
+      end
+    end
+    ```
+
+    ### When to use `after_save` vs. `after_commit`
+
+    The `after_save` callback is a great place to do other database saves because if something goes
+    wrong the whole transaction would be rolled back.
+
+    ```crystal
+    class SaveComment < Comment::SaveOperation
+      after_save also_update_post
+
+      # If this fails, we roll back the comment save too
+      def also_update_post(saved_comment : Comment)
+        SavePost.update!(latest_comment: saved_comment.body)
+      end
+    end
+    ```
+
+    The `after_commit` callback is best used for things like email notifications and such
+    since this is only called if the records were actually saved in to the database.
+
+    ```crystal
+    class SaveComment < Comment::SaveOperation
+      after_commit notify_user_of_new_comment
+
+      def notify_user_of_new_comment(new_comment : Comment)
+        NewCommentNotificationEmail.new(new_comment, to: comment.author!).deliver_now
       end
     end
     ```
@@ -487,7 +517,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     `on` then you don't need to worry about the value ever being `nil`, which can
     make your program more reliable and easier to understand.
 
-    ## Non-model attributes
+    ## Non-database column attributes
 
     Sometimes you want users to submit data that isn't saved to the database. For that
     we use `attribute`.
@@ -671,10 +701,10 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
       include AgeValidation
       permit_columns email, age
 
-      before_save {
+      before_save do
         validate_old_enough_to_use_website
         admin.value = true
-      }
+      end
     end
     ```
 
@@ -689,7 +719,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     * `ImportCsvUser` - great for operations that get data from a CSV.
     * `SignUpUser` - for signing up a new user. Encrypt passwords, send welcome emails, etc.
     * `SignInUser` - check that passwords match
-    * `AdminSaveUser` - sometimes admin can set more fields than a regular user. It’s
+    * `SaveAdminUser` - sometimes admin can set more fields than a regular user. It’s
       often a good idea to extract a new form for those cases.
     MD
   end
