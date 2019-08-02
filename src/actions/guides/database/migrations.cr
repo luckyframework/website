@@ -53,6 +53,8 @@ class Guides::Database::Migrations < GuideAction
     * `db.migrations.status` - Displays the current status of migrations.
     * `db.verify_connection` - Tests that Avram can connect to your database.
 
+    [Learn more about tasks](#{Guides::CommandLineTasks::BuiltIn.path})
+
     ## Create table
 
     Use the `create` method for creating a table. You will place all of the table definitions
