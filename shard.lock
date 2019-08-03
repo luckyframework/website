@@ -26,7 +26,7 @@ shards:
 
   cry:
     github: paulcsmith/cry
-    version: 0.4.0
+    version: 0.4.1
 
   db:
     github: crystal-lang/crystal-db
@@ -95,4 +95,3 @@ shards:
   wordsmith:
     github: luckyframework/wordsmith
     version: 0.2.0
-
