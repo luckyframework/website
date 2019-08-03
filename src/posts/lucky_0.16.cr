@@ -8,14 +8,14 @@ class Lucky016Release < BasePost
 
   def summary
     <<-TEXT
-    Lucky v0.16 is a small quick release. Support for Crystal 0.30. Keep an eye
-    out for the next version to drop soon after this.
+    Lucky v0.16 is a small release with support for Crystal 0.30. Keep an eye
+    out for the next big Lucky release which will be out soon.
     TEXT
   end
 
   def content
     <<-MD
-    Lucky v0.16.0 is now out and has support for the newest Crystal (0.30.0)!
+    Lucky v0.16.0 is now out and has support for the newest Crystal (v0.30.0)!
 
     We decided to keep this release small so you have a chance to upgrade Crystal,
     and not worry about so many changes to Lucky (yet 😉). This release is the same
@@ -30,7 +30,7 @@ class Lucky016Release < BasePost
     Just a few things on the way:
 
     * JSON and Array support
-    * Polymorphism
+    * Polymorphic associations
     * More primary key support
     * Int16 / Int64
     * Much more...
