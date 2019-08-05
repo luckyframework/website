@@ -130,11 +130,11 @@ class Guides::Database::Models < GuideAction
 
     * `String` - `text` column type. In Postgres [`text` can store strings of any length](https://stackoverflow.com/questions/4848964/postgresql-difference-between-text-and-varchar-character-varying)
     * `Int16` - `smallint` column type.
-    * `Int32` - `int` column type.
+    * `Int32` - `integer` column type.
     * `Int64` - `bigint` column type.
-    * `Float64` - `decimal` column type.
+    * `Float64` - `numeric` column type.
     * `Bool` - `boolean` column type.
-    * `Time` - `timestamptz` column type.
+    * `Time` - `timestamp with time zone` (`timestampz`) column type.
     * `UUID` - `uuid` column type.
     * `JSON::Any` - `jsonb` column type.
     * `Array(T)` - `[]` column type where `T` is any other supported type.
@@ -142,6 +142,29 @@ class Guides::Database::Models < GuideAction
     Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`.
     This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an
     `int` or `NULL` value).
+
+    ### Additional postgres types
+
+    Postgres supports a lot more types than what Avram does out of the box. If you need access to a
+    type that [crystal-pg](https://github.com/will/crystal-pg) supports that isn't listed above,
+    you can add in support for your app.
+
+    Let's take postgres's `double precision` type for example. This currently maps to `Float64`, but
+    Lucky maps `numeric` to `Float64`. To use the `double precision` type, create an alias.
+
+    ```crystal
+    alias Double = Float64
+
+    # then in your model
+
+    table :products do
+      column price : Double
+    end
+    ```
+
+    > Avram is constantly being updated, and some types may not "patch" as easily. If you tried this
+    > method, and it doesn't work for you, be sure to [open an issue](https://github.com/luckyframework/avram/issues) so we can get support for that
+    > as soon as possible.
 
     #{permalink(ANCHOR_MODEL_ASSOCIATIONS)}
     ## Model associations
