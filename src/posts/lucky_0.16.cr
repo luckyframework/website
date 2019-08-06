@@ -29,10 +29,10 @@ class Lucky016Release < BasePost
 
     Just a few things on the way:
 
-    * JSON and Array support
+    * Postgres JSON and Array support
     * Polymorphic associations
     * More primary key support
-    * Int16 / Int64
+    * Int16 / Int64 Postgres columns
     * Much more...
 
     ### Follow and spread the word
