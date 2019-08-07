@@ -47,9 +47,9 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
       route do
         remote_ip = headers["X-Forwarded-For"]?
         if remote_ip
-          text "The remote IP is \#{remote_ip}"
+          plain_text "The remote IP is \#{remote_ip}"
         else
-          text "No remote IP found"
+          plain_text "No remote IP found"
         end
       end
     end
@@ -62,8 +62,9 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     * `render` - render a Lucky::HTMLPage
     * `redirect` - redirect the request to another location
-    * `text` - respond with plain text
+    * `plain_text` - respond with plain text
     * `json` - return a json response
+    * `xml` - return an xml response
     * `head` - return a head response with a 204 status
     * `file` - return a file for download
 
@@ -73,7 +74,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
         # Run some fancy background job
         if plain?
           # plain text request, return some plain text
-          text "Job sent for processing"
+          plain_text "Job sent for processing"
         else
           # Respond with HEAD 201
           head 201
