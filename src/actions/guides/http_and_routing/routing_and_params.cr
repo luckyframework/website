@@ -264,9 +264,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    The `memoize` macro can be used anywhere in your application to memoize a method. However,
-    there are a few caveats to it. It will not memoize `false`, or `nil` return values. If your
-    method returns a "falsey" value, then it will be ran each time. Another thing to note is
+    There are a few caveats to the `memoize` macro. It will not memoize `false`, or `nil` return values.
+    If your method returns a "falsey" value, then it will be ran each time. Another thing to note is
     you can't memoize a method that takes an argument. This is due to the dynamic nature of the
     arguments.
 
