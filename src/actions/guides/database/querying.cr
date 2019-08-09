@@ -355,7 +355,7 @@ class Guides::Database::Querying < GuideAction
     You can use this to help refine your association.
 
     ```crystal
-    UserQuery.new.join_taks.tasks { |task_query|
+    UserQuery.new.join_tasks.tasks { |task_query|
       # WHERE tasks.title = 'Clean up notes'
       task_query.title("Clean up notes")
     }
