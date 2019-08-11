@@ -17,7 +17,3 @@ script:
   # - crystal tool format spec src --check
 cache:
   yarn: true
-  directories:
-    - bin/lucky
-    - lib
-    - .shards
