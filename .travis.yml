@@ -8,6 +8,10 @@ before_install:
   # Setup chromedriver for LuckyFlow
   - sudo apt-get install chromium-chromedriver
 
+  # Setup shards
+  - shards update
+  - shards install
+
   # Setup assets
   - yarn install
   - yarn prod
