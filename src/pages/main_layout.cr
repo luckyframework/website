@@ -18,14 +18,14 @@ abstract class MainLayout
     html lang: "en" do
       mount Shared::LayoutHead.new(seo: SEO.new(page_title), context: @context)
 
-
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
         mount Shared::Header.new(@context.request)
         render_hero_content
         render_feature_grid
         render_freeform_text
-        mount Shared::Footer.new()
       end
+
+      mount Shared::Footer.new()
     end
   end
 

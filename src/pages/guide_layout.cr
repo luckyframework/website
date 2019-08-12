@@ -23,6 +23,8 @@ abstract class GuideLayout
         middle_section
         guide_content
       end
+
+      mount Shared::Footer.new()
     end
   end
 
