@@ -1,6 +1,6 @@
 database_name = "website_v2_#{Lucky::Env.name}"
 
-Avram::Repo.configure do |settings|
+AppDatabase.configure do |settings|
   if Lucky::Env.production?
     settings.url = ENV.fetch("DATABASE_URL")
   else
@@ -11,6 +11,11 @@ Avram::Repo.configure do |settings|
       password: ENV["DB_PASSWORD"]? || "postgres"
     )
   end
-  # In development and test, raise an error if you forget to preload associations
+end
+
+Avram.configure do |settings|
+  settings.database_to_migrate = AppDatabase
+
+  # this is moved from your old `Avram::Repo.configure` block.
   settings.lazy_load_enabled = Lucky::Env.production?
 end
