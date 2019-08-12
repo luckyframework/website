@@ -58,7 +58,7 @@ shards:
 
   markd:
     github: bdtomlin/markd
-    commit: 9192ee09e39d27dbab4db110d384113b7e2b3abd
+    commit: f4a9e8fe8055b442f29e0a6ecec50cbecbddc84c
 
   pg:
     github: will/crystal-pg
