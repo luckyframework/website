@@ -17,7 +17,7 @@ class Guides::GettingStarted::Installing < GuideAction
       [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
       [forego](https://github.com/ddollar/forego#installation),
       or [foreman](https://github.com/ddollar/foreman#installation).
-    * [Crystal v0.29](https://crystal-lang.org/reference/installation/)
+    * [Crystal v0.30](https://crystal-lang.org/reference/installation/)
     * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
     ### Debian and Fedora dependencies

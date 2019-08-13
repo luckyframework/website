@@ -2,39 +2,31 @@ version: 1.0
 shards:
   authentic:
     github: luckyframework/authentic
-    commit: eedb7b605e65eded42ad09a7f994c187e29d3b21
+    commit: c5fea76ca57b45cfc765f810556f7faf6887bc9a
 
   avram:
     github: luckyframework/avram
-    commit: fea19d35999534b69104798e07aa263c9b9bf98c
+    commit: 976c50464a73c25eac06ef8245377433933d05de
 
   blank:
     github: kostya/blank
     version: 0.1.0
 
-  callback:
-    github: mosop/callback
-    version: 0.6.3
-
   carbon:
     github: luckyframework/carbon
-    version: 0.1.0
-
-  cli:
-    github: mosop/cli
-    version: 0.7.0
+    version: 0.1.1
 
   cry:
     github: paulcsmith/cry
-    version: 0.4.0
+    version: 0.4.1
 
   db:
     github: crystal-lang/crystal-db
-    version: 0.5.1
+    version: 0.6.0
 
   dexter:
     github: luckyframework/dexter
-    version: 0.1.1
+    version: 0.1.2
 
   dotenv:
     github: gdotdesign/cr-dotenv
@@ -50,31 +42,27 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    commit: 165a71f768709935b2a99bc1c9e1bc497617bd11
+    commit: 65cfab402baa5dc25b6721a095536e596ff4004b
 
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: 0.15.0
+    commit: edefde5a1ed5b6c5bc8063513e7c5ddd2399a167
 
   lucky_flow:
     github: luckyframework/lucky_flow
-    commit: a8b3158e0dfe0316f513bf09a36e8b967d18756f
+    commit: 2fff685de5f5d8058cd12ba5f0aae8835490f435
 
   lucky_router:
     github: luckyframework/lucky_router
     version: 0.2.2
 
   markd:
-    github: icyleaf/markd
-    version: 0.1.1
-
-  optarg:
-    github: mosop/optarg
-    version: 0.5.8
+    github: bdtomlin/markd
+    commit: 9192ee09e39d27dbab4db110d384113b7e2b3abd
 
   pg:
     github: will/crystal-pg
-    version: 0.16.1
+    version: 0.18.0
 
   selenium:
     github: ysbaddaden/selenium-webdriver-crystal
@@ -84,13 +72,9 @@ shards:
     github: luckyframework/shell-table.cr
     commit: 078a04ea58ead5203bb435a3b5fff448ddabaeea
 
-  string_inflection:
-    github: mosop/string_inflection
-    version: 0.2.1
-
   teeplate:
-    github: mosop/teeplate
-    version: 0.7.0
+    github: luckyframework/teeplate
+    version: 0.8.0
 
   wordsmith:
     github: luckyframework/wordsmith
