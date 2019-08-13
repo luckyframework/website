@@ -21,9 +21,9 @@ class Shared::Footer < BaseComponent
     a title, class: "inline-block text-grey-darkest no-underline md:mr-2 md:mb-2 px-2 py-2 hover:text-black ", href: url
   end
 
-  private def footer_icon(url, icon_path, alt_desc)
-    link(url, class: "ml-6 md:ml-0 mr-10 self-center") do
-      img src: dynamic_asset("#{icon_path}"), class: "h-8", alt: "#{alt_desc}"
+  macro footer_icon(url, icon_path, alt_desc)
+    link({{ url }}, class: "ml-6 md:ml-0 mr-10 self-center") do
+      img src: asset({{ icon_path }}), class: "h-8", alt: {{ alt_desc }}
     end
   end
 end
