@@ -223,6 +223,27 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    ## Change column type
+
+    To change your column type, you'll use the `change_type` macro. This is very useful for
+    when you need to change a column from one type to another. One example may be updating your
+    primary key from `Int32` to `Int64`.
+
+    ```crystal
+    alter :users do
+      # update your `id` column from postgres `integer` to `bigint`
+      change_type id : Int64
+    end
+    ```
+
+    You can also update some of the options passed to a column such as a float precision.
+
+    ```crystal
+    alter :transactions do
+      change_type amount : Float64, precision: 4, scale: 2
+    end
+    ```
+
     ## Remove column
 
     The `remove` method must go in the [`alter`](#alter-table) block.
