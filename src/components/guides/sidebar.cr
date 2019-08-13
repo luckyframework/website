@@ -73,7 +73,7 @@ class Guides::Sidebar < BaseComponent
   def render
     div class: "text-black md:absolute pin-t pin-l bg-white md:rounded-lg shadow md:shadow-lg w-full md:w-sidebar md:mt-5 md:ml-2 pb-3 md:mb-10" do
       ul class: "list-reset" do
-        li "All Guides", class: "uppercase text-sm text-grey-dark tracking-wide border-b border-grey-light py-3 mt-3 px-8 md:ml-8 md:pl-0 mb-4"
+        li "Lucky v#{LuckyCliVersion.current_version}", class: "text-sm text-grey-dark tracking-wide border-b border-grey-light py-3 mt-3 px-8 md:ml-8 md:pl-0 mb-4"
         categories.each do |category|
           li do
             if category.active?(@current_guide)
