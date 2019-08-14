@@ -1,6 +1,4 @@
 abstract class GuideAction < BrowserAction
-  include Lucky::ProtectFromForgery
-
   expose markdown
   expose title
   expose guide_file_path
