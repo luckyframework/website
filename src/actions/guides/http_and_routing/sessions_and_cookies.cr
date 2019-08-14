@@ -22,7 +22,7 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
         session.set(:name, "Sally")
         session.get(:name) # Will return "Sally"
         session.get("person") # oops! An exception is raised because this key doesn't exist
-        text "Cookies!"
+        plain_text "Cookies!"
       end
     end
     ```

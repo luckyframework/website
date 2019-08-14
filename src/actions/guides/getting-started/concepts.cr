@@ -97,9 +97,9 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     The classes used by [Carbon](#{Guides::Emails::SendingEmailsWithCarbon.path}) along with the email templates are placed in here.
 
-    ### `forms` folder
+    ### `operations` folder
 
-    Forms for saving database records or interacting with HTTP forms.
+    Operations for saving database records or interacting with HTTP forms.
 
     ### `js` folder
 

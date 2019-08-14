@@ -25,7 +25,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
       # Normally you would use `nested_route`
       # We'll use `get` here to make the example more clear
       get "projects/:project_id/users" do
-        text "Users"
+        plain_text "Users"
       end
     end
     ```

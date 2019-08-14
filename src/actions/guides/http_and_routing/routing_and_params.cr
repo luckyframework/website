@@ -21,24 +21,26 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     To save some typing, Lucky automatically infers a default route path from the name of the action class,
     if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
-    
-    For example, an action named `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
+
+    For example, an action nemed `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
+
     for a specific item, and have the requested item_id available as #{:item_id}.
 
     To see what a simple action looks like, let's generate an index action for showing users with
     `lucky gen.action.browser Users::Index`.
 
     ```crystal
+    # src/actions/users/index.cr
     class Users::Index < BrowserAction
       get "/users/:user_id" do
-        # `text` sends plain/text to the client
-        text "Rendering something in Users::Index"
+        # `plain_text` sends plain/text to the client
+        plain_text "Rendering something in Users::Index"
       end
     end
     ```
-        
+
     Routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
-    
+
     If you need access to still different methods like `options`, you can use the `match` macro.
 
     ```crystal
@@ -50,8 +52,6 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       end
     end
     ```
-
-
 
     > Note that `lucky gen.action.browser` is used to create actions that should be
     shown in a browser. Whereas `lucky gen.action.api` is used for actions meant
@@ -97,11 +97,11 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     # src/actions/users/show.cr
     class Users::Show < BrowserAction
       get "/users/:some_user_id" do
-        text "Requested user id: \#{some_user_id}"
+        plain_text "Requested user id: \#{some_user_id}"
       end
     end
     ```
-    
+
     Here, the string from the request path will be returned by the `some_user_id` method. So in this example if 
     `/users/123-foo` is requested `some_user_id` would return a text response of `Requested user id: 123-foo`.
 
@@ -144,10 +144,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
      # From the name,
      #   "Users" is the resource, and
      #   "Show" is the RESTful action.
- 
+
       route do   # The infered route is:  get "/users/:user_id"
-    
-        text "A request was made for the user_id: \#{user_id}"
+        plain_text "A request was made for the user_id: \#{user_id}"
       end
     end
     ```
@@ -166,10 +165,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       #   "Projects" is the parent resource
       #   "Users" is the nested resource
       #   "Index" is the RESTful action
-    
+
       nested_route do  # The infered route is: get "/projects/:project_id/users"
-    
-        text "Render list of users in project \#{project_id}"
+        plain_text "Render list of users in project \#{project_id}"
       end
     end
     ```
@@ -186,10 +184,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     class Admin::Projects::Index < BrowserAction
       # From the name,
       # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
- 
+
       route do   # The infered route is: get "/admin/projects"
-    
-        text "Render list of projects"
+        plain_text "Render list of projects"
       end
     end
     ```
@@ -247,6 +244,34 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > The `fallback` should always contain a `Lucky::RouteNotFoundError` error. This is to throw a 404 when an asset, or some other file is not found.
 
+    ## Memoization
+
+    As your application gets larger, you may need to write helper methods that run expensive
+    calculations, or queries. Calling these methods multiple times can lead to performance issues.
+    To mitigate these, you can use the `memoize` macro.
+
+    ```crystal
+    class Reports::Show < BrowserAction
+      get "/report" do
+        small_number = calculate_numbers
+        big_number = calculate_numbers + 1000
+        render ShowPage, small_number: small_number, big_number: big_number
+      end
+
+      memoize def calculate_numbers
+        # This is ran only the first time it's called
+        ReportQuery.new.fetch_numbers_for_today(Time.utc)
+      end
+    end
+    ```
+
+    There are a few caveats to the `memoize` macro. It will not memoize `false`, or `nil` return values.
+    If your method returns a "falsey" value, then it will be ran each time. Another thing to note is
+    you can't memoize a method that takes an argument. This is due to the dynamic nature of the
+    arguments.
+
+    [Learn more about memoization](https://en.wikipedia.org/wiki/Memoization).
+
     ## 404 errors
 
     By default Lucky will respond with a 404 when neither a route nor a static
@@ -280,7 +305,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       param page : Int32 = 1
 
       route do
-        text "All users starting on page \#{page}"
+        plain_text "All users starting on page \#{page}"
       end
     end
     ```

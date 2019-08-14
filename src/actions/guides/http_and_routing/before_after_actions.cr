@@ -18,7 +18,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
       before require_admin
 
       get "/admin/users" do
-        text "List of users"
+        plain_text "List of users"
       end
 
       private def require_admin
@@ -70,7 +70,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
       include LogRequest
 
       get "/dashboard" do
-        text "The dashboard"
+        plain_text "The dashboard"
       end
     end
     ```
