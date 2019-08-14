@@ -17,8 +17,8 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     Let’s say you have a form called `ArticleForm`. Lucky will look for the data
     nested under an `article` key:
 
-    > Remember to add `fillable {{field name}}` or the field will be ignored. In
-    > this case, add `fillable title` to the `ArticleForm` to allow the `title`
+    > Remember to add `permit_columns {{field name}}` or the field will be ignored. In
+    > this case, add `permit_columns title` to the `ArticleForm` to allow the `title`
     > field to be saved.
 
     ```json

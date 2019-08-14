@@ -16,13 +16,14 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Routing
 
-    Instead of having separate definition files for routes and cotrollers, Lucky combines them in action classes.
+    Instead of having separate definition files for routes and controllers, Lucky combines them in action classes.
     This allows for solid error detection, and method and helper creation.
 
     To save some typing, Lucky automatically infers a default route path from the name of the action class,
     if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
 
     For example, an action nemed `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
+
     for a specific item, and have the requested item_id available as #{:item_id}.
 
     To see what a simple action looks like, let's generate an index action for showing users with

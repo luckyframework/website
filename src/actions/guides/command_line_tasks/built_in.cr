@@ -24,19 +24,22 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
 
     ```plaintext
     # Generated with lucky --help
-    lucky db.create       - Create the database
-    lucky db.drop         - Drop the database
-    lucky db.migrate      - Migrate the database
-    lucky db.migrate.one  - Run the next pending migration
-    lucky db.redo         - Rollback then run the last migration
-    lucky db.rollback     - Rollback the last migration
-    lucky db.rollback_all - Rollback all migrations
-    lucky gen.action      - Generate a new action
-    lucky gen.migration   - Generate a new migration
-    lucky gen.model       - Generate a model, query, and form
-    lucky gen.secret_key  - Generate a new secret key
-    lucky routes          - Show all the routes for the app
-    lucky watch           - Start and recompile project when files change
+    lucky db.create            - Create the database
+    lucky db.drop              - Drop the database
+    lucky db.migrate           - Migrate the database
+    lucky db.migrate.one       - Run the next pending migration
+    lucky db.migrations.status - Print the current status of migrations
+    lucky db.redo              - Rollback then run the last migration
+    lucky db.rollback          - Rollback the last migration
+    lucky db.rollback_all      - Rollback all migrations
+    lucky db.rollback_to       - Rollback to a specific migration
+    lucky db.verify_connection - Verify connection to postgres
+    lucky gen.action           - Generate a new action
+    lucky gen.migration        - Generate a new migration
+    lucky gen.model            - Generate a model, query, and form
+    lucky gen.secret_key       - Generate a new secret key
+    lucky routes               - Show all the routes for the app
+    lucky watch                - Start and recompile project when files change
     ```
     MD
   end

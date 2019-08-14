@@ -1,4 +1,5 @@
 class Guides::Database::DatabaseSetup < GuideAction
+  ANCHOR_SEEDING_DATA = "perma-seeding-data"
   guide_route "/database/database-setup"
 
   def self.title
@@ -16,9 +17,9 @@ class Guides::Database::DatabaseSetup < GuideAction
     ### Standard Options
 
     To configure Lucky to connect to your database, open up your `config/database.cr` file.
-    You'll find a few standard options within the `Avram::Repo` configure block.
+    You'll find a few standard options within the `AppDatabase` configure block.
 
-    * database_name
+    * database
     * hostname
     * username
     * password
@@ -68,13 +69,14 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     > Please *please* don't ever do this in production
 
+    #{permalink(ANCHOR_SEEDING_DATA)}
     ## Seeding Data
 
     Seeding is the process of putting data in to your database. This could be fake placeholder
     data you use in development, or even special data your application expects to exist in production.
 
     By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`,
-    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Database::Testing.path}) or [Forms](#{Guides::Database::ValidatingSavingDeleting.path}) to create the data.
+    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Database::Testing.path}) or [Operations](#{Guides::Database::ValidatingSavingDeleting.path}) to create the data.
 
     ### Required Seeds
 
@@ -88,8 +90,8 @@ class Guides::Database::DatabaseSetup < GuideAction
       # Using a Box
       UserBox.create &.email("developer@example.com").admin(true)
 
-      # Using a Form
-      UserForm.create!(email: "developer@example.com", admin: true)
+      # Using an Operation
+      SaveUser.create!(email: "developer@example.com", admin: true)
     end
     ```
 
@@ -112,9 +114,9 @@ class Guides::Database::DatabaseSetup < GuideAction
         ProductBox.create
       end
 
-      # Using a Form
+      # Using an Operation
       100.times do |i|
-        ProductForm.create(name: "Product \#{i}")
+        SaveProduct.create!(name: "Product \#{i}")
       end
     end
     ```
@@ -124,6 +126,55 @@ class Guides::Database::DatabaseSetup < GuideAction
     > Running `./script/setup` in development will run the `db.create_sample_seeds` task for you.
     > If you need to re-seed, you can run `lucky db.drop` and then `./script/setup` to re-create
     > and seed your local database.
+
+    ## Multiple Databases
+
+    Avram supports a multi-database setup which you may need to use for connecting to a legacy
+    db, or maybe doing a read/write replica setup.
+
+    By default, Lucky gives you the `AppDatabase` class for your primary DB. To add a second one,
+    you'll need to create a new class and inherit from `Avram::Database`.
+
+    ```crystal
+    # config/database.cr
+    class SecondaryDatabase < Avram::Database
+    end
+    ```
+
+    Next, you'll need to add the connection info for the `SecondaryDatabase`.
+
+    ```crystal
+    # config/database.cr
+    SecondaryDatabase.configure do |settings|
+      settings.url = ENV["SECOND_DATABASE_URL"]? || Avram::PostgresURL.build(
+        database: "db_two",
+        hostname: "localhost",
+        username: "postgres",
+        password: "postgres"
+      )
+    end
+    ```
+
+    Lastly, any models that need to use this database will need to define a class
+    method `def self.database` with this database.
+
+    ```crystal
+    # src/models/legacy_user.cr
+    class LegacyUser < Avram::Model
+      table :users do
+      end
+
+      def self.database
+        SecondaryDatabase
+      end
+    end
+    ```
+
+    If you have many models that require connection to the `SecondaryDatabase`, you can place
+    this method in its own `SecondaryBaseModel` class, then have those models inherit from that class.
+
+    > Migrations are ran against the `AppDatabase`. If you need to run migrations against
+    > another database, you'll need to update the `database_to_migrate` option in `config/database.cr`
     MD
   end
 end
