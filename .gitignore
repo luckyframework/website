@@ -13,6 +13,7 @@ start_server
 /public/css
 /public/mix-manifest.json
 /tmp
+.DS_Store
 
 # Ignore Up cache file
 /up.cache
