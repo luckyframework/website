@@ -10,6 +10,7 @@ class AppServer < Lucky::BaseAppServer
       Lucky::RouteHandler.new,
       CacheControlHandler.new,
       Lucky::StaticFileHandler.new("./public", false),
+      LegacyRedirectHandler.new,
       Lucky::RouteNotFoundHandler.new,
     ]
   end
