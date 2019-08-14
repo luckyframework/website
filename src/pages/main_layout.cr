@@ -24,6 +24,8 @@ abstract class MainLayout
         render_feature_grid
         render_freeform_text
       end
+
+      mount Shared::Footer.new()
     end
   end
 

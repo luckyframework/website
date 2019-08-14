@@ -28,6 +28,8 @@ abstract class BlogLayout
           content
         end
       end
+
+      mount Shared::Footer.new()
     end
   end
 end
