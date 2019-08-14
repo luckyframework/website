@@ -15,7 +15,7 @@ class Guides::Database::RawSql < GuideAction
     which we will later map to classes that can be easily used in our app.
 
     ```crystal
-    posts_result_set = Avram::Database.run do |db|
+    posts_result_set = AppDatabase.run do |db|
       db.query_all "SELECT * FROM posts;"
     end
     ```

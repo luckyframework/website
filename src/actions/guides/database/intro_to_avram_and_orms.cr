@@ -58,7 +58,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     Lucky will create a `User::BaseQuery` class for you, and your `UserQuery` object will inherit from that.
     (e.g. `UserQuery < User::BaseQuery`).
 
-    [Learn more about queries](#{Guides::Database::Querying.path})
+    [Learn more about queries](#{Guides::Database::QueryingDeleting.path})
 
     ## Operations
 
@@ -70,7 +70,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     The naming convention for operations is to use an action of what this object does like save a user record.
     (e.g. `User` model, `SaveUser` operation).
 
-    [Learn more about operations](#{Guides::Database::ValidatingSavingDeleting.path})
+    [Learn more about operations](#{Guides::Database::ValidatingSaving.path})
 
     ## Migrations
 
@@ -121,7 +121,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     ```
 
     * Place migrations (if necessary) in `db/migrations/`.
-    * Boxes, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::ValidatingSavingDeleting.path}).
+    * Boxes, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::ValidatingSaving.path}).
 
     > If your app doesn't need a database, you should still set the `Avram::Database` configure setting to
     > some non-empty string. Avram Operations can still be quite useful for things like contact forms,

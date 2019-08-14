@@ -1,9 +1,9 @@
-class Guides::Database::Querying < GuideAction
+class Guides::Database::QueryingDeleting < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
-  guide_route "/database/querying"
+  guide_route "/database/querying-deleting"
 
   def self.title
-    "Querying the Database"
+    "Querying and Deleting records"
   end
 
   def markdown
@@ -553,7 +553,7 @@ class Guides::Database::Querying < GuideAction
 
     ### Truncate
 
-    If you need to just delete every record in the entire table, you can use `truncate`.
+    If you need to delete every record in the entire table, you can use `truncate`.
 
     `TRUNCATE TABLE users`
 
@@ -561,7 +561,13 @@ class Guides::Database::Querying < GuideAction
     UserQuery.truncate
     ```
 
-    > This method is not chainable, and may be renamed in the future.
+    You can also truncate your entire database by calling `truncate` on your database class.
+
+    ```crystal
+    AppDatabase.truncate
+    ```
+
+    > This method is great for tests; horrible for production. Also note this method is not chainable.
 
     ## Complex Queries
 
