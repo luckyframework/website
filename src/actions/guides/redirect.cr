@@ -23,7 +23,8 @@ class Guides::Redirect < BrowserAction
     "database/querying"          => Guides::Database::QueryingDeleting
   }
 
-  get "/guides/:guide_path" do
+  fallback do
+    guide_path = request.path.gsub("/guides/", "")
     if new_guide = REDIRECTS[guide_path]?
       redirect to: new_guide, status: HTTP::Status::MOVED_PERMANENTLY
     else
