@@ -168,15 +168,15 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     ```crystal
     # A form that is used to register a new user
-    class RegistrationForm < User::BaseForm
-      fillable name, email # company_name is not allowed to be filled out
+    class RegisterUser < User::SaveOperation
+      permit_columns name, email # company_name is not allowed to be filled out
     end
 
     # An HTML form for a user to fill out
-    form = RegistrationForm.new
+    operation = RegisterUser.new
     form_for Registrations::Create do
       # Will fail to compile because this field is not allowed
-      text_input form.company_name
+      text_input operation.company_name
     end
     ```
     MD

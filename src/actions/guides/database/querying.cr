@@ -1,4 +1,5 @@
 class Guides::Database::Querying < GuideAction
+  ANCHOR_PRELOADING = "perma-preloading"
   guide_route "/database/querying"
 
   def self.title
@@ -108,7 +109,7 @@ class Guides::Database::Querying < GuideAction
 
     ### Select first
 
-    `SELECT COLUMNS FROM users LIMIT 1`
+    `SELECT COLUMNS FROM users ORDER BY users.id ASC LIMIT 1`
 
     ```crystal
     # raise Avram::RecordNotFound if nil
@@ -193,6 +194,24 @@ class Guides::Database::Querying < GuideAction
     ```
 
     > The `not` method can be used to negate other methods like `eq`, `gt`, `lt`, and `in`.
+
+    ### A IS NULL / IS NOT NULL
+
+    Find rows where `A` is `nil`.
+
+    `SELECT COLUMNS FROM users WHERE users.name IS NULL`
+
+    ```crystal
+    UserQuery.new.name.is_nil
+    ```
+
+    Find rows where `A` is *not* `nil`.
+
+    `SELECT COLUMNS FROM users WHERE users.name IS NOT NULL`
+
+    ```crystal
+    UserQuery.new.name.is_not_nil
+    ```
 
     ### A gt/lt B
 
@@ -349,16 +368,14 @@ class Guides::Database::Querying < GuideAction
 
     ### Associations
 
-    Each association defined on your model will have a method that takes a block, and passed in the
-    query for that association.
+    Each association defined on your model will have a method prefixed with `where_` that takes a
+    query from the association.
 
     You can use this to help refine your association.
 
     ```crystal
-    UserQuery.new.join_tasks.tasks { |task_query|
-      # WHERE tasks.title = 'Clean up notes'
-      task_query.title("Clean up notes")
-    }
+    # SELECT COLUMNS FROM users WHERE tasks.title = 'Clean up notes'
+    UserQuery.new.where_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
     This will return all users who have a task with a title "Clean up notes". You can continue to scope
@@ -386,6 +403,23 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.left_join_tasks
     ```
 
+    ### Right joins
+
+    `SELECT COLUMNS FROM users RIGHT JOIN tasks ON users.id = tasks.user_id`
+
+    ```crystal
+    UserQuery.new.right_join_tasks
+    ```
+
+    ### Full joins
+
+    `SELECT COLUMNS FROM users FULL JOIN tasks ON users.id = tasks.user_id`
+
+    ```crystal
+    UserQuery.new.full_join_tasks
+    ```
+
+    #{permalink(ANCHOR_PRELOADING)}
     ## Preloading
 
     In development and test environemnts Lucky requries preloading associations. If you forget to preload an
@@ -467,13 +501,9 @@ class Guides::Database::Querying < GuideAction
     ```crystal
     class UserQuery < Uery::BaseQuery
       def recently_completed_admin_tasks
-        admin(true)
-          .join_tasks
-          .tasks { |task_query|
-            task_query
-              .completed(true)
-              .updated_at.gte(1.day.ago)
-          }
+        task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
+
+        admin(true).where_tasks(task_query)
       end
     end
 
@@ -481,14 +511,27 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.recently_completed_admin_tasks
     ```
 
-    > Since associations take a block, you can also use [Short one-argument syntax](https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html#short-one-argument-syntax).
-    > (e.g. `tasks(&.completed(true).updated_at.get(1.day.ago))`)
+    When adding an associated query (like `task_query`), Avram will handle adding the join
+    for you. By default, this is an `INNER JOIN`, but if you need to customize that, you can
+    set the `auto_inner_join` option to `false`.
+
+    ```crystal
+    def recently_completed_admin_tasks
+      task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
+
+      # Tell the `where_tasks` to skip adding the `inner_join` so we can
+      # use the `left_join_tasks` instead.
+      admin(true)
+        .left_join_tasks
+        .where_tasks(task_query, auto_inner_join: false)
+    end
+    ```
 
     ## Deleting Records
 
     ### Delete one
 
-    Deteling a single record is actually done on the [model]() directly. Since each query returns an
+    Deteling a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
     instance of the model, you can just call `delete` on that record.
 
     ```crystal
@@ -498,14 +541,24 @@ class Guides::Database::Querying < GuideAction
     user.delete
     ```
 
-    ### Delete all
+    ### Bulk delete
 
-    If you need to just delete every record in the entire table, you can use `destroy_all` to truncate.
+    If you need to bulk delete a group of records based on a where query, you can use `delete` at
+    the end of your query. This returns the number of records deleted.
+
+    ```crystal
+    # DELETE FROM users WHERE banned_at IS NOT NULL
+    UserQuery.new.banned_at.is_not_nil.delete
+    ```
+
+    ### Truncate
+
+    If you need to just delete every record in the entire table, you can use `truncate`.
 
     `TRUNCATE TABLE users`
 
     ```crystal
-    UserQuery.new.destroy_all
+    UserQuery.truncate
     ```
 
     > This method is not chainable, and may be renamed in the future.
