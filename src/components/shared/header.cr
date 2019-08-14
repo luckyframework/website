@@ -60,11 +60,12 @@ class Shared::Header < BaseComponent
   end
 
   private def docsearch_input
-    div class: "mx-5 md:m-0" do
+    div class: "mx-5 md:m-0 header-search" do
       input id: "algolia-docsearch",
         type: "text",
         placeholder: "Search...",
         class: "w-full md:w-32 my-6 mr-6 md:m-0 md:mx-0 py-2 px-4 bg-blue-darker appearance-none border-2 border-grey-dark rounded-full transition-base text-white leading-tight focus:text-black md:focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal"
+        img src: asset("icons/search.svg")
     end
   end
 

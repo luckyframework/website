@@ -1,3 +1,7 @@
+#algolia-docsearch {
+  padding-left: 32px;
+}
+
 .algolia-docsearch {
   background: transparentize($color: #fff, $amount: 0.8);
   border-radius: 20px;
@@ -24,4 +28,23 @@
 
 .algolia-autocomplete {
   width: 100%;
+}
+
+.header-search {
+  position: relative;
+
+  img {
+      height: 20px;
+      left: 11px;
+      position: absolute;
+      top: 36px;
+      width: 20px;
+
+    @media only screen and (min-width: 768px) {
+      height: 20px;
+      left: 11px;
+      top: 12px;
+      width: 20px;
+    }
+  }
 }
