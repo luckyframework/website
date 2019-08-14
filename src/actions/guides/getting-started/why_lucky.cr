@@ -24,9 +24,9 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     ## Spend less time writing tests and debugging
 
-    [Type safe database queries](#{Guides::Database::Querying.path}), [rock solid
+    [Type safe database queries](#{Guides::Database::QueryingDeleting.path}), [rock solid
     routing](#{Guides::HttpAndRouting::RoutingAndParams.path}), [type safe forms and
-    validations](#{Guides::Database::ValidatingSavingDeleting.path}), and more. This is how Lucky helps you
+    validations](#{Guides::Database::ValidatingSaving.path}), and more. This is how Lucky helps you
     find errors before they reach your customers, write fewer tests, and spend less
     time fixing embarrassing bugs.
 
@@ -75,7 +75,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     [router]: #{Guides::HttpAndRouting::RoutingAndParams.path}
     [HTML]: #{Guides::Frontend::RenderingHtml.path}
     [actions]: #{Guides::HttpAndRouting::RoutingAndParams.path}
-    [forms]: #{Guides::Database::ValidatingSavingDeleting.path}
+    [operations]: #{Guides::Database::ValidatingSaving.path}
 
     ## Catch missing assets at compile time
 

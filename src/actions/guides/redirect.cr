@@ -7,9 +7,9 @@ class Guides::Redirect < BrowserAction
     "database-migrations"        => Guides::Database::Migrations,
     "actions-and-routing"        => Guides::HttpAndRouting::RoutingAndParams,
     "rendering-html"             => Guides::Frontend::RenderingHtml,
-    "querying-the-database"      => Guides::Database::Querying,
+    "querying-the-database"      => Guides::Database::QueryingDeleting,
     "custom-queries"             => Guides::Database::RawSql,
-    "saving-with-forms"          => Guides::Database::ValidatingSavingDeleting,
+    "saving-with-forms"          => Guides::Database::ValidatingSaving,
     "asset-handling"             => Guides::Frontend::AssetHandling,
     "tasks"                      => Guides::CommandLineTasks::BuiltIn,
     "logging-and-error-handling" => Guides::Logging,
@@ -19,6 +19,8 @@ class Guides::Redirect < BrowserAction
     "sending-emails"             => Guides::Emails::SendingEmailsWithCarbon,
     "authentication"             => Guides::Authentication::Show,
     "deploying-heroku"           => Guides::Deploying::Heroku,
+    "database/validating-saving-deleting" => Guides::Database::ValidatingSaving,
+    "database/querying"          => Guides::Database::QueryingDeleting
   }
 
   get "/guides/:guide_path" do

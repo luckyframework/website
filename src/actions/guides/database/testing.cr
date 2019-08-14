@@ -92,7 +92,7 @@ class Guides::Database::Testing < GuideAction
     ## Saving records
 
     As shown previously, a Box has a `create` method which saves the record to your database. A Box is
-    essentially a fancy wrapper around [SaveOperation](#{Guides::Database::ValidatingSavingDeleting.path}).
+    essentially a fancy wrapper around [SaveOperation](#{Guides::Database::ValidatingSaving.path}).
 
     Boxes give you access to two helpful class methods `create` and `create_pair`.
 

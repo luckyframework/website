@@ -1,9 +1,9 @@
-class Guides::Database::ValidatingSavingDeleting < GuideAction
+class Guides::Database::ValidatingSaving < GuideAction
   ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
-  guide_route "/database/validating-saving-deleting"
+  guide_route "/database/validating-saving"
 
   def self.title
-    "Validating, Saving, and Deleting"
+    "Validating and Saving"
   end
 
   def markdown
@@ -15,7 +15,7 @@ class Guides::Database::ValidatingSavingDeleting < GuideAction
     filled. `{ModelName}::SaveOperation` automatically defines an attribute for each model field.
 
     We’ll be using the migration and model from the [Querying
-    guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
+    guide](#{Guides::Database::QueryingDeleting.path}). Once you have that set up, let’s set
     up a save operation:
 
     ```crystal
