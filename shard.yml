@@ -13,7 +13,7 @@ crystal: 0.30.0
 dependencies:
   lucky:
     github: luckyframework/lucky
-    branch: master
+    version: ~> 0.17.0
   authentic:
     github: luckyframework/authentic
     branch: master
@@ -26,5 +26,5 @@ dependencies:
     github: luckyframework/lucky_flow
     branch: master
   markd:
-    github: bdtomlin/markd
+    github: icyleaf/markd
     branch: master
