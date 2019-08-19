@@ -60,7 +60,7 @@ class Guides::GettingStarted::Installing < GuideAction
       it to `/usr/local/bin` and it should work: `mv lucky /usr/local/bin`.
 
     If you needed different steps, please help contribute to this section by
-    [editing this page on GitHub](https://github.com/luckyframework/website/blob/master/source/guides/installing.html.md.erb).
+    [editing this page on GitHub](https://github.com/luckyframework/website/blob/master/src/actions/guides/getting-started/installing.cr).
     MD
   end
 end
