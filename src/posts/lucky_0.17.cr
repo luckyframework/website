@@ -30,6 +30,8 @@ class Lucky017Release < BasePost
     use `UUID`. We've now added a new `primary_key` method wich lets you specify the type. Avram supports a
     few different types now to include `Int16` and `Int64`.
 
+    We have also set the default primary key to be `Int64` now.
+
     ```crystal
     def migrate
       create :users do
@@ -79,7 +81,7 @@ class Lucky017Release < BasePost
     * Legacy DB support
     * One for API, One for CMS
     * Read / Write replica setup
-    * So many others...
+    * Whatever your other databases are for, Avram is now better equipped to accommodate you.
 
     [Learn more about multi-db support](#{Guides::Database::DatabaseSetup.path(anchor: Guides::Database::DatabaseSetup::ANCHOR_MULTIPLE_DATABASES)})
 
