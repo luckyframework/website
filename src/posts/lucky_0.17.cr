@@ -3,7 +3,7 @@ class Lucky017Release < BasePost
   slug "lucky-0_17-release"
 
   def published_at
-    Time.utc(year: 2019, month: 8, day: 16)
+    Time.utc(year: 2019, month: 8, day: 19)
   end
 
   def summary
@@ -65,7 +65,7 @@ class Lucky017Release < BasePost
     ```crystal
     user = UserQuery.first
 
-    typeof(user.tags) #=> Array(String)
+    user.tags #=> ["vip", "prefers email"]
     user.preferences["theme_color"].as_s #=> "dark_mode"
     ```
 
@@ -76,7 +76,8 @@ class Lucky017Release < BasePost
     Avram now supports multiple databases at the same time. You can have some models that connect to your
     primary database, and then a second set of models that connect to a legacy database if you wish.
 
-    There are a lot of different use cases for multiple database like:
+    Example use cases for multiple databases:
+    
     * Secondary for special finance reporting
     * Legacy DB support
     * One for API, One for CMS
@@ -89,7 +90,7 @@ class Lucky017Release < BasePost
     ### Polymorphic associations
 
     Support for polymorphic associations is now first-class with the `polymorphic` method. This
-    method lets you specify your polymorphic association is a type-safe and friendly way.
+    method lets you specify your polymorphic association in a type-safe and friendly way.
 
     ```crystal
     class Comment < BaseModel
@@ -98,7 +99,7 @@ class Lucky017Release < BasePost
         belongs_to photo : Photo?
         belongs_to video : Video?
 
-        # Now `commentable` could be a `photo` or `video`
+        # `commentable` could be a `photo` or `video`
         polymorphic commentable, associations: [:photo, :video]
       end
     end
@@ -124,7 +125,7 @@ class Lucky017Release < BasePost
     ### SaveOperations
 
     Previously named `Forms`, these have been renamed and revamped with a much cleaner, and
-    easier to use API. We realized a lot of people would get confused when talking about forms
+    easier to use API. We realized a lot of people would get confused when talking about `Forms`
     since you used them to interact with HTML forms. Now named `SaveOperation`, these give a bit
     more clarity. We also renamed `VirtualForm` to just `Operation`.
 
