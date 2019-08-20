@@ -2,6 +2,8 @@ class Guides::Database::Models < GuideAction
   ANCHOR_SETTING_UP_A_MODEL = "perma-setting-up-a-model"
   ANCHOR_MODEL_ASSOCIATIONS = "perma-model-associations"
   ANCHOR_GENERATE_A_MODEL = "perma-generate-a-model"
+  ANCHOR_COLUMN_TYPES = "perma-column-types"
+  ANCHOR_POLYMORPHIC_ASSOCIATIONS = "perma-polymorphic-associations"
   guide_route "/database/models"
 
   def self.title
@@ -124,6 +126,7 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_COLUMN_TYPES)}
     ### Column types
 
     Avram supports several types that map to Postgres column types.
@@ -279,6 +282,7 @@ class Guides::Database::Models < GuideAction
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
 
+    #{permalink(ANCHOR_POLYMORPHIC_ASSOCIATIONS)}
     ## Polymorphic associations
 
     [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) describes

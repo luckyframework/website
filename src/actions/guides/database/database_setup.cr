@@ -1,5 +1,6 @@
 class Guides::Database::DatabaseSetup < GuideAction
   ANCHOR_SEEDING_DATA = "perma-seeding-data"
+  ANCHOR_MULTIPLE_DATABASES = "perma-multiple-databases"
   guide_route "/database/database-setup"
 
   def self.title
@@ -127,6 +128,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     > If you need to re-seed, you can run `lucky db.drop` and then `./script/setup` to re-create
     > and seed your local database.
 
+    #{permalink(ANCHOR_MULTIPLE_DATABASES)}
     ## Multiple Databases
 
     Avram supports a multi-database setup which you may need to use for connecting to a legacy
