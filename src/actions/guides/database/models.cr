@@ -66,6 +66,8 @@ class Guides::Database::Models < GuideAction
     * `id` - Your primary key column. Default `Int64`
     * `created_at` - default `Time` type.
     * `updated_at` - default `Time` type.
+    
+    ### Changing the default columns
 
     To change your defaults, define a macro called `default_columns` in your `BaseModel`.
 
@@ -81,7 +83,7 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    If you don't need the default columns in your model , call the `skip_default_columns` macro
+    If you don't need the default columns for a specific model, call the `skip_default_columns` macro
     at the top of the model class.
 
     ```crystal
