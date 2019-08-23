@@ -22,7 +22,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     To save some typing, Lucky automatically infers a default route path from the name of the action class,
     if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
 
-    For example, an action nemed `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
+    For example, an action named `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
 
     for a specific item, and have the requested item_id available as #{:item_id}.
 
