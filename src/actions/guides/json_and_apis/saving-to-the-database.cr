@@ -9,16 +9,16 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
   def markdown
     <<-MD
     #{permalink(ANCHOR_SAVING_TO_THE_DATABASE)}
-    ## Saving to the database
+    ## Saving to the database with JSON params
 
     Forms automatically know how to handle JSON params. They just need to be
     formatted in a way Avram knows how to handle.
 
-    Let’s say you have a form called `ArticleForm`. Lucky will look for the data
-    nested under an `article` key:
+    Let’s say you have an operation called `SaveArticle`. Lucky will look for the data
+    nested under the `article` key:
 
     > Remember to add `permit_columns {{field name}}` or the field will be ignored. In
-    > this case, add `permit_columns title` to the `ArticleForm` to allow the `title`
+    > this case, add `permit_columns title` to the `SaveArticle` to allow the `title`
     > field to be saved.
 
     ```json
@@ -34,7 +34,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     ```crystal
     class Api::Articles::Create < ApiAction
       route do
-        ArticleForm.create(params) do |form, article|
+        SaveArticle.create(params) do |operation, article|
           if article
             json Articles::ShowSerializer.new(article), Status::Created
           else
