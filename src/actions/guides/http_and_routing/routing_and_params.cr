@@ -102,8 +102,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    Here, the string from the request path will be returned by the `some_user_id` method. So in this example if 
-    `/users/123-foo` is requested `some_user_id` would return a text response of `Requested user id: 123-foo`.
+    Here, the string from the request path will be returned by the `some_user_id` method.
+    So in this example if `/users/123-foo` is requested `some_user_id` would return `123-foo`,
+    and the action would return a text response of `Requested user id: 123-foo`.
 
     ### You can use as many parameters as you want
 
