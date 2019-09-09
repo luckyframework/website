@@ -1,6 +1,6 @@
 class Guides::HttpAndRouting::RequestAndResponse < GuideAction
   ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES = "perma-run-code-before-or-after-actions-with-pipes"
-  ANCHOR_HANDLING_RESPONSES = "perma-hanlding-responses"
+  ANCHOR_HANDLING_RESPONSES                          = "perma-hanlding-responses"
   guide_route "/http-and-routing/request-and-response"
 
   def self.title
@@ -40,12 +40,13 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ### Accessing Headers
 
-    If you need to access the request headers, you can use the `headers` method.
+    If you need to access or set the headers, you can use `request.headers` or `response.headers`.
 
     ```crystal
     class Dashboard::Index < BrowserAction
       route do
-        remote_ip = headers["X-Forwarded-For"]?
+        remote_ip = request.headers["X-Forwarded-For"]?
+
         if remote_ip
           plain_text "The remote IP is \#{remote_ip}"
         else
@@ -54,6 +55,8 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
       end
     end
     ```
+
+    Read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html)
 
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
