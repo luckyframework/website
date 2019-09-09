@@ -58,6 +58,23 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     Read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html)
 
+    ### Setting Response Headers
+
+    For things like handling CORS, and many other operations like caching,
+    it may be necessary to set response headers. Set these values
+    through the `response.headers` object.
+
+    ```crystal
+    class Admin::Reports::Show < BrowserAction
+      route do
+        response.headers["Cache-Control"] = "max-age=150"
+        render ShowPage
+      end
+    end
+    ```
+
+    Read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html)
+
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
 
@@ -87,19 +104,6 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ```
 
     > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html)
-
-    ### Setting Response Headers
-
-    For things like handling CORS, and many other operations like cacheing, it may be necessary to set special response headers. Set these values through the `response.headers` object.
-
-    ```crystal
-    class Admin::Reports::Show < BrowserAction
-      route do
-        response.headers["Cache-Control"] = "max-age=150"
-        render ShowPage
-      end
-    end
-    ```
 
     ## Redirecting
 
