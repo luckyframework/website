@@ -38,6 +38,8 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
+    ## HTTP Headers
+
     ### Accessing Headers
 
     If you need to access or set the headers, you can use `request.headers` or `response.headers`.
@@ -55,8 +57,6 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
       end
     end
     ```
-
-    Read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html)
 
     ### Setting Response Headers
 
