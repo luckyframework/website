@@ -67,6 +67,7 @@ class Guides::Sidebar < BaseComponent
     ] of GuideAction.class),
     GuideCategory.new("Deploying", [
       Guides::Deploying::Heroku,
+      Guides::Deploying::Ubuntu,
     ] of GuideAction.class),
   ]
 
