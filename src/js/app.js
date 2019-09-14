@@ -29,6 +29,9 @@ hljs.registerLanguage('json', json);
 import sql from 'highlight.js/lib/languages/sql';
 hljs.registerLanguage('sql', sql);
 
+import erb from 'highlight.js/lib/languages/erb';
+hljs.registerLanguage('erb', erb);
+
 document.addEventListener("turbolinks:load", function () {
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);
