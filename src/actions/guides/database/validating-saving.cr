@@ -336,7 +336,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     make sure the user is old enough to use the site.
 
     ```crystal
-    before validate_user_is_old_enough
+    before_save validate_user_is_old_enough
 
     private def validate_user_is_old_enough
       # The value might be `nil` so we need to use `try`.
