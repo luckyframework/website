@@ -1,4 +1,5 @@
 class Guides::Frontend::RenderingHtml < GuideAction
+  ANCHOR_RENDERING_TEMPLATES = "perma-rendering-templates"
   guide_route "/frontend/rendering-html"
 
   def self.title
@@ -7,6 +8,21 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
   def markdown
     <<-MD
+    ## Intro to Lucky HTML
+
+    Lucky uses Crystal methods for rendering HTML. The Crystal methods map
+    as closely as possible to how HTML is used. To help with the transition
+    we also have a small app for [converting HTML to
+    Lucky methods](https://luckyhtml.herokuapp.com).
+
+    Using Lucky HTML adds an additional layer of type-safety, is
+    auto-formatted with Crystal's formatter, and can be much easier to
+    refactor with regular Crystal methods as HTML gets larger.
+
+    > If you still don't want to use Lucky HTML see
+    > [rendering templates](##{ANCHOR_RENDERING_TEMPLATES}) to learn how to use
+    > Lucky pages with templates files.
+
     ## Rendering a page
 
     Let's say we have an action and we want to render all of our user's names:
@@ -598,6 +614,108 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     It is also helpful to look at the action mixins in `src/actions/mixins` these
     declare the exposures and pipes for authentication.
+
+    #{permalink(ANCHOR_RENDERING_TEMPLATES)}
+    ## Rendering HTML with templates (ECR, Slang, etc.)
+
+    If you are writing content heavy HTML, or just prefer templating languages
+    here is what you can do.
+
+    > We still recommend using Lucky HTML methods if possible. If you're having
+    > trouble getting started, try the [HTML to Lucky converter](https://luckyhtml.herokuapp.com)
+
+    ### Install Kilt
+
+    Add [Kilt](https://github.com/jeromegn/kilt) to your `shard.yml`
+
+    ```yaml
+    dependencies:
+      kilt:
+        github: jeromegn/kilt
+    ```
+
+    ### Add a `render_template` macro to make it easier to render
+
+    Extend Lucky HTML rendering with a `render_template` macro:
+
+    ```crystal
+    # Place this in src/render_template.cr
+    module Lucky::HTMLBuilder
+      macro render_template(template)
+        Kilt.embed "src/pages/{{template.id}}", io_name: view
+      end
+    end
+    ```
+
+    Then require it in `src/app.cr`:
+
+    ```crystal
+    # In src/app.cr
+    #
+    # Add this to the top of the list of 'require' statements
+    require "./render_template"
+    ```
+
+    ### Use it in your HTML pages
+
+    You still use a `Page` object which means you can use all the link, form,
+    and other helpers Lucky provides. Here is an example of how you'd rewrite
+    a page to use an template.
+
+    Here's what a typical Lucky page would look like:
+
+    ```crystal
+    # In src/posts/new_page.cr
+    class Posts::NewPage < MainLayout
+      needs form : SavePost
+
+      def content
+        h1 "New Blog Post"
+        render_post_form(@form)
+      end
+
+      def render_post_form(f)
+        form_for Posts::Create do
+          mount Shared::Field.new(f.title), &.text_input(autofocus: "true")
+          mount Shared::Field.new(f.body)
+          mount Shared::Field.new(f.published_at)
+
+          submit "Save", data_disable_with: "Saving..."
+        end
+      end
+    end
+    ```
+
+    To render the HTML with a template, use `render_template` in the
+    `content` method:
+
+    ```crystal
+    def content
+      render_template "posts/new.html.ecr"
+    end
+    ```
+
+    Then create the template in `src/posts/new.html.ecr`:
+
+    ```erb
+    <h1>New Blog Post<h1>
+    <% render_post_form(@form) %>
+    ```
+
+    And you're done!
+
+    ### Gotchas
+
+    You'll note that we used `<% %>` and not `<%= %>` when rendering the form
+    in the example above. This is because Lucky helpers like `link` and
+    `form_for` write directly to the page. If you use `<%= %>` **it will
+    render the content twice.** If you see content appear twice, use `<% %>` (no `=`).
+
+    However if you just want to output a static value you would use `<%= %>`:
+
+    ```erb
+    My name is: <%= @user.name %>
+    ```
     MD
   end
 end
