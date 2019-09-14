@@ -259,7 +259,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
         render ShowPage, small_number: small_number, big_number: big_number
       end
 
-      memoize def calculate_numbers
+      memoize def calculate_numbers : Int64
         # This is ran only the first time it's called
         ReportQuery.new.fetch_numbers_for_today(Time.utc)
       end
