@@ -1,5 +1,6 @@
 class Guides::Frontend::RenderingHtml < GuideAction
   ANCHOR_RENDERING_TEMPLATES = "perma-rendering-templates"
+  ANCHOR_COMPONENTS          = "perma-components"
   guide_route "/frontend/rendering-html"
 
   def self.title
@@ -399,13 +400,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Rendering page specific content in the layout
 
-    Let's start with a quick example. In newly generated Lucky projects your
-    layouts call `shared_layout_head`. This method is defined in
-    `Shared::LayoutHead`. If you look in the `src/components/shared/layout_head`
-    file you'll see that it defines and calls a `page_title` method.
-
-    This means that you can customize the page title in your page by writing a
-    `page_title` method:
+    Let's start with a quick example. In newly generated Lucky projects
+    you'll see that `MainLayout` defines a `page_title` method that is passed to
+    the `Shared::LayoutHeader` component. Any page that inherits from `MainLayout`
+    can write a new `page_title` method to override the one in `MainLayout`.
 
     So to set a page specific title, do this:
 
@@ -413,7 +411,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # src/pages/users/index_page.cr
     class Users::IndexPage < MainLayout
       # Override the page_title method that was originally
-      # defined in Shared::LayoutHead
+      # defined in MainLayout
       def page_title
         "List of users"
       end
@@ -438,7 +436,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     abstract def render_sidebar
     ```
 
-    Then in a page:
+    Then in a page that inherits from `MainLayout`:
 
     ```crystal
     class Users::IndexPage < MainLayout
@@ -472,7 +470,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       end
     end
 
-    # In a page with a help message
+    # If a page has a help section, add a `help_section` method
     class Admin::Users::IndexPage < MainLayout
       def help_section
         para "Click the 'export' button to export a CSV of all users"
@@ -480,8 +478,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    > Common layout components could be extracted to
-    `src/components/shared/{component_name}.cr`. See ["Extract partials and shared code"](#extract-partials-and-shared-code)
+    > If you have shared HTML between multiple layouts (like a footer or
+    > navigation section) you can extract components to use across layouts. See
+    > ["Creating and using components"](##{ANCHOR_COMPONENTS})
 
     ## Extracting methods for code clarity
 
@@ -504,13 +503,15 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_COMPONENTS)}
     ## Creating and using components
 
     The most powerful and flexible way to share code is to use a Component.
     Components are Crystal classes that declare what objects they need, and then
     render HTML.
 
-    Let's generate one with the command `lucky gen.component Users::Row`:
+    Let's generate one with the command `lucky gen.component Users::Row` and
+    fill `render`:
 
     ```crystal
     # in src/components/users/row.cr
@@ -525,7 +526,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    Now we can mount the component in the view:
+    Now we can mount the component in the page:
 
     ```crystal
     class Users::IndexPage < MainLayout
@@ -587,7 +588,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # Without `expose`
     class Users::Index < BrowserAction
       route do
-        render current_user_name: current_user_name
+        render IndexPage, current_user_name: current_user_name
       end
 
       private def current_user_name
@@ -600,7 +601,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       expose current_user_name
 
       route do
-        render
+        render IndexPage
       end
     end
     ```
