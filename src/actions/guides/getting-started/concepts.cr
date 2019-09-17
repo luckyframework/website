@@ -24,7 +24,9 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     ## How requests are processed
 
-    ![Diagram of how Lucky handles requests](#{Lucky::AssetHelpers.asset("images/request-overview-diagram.png")})
+    <div class="shadow rounded bg-white px-6 my-8">
+      <img alt="Diagram of how Lucky handles requests" src="#{Lucky::AssetHelpers.asset("images/request-overview-diagram.png")}">
+    </div>
 
     1. Browser or client makes an HTTP request.
     2. Lucky routes the request to a matching [Action](#{Guides::HttpAndRouting::RoutingAndParams.path}).
