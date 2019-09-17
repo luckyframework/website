@@ -80,6 +80,13 @@
     }
   }
 
+  ol {
+    li {
+      margin-left: -12px;
+      margin-top: 10px;
+    }
+  }
+
   .hljs-comment,
   .hljs-quote {
     @apply text-blue-lighter italic;
