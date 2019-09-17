@@ -31,6 +31,23 @@ class Guides::GettingStarted::Concepts < GuideAction
     Lucky was designed for developers that love making reliable products. We think
     you'll love it.
 
+    ## How Lucky handles requests
+
+    ![Diagram of how Lucky handles requests](#{Lucky::AssetHelpers.asset("images/request-overview-diagram.png")})
+
+    1. Browser or client makes an HTTP request.
+    2. Lucky routes the request to a matching [Action](#{Guides::HttpAndRouting::RoutingAndParams.path}).
+      * In Lucky, [an Action defines what HTTP method and path it handles](#{Guides::HttpAndRouting::RoutingAndParams.path}).
+    3. Action processes the request. For example:
+      * [Query the database with Avram](#{Guides::Database::QueryingDeleting.path}).
+      * [Create or update db reecords with Avram](#{Guides::Database::ValidatingSaving.path}).
+      * [Send an email with Carbon](#{Guides::Emails::SendingEmailsWithCarbon.path}).
+    4. The Action generates a response for the browser or client. For example:
+      * [Generate an HTML page](#{Guides::Frontend::RenderingHtml.path}).
+      * [Redirect to another URL or Action](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_REDIRECTING)}).
+      * [Send JSON](#{Guides::JsonAndApis::RenderingJson.path}).
+    5. The response is delivered to the browser or client.
+
     ## File structure overview
 
     A new Lucky app is a slightly modified version of a Crystal app.
