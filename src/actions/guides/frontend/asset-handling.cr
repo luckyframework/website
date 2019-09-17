@@ -108,6 +108,14 @@ class Guides::Frontend::AssetHandling < GuideAction
     let you know. It will also let you know if you had a typo and suggest an asset
     that is close to what you typed.
 
+    ### Using assets outside of pages and components
+
+    You can use `Lucky::AssetHelpers.asset` just about anywhere:
+
+    ```crystal
+    Lucky::AssetHelpers.asset("images/logo.png")
+    ```
+
     ## Automatic reloading
 
     Lucky comes with [Browsersync](https://www.browsersync.io) hooked up. When you
