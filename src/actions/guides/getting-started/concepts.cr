@@ -11,27 +11,18 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     Lucky was designed to solve a few core problems that teams often see. Lucky strives to:
 
-    * Catch bugs at compile time, rather than finding them in production.
-    * Spend less time writing tests, because the compiler catches many errors for you.
-    * Minimize guesswork with conventions for the most common types of objects.
-    * Help developers break things into discrete pieces so things are easy to share
-      and maintain in the future.
-    * Minimize boilerplate code so it's easy to focus on what your app does better
+    * **Catch bugs at compile time**, rather than finding them in production.
+    * **Spend less time writing tests**, because the compiler catches many errors for you.
+    * Minimize guesswork with **conventions for common tasks**.
+    * Help developers break things into discrete pieces so things are **easy to share
+      and maintain as the codebase grows**.
+    * **Minimize boilerplate** code so it's easy to focus on what your app does better
       than everyone else.
-
-    We do that by using Crystal's type system to the fullest. You won't see strings
-    or symbols passed around. Instead you'll see method calls with types that make
-    sure bugs are caught early.
-
-    We have conventions that help you break your app into smaller pieces that are
-    easier to understand. Things like single class per action, and form objects.
-
-    We have helpful code generation so that you don't need to repeat boilerplate.
 
     Lucky was designed for developers that love making reliable products. We think
     you'll love it.
 
-    ## How Lucky handles requests
+    ## How requests are processed
 
     ![Diagram of how Lucky handles requests](#{Lucky::AssetHelpers.asset("images/request-overview-diagram.png")})
 
