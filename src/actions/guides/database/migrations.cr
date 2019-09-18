@@ -40,7 +40,7 @@ class Guides::Database::Migrations < GuideAction
     > (e.g. If `migrate` adds a column, then adds an index for that column, `rollback` should
     > remove the index first, then remove the column.)
 
-    ### DB Tasks
+    ## DB Tasks
 
     Lucky comes with several tasks you can run for handling your migrations.
 
@@ -55,6 +55,23 @@ class Guides::Database::Migrations < GuideAction
 
     [Learn more about tasks](#{Guides::CommandLineTasks::BuiltIn.path})
 
+    ## The `table_for` macro
+
+    Most examples and generators will use the `table_for` macro. This macro
+    is used to generate the table name for the passed in model.
+
+    For example:
+
+    ```crystal
+    table_for(User) # returns :users
+    ```
+
+    If you use `table` in your model without a table name, then `table_for(ModelClass)`
+    will always generate the correct table name.
+
+    However, if you need something custom you can always use a symbol (like `:users`)
+    instead of using `table_for`.
+
     ## Create table
 
     Use the `create` method for creating a table. You will place all of the table definitions
@@ -62,11 +79,13 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      create :users do
+      create table_for(User) do
         # add column definitions here
       end
     end
     ```
+
+    > You can also use a symbol for a table name. For example `create :users`.
 
     ### Special columns
 
@@ -74,7 +93,7 @@ class Guides::Database::Migrations < GuideAction
     some special considerations when adding a different primary key or timestamp fields.
 
     ```crystal
-    create :users do
+    create table_for(User) do
       # for adding your primary key
       primary_key id : Int64
 
@@ -98,7 +117,7 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      create :users do
+      create table_for(User) do
         # creates a primary key column named `id`
         primary_key id : Int64
       end
@@ -113,11 +132,14 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      drop :users
+      drop table_for(User)
     end
     ```
 
-    > If your `migrate` method runs `create`, then the `rollback` method should run `drop`.
+    Remember, if your `migrate` method runs `create`, then the `rollback`
+    method should run `drop`.
+
+    > You can also use a symbol for a table name. For example `create :users`.
 
     ## Alter table
 
@@ -126,11 +148,13 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      alter :users do
+      alter table_for(User) do
         remove :old_field
       end
     end
     ```
+
+    > You can also use a symbol for a table name. For example `create :users`.
 
     ## Add column
 
@@ -138,7 +162,7 @@ class Guides::Database::Migrations < GuideAction
     or [`alter`](#alter-table) block.
 
     ```crystal
-    create :users do
+    create table_for(User) do
       add email : String
       add birthdate : Time
       add login_count : Int32, default: 0
@@ -148,7 +172,7 @@ class Guides::Database::Migrations < GuideAction
     ```
 
     ```crystal
-    alter :users do
+    alter table_for(User) do
       add last_known_ip : String?
     end
     ```
@@ -178,7 +202,7 @@ class Guides::Database::Migrations < GuideAction
     * `default` - The default value to use for this column.
 
     ```crystal
-    create :users do
+    create table_for(User) do
       add email : String, index: true, unique: true
       add login_count : Int32, default: 0
     end
@@ -191,7 +215,7 @@ class Guides::Database::Migrations < GuideAction
     If your column is required, you will need to set a default value on all records otherwise you'll have errors.
 
     ```crystal
-    alter :users do
+    alter table_for(User) do
       add active : Bool, default: true, fill_existing_with: true
       add otp_code : String, fill_existing_with: "fake-otp-code-123"
     end
@@ -208,7 +232,7 @@ class Guides::Database::Migrations < GuideAction
 
     ``` crystal
     def migrate
-      alter :users do
+      alter table_for(User) do
         # Add nullable column first
         add otp_code : String?
       end
@@ -230,7 +254,7 @@ class Guides::Database::Migrations < GuideAction
     primary key from `Int32` to `Int64`.
 
     ```crystal
-    alter :users do
+    alter table_for(User) do
       # update your `id` column from postgres `integer` to `bigint`
       change_type id : Int64
     end
@@ -249,7 +273,7 @@ class Guides::Database::Migrations < GuideAction
     The `remove` method must go in the [`alter`](#alter-table) block.
 
     ```crystal
-    alter :users do
+    alter table_for(User) do
       remove :middle_name
       remove :last_login_ip
     end
@@ -290,7 +314,7 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      create :comments do
+      create table_for(Comment) do
         # This will create an author_id column with an index and a foreign_key
         # set to the users table.
         #
@@ -312,7 +336,7 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      create :comments do
+      create table_for(Comment) do
         primary_key id : UUID
         add_timestamps
         add_belongs author : User, on_delete: :cascade, foreign_key_type: UUID
@@ -326,7 +350,7 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      alter :comments do
+      alter table_for(Comment) do
         # This will drop the author_id column
         remove_belongs_to :author
       end
