@@ -32,13 +32,13 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     ## Create a serializer
 
     Serializers help you customize the response, and allow you to share common
-    JSON.
+    JSON across endpoints.
 
-    Let’s create one for rendering the JSON for a single article.
+    Let’s create one for rendering the JSON for an article.
 
     ```crystal
-    # in src/serializers/api/articles/show_serializer.cr
-    class Api::Articles::ShowSerializer < Lucky::Serializer
+    # In src/serializers/article_serializer.cr
+    class ArticleSerializer < BaseSerializer
       def initialize(@article : Article)
       end
 
@@ -47,48 +47,99 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
       end
     end
 
-    # in the action
+    # In the action
     class Api::Articles::Show < ApiAction
       route do
         article = ArticleQuery.new.find(id)
-        json Api::Articles::ShowSerializer.new(article)
+        json ArticlesSerializer.new(article)
       end
     end
     ```
 
-    > In the example, you could also use `ShowSerializer.new(article)`
-    > because the action and the serializer classes are in the same
-    > namespace (`Api::Articles`).
+    ## Rendering a collection with serializers
 
-    ## Handling nested JSON and extra options
+    Lucky apps are generated with a `BaseSerializer` in `src/serializers/base_serializer.cr`.
+    This serializer has a `for_collection` method defined that renders a collection
+    of objects.
 
-    Here’s how you can combine JSON for more complex responses. In this example
-    we’ll render a list of articles and the total number of articles:
+    Here's how you'd use it:
 
     ```crystal
-    # in src/serializers/articles/index_serializer.cr
-    class Articles::IndexSerializer < Lucky::Serializer
-      def initialize(@articles : ArticleQuery, @total : Int64)
+    class Api::Articles::Index < ApiAction
+      route do
+        articles = ArticleQuery.new
+        json ArticlesSerializer.for_collection(articles)
+      end
+    end
+    ```
+
+    ## Nesting serializers
+
+    Here’s how you can combine serializers for more complex responses. In this
+    example we’ll render a list of articles along with their comments.
+
+    First we'll create a serializer for comments:
+
+    ```crystal
+    # in src/serializers/comment_serializer.cr
+    class CommentSerializer < BaseSerializer
+      def initialize(@comment : Comment)
+      end
+
+      def render
+        {body: @comment.body}
+      end
+    end
+    ```
+
+    ```crystal
+    # in src/serializers/article_serializer.cr
+    class ArticleSerializer < BaseSerializer
+      def initialize(@article : Article)
       end
 
       def render
         {
-          # reuse the existing Articles::ShowSerializer
-          articles: @articles.map { |article| ShowSerializer.new(article) },
-          total: @total
+          title: @article.title,
+          comments: CommentSerializer.for_collection(@articles.comments)
         }
       end
     end
 
-    # in src/actions/api/articles/index.cr
-    class Api::Articles::Index < ApiAction
-      route do
-        articles = ArticleQuery.new
-        total = ArticleQuery.new.count
-        json Articles::IndexSerializer.new(articles, total)
+    ## Customizing collection rendering
+
+    Let's say you want collection rendering to include a root key. We can change
+    the generated `self.for_collection` method on the `BaseSerializer`.
+
+    ```
+    # src/serializers/base_serializer.cr
+    abstract class BaseSerializer < Lucky::Serializer
+      def self.for_collection(collection : Enumerable, *args, **named_args)
+        {
+          # The root key will be the 'self.collection_key' defined on
+          # serializers that inhherit from this class.
+          self.collection_key => collection.map do |object|
+            new(object, *args, **named_args)
+          end
+        }
       end
     end
     ```
+
+    Now add the 'self.collection_key'  to the `ArticleSerializer`:
+
+    ```crystal
+    class ArticleSerializer < BaseSerializer
+      # 'render' and 'initialize' ommitted for brevity.
+
+      # This will be the key for collections
+      def self.collection_key
+        "articles"
+      end
+    ```
+
+    This is an example of how serializers are regular Crystal objects so you can
+    use methods and arguments in all kinds of ways to customize serializers.
 
     ## Sending empty responses
 
@@ -96,7 +147,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
 
     ```crystal
     # inside an action
-    head Status::Created
+    head :created
     # or use an integer
     head 201
     ```
