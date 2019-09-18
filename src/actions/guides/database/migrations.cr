@@ -142,8 +142,8 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    > The default primary key name is `id`, but Avram supports using any
-    primary key column name. (e.g. `primary_key custom_name : Int64`)
+    > Avram expects the primary key name to be `id`, but Avram supports using
+    any primary key column name. (e.g. `primary_key custom_name : Int64`)
 
     ## Timestamps
 
@@ -173,6 +173,23 @@ class Guides::Database::Migrations < GuideAction
     alter table_for(User) do
       add last_known_ip : String?
     end
+    ```
+
+    ### Making columns required or optional
+
+    By default columns are **required** (`NOT NULL` in SQL terms). You can
+    allow nulls by adding a `?` to the type.
+
+    For example, this is required:
+
+    ```
+    add name : String
+    ```
+
+    But adding `?` will tell Avram to make this column optional (allow `NULL`):
+
+    ```
+    add name : String?
     ```
 
     ### Datatypes
