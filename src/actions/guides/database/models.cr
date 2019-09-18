@@ -1,8 +1,8 @@
 class Guides::Database::Models < GuideAction
-  ANCHOR_SETTING_UP_A_MODEL = "perma-setting-up-a-model"
-  ANCHOR_MODEL_ASSOCIATIONS = "perma-model-associations"
-  ANCHOR_GENERATE_A_MODEL = "perma-generate-a-model"
-  ANCHOR_COLUMN_TYPES = "perma-column-types"
+  ANCHOR_SETTING_UP_A_MODEL       = "perma-setting-up-a-model"
+  ANCHOR_MODEL_ASSOCIATIONS       = "perma-model-associations"
+  ANCHOR_GENERATE_A_MODEL         = "perma-generate-a-model"
+  ANCHOR_COLUMN_TYPES             = "perma-column-types"
   ANCHOR_POLYMORPHIC_ASSOCIATIONS = "perma-polymorphic-associations"
   guide_route "/database/models"
 
@@ -46,16 +46,44 @@ class Guides::Database::Models < GuideAction
     ```crystal
     # src/models/user.cr
     class User < BaseModel
-      table :users do
+      table do
         # You will define columns here. For example:
         # column name : String
       end
     end
     ```
 
-    Your model will inherit from `BaseModel` which is just an abstract class. You can use
-    this to define methods all of your models should have access to.
-    Next you'll see the `table` block that defines which table this model is connected to.
+    Your model will inherit from `BaseModel` which is an abstract class that
+    defines what database this model should use, and optionally customizes
+    the default columns a model has. You can also use `BaseModel` to define
+    methods all of your models should have access to.
+
+    Next you'll see the `table` block that defines which table this model is
+    connected to and what columns are added.
+
+    ### Mapping a model to a table
+
+    By default the `table` macro will use the underscored and pluralized
+    version of the model's class name. So `CompletedProject` would have the
+    table name `:completed_project`.
+
+    ```crystal
+    class CompletedProject < BaseModel
+      # Will use :completed_projects as the tbale name
+      table do
+      end
+    end
+    ```
+
+    However, if you want to use a different table name you can provide to to the
+    `table` macro:
+
+    ```crystal
+    class CompletedProject < BaseModel
+      table :legacy_completed_projects do
+      end
+    end
+    ```
 
     ## Defining a column
 
@@ -66,15 +94,17 @@ class Guides::Database::Models < GuideAction
     * `id` - Your primary key column. Default `Int64`
     * `created_at` - default `Time` type.
     * `updated_at` - default `Time` type.
-    
-    ### Changing the default columns
 
-    To change your defaults, define a macro called `default_columns` in your `BaseModel`.
+    ### Customizing the default columns
+
+    To change your defaults, define a macro called `default_columns` in your
+    `BaseModel` and add whatever columns should automatically be added:
 
     ```crystal
+    # In src/models/base_model.cr
     abstract class BaseModel < Avram::Model
       macro default_columns
-        # Defines a custom primary key
+        # Defines a custom primary key name and type
         primary_key custom_key : UUID
 
         # adds the `created_at` and `updated_at`
@@ -83,33 +113,41 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    If you don't need the default columns for a specific model, call the `skip_default_columns` macro
-    at the top of the model class.
+    ### Skipping default columns
+
+    If you have a specific model that needs different columns than the
+    defaults, call the `skip_default_columns` macro at the top of the model
+    class.
+
+    Now your model won't define `id`, `created_at`, or `updated_at` fields. It will be up to you
+    to specify your primary key field.
 
     ```crystal
     class CustomModel < Avram::Model
       skip_default_columns
+
+      table do
+        primary_key something_different : Int64
+      end
     end
     ```
-
-    Now your model won't define `id`, `created_at`, or `updated_at` fields. It will be up to you
-    to specify your primary key field.
 
     ### Setting the primary key
 
     The primary key is `Int64` by default. If that's what you need, then everything is already set for
     you. If you need `Int32`, `Int16`, `UUID`, or your own custom set one, you'll need to update the
-    `primary_key`.
+    `primary_key` in your `BaseModel` or set one in the `table` macro.
 
     Setting your primary key with the `primary_key` method works the same as you did in
     your [migration](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_PRIMARY_KEYS)}).
 
     ```crystal
-    # src/models/user.cr
-    class User < BaseModel
-      # Sets the type for `id` to `UUID`
-      table :users do
+    # src/base_model.cr
+    abstract class BaseModel < Avram::Model
+      macro default_columns
+        # Sets the type for `id` to `UUID`
         primary_key id : UUID
+        timestamps
       end
     end
     ```
@@ -119,10 +157,10 @@ class Guides::Database::Models < GuideAction
     Inside of the `table` block, you'll add the columns your model will define using the `column` method.
 
     ```crystal
-    table :users do
+    table do
       column email : String
       column active : Bool
-      # This column can be `nil` because the type ends in `?`
+      # This column is optional (can be `nil`) because the type ends in `?`
       column ip_address : String?
       column last_active_at : Time
     end
@@ -162,7 +200,7 @@ class Guides::Database::Models < GuideAction
 
     # then in your model
 
-    table :products do
+    table do
       column price : Double
     end
     ```
@@ -181,7 +219,7 @@ class Guides::Database::Models < GuideAction
 
     ```crystal
     class User < BaseModel
-      table :user do
+      table do
         has_one supervisor : Supervisor
         has_many tasks : Task
         belongs_to company : Company
@@ -195,7 +233,7 @@ class Guides::Database::Models < GuideAction
     as `{model_name}_id`.
 
     ```crystal
-    table :users do
+    table do
       column name : String
 
       # gives you the `company_id`, and `company` methods
@@ -225,7 +263,7 @@ class Guides::Database::Models < GuideAction
     ## Has one (one to one)
 
     ```crystal
-    table :users do
+    table do
       has_one supervisor : Supervisor
     end
     ```
@@ -233,7 +271,7 @@ class Guides::Database::Models < GuideAction
     This would match up with the `Supervisor` having `belongs_to`.
 
     ```crystal
-    table :supervisors do
+    table do
       belongs_to user : User
     end
     ```
@@ -241,7 +279,7 @@ class Guides::Database::Models < GuideAction
     ## Has many (one to many)
 
     ```crystal
-    table :users do
+    table do
       has_many tasks : Task
     end
     ```
@@ -258,14 +296,14 @@ class Guides::Database::Models < GuideAction
     ```crystal
     # This is what will join the posts and tags together
     class Tagging < BaseModel
-      table :taggings do
+      table do
         belongs_to tag : Tag
         belongs_to post : Post
       end
     end
 
     class Tag < BaseModel
-      table :tags do
+      table do
         column name : String
         has_many taggings : Tagging
         has_many posts : Post, through: :taggings
@@ -273,7 +311,7 @@ class Guides::Database::Models < GuideAction
     end
 
     class Post < BaseModel
-      table :posts do
+      table do
         column title : String
         has_many taggings : Tagging
         has_many tags : Tag, through: :taggings
