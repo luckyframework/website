@@ -1,6 +1,6 @@
 class Guides::HttpAndRouting::RoutingAndParams < GuideAction
   ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES = "perma-automatically-generate-restful-routes"
-  ANCHOR_FALLBACK_ROUTING = "perma-fallback-routing"
+  ANCHOR_FALLBACK_ROUTING                      = "perma-fallback-routing"
   guide_route "/http-and-routing/routing-and-params"
 
   def self.title
@@ -285,7 +285,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     # in src/actions/errors/show.cr
     #
     # Customize this however you want!
-    def handle_error(error : Lucky::RouteNotFoundError)
+    def render(error : Lucky::RouteNotFoundError)
       if json?
         json Errors::ShowSerializer.new("Not found"), status: 404
       else
