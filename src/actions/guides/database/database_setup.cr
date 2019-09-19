@@ -165,7 +165,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     ```
 
     Lastly, any models that need to use this database will need to define a class
-    method `def self.database` using the database.
+    method `def self.database` with the database.
 
     ```crystal
     # src/models/legacy_user.cr
