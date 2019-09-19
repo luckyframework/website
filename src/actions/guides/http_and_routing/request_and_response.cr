@@ -20,7 +20,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `json?` - true if the client accepts "application/json"
     * `ajax?` - true if the X-Requested-With header is "XMLHttpRequest"
     * `html?` - true if the client accepts HTML
-    * `xml?` - true if the client acceepts is "application/xml" or "application/xhtml+xml"
+    * `xml?` - true if the client accepts is "application/xml" or "application/xhtml+xml"
     * `plain?` - true if the client accepts is "text/plain"
 
     You can use these methods to direct the request or return different responses.
