@@ -1,4 +1,5 @@
 class Guides::HttpAndRouting::ErrorHandling < GuideAction
+  ANCHOR_RENDERABLE_ERRORS = "perma-renderable-errors"
   guide_route "/http-and-routing/error-handling"
 
   def self.title
@@ -7,16 +8,63 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
 
   def markdown
     <<-MD
-    ## Error Handling
+    ## How Lucky renders errors
 
-    Lucky comes built-in with a nice debug page when in development. In production
-    Lucky renders a simple HTML error page for browsers and JSON errors
-    for API endpoints.
+    When an error occurs the `Lucky::ErrorHandler` calls the auto-generated
+    `Errors::Show` action in `src/actions/errors/show.cr`.
+
+    The `Errors::Show` has 3 key methods:
+
+    * `render(error)`
+    * `default_render(error)`
+    * `report(error)`
+
+    First, the `Errors::Show` action will try to find a matching `render`
+    method. The `render` methods take the error as an argument as use [method
+    overloading](https://crystal-lang.org/reference/syntax_and_semantics/overloading.html)
+    to find a match. If one matches, the error will be rendered.
+
+    For example, if `MyCustomError` is raised, and there is a method for
+    handling it, that method will be used and `default_render` will not be
+    called:
+
+    ```crystal
+    def render(error : MyCustomError)
+      error_html message: "Super Custom", status: 418
+    end
+    ```
+
+    > `error_html` is an automatically generated method on `Errors::Show` that
+    > show an HTML page. You can customize it however you want.
+
+    If no `render` method matches then the `default_render` method will be
+    used. This method will send a `500` HTTP status code and either an HTML
+    page or a JSON response depending on the client's desired format. If your
+    app is using API mode, it will only send JSON and not an HTML page.
+
+
+    ### Errors that Lucky handles out of the box
+
+    Lucky will also handle a few errors out of the box. For example,
+    `Lucky::RouteNotFoundError` will return a 404:
+
+    ```crystal
+    def render(error : Lucky::RouteNotFoundError)
+      if html?
+        error_html "Sorry, we couldn't find that page.", status: 404
+      else
+        error_json "Not found", status: 404
+      end
+    end
+    ```
+
+    Lucky also handles `Lucky::RenderableError`. We'll talk about that more in
+    the section on [renderable errors](##{ANCHOR_RENDERABLE_ERRORS})
 
     ## Error handling in development
 
     When using a browser with Lucky in development mode, Lucky uses the
-    [ExceptionPage](https://github.com/crystal-loot/exception_page) shard to
+    [ExceptionPage shard](https://github.com/crystal-loot/exception_page) to
     display a helpful page with your stack trace, and exception message.
 
     When using JSON Lucky renders JSON errors whether in development or
@@ -36,7 +84,9 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     end
     ```
 
-    ## Customizing Error Handling
+    Remember to change it back once you're done so you can see the debug page.
+
+    ## Customizing how errors are displayed
 
     Let's say you have an error class `MyCustomError` in your app. When this
     error is raised, you want to show a custom error to your users. Open up the
@@ -57,18 +107,8 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     one that is generated with every Lucky project: `render(e : Exception)`.
     You can customize that method however you like!
 
-    ## Error handling in development
-
-    When in development, Lucky uses the
-    [ExceptionPage](https://github.com/crystal-loot/exception_page) shard to
-    display a helpful page with your stack trace, and exception message. The
-    option to display the error page or not is in `config/error_handler.cr`.
-
-    If you need to see how the errors are handled in production (i.e. json
-    response for an api). Set the `settings.show_debug_output` option to `false`
-    in `config/log_handler.cr`.
-
-    ## Default response codes for Exception classes
+    #{permalink(ANCHOR_RENDERABLE_ERRORS)}
+    ## Renderable errors
 
     > In general this should be a last resort or for libraries that want to
     provide default behavior. Usually you should use `render` methods in
@@ -79,26 +119,28 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     ```crystal
     # Define your custom exception
     class NotAuthorizedError < Exception
-      include Lucky::HttpRespondable
+      include Lucky::RenderableError
 
-      def http_error_code
+      def renderable_status
         403
+      end
+
+      def renderable_message
+        "Not authorized"
       end
     end
     ```
 
-    When `NotAuthorizedError` is raised, Lucky will use the defined status code, *unless*
-    you have a `render` method that changes it.
+    When `NotAuthorizedError` is raised, Lucky will use the defined status
+    code and message, *unless* you have a `render` method for the error
+    (`render(error : NotAuthorizedError)`).
 
     ## Error reporting
 
-    There's many different services out there where you can ship your exceptions
-    off to for better cataloging and searching of the errors.
-
     In your `src/actions/errors/show.cr` file, there is a `report` method.
-    By default this does nothing, but you can report the error however
-    you want. You can send an email, send the error to one or more services,
-    or anything else you want.
+    By default this method is empty, but you can change it to report the
+    error however you want. You can send an email, send the error to one or
+    more services, or anything else you want.
 
     For example, let's use the [Raven shard](https://github.com/sija/raven.cr)
     to send an error report to [Sentry](https://sentry.io/):
@@ -116,9 +158,9 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
 
     ### Changing how some errors are reported
 
-    You can use method overloading to report some errors differently than others.
-    For example, let's say we have a `SuperScaryError` that we want to report
-    and also send a text to the CEO about. We can add a `report` method that
+    You can use method overloading to report some errors differently than
+    others. For example, let's say we have a `SuperScaryError` that we want
+    to report by sending a text to the CEO. We can add a `report` method that
     handles that error:
 
     ```crystal
@@ -127,8 +169,9 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     end
     ```
 
-    Now, all other errors will be reported by `report(error : Exception)`
-    but `SuperScaryError` will be handled by `report(error : SuperScaryError)`.
+    Now `SuperScaryError` will be handled by `report(error :
+    SuperScaryError)`, and all other errors will be handled by the regular
+    `report(error : Exception)`.
 
     ### Skipping reporting
 
