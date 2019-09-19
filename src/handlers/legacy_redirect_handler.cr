@@ -15,6 +15,7 @@ class LegacyRedirectHandler
     "/guides/tasks"                               => Guides::CommandLineTasks::BuiltIn,
     "/guides/logging-and-error-handling"          => Guides::Logging,
     "/guides/writing-json-apis"                   => Guides::JsonAndApis::RenderingJson,
+    "/guides/json-and-apis/handling-errors"       => Guides::HttpAndRouting::ErrorHandling,
     "/guides/generating-test-data"                => Guides::Database::Testing,
     "/guides/browser-tests"                       => Guides::Frontend::Testing,
     "/guides/sending-emails"                      => Guides::Emails::SendingEmailsWithCarbon,
