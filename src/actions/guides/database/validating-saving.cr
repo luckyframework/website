@@ -1,5 +1,7 @@
 class Guides::Database::ValidatingSaving < GuideAction
   ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
+  ANCHOR_PARAM_KEY             = "perma-param-key"
+  ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
   guide_route "/database/validating-saving"
 
   def self.title
@@ -28,6 +30,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     For example, default Lucky apps have a `SignUserUp` specifically for handling
     user sign ups.
 
+    #{permalink(ANCHOR_PERMITTING_COLUMNS)}
     ## Allowing params to be saved
 
     By default you won’t be able to set any data from params. This is a security
@@ -88,10 +91,11 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    ### Update with `update!`
+    ### Saving with `update!` and `create!`
 
-    `update!` will raise if the record fails to save or is invalid.
-    This version is often used when [writing JSON APIs](#{Guides::JsonAndApis::RenderingJson.path})
+    `update!/create!` will raise an `Avram::InvalidOperationError` if the
+    record fails to save or is invalid.
+    This version is often used when [writing JSON APIs](#{Guides::JsonAndApis::SavingToTheDatabase.path})
     or for creating sample data in your the seed tasks in the `/tasks` folder.
 
     ```crystal
@@ -153,21 +157,30 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    ### Specifying the form name
+    #{permalink(ANCHOR_PARAM_KEY)}
+    ### Specifying the param key
 
-    When a form is submitted, it's param key will be derived from the form object's class name.
-    (e.g. a `SaveUser` will submit a `user` param key).
+    When params are given to an operation, the operation will look for a top
+    level key that params are nested under. By default the key will be the
+    SaveOperation's underscored model name. (e.g. a `SaveUser` which inherits
+    from `User::SaveOperation` will submit a `user` param key).
 
-    If you need to customize this, use the `param_key` macro in your form.
+    For non `SaveOperations` (not backed by a databse model) the `param_key`
+    is the underscored class name. So `RequestPasswordReset` would look for
+    params in a `request_password_reset` key.
+
+    If you need to customize this, use the `param_key` macro in your operation.
 
     ```crystal
-    class SaveUser < User::SaveOperation
-      # Sets the param key to `custom_form`
-      param_key :custom_form
+    class SaveAdmin < User::SaveOperation
+      # Sets the param key to `admin` instead of the default `user` key.
+      param_key :admin
     end
     ```
 
-    > The `param_key` wraps all fields, and is required in the operation. (e.g. HTML `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
+    > The `param_key` is required in the operation. This means HTML and JSON
+    > params must be nested under the param key to be found. (e.g. HTML
+    > `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
 
     ### Simplify inputs with `Shared::Field`
 
