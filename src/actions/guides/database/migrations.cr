@@ -59,7 +59,7 @@ class Guides::Database::Migrations < GuideAction
 
     ## The table_for macro
 
-    Most migrations will use `table_for` to generate a table name. The table
+    Most migrations will use `table_for` to generate a table
     name from the passed in class. The generated table name will be the
     pluralized and underscored name of the class.
 
