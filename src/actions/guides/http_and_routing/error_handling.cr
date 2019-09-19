@@ -9,8 +9,32 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     <<-MD
     ## Error Handling
 
-    When an exception is thrown in your code, you don't want your user left with
-    a blank page, so Lucky has a built in way of handling these errors.
+    Lucky comes built-in with a nice debug page when in development. In production
+    Lucky renders a simple HTML error page for browsers and JSON errors
+    for API endpoints.
+
+    ## Error handling in development
+
+    When using a browser with Lucky in development mode, Lucky uses the
+    [ExceptionPage](https://github.com/crystal-loot/exception_page) shard to
+    display a helpful page with your stack trace, and exception message.
+
+    When using JSON Lucky renders JSON errors whether in development or
+    production.
+
+    ### Seeing the error page your users will see
+
+    Sometimes in development you want to see the page your users will see instead
+    of the debug page.
+
+    To do so, change the the `settings.show_debug_output` option to `false`:
+
+    ```crystal
+    # config/error_handler.cr
+    Lucky::ErrorHandler.configure do |settings|
+      settings.show_debug_output = false
+    end
+    ```
 
     ## Customizing Error Handling
 
