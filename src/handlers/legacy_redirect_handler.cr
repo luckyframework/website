@@ -19,7 +19,7 @@ class LegacyRedirectHandler
     "/guides/generating-test-data"                => Guides::Database::Testing,
     "/guides/browser-tests"                       => Guides::Frontend::Testing,
     "/guides/sending-emails"                      => Guides::Emails::SendingEmailsWithCarbon,
-    "/guides/authentication"                      => Guides::Authentication::Show,
+    "/guides/authentication"                      => Guides::Authentication::Intro,
     "/guides/deploying-heroku"                    => Guides::Deploying::Heroku,
     "/guides/database/validating-saving-deleting" => Guides::Database::ValidatingSaving,
     "/guides/database/querying"                   => Guides::Database::QueryingDeleting,

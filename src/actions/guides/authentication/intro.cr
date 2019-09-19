@@ -1,52 +1,73 @@
-class Guides::Authentication::Show < GuideAction
+class Guides::Authentication::Intro < GuideAction
   guide_route "/authentication"
 
   def self.title
-    "Authentication"
+    "Authentication Introduction"
   end
 
   def markdown
     <<-MD
-    ## Generated file locations
+    ## Overview
 
-    By default Lucky generates files for authentication with email and password.
-    Actions require sign in by default (set in `BrowserAction`), but can be
-    configured differently by modifying these files. You can also remove feature
-    by removing the folders. For example if you don't want to allow sign up
-    (maybe users are added manually or through an API), you can remove the
-    sign_ups actions, pages, and forms
+    When creating a new Lucky project you can choose to generate files for
+    authentication with email and password.
 
-    Actions and action mixins:
+    If you have an API only Lucky app, Lucky will generate operations,
+    models, mixins, and actions for signing up and authenticating with an
+    auth token (JWT).
 
-    * `src/actions/mixins/auth/*` - mixins for requiring sign in, skipping sign in, etc.
-    * `src/actions/mixins/password_resets/*` - mixins for working with password resets.
-    * `src/actions/browser_action.cr` - this is where the authentication methods are included
-    * `src/actions/home/index.cr` - handles what to do when a user hits the home page and is signed in or not
-    * `src/actions/sign_ups/*`
+    If you have the whole enchilada you will still get API auth, but also
+    actions and pages for signing in, signing out, and resetting your
+    password through the browser.
+
+    ## Generated files
+
+    ### Browser Actions (not in API only apps)
+
+    * `src/actions/browser_action.cr` - includes mixins for checking sign in, getting current user, and signing users in using cookies.
+    * `src/actions/home/index.cr` - redirects users based on whether signed in/out.
+    * `src/actions/me/show.cr` - the current user's profile.
     * `src/actions/sign_ins/*`
+    * `src/actions/sign_ups/*`
     * `src/actions/sign_outs/*`
     * `src/actions/password_resets/*`
     * `src/actions/password_reset_requests/*`
+    * `src/actions/mixins/auth/*` - mixins for requiring sign in, skipping sign in, etc.
+    * `src/actions/mixins/password_resets/*` - mixins for working with password resets.
 
-    Forms:
+    ### API Actions
 
-    * `src/forms/mixins/password_validations.cr` - mixin used in the `SignUpForm`
-      and `PasswordResetForm` so password validations are the same in both
-    * `src/forms/sign_up_form.cr`
-    * `src/forms/sign_in_form.cr`
-    * `src/forms/password_reset_request_form.cr`
-    * `src/forms/password_reset_form.cr`
+    * `src/actions/mixins/api/auth/*` - mixins for checking sign in, getting current user, and signing users in with a token.
+    * `src/actions/api_action.cr` - includes mixins for token auth.
+    * `src/actions/api/sign_ins/*` - generate a token for the user.
+    * `src/actions/api/sign_ups/*`
+    * `src/actions/api/me/show.cr` - the currently signed in user as JSON.
 
-    Pages & Layouts:
+    ### Operations
 
-    * `src/pages/main_layout.cr`
-    * `src/pages/guest_layout.cr` - this layout is used by the auth pages and does
-      not require or have access to the `current_user`.
+    * `src/operations/mixins/password_validations.cr` - mixin used in the `SignUpUser`
+      and `ResetPassword` so password validations are the same in both.
+    * `src/operations/sign_up_user.cr`
+    * `src/operations/sign_in_user.cr`
+    * `src/operations/request_password_reset.cr` - not in API only apps.
+    * `src/operations/reset_password.cr` - not in API only apps.
+
+    ### Serializers
+
+    * `src/serializers/user_serializer.cr`
+
+    ### Pages & Layouts (not in API only apps)
+
+    * `src/pages/main_layout.cr` - this layout requires a sign in user.
+    * `src/pages/auth_layout.cr` - this layout is used by the auth pages (sign
+      in, sign up, password reset) and does not require or have access to the `current_user`.
     * `src/pages/sign_ups/*`
     * `src/pages/sign_ins/*`
-    * `src/pages/sign_outs/*`
+    * `src/pages/request_password_resets/*`
+    * `src/pages/password_resets/*`
+    * `src/pages/me/show_page.cr`
 
-    Model, migration, and query:
+    ### Model, migration, and query:
 
     * `db/migrations/00000000000001_create_users.cr` - create the initial users table
     * `src/models/user.cr`
