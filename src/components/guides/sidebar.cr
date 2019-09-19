@@ -52,7 +52,6 @@ class Guides::Sidebar < BaseComponent
       Guides::JsonAndApis::RenderingJson,
       Guides::JsonAndApis::ParsingJsonRequests,
       Guides::JsonAndApis::SavingToTheDatabase,
-      Guides::JsonAndApis::HandlingErrors,
       Guides::JsonAndApis::Cors,
     ] of GuideAction.class),
     GuideCategory.new("Authentication", [
