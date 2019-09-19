@@ -15,13 +15,13 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     When a request for a path calls an action, the action has access to the request object through a `request` method.
     > The `request` object is an instance of [HTTP::Request](https://crystal-lang.org/api/HTTP/Request.html).
 
-    Lucky also provides access to some helpful methods to determine the requested Content-Type.
+    Lucky also provides access to some helpful methods to determine the requests desired response format.
 
-    * `json?` - true if the Content-Type header is "application/json"
+    * `json?` - true if the client accepts "application/json"
     * `ajax?` - true if the X-Requested-With header is "XMLHttpRequest"
-    * `html?` - true if the Content-Type header is "text/html"
-    * `xml?` - true if the Content-Type header is "application/xml" or "application/xhtml+xml"
-    * `plain?` - true if the Content-Type header is "text/plain"
+    * `html?` - true if the client accepts HTML
+    * `xml?` - true if the client accepts is "application/xml" or "application/xhtml+xml"
+    * `plain?` - true if the client accepts is "text/plain"
 
     You can use these methods to direct the request or return different responses.
 
@@ -29,8 +29,8 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     class Users::Show < BrowserAction
       route do
         if json?
-          # The Content-Type is a json request, so let's return some json
-          json(Users::ShowSerializer.new(current_user))
+          # The client wants json, so let's return some json
+          json(UserSerializer.new(current_user))
         else
           # Just render the page like normal
           render Users::ShowPage
@@ -79,7 +79,9 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
 
-    Finally, every action is required to return one of the available responses:
+    Every action is required to return a response
+    
+    These are the built-in Lucky response methods:
 
     * `render` - render a Lucky::HTMLPage
     * `redirect` - redirect the request to another location
@@ -105,7 +107,6 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ```
 
     > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html)
-
 
     #{permalink(ANCHOR_REDIRECTING)}
     ## Redirecting
