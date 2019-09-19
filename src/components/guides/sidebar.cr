@@ -56,6 +56,8 @@ class Guides::Sidebar < BaseComponent
     ] of GuideAction.class),
     GuideCategory.new("Authentication", [
       Guides::Authentication::Intro,
+      Guides::Authentication::Browser,
+      Guides::Authentication::Api,
     ] of GuideAction.class),
     GuideCategory.new("Command Line Tasks", [
       Guides::CommandLineTasks::BuiltIn,
