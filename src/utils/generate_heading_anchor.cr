@@ -1,5 +1,6 @@
 class GenerateHeadingAnchor
-  def initialize(@heading_text : String)
+  def initialize(heading_text : String)
+    @heading_text = HTML.unescape(heading_text)
   end
 
   def call : String

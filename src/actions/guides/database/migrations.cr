@@ -254,7 +254,7 @@ class Guides::Database::Migrations < GuideAction
 
     > You can also use a symbol for a table name. For example `create :users`.
 
-    ## Using 'fill_existing_with'
+    ## Using fill_existing_with
 
     When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
 
