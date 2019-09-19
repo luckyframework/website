@@ -55,7 +55,7 @@ class Guides::Sidebar < BaseComponent
       Guides::JsonAndApis::Cors,
     ] of GuideAction.class),
     GuideCategory.new("Authentication", [
-      Guides::Authentication::Show,
+      Guides::Authentication::Intro,
     ] of GuideAction.class),
     GuideCategory.new("Command Line Tasks", [
       Guides::CommandLineTasks::BuiltIn,
