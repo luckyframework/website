@@ -138,9 +138,16 @@ class Guides::Database::DatabaseSetup < GuideAction
     you'll need to create a new class and inherit from `Avram::Database`.
 
     ```crystal
-    # config/database.cr
+    # src/secondary_database.cr
     class SecondaryDatabase < Avram::Database
     end
+    ```
+    
+    Then require the file in `src/app.cr`:
+    
+    ```crystal
+    # Add this right above the `require "./app_database.cr"`
+    require "./secondary_database.cr"
     ```
 
     Next, you'll need to add the connection info for the `SecondaryDatabase`.
@@ -158,7 +165,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     ```
 
     Lastly, any models that need to use this database will need to define a class
-    method `def self.database` with this database.
+    method `def self.database` using the database.
 
     ```crystal
     # src/models/legacy_user.cr
@@ -172,10 +179,35 @@ class Guides::Database::DatabaseSetup < GuideAction
     end
     ```
 
-    If you have many models that require connection to the `SecondaryDatabase`, you can place
-    this method in its own `SecondaryBaseModel` class, then have those models inherit from that class.
+    If you have many models that require connection to the `SecondaryDatabase`, you can 
+    make a `SecondayBaseModel` class in `src/models/secondary_base_model.cr` and have 
+    those models inherit from that class.
+    
+    ```crystal
+    # src/models/secondary_base_model.cr
+    abstract class SecondayBaseModel < Avram::Model
+      def self.database : Avram::Database.class
+        SecondaryDatabase
+      end
+    end
+    ```
+    
+    Require it in `src/app.cr`:
+    
+    ```crystal
+    # Add this right above the `require "./models/base_model.cr"`
+    require "./secondary_base_model.cr"
+    ```
+    
+    Models can now inherit from this class:
+    
+    ```crystal
+    class LegacyUser < SecondaryBaseModel
+    end
+    ```
+ 
 
-    > Migrations are ran against the `AppDatabase`. If you need to run migrations against
+    > Note: migrations are ran against the `AppDatabase`. If you need to run migrations against
     > another database, you'll need to update the `database_to_migrate` option in `config/database.cr`
     MD
   end
