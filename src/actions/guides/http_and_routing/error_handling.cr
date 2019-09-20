@@ -24,7 +24,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     ### render
 
     First, the `Errors::Show` action will try to find a matching `render`
-    method. The `render` methods take the error as an argument as uses [method
+    method. The `render` methods take the error as an argument and uses [method
     overloading](https://crystal-lang.org/reference/syntax_and_semantics/overloading.html)
     to find a match. If one matches, the error will be rendered.
 
@@ -39,10 +39,9 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     ```
 
     `error_html` is an automatically generated method on `Errors::Show` that
-    shows an HTML page. You can customize it however you want.
-
-    You can learn more about how to [customize how errors are
-    displayed](##{ANCHOR_CUSTOMIZING_ERROR_DISPLAY}) later in the guide.
+    shows an HTML page. You can customize it however you want. You can learn
+    more about how to [customize how errors are displayed](##{ANCHOR_CUSTOMIZING_ERROR_DISPLAY})
+    later in the guide.
 
     ### default_render
 
@@ -65,7 +64,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     [ExceptionPage shard](https://github.com/crystal-loot/exception_page) to
     display a helpful page with your stack trace, and exception message.
 
-    When using JSON Lucky renders JSON errors whether in development or
+    When using JSON, Lucky will render errors as JSON whether in development or
     production.
 
     ### Seeing the error page your users will see
@@ -103,7 +102,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     ```
 
     If there is no `render` for the exception, it will fallback to the
-    default one that is generated with every Lucky project: `render(e :
+    default one that is generated with every Lucky project: `default_render(error :
     Exception)`. You can customize that method in the same way by changing
     the message or status codes:
 
@@ -126,7 +125,8 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     ```
 
     If the clients wants JSON back it will get this error message, otherwise
-    it will fall back to using the `default_render` method.
+    the method will return `nil` and Lucky will fall back to using the
+    `default_render` method.
 
     ### Customizing the error page/JSON
 
@@ -162,10 +162,32 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     ## Renderable errors
 
     > In general this should be a last resort or for libraries that want to
-    provide default behavior. Usually you should use `render` methods in
-    `Errors::Show` because it is far more customizable and much simpler to work with.
+    provide default behavior for errors. Usually you should use `render`
+    methods in `Errors::Show` because it is more customizable and
+    simpler to work with.
 
-    If you want to return a special http status code for an Exception class you can do this:
+    Lucky comes with a `Lucky::RenderableError` module that can be included in
+    errors so that Lucky knows what the status code and message should be.
+    Errors with `Lucky::RenderableError` must have a `renderable_status` and
+    `renderable_message` method defined.
+
+    By default, `Lucky::RenderableError`s are handled with the `render(error
+    : Lucky::RenderableError)` method included in all new Lucky projects
+
+    It looks something like this:
+
+    ```crystal
+    def render(error : Lucky::RenderableError)
+      if html?
+        error_html DEFAULT_MESSAGE, status: error.renderable_status
+      else
+        error_json error.renderable_message, status: error.renderable_status
+      end
+    end
+    ```
+
+    If you want to make it so your error is rendered with this method
+    you can do this:
 
     ```crystal
     # Define your custom exception
