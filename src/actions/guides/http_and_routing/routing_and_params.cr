@@ -243,7 +243,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    > The `fallback` should always contain a `Lucky::RouteNotFoundError` error. This is to throw a 404 when an asset, or some other file is not found.
+    > The `fallback` should always contain a `Lucky::RouteNotFoundError`
+    error. This is to throw a 404 when an asset, or some other file is not
+    found.
 
     ## Memoization
 
@@ -287,14 +289,14 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     # Customize this however you want!
     def render(error : Lucky::RouteNotFoundError)
       if json?
-        json Errors::ShowSerializer.new("Not found"), status: 404
+        error_json "Not found", status: 404
       else
-        render_error_page title: "Sorry, we couldn't find that page.", status: 404
+        error_html "Sorry, we couldn't find that page", status: 404
       end
     end
     ```
 
-    > Learn more about [error handling and logging](#{Guides::Logging.path}).
+    > Learn more about [error handling](#{Guides::HttpAndRouting::ErrorHandling.path}).
 
     ## Query parameters
 
