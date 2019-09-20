@@ -41,7 +41,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     Routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
 
-    If you need access to still different methods like `options`, you can use the `match` macro.
+    If you still need access to different methods like `options`, you can use the `match` macro.
 
     ```crystal
     # src/actions/profile/show.cr
