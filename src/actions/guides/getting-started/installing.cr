@@ -20,6 +20,9 @@ class Guides::GettingStarted::Installing < GuideAction
     * [Crystal v0.30](https://crystal-lang.org/reference/installation/)
     * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
+    You will need additional dependencies if you want to test your frontend using LuckyFlow,
+    see the [_Testing HTML and Interactivity_ guide](#{Guides::Frontend::Testing.path}) for details.
+
     ### Debian and Fedora dependencies
 
     * Debian (Ubuntu should be similar): run `apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev`
