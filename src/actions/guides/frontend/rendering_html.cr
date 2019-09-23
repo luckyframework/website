@@ -634,6 +634,14 @@ class Guides::Frontend::RenderingHtml < GuideAction
       kilt:
         github: jeromegn/kilt
     ```
+    
+    ### Add Kilt to shards file
+    
+    Add this line to src/shards.cr
+    
+    ```crystal
+    require "kilt"
+    ```
 
     ### Add a `render_template` macro to make it easier to render
 
