@@ -637,7 +637,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     
     ### Add Kilt to shards file
     
-    Add this line to src/shards.cr
+    Add this line to `src/shards.cr`
     
     ```crystal
     require "kilt"
