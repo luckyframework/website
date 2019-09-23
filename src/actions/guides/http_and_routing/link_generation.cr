@@ -30,7 +30,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     end
     ```
 
-    You can then call these methods
+    You can then call these methods:
 
     * `Projects::Users::Index.path(project_id: "my_project_id")` and it will return ->
       `"/projects/my_project_id/users"`
