@@ -11,7 +11,7 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
 
     Security is a very important part to building an application, and Lucky comes with a few small tools to help you out.
 
-    If you look in your `src/actions/browser_action.cr`, you'll see Lucky has added the `Lucky::ProtectFromForgery` module which helps to protect you against [Cross-Site Request Forgery (CSRF)](https://www.owasp.org/index.php/Cross-Site_Request_Forgery).
+    If you look in your `src/actions/browser_action.cr`, you'll see Lucky has added the `Lucky::ProtectFromForgery` module, which helps to protect you against [Cross-Site Request Forgery (CSRF)](https://www.owasp.org/index.php/Cross-Site_Request_Forgery).
 
     There's a few other modules you can include in your actions to help secure your app against attacks. It's up to you to decide which ones work best for your needs.
 
