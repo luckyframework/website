@@ -10,13 +10,13 @@ class Guides::HttpAndRouting::Flash < GuideAction
     ## Flash messages
 
     You can show messages using `flash`. A flash message is a simple String that is
-    passed between two actions. This is used for notifying the user an action was a success
-    or failure. (e.g. "Record was saved successfully")
+    passed between two actions. This lets a user know if an action was a success
+    or a failure. (e.g. "Record was saved successfully")
 
     ### Type safe flash messages
 
-    The built in messages types are `success`, `failure` and `info`. Using these
-    will cause compile time errors if you accidentally mistype something. It is
+    The built-in message types are `success`, `failure` and `info`. Using these
+    will cause compile-time errors if you accidentally mistype something. It is
     recommended to stick to these whenever possible.
 
     ```crystal
@@ -36,7 +36,7 @@ class Guides::HttpAndRouting::Flash < GuideAction
 
     ### Setting other messages
 
-    The built in messages are `success`, `failure` and `info`, but you can use anything
+    The built-in messages are `success`, `failure` and `info`, but you can use anything
     you'd like:
 
     ```crystal
