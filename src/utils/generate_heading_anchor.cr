@@ -4,6 +4,9 @@ class GenerateHeadingAnchor
   end
 
   def call : String
-    @heading_text.gsub(" ", "-").downcase
+    @heading_text
+      .gsub(" ", "-")
+      .gsub("&", "-")
+      .downcase
   end
 end

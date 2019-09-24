@@ -1,4 +1,5 @@
 class Guides::Authentication::Browser < GuideAction
+  ANCHOR_ALLOW_GUESTS = "perma-allow-guests"
   guide_route "/authentication/browser"
 
   def self.title
@@ -9,137 +10,244 @@ class Guides::Authentication::Browser < GuideAction
     <<-MD
     ## Overview
 
-    When creating a new Lucky project you can choose to generate files for
-    authentication with email and password.
+    When a full Lucky app is generated with auth you will get:
 
-    If you have an API only Lucky app, Lucky will generate operations,
-    models, mixins, and actions for signing up and authenticating with an
-    auth token (JWT).
+    * Sign up
+    * Sign in
+    * Sign out
+    * Password reset
+    * Basic profile page
 
-    If you have the whole enchilada you will still get API auth, but also
-    actions and pages for signing in, signing out, and resetting your
-    password through the browser.
+    ## Requiring sign in
 
-    ## Generated files
+    By default actions that inherit from `BrowserAction`
+    (`src/actions/browser_action.cr`) will require sign in because
+    `BrowserAction` includes the `Auth::RequireSignIn` module
+    (`src/actions/mixins/auth/require_sign_in.cr`). This is a great way to
+    make sure that your actions are protected by default.
 
-    ### Browser Actions (not in API only apps)
+    If your action requires sign in and you are rendering HTML, you will
+    likely make the page you are rendering inherit from `MainLayout`. This is
+    because `MainLayout` requires that a `current_user` is available.
 
-    * `src/actions/mixins/auth/*` - mixins for requiring sign in, skipping sign in, etc.
-    * `src/actions/mixins/password_resets/*` - mixins for working with password resets.
-    * `src/actions/browser_action.cr` - includes mixins for checking sign in, getting current user, and signing users in using cookies.
-    * `src/actions/home/index.cr` - redirects users based on whether signed in/out.
-    * `src/actions/me/show.cr` - the current user's profile.
-    * `src/actions/sign_ins/*`
-    * `src/actions/sign_ups/*`
-    * `src/actions/sign_outs/*`
-    * `src/actions/password_resets/*`
-    * `src/actions/password_reset_requests/*`
+    The next section talks about what to do when sign in is optional.
 
-    ### API Actions
+    #{permalink(ANCHOR_ALLOW_GUESTS)}
+    ## Making sign in optional
 
-    * `src/actions/mixins/api/auth/*` - mixins for checking sign in, getting current user, and signing users in with a token.
-    * `src/actions/api_action.cr` - includes mixins for token auth.
-    * `src/actions/api/sign_ins/*` - generate a token for the user.
-    * `src/actions/api/sign_ups/*`
-    * `src/actions/api/me/show.cr` - the currently signed in user as JSON.
+    To allow guests (signed out users) to view an action, include the
+    `Auth::AllowGuests` mixin in the action.
 
-    ### Operations
+    ### Auth::AllowGuests mixin
 
-    * `src/operations/mixins/password_validations.cr` - mixin used in the `SignUpUser`
-      and `ResetPassword` so password validations are the same in both.
-    * `src/operations/sign_up_user.cr`
-    * `src/operations/sign_in_user.cr`
-    * `src/operations/request_password_reset.cr` - not in API only apps.
-    * `src/operations/reset_password.cr` - not in API only apps.
-
-    ### Serializers
-
-    * `src/serializers/user_serializer.cr`
-
-    ### Pages & Layouts (not in API only apps)
-
-    * `src/pages/main_layout.cr` - this layout requires a sign in user.
-    * `src/pages/auth_layout.cr` - this layout is used by the auth pages (sign
-      in, sign up, password reset) and does not require or have access to the `current_user`.
-    * `src/pages/sign_ups/*`
-    * `src/pages/sign_ins/*`
-    * `src/pages/request_password_resets/*`
-    * `src/pages/password_resets/*`
-    * `src/pages/me/show_page.cr`
-
-    ### Model, migration, and query:
-
-    * `db/migrations/00000000000001_create_users.cr` - create the initial users table
-    * `src/models/user.cr`
-    * `src/queries/user_query.cr`
-
-    ## Optional sign in
-
-    By default Lucky assumes most pages require sign in (apps like Gmail,
-    SalesForce, and Dropbox). To handle this the `Auth::RequireSignIn` module
-    is included in the `BrowserAction`.
-
-    Some apps have pages where guests can visit without sign in (Reddit, Twitter,
-    ebay). If you have pages like that you'll need to make a couple changes:
-
-    ### When the page looks very similar for signed out users
-
-    Make `current_user` optional in the `MainLayout` (`src/pages/main_layout.cr`):
+    This will allow guests to request this action. It will also make the
+    `current_user` method nilable (if no user is signed in `currnt_user` will return
+    `nil`).
 
     ```crystal
-    # From this
-    needs current_user : User
-
-    # To this
-    needs current_user : User?
-    ```
-
-    In your actions that don't require sign in include the
-    `Auth::SkipRequireSignIn` module:
-
-    ```crystal
-    class Users::Index < BrowserAction
-      include Auth::SkipRequireSignIn
-
-      # other code
+    class PublicPosts < BrowserAction
+      include Auth::AllowGuests
     end
     ```
 
-    To use the `current_user` in your pages you'll now need check if it is nil or not:
+    Now we have to figure out how to handle the possibility of a guest in our
+    pages and layouts.
+
+    ## Pages & layouts
+
+    By default there are 2 layouts generated:
+
+    * `AuthLayout`
+    * `MainLayout`
+
+    ### AuthLayout
+
+    This is the layout that "auth" pages will use, such as
+    `PasswordsResets::NewPage` or `SignUps::NewPage`. The `AuthLayout` does
+    not need a `current_user` because these pages are meant to be used by
+    guests that have not yet signed in/up.
+
+    ### MainLayout
+
+    This is the layout used for pages where a user has been signed in. It
+    requires a `current_user` because it declares that it `needs current_user
+    : User`.
 
     ```crystal
-    def content
-      @current_user.try do |user|
-        text user.email
-      end
+    abstract class MainLayout
+      # 'needs current_user : User' makes it so that the current_user
+      # is always required for pages using MainLayout
+      needs current_user : User
+    end
+    ```
 
-      # or if you need an else branch
+    ## Handle guests in pages & layouts
+
+    There are a few options available when rendering a page for a guest user
+    that has not signed in.
+
+    * Use `AuthLayout` if the page is related to authentication.
+    * Create a new layout.
+    * Make changes to `MainLayout` to allow signed out users.
+
+    ### Use AuthLayout
+
+    If you have a page that you'd like to use for authentication it is probably
+    best to use the `AuthLayout`. This could be useful for pages like
+    adding 2 factor auth, social logins, etc.
+
+    You can use this layout like any other layout:
+
+    ```crystal
+    class TwoFactorAuth::NewPage < AuthLayout
+    end
+    ```
+
+    ### Create a new layout
+
+    This is usually the best option because you can keep the `MainLayout` for
+    signed in users, and a new layout for things like marketing pages, and
+    other public pages.
+
+    For example, if you want to add some marketing pages you could create a
+    `MarketingLayout` that either does not need a signed in user, or accepts
+    signed in users and guests.
+
+    ```crystal
+    abstract class MarketingLayout
+      include Lucky::HTMLPage
+
+      # You may want to add 'needs current_user : User?'
+      #
+      # This might be useful if you want to show a "Go to app" button in the
+      # header if current_user is already signed in.
+      #
+      # needs current_user : User?
+    end
+    ```
+
+    Some other ideas for naming layouts:
+
+    * `PublicLayout`
+    * `GuestLayout`
+    * `SupportLayout`
+
+    ### Change MainLayout to allow signed out users
+
+    This might be a good option if you are building an app where the pages
+    are **available to both guests and signed in users**. For example, Reddit
+    allows signed in users and guests (signed out users) to view most pages.
+
+    If this is the type of page you want to build, you can change the `needs
+    current_user` in `MainLayout` to allow `nil`:
+
+    ```crystal
+    # src/pages/main_layout.cr
+    abstract class MainLayout
+      # Append '?' to make it so current_user can be 'nil'
+      needs current_user : User?
+    end
+    ```
+
+    You will also need to check if the `current_user` is present in a few places.
+    For example in `MainLayout` you'll have to change where the signed in user
+    is displayed in the header.
+
+    Add conditional to `MainLayout#render_signed_in_user`:
+
+    ```crystal
+    private def render_signed_in_user
       user = @current_user
+
       if user
-        text "Signed in as: "
         text user.email
-      else
-        text "Not signed in!"
+        text " - "
+        link "Sign out", to: SignIns::Delete, flow_id: "sign-out-button"
       end
     end
     ```
 
-    ### When a page looks very different
+    ### Inherit from MainLayout
 
-    When pages look very different (different columns, sections, sidebars, etc.)
-    it is usually best to extract a new layout.
+    You can now make pages that inherit from this layout and they will work
+    for signed in users and guests.
 
-    * First, Duplicate the `MainLayout` in `src/pages/main_layout.cr` and give it a new name.
+    Your action might look like this:
 
+    ```crystal
+    class Posts::Index < BrowserAction
+      include Auth::AllowGuests
 
-    * Then, remove `needs current_user : User` from the new layout if this page is
-      only for signed out users. If the page may have a signed in user make the
-      `User` nilable: `needs current_user : User?`
-    * If you remove `needs current_user` because the layout is *only for signed
-      out users* then remember to include `Auth::RedirectIfSignedIn` in your actions
-      so that the `current_user` is not exposed to the page. If the layout is for users
-      that may or may not be signed in then include `Auth::AllowGuests` in
-      the actions that do not require sign in.
+      route do
+        html Posts::IndexPage, posts: PostQuery.new
+      end
+    end
+    ```
+
+    And the page might look like this:
+
+    ```crystal
+    class Posts::IndexPage < MainLayout
+      needs posts : PostQuery
+
+      def content
+        # render the page contents
+      end
+    end
+    ```
+
+    Note that **you can still use this layout for actions that require sign in**,
+    but you will need to check for the signed in user before displaying anything
+    that needs the current user.
+
+    Let's say we have this action that requires sign in:
+
+    ```crystal
+    class Settings::Edit < MainLayout
+      route do
+        html Settings::EditPage
+      end
+    end
+    ```
+
+    This will not work because `@current_user` might be nil:
+
+    ```crystal
+    class Settings::EditPage < MainLayout
+      def content
+        h1 "\#{@current_user.name}'s Settings'"
+      end
+    end
+    ```
+
+    **Instead you need to either check that the current_user is really there**,
+    or since this page is used for actions that require sign in you could add
+    a method that tells Crystal it is not nil:
+
+    We'll use [`getter!`](https://crystal-lang.org/api/0.30.1/Object.html#getter!(*names)-macro)
+    so that Crystal treats `current_user` as not nil.
+
+    ```crystal
+    class Settings::EditPage < MainLayout
+      # Defines a getter that says current_user can't be nil
+      getter! current_user
+
+      def content
+        # Use the 'current_user' method
+        h1 "\#{current_user.name}'s Settings'"
+      end
+    end
+    ```
+
+    This works, but please note that if you accidentally use this page with
+    an action that allows guests, you will get a runtime error because it
+    will try to get the current_user's name, but the current_user will be
+    `nil` for guests.
+
+    Instead, **we recommend creating a new layout just for signed in users in cases like
+    this**. It will catch more bugs and you won't have as much conditional logic.
+    You can share common HTML across layouts with
+    [components](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)}).
     MD
   end
 end
