@@ -159,7 +159,7 @@ class Home::IndexPage
     class Users::Index < BrowserAction
       get "/users" do
         users = UserQuery.new.sorted_by_last_name
-        render IndexPage, users: users
+        html IndexPage, users: users
       end
     end
 

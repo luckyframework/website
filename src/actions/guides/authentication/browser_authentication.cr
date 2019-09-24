@@ -191,7 +191,7 @@ class Guides::Authentication::Browser < GuideAction
       needs posts : PostQuery
 
       def content
-        # render the page contents
+        # html the page contents
       end
     end
     ```

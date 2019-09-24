@@ -105,7 +105,7 @@ class IntroducingTheLuckyBlog < BasePost
     class VueHandlerAction < BrowserAction
       fallback do
         if html?
-          render VueApp::IndexPage
+          html VueApp::IndexPage
         else
           raise Lucky::RouteNotFoundError.new(context)
         end

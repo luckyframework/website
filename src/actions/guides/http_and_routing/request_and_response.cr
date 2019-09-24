@@ -33,7 +33,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
           json(UserSerializer.new(current_user))
         else
           # Just render the page like normal
-          render Users::ShowPage
+          html Users::ShowPage
         end
       end
     end
@@ -69,7 +69,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     class Admin::Reports::Show < BrowserAction
       route do
         response.headers["Cache-Control"] = "max-age=150"
-        render ShowPage
+        html ShowPage
       end
     end
     ```
@@ -80,10 +80,10 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ## Handling Responses
 
     Every action is required to return a response
-    
+
     These are the built-in Lucky response methods:
 
-    * `render` - render a Lucky::HTMLPage
+    * `html` - render a Lucky::HTMLPage
     * `redirect` - redirect the request to another location
     * `plain_text` - respond with plain text
     * `json` - return a json response

@@ -33,7 +33,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     class Users::Index < BrowserAction
       route do
         # Renders the Users::IndexPage
-        render IndexPage, user_names: ["Paul", "Sally", "Jane"]
+        html IndexPage, user_names: ["Paul", "Sally", "Jane"]
       end
     end
     ```
@@ -65,7 +65,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     You’ll notice we used `needs` near the top of the class. This declares that for
     this page to render we need an Array of Strings and that they will be assigned
     to the `@user_names` variable. We set the user names by passing it in the
-    `render` macro in our action: `render user_names: ["Paul", "Sally", "Jane"]`
+    `html` macro in our action: `html IndexPage, user_names: ["Paul", "Sally", "Jane"]`
 
     > This is nice because you won’t accidentally forget to pass something to a page
     ever again. If you forget, the compiler will tell you that you’re missing
@@ -588,7 +588,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # Without `expose`
     class Users::Index < BrowserAction
       route do
-        render IndexPage, current_user_name: current_user_name
+        html IndexPage, current_user_name: current_user_name
       end
 
       private def current_user_name
@@ -601,7 +601,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       expose current_user_name
 
       route do
-        render IndexPage
+        html IndexPage
       end
     end
     ```
@@ -634,11 +634,11 @@ class Guides::Frontend::RenderingHtml < GuideAction
       kilt:
         github: jeromegn/kilt
     ```
-    
+
     ### Add Kilt to shards file
-    
+
     Add this line to `src/shards.cr`
-    
+
     ```crystal
     require "kilt"
     ```

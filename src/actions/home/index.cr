@@ -1,5 +1,5 @@
 class Home::Index < BrowserAction
   get "/" do
-    render Home::IndexPage
+    html Home::IndexPage
   end
 end
