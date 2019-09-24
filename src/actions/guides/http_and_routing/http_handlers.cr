@@ -41,7 +41,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
 
     ## Creating custom handlers
 
-    Your application may have special requirements like routing legacy URLs, sending bug reporting, CORS, or even doing basic HTTP auth while your app is in beta.
+    Your application may have special requirements like routing legacy URLs, sending bug reporting, CORS, or even doing [HTTP Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication) while your app is in beta.
     Whatever your use case, creating a custom handler is really easy!
 
     First we start off by creating a new directory where we can place all of our custom handlers. Create a `src/handlers/` directory and be sure to require it `src/app.cr`.
