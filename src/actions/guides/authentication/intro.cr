@@ -12,15 +12,95 @@ class Guides::Authentication::Intro < GuideAction
     When creating a new Lucky project you can choose to generate files for
     authentication with email and password.
 
-    If you have an API only Lucky app, Lucky will generate operations,
+    **If you have an API only Lucky app**, Lucky will generate operations,
     models, mixins, and actions for signing up and authenticating with an
     auth token (JWT).
 
-    If you have the whole enchilada you will still get API auth, but also
+    **If you have a full Lucky app** you will still get API auth, but also
     actions and pages for signing in, signing out, and resetting your
     password through the browser.
 
+    ## Retrieving the signed in user
+
+    There are in depth guides on [authentication with HTML pages](#{Guides::Authentication::Browser.path})
+    and [APIs](#{Guides::Authentication::Api.path}), but here
+    are some quick examples of working with the signed in user.
+
+    ### Get the signed in user
+
+    To get the currently signed in user, call `current_user` in your actions.
+    If your action requires sign in, `current_user` will always return a `User`
+    and never `nil`. If sign in is
+    [optional](#{Guides::Authentication::Browser.path(anchor: Guides::Authentication::Browser::ANCHOR_ALLOW_GUESTS)})
+    then `current_user` may be `nil`.
+
+    In HTML pages using the `MainLayout` you can get the signed in user with
+    `@current_user`.
+
+    ### When current user might be nil
+
+    If the current user might be `nil` by
+    [allowing guests](#{Guides::Authentication::Browser.path(anchor: Guides::Authentication::Browser::ANCHOR_ALLOW_GUESTS)})
+    or [skipping the auth token](#{Guides::Authentication::Api.path(anchor: Guides::Authentication::Api::ANCHOR_OPTIONAL_TOKEN)})
+    you need to use a conditional before using `current_user`
+
+    ```crystal
+    class Hello::Show < BrowserAction
+      # This will allow users that are not signed in
+      include Auth::AllowGuests
+
+      route do
+        user = current_user
+
+        # Check if user is signed in
+        if user
+          plain_text "Hello \#{user.name}"
+        else
+          plain_text "Hello!"
+        end
+      end
+    end
+    ```
+
+    This works because Crystal will ensure a variable isn't nil when you use
+    an `if` statement. Read more about how Crystal handles `if`
+    [here](https://crystal-lang.org/reference/syntax_and_semantics/if_var.html)
+
+    ### Associating database records with the current user
+
+    Let's say we have an `Article` model with a `title : String` and `belongs_to author : User`.
+
+    To create the article and associate it the signed in user, do this:
+
+    ```crystal
+    class Articles::Create < BrowserAction
+      route do
+        # Set 'author_id' to the current_user's id
+        SaveArticle.create!(params, author_id: current_user.id) do |op, article|
+          # ...
+        end
+      end
+    end
+    ```
+
+    ### Filter records by current_user
+
+    If we only want to return articles for the signed in user. We
+    can do it like this:
+
+    ```crystal
+    class MyArticles::Index < BrowserAction
+      route do
+        # Filter articles by 'author_id'
+        articles = ArticleQuery.new.author_id(current_user.id)
+        html MyArticles::IndexPage, articles: articles
+      end
+    end
+    ```
+
     ## Generated files
+
+    These are the files generated with `lucky init` with auth.
 
     ### Browser Actions (not in API only apps)
 
@@ -72,74 +152,6 @@ class Guides::Authentication::Intro < GuideAction
     * `db/migrations/00000000000001_create_users.cr` - create the initial users table
     * `src/models/user.cr`
     * `src/queries/user_query.cr`
-
-    ## Optional sign in
-
-    By default Lucky assumes most pages require sign in (apps like Gmail,
-    SalesForce, and Dropbox). To handle this the `Auth::RequireSignIn` module
-    is included in the `BrowserAction`.
-
-    Some apps have pages where guests can visit without sign in (Reddit, Twitter,
-    ebay). If you have pages like that you'll need to make a couple changes:
-
-    ### When the page looks very similar for signed out users
-
-    Make `current_user` optional in the `MainLayout` (`src/pages/main_layout.cr`):
-
-    ```crystal
-    # From this
-    needs current_user : User
-
-    # To this
-    needs current_user : User?
-    ```
-
-    In your actions that don't require sign in include the
-    `Auth::SkipRequireSignIn` module:
-
-    ```crystal
-    class Users::Index < BrowserAction
-      include Auth::SkipRequireSignIn
-
-      # other code
-    end
-    ```
-
-    To use the `current_user` in your pages you'll now need check if it is nil or not:
-
-    ```crystal
-    def content
-      @current_user.try do |user|
-        text user.email
-      end
-
-      # or if you need an else branch
-      user = @current_user
-      if user
-        text "Signed in as: "
-        text user.email
-      else
-        text "Not signed in!"
-      end
-    end
-    ```
-
-    ### When a page looks very different
-
-    When pages look very different (different columns, sections, sidebars, etc.)
-    it is usually best to extract a new layout.
-
-    * First, Duplicate the `MainLayout` in `src/pages/main_layout.cr` and give it a new name.
-
-
-    * Then, remove `needs current_user : User` from the new layout if this page is
-      only for signed out users. If the page may have a signed in user make the
-      `User` nilable: `needs current_user : User?`
-    * If you remove `needs current_user` because the layout is *only for signed
-      out users* then remember to include `Auth::RedirectIfSignedIn` in your actions
-      so that the `current_user` is not exposed to the page. If the layout is for users
-      that may or may not be signed in then include `Auth::AllowGuests` in
-      the actions that do not require sign in.
     MD
   end
 end

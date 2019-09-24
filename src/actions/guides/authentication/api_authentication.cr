@@ -1,4 +1,5 @@
 class Guides::Authentication::Api < GuideAction
+  ANCHOR_OPTIONAL_TOKEN = "perma-optional-token"
   guide_route "/authentication/api"
 
   def self.title
@@ -9,13 +10,12 @@ class Guides::Authentication::Api < GuideAction
     <<-MD
     ## Authenticating a request
 
-    By default all ApiActions will require an auth token because the
-    `ApiAction` in `src/actions/api_action.cr` includes the
-    `Api::Auth::RequireAuthToken`. That means that any actions inheriting
-    from it will require an auth token or the action will return a 401
-    unauthorized error.
+    By default all actions inherited from `ApiAction` will require an auth
+    token because the `ApiAction` in `src/actions/api_action.cr` includes the
+    `Api::Auth::RequireAuthToken`. This modules requires an auth token or the
+    action will return a 401 unauthorized error.
 
-    We'll go over how to make an action accessible by unauthenticated requests
+    We'll go over how to make an action accessible by [unauthenticated requests](##{ANCHOR_OPTIONAL_TOKEN})
     later in the guide.
 
     ### Sending an authentication token
@@ -25,7 +25,7 @@ class Guides::Authentication::Api < GuideAction
 
     There are 2 ways to send this token.
 
-    * With an `Authorization: Bearer` header
+    * With an `Authorization` header
     * With an `auth_token` param in the query params or in the body.
 
     ### Examples using curl
@@ -52,7 +52,8 @@ class Guides::Authentication::Api < GuideAction
 
     > You could also include the token in JSON params: `{"auth_token":"fake-token"}`
 
-    ## Allowing unauthenticated requests
+    #{permalink(ANCHOR_OPTIONAL_TOKEN)}
+    ## Allowing requests without a token
 
     For actions that do not require an authentication token, include the
     `Api::Auth::SkipRequireAuthToken` mixin defined in
@@ -83,7 +84,7 @@ class Guides::Authentication::Api < GuideAction
     ## Sign up
 
     The `Api::SignUps::Create` action in `src/actions/api/sign_ups/create.cr`
-    handles sign ups. It requires an email, password, and password_confirmation
+    handles user sign ups. It requires an email, password, and password_confirmation
     and returns a token for authenticating the user.
 
     ### Curl example
@@ -135,9 +136,9 @@ class Guides::Authentication::Api < GuideAction
 
     ## Show current user
 
-    The `Api::Me::Show` in `src/actions/api/me/show.cr` returns the user
-    for the given token. Use the token returned by sign in or sign in the
-    `Authorization` header or `auth_token` param.
+    The `Api::Me::Show` in `src/actions/api/me/show.cr` returns the user for
+    the given token. Use the token returned by sign in or sign up in either
+    the `Authorization` header or in an `auth_token` param.
 
     ### Using curl to sign up a user
 
