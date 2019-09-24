@@ -21,7 +21,7 @@ class Guides::GettingStarted::Installing < GuideAction
     * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
     You will need additional dependencies if you want to test your frontend using LuckyFlow,
-    see the [_Testing HTML and Interactivity_ guide](#{Guides::Frontend::Testing.path}) for details.
+    see the [Testing HTML and Interactivity](#{Guides::Frontend::Testing.path}) guide for details.
 
     ### Debian and Fedora dependencies
 
