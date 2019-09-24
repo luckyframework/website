@@ -6,7 +6,7 @@ shards:
 
   avram:
     github: luckyframework/avram
-    version: 0.11.0
+    version: 0.11.2
 
   blank:
     github: kostya/blank
@@ -30,7 +30,7 @@ shards:
 
   dotenv:
     github: gdotdesign/cr-dotenv
-    version: 0.2.0
+    version: 0.3.1
 
   exception_page:
     github: crystal-loot/exception_page
@@ -42,7 +42,7 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    version: 0.17.0
+    commit: 0a7596184a3f13e45e14f2359a3149b4e20aea4f
 
   lucky_cli:
     github: luckyframework/lucky_cli
@@ -50,7 +50,7 @@ shards:
 
   lucky_flow:
     github: luckyframework/lucky_flow
-    commit: 2fff685de5f5d8058cd12ba5f0aae8835490f435
+    commit: f7def69f7e95866f0eabee28ec8073884034018b
 
   lucky_router:
     github: luckyframework/lucky_router
@@ -58,7 +58,7 @@ shards:
 
   markd:
     github: icyleaf/markd
-    commit: f3e69396e06698a3cce8edca3f4539c37b2daa96
+    commit: d6fc0623535b46838fa9fcbdfbb1d91a98f6290b
 
   pg:
     github: will/crystal-pg
