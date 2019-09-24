@@ -74,7 +74,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
           redirect Me::Show
         else
           # Change this to redirect to a different page when not signed in
-          render Lucky::WelcomePage
+          html Lucky::WelcomePage
         end
       end
     end

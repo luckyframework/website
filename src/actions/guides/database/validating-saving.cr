@@ -66,9 +66,9 @@ class Guides::Database::ValidatingSaving < GuideAction
     # inside of an action with some form params
     SaveUser.create(params) do |operation, user|
       if user # the user was saved
-        render Users::ShowPage, user: user
+        html Users::ShowPage, user: user
       else
-        render Users::NewPage, operation: operation
+        html Users::NewPage, operation: operation
       end
     end
     ```
@@ -84,9 +84,9 @@ class Guides::Database::ValidatingSaving < GuideAction
     user = UserQuery.new.first
     SaveUser.update(user, params) do |operation, updated_user|
       if operation.saved?
-        render Users::ShowPage, user: updated_user
+        html Users::ShowPage, user: updated_user
       else
-        render Users::NewPage, save_operation: operation
+        html Users::NewPage, save_operation: operation
       end
     end
     ```
@@ -121,7 +121,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     class Users::NewPage < MainLayout
       needs operation : SaveUser
 
-      def content
+      def contentj
         render_form(@operation)
       end
 
@@ -139,7 +139,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     > A private method `render_form` is extracted because it makes it easier to
     reference the form as `op`. It also makes it easier to see what a page looks like
-    with a quick glance at the `render` method.
+    with a quick glance at the `content` method.
 
     ```crystal
     class Users::Create < BrowserAction
@@ -150,7 +150,7 @@ class Guides::Database::ValidatingSaving < GuideAction
             redirect to: Home::Index
           else
             # re-render the NewPage so the user can correct their mistakes
-            render NewPage, user_form: form
+            html NewPage, user_form: form
           end
         end
       end
@@ -664,9 +664,9 @@ class Guides::Database::ValidatingSaving < GuideAction
         SearchData.new(params).submit do |operation, results|
           # `valid?` is defined on `operation` for you!
           if operation.valid?
-            render SearchResults::IndexPage, users: results
+            html SearchResults::IndexPage, users: results
           else
-            render Searches::NewPage, search_data: operation
+            html Searches::NewPage, search_data: operation
           end
         end
       end

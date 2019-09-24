@@ -11,12 +11,12 @@ abstract class GuideAction < BrowserAction
 
   macro guide_route(path)
     get {{ "/guides" + path }} do
-      render Guides::ShowPage, guide_action: self.class
+      html Guides::ShowPage, guide_action: self.class
     end
   end
 
   private def render_guide
-    render Guides::ShowPage
+    html Guides::ShowPage
   end
 
   private def permalink(anchor : String) : String
