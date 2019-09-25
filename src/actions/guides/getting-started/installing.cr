@@ -17,8 +17,13 @@ class Guides::GettingStarted::Installing < GuideAction
       [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
       [forego](https://github.com/ddollar/forego#installation),
       or [foreman](https://github.com/ddollar/foreman#installation).
-    * [Crystal v0.30](https://crystal-lang.org/reference/installation/)
+    * [Crystal v0.30](https://crystal-lang.org/reference/installation/) (see note below)
     * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
+
+    > **The latest version of Crystal (0.31.0) does not work with Lucky yet.**
+    > We recommend using [crenv](https://github.com/pine/crenv)
+    > or [asdf-crystal](https://github.com/marciogm/asdf-crystal) to install
+    > v0.30.
 
     ### Debian and Fedora dependencies
 
