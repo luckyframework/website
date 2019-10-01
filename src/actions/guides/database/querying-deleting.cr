@@ -426,7 +426,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     association, a runtime error will be raised when you try to access it. In production, the association will
     be lazy loaded so that users do not see errors.
 
-    This solution means you will find N+1 queries as you develop instead of in productionm and users will never
+    This solution means you will find N+1 queries as you develop instead of in production and users will never
     see an error.
 
     To preload, just call `preload_{association name}` on the query:
