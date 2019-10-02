@@ -17,11 +17,14 @@ class Guides::GettingStarted::Installing < GuideAction
       [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
       [forego](https://github.com/ddollar/forego#installation),
       or [foreman](https://github.com/ddollar/foreman#installation).
-    * [Crystal v0.30](https://crystal-lang.org/reference/installation/)
+    * Crystal v0.31.1 (see note below)
     * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
-    You will need additional dependencies if you want to test your frontend using LuckyFlow,
-    see the [Testing HTML and Interactivity](#{Guides::Frontend::Testing.path}) guide for details.
+    > **We recommend using a version manager** to make sure the correct
+    > version of Crystal is used with Lucky.
+    > Try [crenv](https://github.com/pine/crenv) or [asdf-crystal](https://github.com/marciogm/asdf-crystal)
+    >
+    > Alternatively you could [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
 
     ### Debian and Fedora dependencies
 
@@ -32,6 +35,11 @@ class Guides::GettingStarted::Installing < GuideAction
 
     * [Node](https://nodejs.org/en/download/). Requires at least v6
     * [Yarn](https://yarnpkg.com/lang/en/docs/install/)
+
+    ## Dependencies for browser tests
+
+    You will need additional dependencies if you want to test your frontend using LuckyFlow,
+    see the [Testing HTML and Interactivity](#{Guides::Frontend::Testing.path}) guide for details.
 
     ## Install Lucky CLI
 
