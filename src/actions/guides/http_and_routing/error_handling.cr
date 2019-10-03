@@ -8,7 +8,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     "Error Handling"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## How Lucky renders errors
 

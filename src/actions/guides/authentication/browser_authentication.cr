@@ -6,7 +6,7 @@ class Guides::Authentication::Browser < GuideAction
     "Browser Authentication"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Overview
 

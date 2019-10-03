@@ -2,11 +2,11 @@ version: 1.0
 shards:
   authentic:
     github: luckyframework/authentic
-    commit: 0398666990433c403832cac474e711c772d4f421
+    commit: 79b1936a74345515f6be8000e34ff2a78a487f6b
 
   avram:
     github: luckyframework/avram
-    version: 0.11.2
+    commit: bf856bf536e0637750f8ef7e5ea4fa769962b9ae
 
   blank:
     github: kostya/blank
@@ -22,7 +22,7 @@ shards:
 
   db:
     github: crystal-lang/crystal-db
-    version: 0.6.0
+    version: 0.7.0
 
   dexter:
     github: luckyframework/dexter
@@ -42,7 +42,7 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    commit: 0a7596184a3f13e45e14f2359a3149b4e20aea4f
+    commit: d21d6473f4194b8990fabcdfe1308a3e90f548bf
 
   lucky_cli:
     github: luckyframework/lucky_cli
@@ -50,7 +50,7 @@ shards:
 
   lucky_flow:
     github: luckyframework/lucky_flow
-    commit: f7def69f7e95866f0eabee28ec8073884034018b
+    commit: 8fdab1708e014a2735f709f3931b57cb48af81b9
 
   lucky_router:
     github: luckyframework/lucky_router
@@ -58,15 +58,15 @@ shards:
 
   markd:
     github: icyleaf/markd
-    commit: d6fc0623535b46838fa9fcbdfbb1d91a98f6290b
+    commit: 20962e6cfb4513eb94e6549fd8b735b15d10c6d1
 
   pg:
     github: will/crystal-pg
-    version: 0.18.0
+    version: 0.19.0
 
   selenium:
     github: ysbaddaden/selenium-webdriver-crystal
-    commit: a6d0e63ab7ddc6a20923bf4157bc6247c1fa2acc
+    commit: bda2fd406c1a118251c5a2883f1e1f3af242116e
 
   shell-table:
     github: luckyframework/shell-table.cr

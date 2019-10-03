@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
     "Before / After Actions"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Creating pipes
 

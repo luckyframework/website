@@ -7,7 +7,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     "Rendering HTML"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Intro to Lucky HTML
 

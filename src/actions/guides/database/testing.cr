@@ -5,7 +5,7 @@ class Guides::Database::Testing < GuideAction
     "Creating Test Data"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Introduction
 

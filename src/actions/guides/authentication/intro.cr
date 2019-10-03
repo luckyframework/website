@@ -5,7 +5,7 @@ class Guides::Authentication::Intro < GuideAction
     "Authentication Introduction"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Overview
 

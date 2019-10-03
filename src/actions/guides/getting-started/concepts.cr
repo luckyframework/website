@@ -5,7 +5,7 @@ class Guides::GettingStarted::Concepts < GuideAction
     "Philosophy and Concepts"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## The Lucky philosophy
 

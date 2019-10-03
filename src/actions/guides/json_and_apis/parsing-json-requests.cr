@@ -5,7 +5,7 @@ class Guides::JsonAndApis::ParsingJsonRequests < GuideAction
     "Parsing JSON Requests"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Processing JSON that isn’t saved to the database
 

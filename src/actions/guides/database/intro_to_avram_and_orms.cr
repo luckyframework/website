@@ -5,7 +5,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     "Intro to Avram and ORMs"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Avram
 

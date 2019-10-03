@@ -6,7 +6,7 @@ class Guides::Authentication::Api < GuideAction
     "API Authentication"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Authenticating a request
 

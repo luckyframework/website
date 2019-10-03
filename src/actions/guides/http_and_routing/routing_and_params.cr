@@ -7,7 +7,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     "Routing and Params"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     > Check out ["Designing Lucky: Rock Solid Actions &
     Routing"](https://robots.thoughtbot.com/designing-lucky-actions-routing) to

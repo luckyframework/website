@@ -10,13 +10,13 @@ abstract class BasePost
   abstract def published_at : Time
 
   macro title(value)
-    def title
+    def title : String
       {{ value }}
     end
   end
 
   macro slug(value)
-    def slug
+    def slug : String
       {{ value }}
     end
   end

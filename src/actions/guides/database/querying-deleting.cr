@@ -6,7 +6,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     "Querying and Deleting records"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Query Objects
 

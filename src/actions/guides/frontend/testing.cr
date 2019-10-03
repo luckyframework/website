@@ -5,7 +5,7 @@ class Guides::Frontend::Testing < GuideAction
     "Testing HTML and Interactivity"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Setup
 

@@ -7,7 +7,7 @@ class Guides::Database::Migrations < GuideAction
     "Migrations"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Migrating Data
 

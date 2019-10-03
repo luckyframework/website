@@ -5,7 +5,7 @@ class Guides::GettingStarted::Configuration < GuideAction
     "Configuration"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Default Lucky environments
 

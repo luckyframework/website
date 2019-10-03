@@ -8,7 +8,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     "Requests and Responses"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Handling Requests
 

@@ -5,7 +5,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     "Deploying to an Ubuntu server"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Prerequisites
 

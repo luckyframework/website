@@ -5,7 +5,7 @@ class Guides::Deploying::Heroku < GuideAction
     "Deploying to Heroku"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Quickstart
 
