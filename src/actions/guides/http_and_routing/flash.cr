@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::Flash < GuideAction
     "Flash Messages"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Flash messages
 

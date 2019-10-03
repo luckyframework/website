@@ -8,7 +8,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     "Validating and Saving"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Setting up an operation
 

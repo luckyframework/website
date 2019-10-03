@@ -5,7 +5,7 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
     "Sending Emails with Carbon"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Configuring Carbon
 

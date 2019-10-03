@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     "Sessions and Cookies"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Cookies and Sessions
 

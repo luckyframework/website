@@ -10,7 +10,7 @@ class Guides::Database::Models < GuideAction
     "Database Models"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Introduction
 

@@ -2,18 +2,18 @@ class Lucky017Release < BasePost
   title "Lucky 0.17 has been released!"
   slug "lucky-0_17-release"
 
-  def published_at
+  def published_at : Time
     Time.utc(year: 2019, month: 8, day: 19)
   end
 
-  def summary
+  def summary : String
     <<-TEXT
     Lucky v0.17 is a huge release with many enhancements to Avram, Lucky's ORM,
     as well as bug fixes and enhancements.
     TEXT
   end
 
-  def content
+  def content : String
     <<-MD
     Lucky v0.17 is now out and has support for the newest Crystal (v0.30)!
 
@@ -77,7 +77,7 @@ class Lucky017Release < BasePost
     primary database, and then a second set of models that connect to a legacy database if you wish.
 
     Example use cases for multiple databases:
-    
+
     * Secondary for special finance reporting
     * Legacy DB support
     * One for API, One for CMS

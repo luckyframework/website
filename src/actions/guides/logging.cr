@@ -5,7 +5,7 @@ class Guides::Logging < GuideAction
     "Logging"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Logging
 

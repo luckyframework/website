@@ -2,11 +2,11 @@ class IntroducingTheLuckyBlog < BasePost
   title "Introducing Lucky 0.15 and a brand new website to go with it."
   slug "introducing-lucky-website"
 
-  def published_at
+  def published_at : Time
     Time.utc(year: 2019, month: 6, day: 12)
   end
 
-  def summary
+  def summary : String
     <<-TEXT
     Lucky v0.15 is a big new release. Brand new class based UI components,
     lots of bug fixes, and support for Crystal 0.29. We are also releasing a
@@ -14,7 +14,7 @@ class IntroducingTheLuckyBlog < BasePost
     TEXT
   end
 
-  def content
+  def content : String
     <<-MD
     Lucky 0.15.0 has been in the making for a few months and has lots of new
     goodies, bug fixes, and support for the newest version of Crystal (0.29.0)

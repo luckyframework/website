@@ -5,7 +5,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     "Rendering JSON"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     > This guide covers the basics of implementing a JSON API. If you have any
     questions about how to use Lucky in more complex ways, hop on our

@@ -5,7 +5,7 @@ class Guides::GettingStarted::StartingProject < GuideAction
     "Starting a Lucky Project"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Create a New Project
 

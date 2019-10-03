@@ -6,25 +6,36 @@ class Guides::GettingStarted::Installing < GuideAction
     "Installing Lucky"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
     ## Install Required Dependencies
 
-    To get Lucky, you need to install these first.
+    ### Crystal v0.31.1
 
-    * Install one of these process managers: [Overmind (recommended)](https://github.com/DarthSim/overmind#installation),
-      [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
-      [forego](https://github.com/ddollar/forego#installation),
-      or [foreman](https://github.com/ddollar/foreman#installation).
-    * Crystal v0.31.1 (see note below)
-    * Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
+    **We recommend using a version manager** to make sure the correct
+    version of Crystal is used with Lucky.
+    Try [crenv](https://github.com/pine/crenv) (recommended) or
+    [asdf-crystal](https://github.com/marciogm/asdf-crystal) (great if you already use [asdf](https://github.com/asdf-vm/asdf))
 
-    > **We recommend using a version manager** to make sure the correct
-    > version of Crystal is used with Lucky.
-    > Try [crenv](https://github.com/pine/crenv) or [asdf-crystal](https://github.com/marciogm/asdf-crystal)
-    >
-    > Alternatively you could [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
+    Alternatively you could [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
+
+    ### Process manager
+
+    Lucky uses a process manager to watch assets and start the server in development.
+
+    Install one of these process managers: [Overmind (recommended)](https://github.com/DarthSim/overmind#installation),
+    [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
+    [forego](https://github.com/ddollar/forego#installation),
+    or [foreman](https://github.com/ddollar/foreman#installation).
+
+    > By  default Lucky creates a `Procfile.dev` that  defines  what processes should be started when running `lucky dev`.
+    > You can modify the `Procfile.dev` to start other processes like running
+    > background jobs.
+
+    ### Postgres database
+
+    Lucky uses Postgres for its database. Install Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
     ### Debian and Fedora dependencies
 
@@ -36,9 +47,9 @@ class Guides::GettingStarted::Installing < GuideAction
     * [Node](https://nodejs.org/en/download/). Requires at least v6
     * [Yarn](https://yarnpkg.com/lang/en/docs/install/)
 
-    ## Dependencies for browser tests
+    ### Dependencies for browser tests
 
-    You will need additional dependencies if you want to test your frontend using LuckyFlow,
+    You will need additional dependencies if you want to test your frontend using [LuckyFlow](#{Guides::Frontend::Testing.path}),
     see the [Testing HTML and Interactivity](#{Guides::Frontend::Testing.path}) guide for details.
 
     ## Install Lucky CLI

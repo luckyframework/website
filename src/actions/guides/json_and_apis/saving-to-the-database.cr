@@ -6,7 +6,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     "Saving to the Database"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     #{permalink(ANCHOR_SAVING_TO_THE_DATABASE)}
     ## Saving to the database with JSON params

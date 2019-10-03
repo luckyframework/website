@@ -5,7 +5,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     "Why use Lucky?"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## The Lucky philosophy
 

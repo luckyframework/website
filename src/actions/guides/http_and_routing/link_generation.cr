@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     "URL and Link Generation"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Path and route helpers
 

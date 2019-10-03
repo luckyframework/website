@@ -2,18 +2,18 @@ class Lucky016Release < BasePost
   title "Lucky 0.16 has been released!"
   slug "lucky-0_16-release"
 
-  def published_at
+  def published_at : Time
     Time.utc(year: 2019, month: 8, day: 5)
   end
 
-  def summary
+  def summary : String
     <<-TEXT
     Lucky v0.16 is a small release with support for Crystal 0.30. Keep an eye
     out for the next big Lucky release which will be out soon.
     TEXT
   end
 
-  def content
+  def content : String
     <<-MD
     Lucky v0.16.0 is now out and has support for the newest Crystal (v0.30.0)!
 

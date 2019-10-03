@@ -5,7 +5,7 @@ class Guides::JsonAndApis::Cors < GuideAction
     "Cross-Origin Resource Sharing (CORS)"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Handling CORS
 

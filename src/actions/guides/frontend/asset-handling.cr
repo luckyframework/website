@@ -5,7 +5,7 @@ class Guides::Frontend::AssetHandling < GuideAction
     "Asset Handling"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Asset handling with Webpack and Laravel Mix
 

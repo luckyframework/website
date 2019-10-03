@@ -5,7 +5,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     "Custom Tasks"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Creating Custom Tasks
 

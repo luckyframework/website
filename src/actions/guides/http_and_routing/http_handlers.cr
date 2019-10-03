@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     "HTTP Handlers"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## About handlers
 

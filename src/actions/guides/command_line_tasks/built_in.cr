@@ -5,7 +5,7 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     "Built In Tasks"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Overview
 
