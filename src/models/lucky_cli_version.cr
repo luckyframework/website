@@ -6,6 +6,6 @@ module LuckyCliVersion
   end
 
   def current_version : String
-    "0.17.0"
+    "0.18.0"
   end
 end
