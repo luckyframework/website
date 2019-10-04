@@ -121,7 +121,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     class Users::NewPage < MainLayout
       needs operation : SaveUser
 
-      def contentj
+      def content
         render_form(@operation)
       end
 
