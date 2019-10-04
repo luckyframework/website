@@ -2,11 +2,11 @@ version: 1.0
 shards:
   authentic:
     github: luckyframework/authentic
-    commit: 79b1936a74345515f6be8000e34ff2a78a487f6b
+    commit: 96240a9cfc7bff00812b5f9b6931b0a10a5f1be9
 
   avram:
     github: luckyframework/avram
-    commit: bf856bf536e0637750f8ef7e5ea4fa769962b9ae
+    version: 0.12.0
 
   blank:
     github: kostya/blank
@@ -42,15 +42,15 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    commit: d21d6473f4194b8990fabcdfe1308a3e90f548bf
+    commit: c8bf6368bbab32d2069beb6b27eaee3e6666f966
 
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: 0.17.0
+    version: 0.18.0
 
   lucky_flow:
     github: luckyframework/lucky_flow
-    commit: 8fdab1708e014a2735f709f3931b57cb48af81b9
+    commit: fff9d6e770b60bb18f0a8da85325c73b096a81d3
 
   lucky_router:
     github: luckyframework/lucky_router
@@ -71,10 +71,6 @@ shards:
   shell-table:
     github: luckyframework/shell-table.cr
     commit: 078a04ea58ead5203bb435a3b5fff448ddabaeea
-
-  teeplate:
-    github: luckyframework/teeplate
-    version: 0.8.0
 
   wordsmith:
     github: luckyframework/wordsmith
