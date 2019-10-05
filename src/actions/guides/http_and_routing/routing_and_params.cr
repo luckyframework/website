@@ -65,15 +65,19 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```crystal
     # src/actions/home/index.cr
     class Home::Index < BrowserAction
-      include Auth::SkipRequireSignIn
+      include Auth::AllowGuests
 
       get "/" do
         if current_user?
-          # By default signed in users go to the profile page
-          # You can redirect them somewhere else if you prefer
           redirect Me::Show
         else
-          # Change this to redirect to a different page when not signed in
+          # When you're ready change this line to:
+          #
+          #   redirect SignIns::New
+          #
+          # Or maybe show signed out users a marketing page:
+          #
+          #   html Marketing::IndexPage
           html Lucky::WelcomePage
         end
       end
