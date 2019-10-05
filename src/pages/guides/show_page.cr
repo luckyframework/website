@@ -49,7 +49,7 @@ class Guides::ShowPage
   end
 
   def next_button
-    div class: "mt-12 pt-8 pb-6 border-t-1" do
+    div class: "mt-12 pt-8 pb-6 border-t" do
       link "Next guide →", to: "#", class: "font-black text-gray-500 text-sm tracking-wider uppercase pb-1"
     end
   end
