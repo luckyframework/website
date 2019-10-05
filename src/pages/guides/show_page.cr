@@ -42,7 +42,15 @@ class Guides::ShowPage
       # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
       section class: "mb-24 px-5 md:px-0 md:pl-sidebar markdown-content container" do
         raw CustomMarkdownRenderer.render_to_html(@markdown)
+
+        next_button
       end
+    end
+  end
+
+  def next_button
+    div class: "mt-12 pt-8 pb-6 border-t-1" do
+      link "Next guide →", to: "#", class: "font-black text-gray-500 text-sm tracking-wider uppercase pb-1"
     end
   end
 
