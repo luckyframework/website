@@ -247,6 +247,16 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.updated_at.lt(3.months.ago)
     ```
 
+    ### A between C and D
+
+    Find rows where `A` is between `C` and `D`.
+
+    `WHERE users.updated_at >= '#{3.days.ago}' AND users.updated_at <= '#{1.day.ago}'`
+
+    ```crystal
+    UserQuery.new.updated_at.between(3.days.ago, 1.day.ago)
+    ```
+
     ### A in / not in (B)
 
     Find rows where `A` is in the list `B`.
@@ -291,6 +301,18 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.desc_order
     # or for asc order
     UserQuery.new.age.asc_order
+    ```
+
+    ### NULLS FIRST / LAST
+
+    Sort records placing NULL values first or last
+
+    `SELECT COLUMNS FROM users ORDER BY users.age DESC NULLS FIRST`
+
+    ```crystal
+    UserQuery.new.age.desc_order(:nulls_first)
+    # Also sort with NULLS LAST
+    UserQuery.new.age.desc_order(:nulls_last)
     ```
 
     ## Pagination
