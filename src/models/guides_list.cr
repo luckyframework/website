@@ -58,4 +58,15 @@ class GuidesList
       ] of GuideAction.class),
     ]
   end
+
+  def self.next_guide(current_guide : GuideAction.class) : GuideAction.class | Nil
+    index_of_current_guide = guides.index(current_guide)
+    if index_of_current_guide
+      guides[index_of_current_guide + 1]?
+    end
+  end
+
+  def self.guides : Array(GuideAction.class)
+    categories.flat_map &.guides
+  end
 end
