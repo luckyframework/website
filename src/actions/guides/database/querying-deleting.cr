@@ -247,6 +247,16 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.updated_at.lt(3.months.ago)
     ```
 
+    ### A between C and D
+
+    Find rows where `A` is between `C` and `D`.
+
+    `WHERE users.updated_at >= '#{3.days.ago}' AND users.updated_at <= '#{1.day.ago}'`
+
+    ```crystal
+    UserQuery.new.updated_at.between(3.days.ago, 1.day.ago)
+    ```
+
     ### A in / not in (B)
 
     Find rows where `A` is in the list `B`.
