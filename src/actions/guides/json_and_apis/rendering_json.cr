@@ -51,7 +51,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     class Api::Articles::Show < ApiAction
       route do
         article = ArticleQuery.new.find(id)
-        json ArticlesSerializer.new(article)
+        json ArticleSerializer.new(article)
       end
     end
     ```
@@ -68,7 +68,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     class Api::Articles::Index < ApiAction
       route do
         articles = ArticleQuery.new
-        json ArticlesSerializer.for_collection(articles)
+        json ArticleSerializer.for_collection(articles)
       end
     end
     ```
@@ -105,19 +105,20 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
         }
       end
     end
+    ```
 
     ## Customizing collection rendering
 
     Let's say you want collection rendering to include a root key. We can change
     the generated `self.for_collection` method on the `BaseSerializer`.
 
-    ```
+    ```crystal
     # src/serializers/base_serializer.cr
     abstract class BaseSerializer < Lucky::Serializer
       def self.for_collection(collection : Enumerable, *args, **named_args)
         {
           # The root key will be the 'self.collection_key' defined on
-          # serializers that inhherit from this class.
+          # serializers that inherit from this class.
           self.collection_key => collection.map do |object|
             new(object, *args, **named_args)
           end
@@ -130,7 +131,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
 
     ```crystal
     class ArticleSerializer < BaseSerializer
-      # 'render' and 'initialize' ommitted for brevity.
+      # 'render' and 'initialize' omitted for brevity.
 
       # This will be the key for collections
       def self.collection_key

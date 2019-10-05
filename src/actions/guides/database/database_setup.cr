@@ -180,12 +180,12 @@ class Guides::Database::DatabaseSetup < GuideAction
     ```
 
     If you have many models that require connection to the `SecondaryDatabase`, you can
-    make a `SecondayBaseModel` class in `src/models/secondary_base_model.cr` and have
+    make a `SecondaryBaseModel` class in `src/models/secondary_base_model.cr` and have
     those models inherit from that class.
 
     ```crystal
     # src/models/secondary_base_model.cr
-    abstract class SecondayBaseModel < Avram::Model
+    abstract class SecondaryBaseModel < Avram::Model
       def self.database : Avram::Database.class
         SecondaryDatabase
       end

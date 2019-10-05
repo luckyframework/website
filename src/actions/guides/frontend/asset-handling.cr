@@ -46,7 +46,7 @@ class Guides::Frontend::AssetHandling < GuideAction
 
     Note that *RailsUjs is required* if you are rendering HTML pages in Lucky. If
     you remove it, PUT and DELETE links will no longer work correctly. You can
-    safely remove Turoblinks without any problems if you don't want to use it.
+    safely remove Turbolinks without any problems if you don't want to use it.
 
     To add new JavaScript add files to `src/js/{filename}` and import them in `src/js/app.js`
 

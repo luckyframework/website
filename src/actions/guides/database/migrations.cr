@@ -328,7 +328,7 @@ class Guides::Database::Migrations < GuideAction
     ## Add index
 
     The easiest way is to add the `index: true` option on the `add` method.
-    However, if you're adding indicies after the table is created, you can use the `create_index` method.
+    However, if you're adding indices after the table is created, you can use the `create_index` method.
 
     ```crystal
     def migrate

@@ -444,7 +444,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     #{permalink(ANCHOR_PRELOADING)}
     ## Preloading
 
-    In development and test environemnts Lucky requries preloading associations. If you forget to preload an
+    In development and test environments Lucky requires preloading associations. If you forget to preload an
     association, a runtime error will be raised when you try to access it. In production, the association will
     be lazy loaded so that users do not see errors.
 
@@ -521,7 +521,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     ### Using with associations
 
     ```crystal
-    class UserQuery < Uery::BaseQuery
+    class UserQuery < User::BaseQuery
       def recently_completed_admin_tasks
         task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
 
@@ -553,7 +553,7 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ### Delete one
 
-    Deteling a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
+    Deleting a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
     instance of the model, you can just call `delete` on that record.
 
     ```crystal
