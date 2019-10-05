@@ -1,4 +1,5 @@
 class Guides::JsonAndApis::RenderingJson < GuideAction
+  ANCHOR_SERIALIZERS = "perma-create-serializer"
   guide_route "/json-and-apis/rendering-json"
 
   def self.title
@@ -29,6 +30,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     > Here is a [list of all statuses Lucky
     supports](https://github.com/luckyframework/lucky/blob/9e390e12c9f517517f6526d26fde372dfd02585c/src/lucky/action.cr#L20-L80)
 
+    #{permalink(ANCHOR_SERIALIZERS)}
     ## Create a serializer
 
     Serializers help you customize the response, and allow you to share common
