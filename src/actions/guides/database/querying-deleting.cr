@@ -293,6 +293,18 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.asc_order
     ```
 
+    ### NULLS FIRST / LAST
+
+    Sort records placing NULL values first or last
+
+    `SELECT COLUMNS FROM users ORDER BY users.age DESC NULLS FIRST`
+
+    ```crystal
+    UserQuery.new.age.desc_order(:nulls_first)
+    # Also sort with NULLS LAST
+    UserQuery.new.age.desc_order(:nulls_last)
+    ```
+
     ## Pagination
 
     To do paginating, you'll use a combination of limit and offset. You can also use this formula to help.
