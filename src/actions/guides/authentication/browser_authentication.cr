@@ -41,7 +41,7 @@ class Guides::Authentication::Browser < GuideAction
     ### Auth::AllowGuests mixin
 
     This will allow guests to request this action. It will also make the
-    `current_user` method nilable (if no user is signed in `currnt_user` will return
+    `current_user` method nilable (if no user is signed in `current_user` will return
     `nil`).
 
     ```crystal

@@ -65,15 +65,19 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```crystal
     # src/actions/home/index.cr
     class Home::Index < BrowserAction
-      include Auth::SkipRequireSignIn
+      include Auth::AllowGuests
 
       get "/" do
         if current_user?
-          # By default signed in users go to the profile page
-          # You can redirect them somewhere else if you prefer
           redirect Me::Show
         else
-          # Change this to redirect to a different page when not signed in
+          # When you're ready change this line to:
+          #
+          #   redirect SignIns::New
+          #
+          # Or maybe show signed out users a marketing page:
+          #
+          #   html Marketing::IndexPage
           html Lucky::WelcomePage
         end
       end
@@ -144,7 +148,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
      #   "Users" is the resource, and
      #   "Show" is the RESTful action.
 
-      route do   # The infered route is:  get "/users/:user_id"
+      route do   # The inferred route is:  get "/users/:user_id"
         plain_text "A request was made for the user_id: \#{user_id}"
       end
     end
@@ -165,7 +169,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       #   "Users" is the nested resource
       #   "Index" is the RESTful action
 
-      nested_route do  # The infered route is: get "/projects/:project_id/users"
+      nested_route do  # The inferred route is: get "/projects/:project_id/users"
         plain_text "Render list of users in project \#{project_id}"
       end
     end
@@ -184,7 +188,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       # From the name,
       # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
 
-      route do   # The infered route is: get "/admin/projects"
+      route do   # The inferred route is: get "/admin/projects"
         plain_text "Render list of projects"
       end
     end

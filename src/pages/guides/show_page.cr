@@ -36,12 +36,29 @@ class Guides::ShowPage
   end
 
   def guide_content
-    div class: "flex container mx-auto" do
-      # Must be a section for Algolia docsearch to index it
-      #
-      # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
-      section class: "mb-24 px-5 md:px-0 md:pl-sidebar markdown-content container" do
-        raw CustomMarkdownRenderer.render_to_html(@markdown)
+    div class: "flex flex-col container mx-auto" do
+      section class: "md:pl-sidebar" do
+        # Must be a section for Algolia docsearch to index it
+        #
+        # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
+        section class: "mb-16 px-5 md:px-0 markdown-content container" do
+          raw CustomMarkdownRenderer.render_to_html(@markdown)
+        end
+
+        next_button
+      end
+    end
+  end
+
+  def next_button
+    next_guide = GuidesList.next_guide(current_guide: @guide_action)
+
+    if next_guide
+      div class: "mb-24 pt-12 pb-6 border-t" do
+        link to: next_guide, class: "flex flex-col text-right pr-6 no-underline group" do
+          span "Next guide →", class: "font-bold text-grey-dark text-sm tracking-wider uppercase pb-2"
+          span next_guide.title, class: "font-bold underline text-xl m-0 text-teal-dark group-hover:text-teal-darkest"
+        end
       end
     end
   end

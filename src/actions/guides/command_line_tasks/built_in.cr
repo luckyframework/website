@@ -24,22 +24,32 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
 
     ```plaintext
     # Generated with lucky --help
-    lucky db.create            - Create the database
-    lucky db.drop              - Drop the database
-    lucky db.migrate           - Migrate the database
-    lucky db.migrate.one       - Run the next pending migration
-    lucky db.migrations.status - Print the current status of migrations
-    lucky db.redo              - Rollback then run the last migration
-    lucky db.rollback          - Rollback the last migration
-    lucky db.rollback_all      - Rollback all migrations
-    lucky db.rollback_to       - Rollback to a specific migration
-    lucky db.verify_connection - Verify connection to postgres
-    lucky gen.action           - Generate a new action
-    lucky gen.migration        - Generate a new migration
-    lucky gen.model            - Generate a model, query, and form
-    lucky gen.secret_key       - Generate a new secret key
-    lucky routes               - Show all the routes for the app
-    lucky watch                - Start and recompile project when files change
+    ▸ build.release             Compile app for production
+    ▸ db.create                 Create the database
+    ▸ db.create_required_seeds  Add database records required for the app to work
+    ▸ db.create_sample_seeds    Add sample database records helpful for development
+    ▸ db.drop                   Drop the database
+    ▸ db.migrate                Run any pending migrations
+    ▸ db.migrate.one            Run just the next pending migration
+    ▸ db.migrations.status      Print the current status of migrations
+    ▸ db.redo                   Rollback and run just the last migration
+    ▸ db.rollback               Rollback the last migration
+    ▸ db.rollback_all           Rollback all migrations
+    ▸ db.rollback_to            Rollback to a specific migration
+    ▸ db.schema.dump            Export database schema to a sql file
+    ▸ db.schema.restore         Restore database from a sql dump file
+    ▸ db.verify_connection      Verify connection to postgres
+    ▸ exec                      Execute code. Use this in place of a console/REPL
+    ▸ gen.action.api            Generate a new api action
+    ▸ gen.action.browser        Generate a new browser action
+    ▸ gen.component             Generate a new HTML component
+    ▸ gen.migration             Generate a new migration
+    ▸ gen.model                 Generate a model, query, and save operation
+    ▸ gen.page                  Generate a new HTML page
+    ▸ gen.resource.browser      Generate a resource (model, operation, query, actions, and pages)
+    ▸ gen.secret_key            Generate a new secret key
+    ▸ routes                    Show all the routes for the app
+    ▸ watch                     Start and recompile project when files change
     ```
     MD
   end

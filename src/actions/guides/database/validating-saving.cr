@@ -165,7 +165,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     SaveOperation's underscored model name. (e.g. a `SaveUser` which inherits
     from `User::SaveOperation` will submit a `user` param key).
 
-    For non `SaveOperations` (not backed by a databse model) the `param_key`
+    For non `SaveOperations` (not backed by a database model) the `param_key`
     is the underscored class name. So `RequestPasswordReset` would look for
     params in a `request_password_reset` key.
 
@@ -286,7 +286,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     * `validate_size_of` - check the size of a number.
     * `validate_uniqueness_of` - to only allow one record with a field's value
 
-    > Note: non-nillable (required) fields automatically use
+    > Note: non-nilable (required) fields automatically use
     `validate_required`. They will run after all other `before_save` callbacks have run. This way data
     with missing fields will never be sent to the database.
 
@@ -594,7 +594,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
       private def render_form(op)
         form_for SignUps::Create do
-          # labels and errors_for ommitted for brevity
+          # labels and errors_for omitted for brevity
           text_input op.name
           email_input op.email
           password_input op.password

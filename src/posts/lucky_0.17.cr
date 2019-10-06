@@ -27,7 +27,7 @@ class Lucky017Release < BasePost
     ### Better primary key support
 
     Before this release, your primary key fields would be auto-generated as `Int32` for you with an option to
-    use `UUID`. We've now added a new `primary_key` method wich lets you specify the type. Avram supports a
+    use `UUID`. We've now added a new `primary_key` method which lets you specify the type. Avram supports a
     few different types now to include `Int16` and `Int64`.
 
     We have also set the default primary key to be `Int64` now.

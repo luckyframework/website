@@ -247,6 +247,16 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.updated_at.lt(3.months.ago)
     ```
 
+    ### A between C and D
+
+    Find rows where `A` is between `C` and `D`.
+
+    `WHERE users.updated_at >= '#{3.days.ago}' AND users.updated_at <= '#{1.day.ago}'`
+
+    ```crystal
+    UserQuery.new.updated_at.between(3.days.ago, 1.day.ago)
+    ```
+
     ### A in / not in (B)
 
     Find rows where `A` is in the list `B`.
@@ -291,6 +301,18 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.desc_order
     # or for asc order
     UserQuery.new.age.asc_order
+    ```
+
+    ### NULLS FIRST / LAST
+
+    Sort records placing NULL values first or last
+
+    `SELECT COLUMNS FROM users ORDER BY users.age DESC NULLS FIRST`
+
+    ```crystal
+    UserQuery.new.age.desc_order(:nulls_first)
+    # Also sort with NULLS LAST
+    UserQuery.new.age.desc_order(:nulls_last)
     ```
 
     ## Pagination
@@ -422,7 +444,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     #{permalink(ANCHOR_PRELOADING)}
     ## Preloading
 
-    In development and test environemnts Lucky requries preloading associations. If you forget to preload an
+    In development and test environments Lucky requires preloading associations. If you forget to preload an
     association, a runtime error will be raised when you try to access it. In production, the association will
     be lazy loaded so that users do not see errors.
 
@@ -499,7 +521,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     ### Using with associations
 
     ```crystal
-    class UserQuery < Uery::BaseQuery
+    class UserQuery < User::BaseQuery
       def recently_completed_admin_tasks
         task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
 
@@ -531,7 +553,7 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ### Delete one
 
-    Deteling a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
+    Deleting a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
     instance of the model, you can just call `delete` on that record.
 
     ```crystal

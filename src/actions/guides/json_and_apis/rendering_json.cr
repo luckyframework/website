@@ -1,4 +1,5 @@
 class Guides::JsonAndApis::RenderingJson < GuideAction
+  ANCHOR_SERIALIZERS = "perma-create-serializer"
   guide_route "/json-and-apis/rendering-json"
 
   def self.title
@@ -29,6 +30,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     > Here is a [list of all statuses Lucky
     supports](https://github.com/luckyframework/lucky/blob/9e390e12c9f517517f6526d26fde372dfd02585c/src/lucky/action.cr#L20-L80)
 
+    #{permalink(ANCHOR_SERIALIZERS)}
     ## Create a serializer
 
     Serializers help you customize the response, and allow you to share common
@@ -51,7 +53,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     class Api::Articles::Show < ApiAction
       route do
         article = ArticleQuery.new.find(id)
-        json ArticlesSerializer.new(article)
+        json ArticleSerializer.new(article)
       end
     end
     ```
@@ -68,7 +70,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     class Api::Articles::Index < ApiAction
       route do
         articles = ArticleQuery.new
-        json ArticlesSerializer.for_collection(articles)
+        json ArticleSerializer.for_collection(articles)
       end
     end
     ```
@@ -105,19 +107,20 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
         }
       end
     end
+    ```
 
     ## Customizing collection rendering
 
     Let's say you want collection rendering to include a root key. We can change
     the generated `self.for_collection` method on the `BaseSerializer`.
 
-    ```
+    ```crystal
     # src/serializers/base_serializer.cr
     abstract class BaseSerializer < Lucky::Serializer
       def self.for_collection(collection : Enumerable, *args, **named_args)
         {
           # The root key will be the 'self.collection_key' defined on
-          # serializers that inhherit from this class.
+          # serializers that inherit from this class.
           self.collection_key => collection.map do |object|
             new(object, *args, **named_args)
           end
@@ -130,7 +133,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
 
     ```crystal
     class ArticleSerializer < BaseSerializer
-      # 'render' and 'initialize' ommitted for brevity.
+      # 'render' and 'initialize' omitted for brevity.
 
       # This will be the key for collections
       def self.collection_key

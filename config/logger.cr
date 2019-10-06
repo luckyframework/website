@@ -19,7 +19,7 @@ logger =
     # This sets the log formatter to JSON so you can parse the logs with
     # services like Logentries or Logstash.
     #
-    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
+    # If you want logs like in development use `Lucky::PrettyLogFormatter`.
     Dexter::Logger.new(
       io: STDOUT,
       level: Logger::Severity::INFO,

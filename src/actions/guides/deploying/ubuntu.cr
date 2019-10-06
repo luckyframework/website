@@ -176,8 +176,8 @@ class Guides::Deploying::Ubuntu < GuideAction
       This tells lucky to run in `production` mode.
     * **SECRET_KEY_BASE**
 
-      This is a secrect key that should be random and unique to your
-      server. You can use the `gen.secrect_key` task to generate
+      This is a secret key that should be random and unique to your
+      server. You can use the `gen.secret_key` task to generate
       a suitable string:
 
       ```bash
