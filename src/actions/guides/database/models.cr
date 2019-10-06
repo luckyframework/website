@@ -69,7 +69,7 @@ class Guides::Database::Models < GuideAction
 
     ```crystal
     class CompletedProject < BaseModel
-      # Will use :completed_projects as the tbale name
+      # Will use :completed_projects as the table name
       table do
       end
     end
@@ -177,12 +177,12 @@ class Guides::Database::Models < GuideAction
     * `Int64` - `bigint` column type.
     * `Float64` - `numeric` column type.
     * `Bool` - `boolean` column type.
-    * `Time` - `timestamp with time zone` (`timestampz`) column type.
+    * `Time` - `timestamp with time zone` (`timestamptz`) column type.
     * `UUID` - `uuid` column type.
     * `JSON::Any` - `jsonb` column type.
     * `Array(T)` - `[]` column type where `T` is any other supported type.
 
-    Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`.
+    Any of your columns can also define "nilable" types by adding Crystal `Nil` Union `?`.
     This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an
     `int` or `NULL` value).
 
@@ -371,7 +371,7 @@ class Guides::Database::Models < GuideAction
     For each polymorphic association, you'll need to add a `belongs_to`. This helps to keep
     our polymorphic associations type-safe! [See migrations](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}) for `add_belongs_to`.
 
-    You'll also note that the `belongs_to` has nillable models. This is required for the polymorphic
+    You'll also note that the `belongs_to` has nilable models. This is required for the polymorphic
     association. Even though these are set as nilable, the association still requires at least 1 of the
     `associations` to exist. This means that `commentable` is never actually `nil`.
 

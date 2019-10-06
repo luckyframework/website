@@ -140,11 +140,11 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    If you need to pass in data attributes, or any arbitrary attributes for use in SPAs (i.e. ng-app, v-bind:click, etc...), you can also use a string.
+    If you need to pass in data attributes, or any arbitrary attributes for use in SPAs (i.e. ng-app, ng-click, etc...), you can also use a string.
 
     ```crystal
     def content
-      div(ng_model: "something", data_action: "someAction", "v-bind:click": "update")
+      div(ng_model: "something", data_action: "someAction", "ng-click": "update")
     end
     ```
 
@@ -160,7 +160,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs, crystal allows you to use quotes like in `:"v-bind:click"`
+    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs, crystal allows you to use quotes like in `:"v-on:click"`
 
     ## Special tags (link, form helpers, etc.)
 
@@ -170,7 +170,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     link "Link Text", to: "/somewhere", class: "some-html-class"
 
-    # The real power comes when used with route helers from actions
+    # The real power comes when used with route helpers from actions
     link "Show user", to: Users::Show.with("user_id"), class: "some-html-class"
 
     # Leave off `with` if an route doesn't need params
@@ -247,7 +247,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ### Other special helpers
 
     * `html_doctype` - Renders `<!DOCTYPE html>`
-    * `css_link(href, **options)` - Renders a `<link rel="stylesheet" media="sceen">` tag with `href` and any additional/override `options`
+    * `css_link(href, **options)` - Renders a `<link rel="stylesheet" media="screen">` tag with `href` and any additional/override `options`
     * `js_link(src, **options)` - Renders a `<script>` tag with `src` and any additional/override `options`
     * `utf8_charset` - Renders a `<meta charset="utf8">` tag
     * `responsive_meta_tag` - Another meta tag for responsive design.
