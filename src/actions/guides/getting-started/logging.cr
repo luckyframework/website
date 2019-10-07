@@ -15,9 +15,9 @@ class Guides::GettingStarted::Logging < GuideAction
 
     Lucky sets up a different configuration based on the environment your app is running in.
 
-    * In the `test` environment, the logger uses the `DEBUG` level, and writes to a temp file so we
-      don't muddle your spec output.
-    * In `production`, the logger uses the `INFO` level, and writes to `STDOUT` using a custom json formatter
+    * In the `test` environment, the logger uses the `DEBUG` level, and writes to a temp file (`tmp/test.log`)
+      so we don't muddle your spec output.
+    * In `production`, the logger uses the `INFO` level, and writes to `STDOUT` using a json formatter
       for the output.
     * Finally, in `development`, the logger uses the `DEBUG` level, and writes to `STDOUT` using a custom pretty
       formatter
@@ -29,10 +29,10 @@ class Guides::GettingStarted::Logging < GuideAction
 
     There are several different severity levels you can choose. These are all defined in the [Crystal Logger](https://crystal-lang.org/api/latest/Logger.html).
 
-    * `Logger::Severity::DEBUG` - The basic level with lots of information like HTTP request method, request route, and time info.
+    * `Logger::Severity::DEBUG` - Show information like which page was rendered, what actions were called, and other debug info.
     * `Logger::Severity::ERROR` - Only log exception errors.
     * `Logger::Severity::FATAL` - Only log errors that cause the app to crash.
-    * `Logger::Severity::INFO` - General information like service starts and stops.
+    * `Logger::Severity::INFO` - This includes HTTP method, path, and time.
     * `Logger::Severity::UNKNOWN` - It is unknown
     * `Logger::Severity::WARN` - Information like deprecation notices, and potential application oddities like retrying a process.
 
@@ -52,18 +52,15 @@ class Guides::GettingStarted::Logging < GuideAction
     end
     ```
 
-    For more complex logging, you can pass a `NamedTuple` and Lucky will format the data for you.
+    For more key/value logging, you can pass a `NamedTuple` and Lucky will format the data for you.
 
     ```crystal
     class LegacyRedirectHandler
       def call(context)
 
-        # ▸ Message Calling LegacyRedirectHandler. Path /old/path. Method GET. Time 15:42. Last thing i had for lunch 🌮
+        # ▸ Message Calling LegacyRedirectHandler. Last thing i had for lunch 🌮
         Lucky.logger.debug(
           message: "Calling LegacyRedirectHandler",
-          path: context.request.path,
-          method: context.request.method,
-          time: Time.utc.to_s("%H:%M"),
           last_thing_i_had_for_lunch: "🌮"
         )
         call_next(context)
@@ -104,10 +101,8 @@ class Guides::GettingStarted::Logging < GuideAction
 
     ## LogHandler
 
-    Lucky's `LogHandler` uses the `log_formatter` set in your `config/logger.cr` to log each request in to your
-    app. When a request is started, the request method (`method`), and request path (`path`) are passed in.
-    Then when the request is completed, the response status (`status`), and elapsed time (`duration`) are passed
-    in.
+    Lucky includes a `LogHandler` middleware in `src/app_server.cr` that logs basic request information like
+    the request method, request path, response status, and the duration of the request.
 
     ### skip_if
 
