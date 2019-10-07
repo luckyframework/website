@@ -22,6 +22,8 @@ class Guides::GettingStarted::Logging < GuideAction
     * Finally, in `development`, the logger uses the `DEBUG` level, and writes to `STDOUT` using a custom pretty
       formatter
 
+    All of these settings can be changed in `config/logger.cr`.
+
     > When writing to `STDOUT`, the colors are turned on for development. If you'd like to disable color,
     > open `config/colors.cr`, and set `Colorize.enabled = false`.
 
