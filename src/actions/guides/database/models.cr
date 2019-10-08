@@ -65,7 +65,7 @@ class Guides::Database::Models < GuideAction
 
     By default the `table` macro will use the underscored and pluralized
     version of the model's class name. So `CompletedProject` would have the
-    table name `:completed_project`.
+    table name `:completed_projects`.
 
     ```crystal
     class CompletedProject < BaseModel
