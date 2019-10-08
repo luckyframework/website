@@ -1,6 +1,6 @@
 class Blog::Feed < BrowserAction
   get "/blog/feed.xml" do
-    posts = PostQuery.new.all[0...10]
+    posts = PostQuery.new.all.first(10)
     xml render_feed(posts)
   end
 
