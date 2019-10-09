@@ -7,6 +7,7 @@ class GuidesList
         Guides::GettingStarted::StartingProject,
         Guides::GettingStarted::Concepts,
         Guides::GettingStarted::Configuration,
+        Guides::GettingStarted::Logging,
       ] of GuideAction.class),
       GuideCategory.new("HTTP and Routing", [
         Guides::HttpAndRouting::RoutingAndParams,

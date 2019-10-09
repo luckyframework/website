@@ -13,7 +13,7 @@ class LegacyRedirectHandler
     "/guides/saving-with-forms"                   => Guides::Database::ValidatingSaving,
     "/guides/asset-handling"                      => Guides::Frontend::AssetHandling,
     "/guides/tasks"                               => Guides::CommandLineTasks::BuiltIn,
-    "/guides/logging-and-error-handling"          => Guides::Logging,
+    "/guides/logging-and-error-handling"          => Guides::GettingStarted::Logging,
     "/guides/writing-json-apis"                   => Guides::JsonAndApis::RenderingJson,
     "/guides/json-and-apis/handling-errors"       => Guides::HttpAndRouting::ErrorHandling,
     "/guides/generating-test-data"                => Guides::Database::Testing,
