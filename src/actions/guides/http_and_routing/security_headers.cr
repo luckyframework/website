@@ -25,13 +25,14 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
     abstract class BrowserAction < Lucky::Action
       include Lucky::SecureHeaders::SetFrameGuard
 
-      def frame_guard_value
+      def frame_guard_value : String
         "deny"
       end
     end
     ```
 
     > The `frame_guard_value` method is required, and must be `"sameorigin"`, `"deny"`, or a valid URL for your website.
+    > The explicit return type (`String` in this example) is required when you override abstract method with explicit return type.
 
     ### `SetSniffGuard`
 
