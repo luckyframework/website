@@ -382,6 +382,35 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # => "...is a beautiful morn..."
     ```
 
+    ### Distance of time in words
+
+    Returns a `String` with distance in time between two `Time` objects.
+
+    ```crystal
+    distance_of_time_in_words(Time.utc(2019, 8, 14, 10, 0, 0), Time.utc(2019, 8, 14, 10, 0, 5))
+    # => "5 seconds"
+    distance_of_time_in_words(Time.utc(2019, 8, 14, 10, 0), Time.utc(2019, 8, 14, 10, 25))
+    # => "25 minutes"
+    distance_of_time_in_words(Time.utc(2019, 8, 14, 10), Time.utc(2019, 8, 14, 11))
+    # => "an hour"
+    distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2019, 8, 16))
+    # => "2 days"
+    distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2019, 10, 4))
+    # => "about a month"
+    distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2061, 10, 4))
+    # => "almost 42 years"
+    ```
+
+    ### Time ago in words
+
+    Similar to `distance_of_time_in_words`.
+    Returns a `String` with distance in time between current moment and some time in the past.
+
+    ```crystal
+    time_ago_in_words(Time.utc(2019, 8, 30))
+    # => "about a month"
+    ```
+
     ## Layouts
 
     Pages have layouts that make it easier to share common elements.
