@@ -360,7 +360,7 @@ class Guides::Database::Models < GuideAction
 
     ```crystal
     photo = SavePhoto.create!
-    comment = SaveComment.create!(phot_id: photo.id)
+    comment = SaveComment.create!(photo_id: photo.id)
 
     comment.commentable == photo
     ```
