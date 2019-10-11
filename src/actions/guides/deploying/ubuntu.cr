@@ -258,8 +258,8 @@ class Guides::Deploying::Ubuntu < GuideAction
                     proxy_pass http://lucky;
             }
 
-            ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem
-            ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key
+            ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+            ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
     }
     ```
 
