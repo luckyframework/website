@@ -34,7 +34,8 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     ## Create a serializer
 
     Serializers help you customize the response, and allow you to share common
-    JSON across endpoints.
+    JSON across endpoints. A serializer usually takes one or more arguments
+    in an `initialize` method and then returns data in a `render` method.
 
     Let’s create one for rendering the JSON for an article.
 
@@ -48,11 +49,16 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
         {title: @article.title}
       end
     end
+    ```
 
+    Then use it in an action:
+
+    ```crystal
     # In the action
     class Api::Articles::Show < ApiAction
       route do
         article = ArticleQuery.new.find(id)
+        # Render the article
         json ArticleSerializer.new(article)
       end
     end
