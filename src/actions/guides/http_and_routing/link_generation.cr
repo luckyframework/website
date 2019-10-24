@@ -40,7 +40,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
       is what you'll usually use for generating links, submitting forms, and redirecting.
 
     We'll talk about this more in the [Pages guide](#{Guides::Frontend::RenderingHtml.path}). You can use the route helper with
-    links and forms to automatically set the path *and* HTTP method at the same time.
+    links and operations to automatically set the path *and* HTTP method at the same time.
     MD
   end
 end

@@ -11,7 +11,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     #{permalink(ANCHOR_SAVING_TO_THE_DATABASE)}
     ## Saving to the database with JSON params
 
-    Forms automatically know how to handle JSON params. They just need to be
+    Operations automatically know how to handle JSON params. They just need to be
     formatted in a way Avram knows how to handle.
 
     Let’s say you have an operation called `SaveArticle`. Lucky will look for the data

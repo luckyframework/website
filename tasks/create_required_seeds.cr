@@ -15,9 +15,9 @@ class Db::CreateRequiredSeeds < LuckyCli::Task
     # Use the defaults, but override just the email
     # UserBox.create &.email("me@example.com")
 
-    # Using a form:
+    # Using an operation:
     #
-    # UserForm.create!(email: "me@example.com", name: "Jane")
+    # SaveUser.create!(email: "me@example.com", name: "Jane")
     #
     # You likely want to be able to run this file more than once. To do that,
     # only create the record if it doesn't exist yet:

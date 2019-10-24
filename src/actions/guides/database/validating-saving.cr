@@ -145,12 +145,12 @@ class Guides::Database::ValidatingSaving < GuideAction
     class Users::Create < BrowserAction
       route do
         # params will have the form params sent from the HTML form
-        SaveUser.create(params) do |form, user|
+        SaveUser.create(params) do |operation, user|
           if user # if the user was saved
             redirect to: Home::Index
           else
             # re-render the NewPage so the user can correct their mistakes
-            html NewPage, user_form: form
+            html NewPage, user_operation: operation
           end
         end
       end
@@ -250,7 +250,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ### Select with options
 
     ```crystal
-    # Assuming you have a form with a permitted category_id
+    # Assuming you have an operation with a permitted category_id
     select_input op.category_id do
       options_for_select(op.category_id, categories_for_select)
     end
@@ -479,7 +479,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     This will make it so that you must pass in `current_user` when creating or updating
     the `SaveUser`. It will make a getter available for `current_user` so you can use
-    it in the form, like in the `before_save` macro shown in the example.
+    it in the operation, like in the `before_save` macro shown in the example.
 
     ### Declaring needs only for update, create, or save
 
@@ -505,7 +505,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ```
 
     > Note that `author` is not required when calling `SaveUser.new` when using
-    the `on` option. This means `author` can be `nil` in the form. That's why we
+    the `on` option. This means `author` can be `nil` in the operation. That's why we
     needed to use `try` in the `prepare_comment` method.
 
     ```crystal
@@ -610,7 +610,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ## Basic Operations
 
     Just like `attribute`, there may also be a time where you have an operation **not** tied to the database.
-    Maybe a search form, or a contact form that just sends an email.
+    Maybe a search operation, or a contact operation that just sends an email.
 
     For these, you can use `Avram::Operation`:
 
@@ -706,7 +706,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    Then in your form:
+    Then in your operation:
 
     ```crystal
     # src/operations/save_admin_user.cr
@@ -733,7 +733,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     * `SignUpUser` - for signing up a new user. Encrypt passwords, send welcome emails, etc.
     * `SignInUser` - check that passwords match
     * `SaveAdminUser` - sometimes admin can set more fields than a regular user. It’s
-      often a good idea to extract a new form for those cases.
+      often a good idea to extract a new operation for those cases.
     MD
   end
 end

@@ -62,7 +62,7 @@ class Guides::Frontend::Testing < GuideAction
       end
 
       def create_draft
-        fill_form ArticleForm,
+        fill_form SaveArticle,
           title: "Draft Post",
           body: "body"
         click "@save-draft"
@@ -81,7 +81,7 @@ class Guides::Frontend::Testing < GuideAction
       end
 
       def publish_post
-        fill_form ArticleForm,
+        fill_form PublishArticle,
           title: "Published Post"
         click "@publish-post"
       end
@@ -200,7 +200,7 @@ class Guides::Frontend::Testing < GuideAction
     Fill forms rendered by Lucky:
 
     ```crystal
-    fill_form PostForm,
+    fill_form SavePost,
       title: "My Post",
       body: "Post body"
     ```

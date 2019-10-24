@@ -705,11 +705,11 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # In src/posts/new_page.cr
     class Posts::NewPage < MainLayout
-      needs form : SavePost
+      needs operation : SavePost
 
       def content
         h1 "New Blog Post"
-        render_post_form(@form)
+        render_post_form(@operation)
       end
 
       def render_post_form(f)
@@ -737,7 +737,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ```erb
     <h1>New Blog Post<h1>
-    <% render_post_form(@form) %>
+    <% render_post_form(@operation) %>
     ```
 
     And you're done!

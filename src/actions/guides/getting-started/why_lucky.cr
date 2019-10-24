@@ -69,7 +69,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     Instead of nil errors in production, Crystal and Lucky tell you about nil errors
     at compile time, before your customers ever see them. Lucky has designed its
-    [router], [HTML], [actions], params, and [forms] so that Crystal can catch as
+    [router], [HTML], [actions], params, and [operations] so that Crystal can catch as
     many `nil` errors as possible.
 
     [router]: #{Guides::HttpAndRouting::RoutingAndParams.path}
@@ -167,7 +167,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     that isn’t allowed to be filled out.
 
     ```crystal
-    # A form that is used to register a new user
+    # An operation that is used to register a new user
     class RegisterUser < User::SaveOperation
       permit_columns name, email # company_name is not allowed to be filled out
     end
