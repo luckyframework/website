@@ -68,7 +68,7 @@ class Guides::Database::ValidatingSaving < GuideAction
       if user # the user was saved
         html Users::ShowPage, user: user
       else
-        html Users::NewPage, operation: operation
+        html Users::NewPage, save_user: operation
       end
     end
     ```
@@ -119,17 +119,17 @@ class Guides::Database::ValidatingSaving < GuideAction
     ```crystal
     # src/pages/users/new_page.cr
     class Users::NewPage < MainLayout
-      needs operation : SaveUser
+      needs save_user : SaveUser
 
       def content
-        render_form(@operation)
+        render_form(@save_user)
       end
 
-      private def render_form(op)
+      private def render_form(operation)
         form_for Users::Create do
-          label_for op.name
-          text_input op.name
-          errors_for op.name
+          label_for operation.name
+          text_input operation.name
+          errors_for operation.name
 
           submit "Save User"
         end
@@ -150,7 +150,7 @@ class Guides::Database::ValidatingSaving < GuideAction
             redirect to: Home::Index
           else
             # re-render the NewPage so the user can correct their mistakes
-            html NewPage, user_operation: operation
+            html NewPage, save_user: operation
           end
         end
       end
@@ -592,14 +592,14 @@ class Guides::Database::ValidatingSaving < GuideAction
         render_form(@sign_up_user)
       end
 
-      private def render_form(op)
+      private def render_form(operation)
         form_for SignUps::Create do
           # labels and errors_for omitted for brevity
-          text_input op.name
-          email_input op.email
-          password_input op.password
-          password_input op.password_confirmation
-          checkbox op.terms_of_service
+          text_input operation.name
+          email_input operation.email
+          password_input operation.password
+          password_input operation.password_confirmation
+          checkbox operation.terms_of_service
 
           submit "Sign up"
         end
@@ -642,13 +642,13 @@ class Guides::Database::ValidatingSaving < GuideAction
         render_form(@search_data)
       end
 
-      private def render_form(op)
+      private def render_form(operation)
         form_for Searches::Create do
-          label_for op.query
-          text_input op.query
+          label_for operation.query
+          text_input operation.query
 
-          label_for op.active
-          checkbox op.active
+          label_for operation.active
+          checkbox operation.active
 
           submit "Filter Results"
         end

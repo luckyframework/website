@@ -705,18 +705,18 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # In src/posts/new_page.cr
     class Posts::NewPage < MainLayout
-      needs operation : SavePost
+      needs save_post : SavePost
 
       def content
         h1 "New Blog Post"
-        render_post_form(@operation)
+        render_post_form(@save_post)
       end
 
-      def render_post_form(f)
+      def render_post_form(operation)
         form_for Posts::Create do
-          mount Shared::Field.new(f.title), &.text_input(autofocus: "true")
-          mount Shared::Field.new(f.body)
-          mount Shared::Field.new(f.published_at)
+          mount Shared::Field.new(operation.title), &.text_input(autofocus: "true")
+          mount Shared::Field.new(operation.body)
+          mount Shared::Field.new(operation.published_at)
 
           submit "Save", data_disable_with: "Saving..."
         end
