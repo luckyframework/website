@@ -105,7 +105,8 @@ class Guides::Database::ValidatingSaving < GuideAction
     ```
 
     > `params` is defined in your actions for you. You can also
-    > [save without a params object](#saving-without-a-params-object), for example, in your specs.
+    > [save without a params object](#saving-without-a-params-object), for example, in your specs, or in
+    > a seeds file.
 
     ## Using with JSON endpoints
 
