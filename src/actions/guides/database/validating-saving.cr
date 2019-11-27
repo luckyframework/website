@@ -104,6 +104,10 @@ class Guides::Database::ValidatingSaving < GuideAction
     updated_user = SaveUser.update!(user, params)
     ```
 
+    > `params` is defined in your actions for you. You can also
+    > [save without a params object](#saving-without-a-params-object), for example, in your specs, or in
+    > a seeds file.
+
     ## Using with JSON endpoints
 
     See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
