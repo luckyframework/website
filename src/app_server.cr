@@ -1,3 +1,5 @@
+require "./gzip/*"
+
 class AppServer < Lucky::BaseAppServer
   def middleware : Array(HTTP::Handler)
     [
@@ -9,6 +11,7 @@ class AppServer < Lucky::BaseAppServer
       Lucky::ErrorHandler.new(action: Errors::Show),
       Lucky::RouteHandler.new,
       CacheControlHandler.new,
+      Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip"),
       Lucky::StaticFileHandler.new("./public", false),
       LegacyRedirectHandler.new,
       Lucky::RouteNotFoundHandler.new,

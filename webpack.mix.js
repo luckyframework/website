@@ -9,6 +9,7 @@
 
 let mix = require("laravel-mix");
 let tailwindcss = require('tailwindcss');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 // Customize the notifier to be less noisy
 let WebpackNotifierPlugin = require('webpack-notifier');
@@ -44,7 +45,13 @@ mix
   // Reduce noise in Webpack output
   .webpackConfig({
     stats: "errors-only",
-    plugins: [webpackNotifier]
+    plugins: [
+      webpackNotifier,
+      new CompressionPlugin({
+        compressionOptions: { level: 9 },
+        test: /\.js$|\.css$|\.html$|\.svg$/
+      }),
+    ]
   })
   // Disable default Mix notifications because we're using our own notifier
   .disableNotifications()
