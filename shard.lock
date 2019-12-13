@@ -6,7 +6,7 @@ shards:
 
   avram:
     github: luckyframework/avram
-    version: 0.12.0
+    version: 0.12.2
 
   blank:
     github: kostya/blank
@@ -42,11 +42,11 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    version: 0.18.1
+    version: 0.18.2
 
   lucky_cli:
     github: luckyframework/lucky_cli
-    version: 0.18.0
+    version: 0.18.2
 
   lucky_flow:
     github: luckyframework/lucky_flow
@@ -58,7 +58,7 @@ shards:
 
   markd:
     github: icyleaf/markd
-    commit: 3b3414375ba4546d23c3ba113ab7f9f1e32c9d7a
+    commit: bc7a847265bcf50dbea4342e46410e33a6d5658d
 
   pg:
     github: will/crystal-pg
