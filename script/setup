@@ -25,7 +25,4 @@ yarn dev | indent
 printf "\n▸ Installing shards\n"
 shards install | indent
 
-lucky db.verify_connection
-
-
 printf "\n✔ All done. Run 'lucky dev' to start the app\n"
