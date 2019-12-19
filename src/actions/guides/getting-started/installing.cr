@@ -11,7 +11,7 @@ class Guides::GettingStarted::Installing < GuideAction
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
     ## Install Required Dependencies
 
-    ### Crystal v0.31.1
+    ### Crystal v0.32.1
 
     **We recommend using a version manager** to make sure the correct
     version of Crystal is used with Lucky.
