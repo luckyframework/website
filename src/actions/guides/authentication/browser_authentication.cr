@@ -203,7 +203,7 @@ class Guides::Authentication::Browser < GuideAction
     Let's say we have this action that requires sign in:
 
     ```crystal
-    class Settings::Edit < MainLayout
+    class Settings::Edit < BrowserAction
       route do
         html Settings::EditPage
       end
