@@ -187,17 +187,17 @@ class Guides::Frontend::Internationalization < GuideAction
     class Me::ShowPage < MainLayout
       def content
         h1 I18n.t("me.profile", @translator.lang)
-        h3 "#{I18n.t("me.email", @translator.lang)}:  #{@current_user.email}"
+        h3 "\#{I18n.t("me.email", @translator.lang)}:  \#{@current_user.email}"
 
         helpful_tips
       end
 
       private def helpful_tips
-        h3 "#{I18n.t("me.next")}:"
+        h3 "\#{I18n.t("me.next")}:"
         ul do
           li { link_to_authentication_guides }
-          li "#{I18n.t("me.modify_page", @translator.lang)}: src/pages/me/show_page.cr"
-          li "#{I18n.t("me.after_signin", @translator.lang)}: src/actions/home/index.cr"
+          li "\#{I18n.t("me.modify_page", @translator.lang)}: src/pages/me/show_page.cr"
+          li "\#{I18n.t("me.after_signin", @translator.lang)}: src/actions/home/index.cr"
         end
       end
 
