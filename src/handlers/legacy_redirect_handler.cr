@@ -12,6 +12,7 @@ class LegacyRedirectHandler
     "/guides/custom-queries"                      => Guides::Database::RawSql,
     "/guides/saving-with-forms"                   => Guides::Database::ValidatingSaving,
     "/guides/asset-handling"                      => Guides::Frontend::AssetHandling,
+    "/guides/internationalization"                => Guides::Frontend::Internationalization,
     "/guides/tasks"                               => Guides::CommandLineTasks::BuiltIn,
     "/guides/logging-and-error-handling"          => Guides::GettingStarted::Logging,
     "/guides/writing-json-apis"                   => Guides::JsonAndApis::RenderingJson,
