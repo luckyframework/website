@@ -2,14 +2,16 @@ class Guides::Frontend::Internationalization < GuideAction
   guide_route "/frontend/internationalization"
 
   def self.title
-    "Internationalization - Handle Multiple Languages"
+    "Internationalization"
   end
 
   def markdown : String
     <<-MD
-    This describes how to handle USERS with multiple language preferences.  At somepoint we can document how to add dynamic switching from the frontend too.
+    **Working with multiple languages**
 
-    ## **Step 1** - add i18n shard to `shard.yml`
+    If these steps are done in oder then Lucky should continue to compile (& be testable) with each change.
+
+    ## Step 1 - Add i18n to `shard.yml`
 
     ```
     dependencies:
@@ -17,12 +19,21 @@ class Guides::Frontend::Internationalization < GuideAction
         github: vladfaust/i18n.cr
         version: ~> 0.1.1
     ```
+
+    add to the end of `shards.cr` file with the new requirements
+    ```
+    # shards.cr
+    # ...
+    require "i18n"
+    require "i18n/backends/yaml"
+    ```
+
     and of course install the shard
     ```
     shards install
     ```
 
-    ## **Step 2** - add a starter localization and anothers needed:
+    ## Step 2 - Add localization ymls
 
     first make a locales folder:
     ```
@@ -41,26 +52,24 @@ class Guides::Frontend::Internationalization < GuideAction
       default:
         page_name: Welcome
       me:
-        email: Mail
-        profile: Profil
+        email: E-Mail
+        profile: Profile
         next: "Next, you may want to"
         auth_guides: "Check out the authentication guides"
         modify_page: "Modify this page"
         after_signin: "Change where you go after sign in"
     ```
 
-    ## **Step 3** - configure i18n to work with Lucky
+    ## Step 3 - Configure i18n within Lucky
     ```
     # config/i18n.cr
-    require "i18n"
-    require "i18n/backends/yaml"
-      I18n.backend = I18n::Backends::YAML.new.tap do |backend|
+    I18n.backend = I18n::Backends::YAML.new.tap do |backend|
       backend.load_paths << Dir.current + "/config/locales"
       backend.load
     end
     ```
 
-    ## **Step 4** - create a user migration
+    ## Step 4 - Add 'lang' to users table
     generate a migration with:
     ```
     lucky db.migration AddLanguageToUser
@@ -89,7 +98,7 @@ class Guides::Frontend::Internationalization < GuideAction
     lucky db.migrate
     ```
 
-    ## **Step 5** - update the user model (add the new attribute)
+    ## Step 5 - Add lang column to User model
     ```
     # src/models/user.cr
       table do
@@ -99,7 +108,9 @@ class Guides::Frontend::Internationalization < GuideAction
        end
     ```
 
-    ## **Step 6** - Update sign_up_user.cr (to validate the available languages) - ideally at somepoint in the future - lucky will autodect and autocreate the language list based on the config/locales yml files.
+    ## Step 6 - Validate user language choice
+
+    TODO: autodect and autocreate the language list based on the config/locales yml files.
     ```
     # src/operations/sign_up_user.cr
     class SignUpUser < User::SaveOperation
@@ -119,7 +130,18 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## **Step 7** - create a translator - could the JS capture be integrated into this class?
+    ## Step 7 - Add language to signup form
+
+    TODO: use the same list found in validations (shared constant?)
+    ```
+    # comming soon - when I figure out dropdowns
+    ```
+
+    ## Step 8 - Create a Translator class
+
+    _or module or whatever we decide_
+
+    TODO: frontend JS should eventually also be capture and override the user stored preference
     ```
     # src/components/translator.cr
     class Translator
@@ -130,54 +152,42 @@ class Guides::Frontend::Internationalization < GuideAction
       end
 
       def t(key : String)
-        I18n.t(key, @lang) # this seems better but not available
+        I18n.t(key, @lang)
       end
 
       def t(key : String, count : Int32)
-        I18n.t(key, @lang, count) # this seems better but not available
+        I18n.t(key, @lang, count)
       end
     end
     ```
 
-    ## **Step 8** - then update authentication the pages (and others)
+    ## Step 8 - Internationalize pages
+
+    Basic idea: everywhere there is static text it needs to be replaced with: `I18n.t("default.page_name", @translator.lang)` -- and of course the key needs to be in all the yml files (I18n - ia pretty finicky and its error messages aren't very helpful)
     ```
     abstract class MainLayout
-      include Lucky::HTMLPage
-
-      # 'needs current_user : User' makes it so that the current_user
-      # is always required for pages using MainLayout
+      # ...
       needs current_user : User
       needs translator : Translator
-
-      abstract def content
-      abstract def page_title
-
-      # The default page title. It is passed to `Shared::LayoutHead`.
-      #
-      # Add a `page_title` method to pages to override it. You can also remove
-      # This method so every page is required to have its own page title.
+      # ...
       def page_title
         I18n.t("default.page_name", @translator.lang)
+        #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
 
       def render
         html_doctype
 
         html lang: @translator.lang do
-          # mount Shared::LayoutHead.new(page_title: page_title, context: @context)
-
-          body do
-            mount Shared::FlashMessages.new(@context.flash)
-            render_signed_in_user
-            content
-          end
+          #        ^^^^^^^^^^^^^^^^
+          # ...
         end
       end
 
       private def render_signed_in_user
-        text @current_user.email
-        text " - "
+        # ...
         link I18n.t("auth.sign_out", @translator.lang), to: SignIns::Delete, flow_id: "sign-out-button"
+        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
     end
     ```
@@ -187,23 +197,28 @@ class Guides::Frontend::Internationalization < GuideAction
     class Me::ShowPage < MainLayout
       def content
         h1 I18n.t("me.profile", @translator.lang)
+        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         h3 "\#{I18n.t("me.email", @translator.lang)}:  \#{@current_user.email}"
+        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         helpful_tips
       end
 
       private def helpful_tips
         h3 "\#{I18n.t("me.next")}:"
+        #    ^^^^^^^^^^^^^^^^^^^^^^
         ul do
           li { link_to_authentication_guides }
           li "\#{I18n.t("me.modify_page", @translator.lang)}: src/pages/me/show_page.cr"
+          #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
           li "\#{I18n.t("me.after_signin", @translator.lang)}: src/actions/home/index.cr"
+          #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
       end
 
       private def link_to_authentication_guides
-        link I18n.t("me.auth_guides", @translator.lang),
-          to: "https://luckyframework.org/guides/authentication"
+        link I18n.t("me.auth_guides", @translator.lang), to: "https://luckyframework.org/guides/authentication"
+        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
     end
     ```
@@ -211,31 +226,20 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     # src/pages/auth_layout.cr
     abstract class AuthLayout
-      include Lucky::HTMLPage
-
-      abstract def content
-      abstract def page_title
-
+      # ...
       needs translator : Translator
 
-      # The default page title. It is passed to `Shared::LayoutHead`.
-      #
-      # Add a `page_title` method to pages to override it. You can also remove
-      # This method so every page is required to have its own page title.
       def page_title
         I18n.t("default.page_name", @translator.lang)
+        #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
 
       def render
         html_doctype
 
         html lang: @translator.lang do
-          mount Shared::LayoutHead.new(page_title: page_title, context: @context)
-
-          body do
-            mount Shared::FlashMessages.new(@context.flash)
-            content
-          end
+          #        ^^^^^^^^^^^^^^^^
+          # ...
         end
       end
     end
@@ -248,6 +252,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
       def content
         h1 I18n.t("auth.reset_pwd_request", @translator)
+        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         render_form(@operation)
       end
 
@@ -255,6 +260,7 @@ class Guides::Frontend::Internationalization < GuideAction
         form_for PasswordResetRequests::Create do
           mount Shared::Field.new(op.email), &.email_input
           submit I18n.t("auth.reset_pwd_request", @translator), flow_id: "request-password-reset-button"
+          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
       end
     end
@@ -263,20 +269,18 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     # src/pages/password_resets/new_page.cr
     class PasswordResets::NewPage < AuthLayout
-      needs operation : ResetPassword
-      needs user_id : Int64
-
+      # ...
       def content
         h1 I18n.t("auth.update_pwd", @translator)
+        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         render_password_reset_form(@operation)
       end
 
       private def render_password_reset_form(op)
         form_for PasswordResets::Create.with(@user_id) do
-          mount Shared::Field.new(op.password), &.password_input(autofocus: "true")
-          mount Shared::Field.new(op.password_confirmation), &.password_input
-
+          # ...
           submit I18n.t("auth.update_pwd", @translator), flow_id: "update-password-button"
+          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
       end
     end
@@ -289,6 +293,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
       def content
         h1 I18n.t("auth.sign_in", @translator)
+        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         render_sign_in_form(@operation)
       end
 
@@ -296,16 +301,15 @@ class Guides::Frontend::Internationalization < GuideAction
         form_for SignIns::Create do
           sign_in_fields(op)
           submit I18n.t("auth.sign_in", @translator), flow_id: "sign-in-button"
+          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
         link I18n.t("auth.reset_pwd_request", @translator), to: PasswordResetRequests::New
+        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         text " | "
         link I18n.t("auth.sign_up", @translator), to: SignUps::New
+        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
-
-      private def sign_in_fields(op)
-        mount Shared::Field.new(op.email), &.email_input(autofocus: "true")
-        mount Shared::Field.new(op.password), &.password_input
-      end
+      # ...
     end
     ```
 
@@ -316,6 +320,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
       def content
         h1 I18n.t("auth.sign_up", @translator)
+        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         render_sign_up_form(@operation)
       end
 
@@ -323,15 +328,12 @@ class Guides::Frontend::Internationalization < GuideAction
         form_for SignUps::Create do
           sign_up_fields(op)
           submit I18n.t("auth.sign_up", @translator), flow_id: "sign-up-button"
+          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
         link I18n.t("auth.sign_in", @translator), to: SignIns::New
+        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
-
-      private def sign_up_fields(op)
-        mount Shared::Field.new(op.email), &.email_input(autofocus: "true")
-        mount Shared::Field.new(op.password), &.password_input
-        mount Shared::Field.new(op.password_confirmation), &.password_input
-      end
+      # ...
     end
     ```
 
