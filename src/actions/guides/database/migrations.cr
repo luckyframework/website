@@ -256,9 +256,12 @@ class Guides::Database::Migrations < GuideAction
 
     ## Using fill_existing_with and default values
 
-    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.  This is useful when a default value is **NOT** desired, but the existing data should be backfilled anyway.
+    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`. 
+    This is useful when a default value is NOT desired, but the existing data should be backfilled anyway.
 
-    If your column is required, you will need to set a **default** value on all records or use `fill_existing_with` otherwise you'll have errors.  **NOTE:** You must use either `default` or  `fill_existing_with`. They can't be used together since they both solve similar problems.
+    If your column is required, you will need to set a **default** value or use `fill_existing_with` 
+    otherwise you'll have errors.  **NOTE:** You must use either `default` or  `fill_existing_with`. 
+    They can't be used together since they both solve similar problems.
 
     ```crystal
     alter table_for(User) do
@@ -272,9 +275,9 @@ class Guides::Database::Migrations < GuideAction
     If a static value will not work, try this:
 
     * If you have not yet released the app, consider using `fill_existing_with: :nothing`
-      and dropping the database `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
-    * Consider making the type nilable `add otp_code : String?`, then fill the values with whatever value you need.
-      Then later make it required with `make_required :otp_code`
+      and dropping the database with `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
+    * Consider making the type nilable (example: `add otp_code : String?`), then fill the values with whatever value you need.
+      Then make it required with `make_required :otp_code`. See the example below:
 
     ``` crystal
     def migrate
