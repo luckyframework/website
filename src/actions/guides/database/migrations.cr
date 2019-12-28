@@ -254,15 +254,15 @@ class Guides::Database::Migrations < GuideAction
 
     > You can also use a symbol for a table name. For example `create :users`.
 
-    ## Using fill_existing_with
+    ## Using fill_existing_with and default values
 
-    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
+    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.  This is useful when a default value is **NOT** needed, but the existing data should be backfilled anyway.
 
-    If your column is required, you will need to set a default value on all records otherwise you'll have errors.
+    If your column is required, you will need to set a **default** value on all records otherwise you'll have errors.  **NOTE:** `default` also back-fills existing data just like `fill_existing_with` and may not be used in combination with the `default` option.
 
     ```crystal
     alter table_for(User) do
-      add active : Bool, default: true, fill_existing_with: true
+      add active : Bool, default: true
       add otp_code : String, fill_existing_with: "fake-otp-code-123"
     end
     ```
