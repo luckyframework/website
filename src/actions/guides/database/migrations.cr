@@ -256,7 +256,7 @@ class Guides::Database::Migrations < GuideAction
 
     ## Using fill_existing_with and default values
 
-    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.  This is useful when a default value is **NOT** needed, but the existing data should be backfilled anyway.
+    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.  This is useful when a default value is **NOT** desired, but the existing data should be backfilled anyway.
 
     If your column is required, you will need to set a **default** value on all records otherwise you'll have errors.  **NOTE:** `default` also back-fills existing data just like `fill_existing_with` and may not be used in combination with the `default` option.
 
