@@ -11,7 +11,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     If these steps are done in oder then Lucky should continue to compile (& be testable) with each change.
 
-    ## Step 1 - Add i18n to `shard.yml`
+    ## Step 1 - Add i18n shard
 
     ```
     dependencies:
