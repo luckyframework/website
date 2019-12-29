@@ -11,7 +11,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     If these steps are done in oder then Lucky should continue to compile (& be usable/testable) with each change.
 
-    ## Step 0 - Add i18n shard
+    ## Step 1 - Add i18n shard
 
     ```
     dependencies:
@@ -33,7 +33,7 @@ class Guides::Frontend::Internationalization < GuideAction
     shards install
     ```
 
-    ## Step 1 - Add localization ymls
+    ## Step 2 - Add localization ymls
 
     first make a locales folder:
     ```
@@ -101,7 +101,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     **NOTE:** All lang yml files need all the same keys defined!
 
-    ## Step 2 - Configure i18n within Lucky
+    ## Step 3 - Configure i18n within Lucky
     ```
     # config/i18n.cr
     I18n.backend = I18n::Backends::YAML.new.tap do |backend|
@@ -110,7 +110,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 3 - Add 'lang' to users table
+    ## Step 4 - Add 'lang' to users table
 
     generate a migration using:
     ```
@@ -140,7 +140,7 @@ class Guides::Frontend::Internationalization < GuideAction
     lucky db.migrate
     ```
 
-    ## Step 4 - Add lang column to User model
+    ## Step 5 - Add lang column to User model
     ```
     # src/models/user.cr
     class User < BaseModel
@@ -153,18 +153,14 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 5 - Create a Translator module
-
-    TODO:
-    - finalize the best approach & ideally be ready to capture any Frontend JS overrides
-    - autodect and autocreate the language list based on the config/locales yml files.
+    ## Step 6 - Create a Translator module
 
     ```
     # src/translator.cr
     module Translator
-
-      DEFAULT_LANGUAGE = "en"
-      AVAILABLE_LANGUAGES = ["en", "de"]
+      LANGUAGE_DEFAULT = "en"
+      LANGUAGES_AVAILABLE = ["en", "de"]
+      LANGUAGES_SELECTOR_LIST = [{"English", "en"}, {"Deutsch", "de"}]
 
       def t(key : String)
         I18n.translate(key, user_lang)
@@ -175,22 +171,24 @@ class Guides::Frontend::Internationalization < GuideAction
       end
 
       def user_lang(current_user=nil)
-        current_user.try(&.lang) || DEFAULT_LANGUAGE
+        current_user.try(&.lang) || LANGUAGE_DEFAULT
       end
     end
     ```
-
-    and include in `src/app.cr` (isn't effect yet)
+    
+    Add this module to the `src/app.cr` so its available to Lucky files (except operations - so operations files need the `require` command)
     ```
     # src/app.cr
     # ...
     require "./translate"
     ```
 
-    ## Step 6 - Update Operations (espescially `sign_up_user`)
+    ## Step 7 - Update Operations
+
+    **IMPORTANT:** - `src/operations/sign_up_user.cr` must be updated
 
     General Operations Tasks:
-    - add `require "../translator"` at the top of the file
+    - add `require "../translator"` at the top of the file when needed for operations
     - add `include Translator` to the class
     - add translations, i.e.: email.add_error t("error.not_our_system")
 
@@ -215,23 +213,21 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    other operations with fixed messages include:
+    the following other operations can be updated for consistency:
     ```
     # src/operations/request_password_reset.cr
     # src/operations/sign_in_user.cr
     # src/operations/sign_up_user.cr
     ```
 
-    ## Step 7 - Internationalize Templates
+    ## Step 8 - Internationalize Templates
 
-    This is required before doing the `concrete classes`
+    **REQUIRED:** before updating the `concrete page classes`
 
     Basic ideas:
     - every Layout (abstract class) needs the Translator included.
     - everywhere there is static text a translations can be added with: `t("primary_key.sub_key")` - keys can be nested arbritrarily deep.
     ```
-    require "../translator"
-
     abstract class MainLayout
       include Translator
       # ...
@@ -253,10 +249,9 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
+    Auth Layout is needed too.
     ```
     # src/pages/auth_layout.cr
-    require "../translator"
-
     abstract class AuthLayout
       include Translator
       # ...
@@ -273,11 +268,9 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    error page also need tranlation import (separately)
+    Error Show Page is a good idea too.
     ```
     # src/pages/errors/show_page.cr
-    require "../../translator"
-
     class Errors::ShowPage
       include Lucky::HTMLPage
       include Translator
@@ -294,7 +287,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 8 - Internationalize Pages
+    ## Step 9 - Update Sign-up Form
 
     **IMPORTANT:** start with and test the signup page so that users can choose the language of their choice
 
@@ -331,6 +324,9 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
+
+    ## Step 10 - Internationalize Pages
+
     Here is a more complex example of combining messages with other text info (urls).
     ```
     # src/pages/me/show_page.cr
@@ -364,12 +360,10 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/pages/errors/show_page.cr
     ```
 
-    ## Step 9 - Internationalize Flash Messages & Actions
+    ## Step 11 - Internationalize Actions
 
     ```
     # src/actions/browser_action.cr
-    require "../translator"
-
     abstract class BrowserAction < Lucky::Action
       include Translator
       # ...
@@ -401,13 +395,11 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/actions/password_reset_requests/create.cr
     ```
 
-    Step 10: - Internationalize API Responses
+    ## Step 12 - Internationalize API Responses
 
     Given the deep namespace for the API - the require statement is a bit clumsy looking but works.
     ```
     # src/actions/mixins/api/auth/require_auth_token.cr
-    require "../../../../translator"
-
     module Api::Auth::RequireAuthToken
       include Translator
       # ...
