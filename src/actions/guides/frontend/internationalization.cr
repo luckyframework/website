@@ -170,12 +170,13 @@ class Guides::Frontend::Internationalization < GuideAction
         I18n.translate(key, user_lang, count)
       end
 
-      def user_lang(current_user=nil)
+      # tricky stuff: lots of quik_defs for user_lang and current_user needed in operators, error & auth_paths
+      def user_lang
         current_user.try(&.lang) || LANGUAGE_DEFAULT
       end
     end
     ```
-    
+
     Add this module to the `src/app.cr` so its available to Lucky files (except operations - so operations files need the `require` command)
     ```
     # src/app.cr
@@ -185,16 +186,15 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 7 - Update Operations
 
-    **IMPORTANT:** - `src/operations/sign_up_user.cr` must be updated
-
-    General Operations Tasks:
-    - add `require "../translator"` at the top of the file when needed for operations
-    - add `include Translator` to the class
-    - add translations, i.e.: email.add_error t("error.not_our_system")
-
-    Also necessary for sign_up_user operation:
+    **IMPORTANT:** - `src/operations/sign_up_user.cr` must be updated -- it needs:
     - update permitted columns (required for the signup form)
     - update validations (will prevent run-time crashes)
+
+    All Operation Files with translations need:
+    - add `require "../translator"` at the top of the file when needed for operations
+    - add `include Translator` to the class
+    - add `quick_def user_lang`, LANGUAGE_DEFAULT for the failure error messages (ok since happy path messages are handled in other paths)
+    - add translations, i.e.: email.add_error t("error.not_our_system")
 
     ```
     # src/operations/sign_up_user.cr
@@ -213,11 +213,50 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
+    sign_in user also needs to cover the case where the login fails (no current_user)
+    ```
+    # src/operations/sign_in_user.cr
+    require "../translator"
+
+    class SignInUser < Avram::Operation
+      # ...
+      include Translator
+
+      # given these classes inheret from Avram::Operation - I these defaults will be reset in other operations
+      quick_def user_lang, LANGUAGE_DEFAULT
+      # ...
+      private def validate_credentials(user)
+        if user
+          unless Authentic.correct_password?(user, password.value.to_s)
+            password.add_error t("error.auth_incorrect")
+          end
+        else
+          # ...
+          email.add_error t("error.not_in_system")
+        end
+      end
+    end
+    ```
+
     the following other operations can be updated for consistency:
     ```
     # src/operations/request_password_reset.cr
-    # src/operations/sign_in_user.cr
-    # src/operations/sign_up_user.cr
+    require "../translator"
+
+    class RequestPasswordReset < Avram::Operation
+      # ...
+      include Translator
+
+      # needed for errors when no user found
+      quick_def user_lang, LANGUAGE_DEFAULT
+      # ...
+      def validate(user : User?)
+        # ...
+        if user.nil?
+          email.add_error t("error.not_in_system")
+        end
+      end
+    end
     ```
 
     ## Step 8 - Internationalize Templates
@@ -230,6 +269,13 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     abstract class MainLayout
       include Translator
+      # ...
+      # 'needs current_user : User' makes it so that the current_user
+      # is always required for pages using MainLayout
+      needs current_user : User
+
+      # we also have to make @current_user available as current_user
+      quick_def current_user, @current_user
       # ...
       def page_title
         t("default.page_name")
@@ -249,11 +295,15 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Auth Layout is needed too.
+    AuthLayout needs updates.
+    TODO: figure out how to allow Frontend choice affect Auth Pages
     ```
     # src/pages/auth_layout.cr
     abstract class AuthLayout
       include Translator
+      # ...
+      # since user hasn't logged in yet - we set the user_lang to the default language
+      quick_def user_lang, LANGUAGE_DEFAULT
       # ...
       def page_title
         t("default.page_name")
@@ -272,8 +322,11 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     # src/pages/errors/show_page.cr
     class Errors::ShowPage
-      include Lucky::HTMLPage
+      # ...
       include Translator
+      # ...
+      # in error conditions we don't know if we have a current_user - so we use the default language
+      quick_def user_lang, LANGUAGE_DEFAULT
       # ...
       def render
         # ...
@@ -380,6 +433,8 @@ class Guides::Frontend::Internationalization < GuideAction
             flash.success = t("auth.success")
             # ...
           else
+            # might be needed when user auth fails - but compiles without
+            # user_lang = LANGUAGE_DEFAULT
             flash.failure = t("auth.failure")
             # ...
           end
@@ -387,10 +442,41 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Follow the same logic in the following files:
+    # more testing needed, but just in case put the translation before signout at logout
     ```
     # src/actions/sign_ins/delete.cr
+    class SignIns::Delete < BrowserAction
+      delete "/sign_out" do
+        # assign the flash before loosing the current_user
+        flash.info = t("auth.signed_out")
+        sign_out
+        redirect to: SignIns::New
+      end
+    end
+    ```
+
+    Follow the same logic in the following files:
+    ```
     # src/actions/sign_ups/create.cr
+    ```
+    class SignUps::Create < BrowserAction
+      # ...
+      route do
+        SignUpUser.create(params) do |operation, user|
+          if user
+            # ...
+          else
+            # might be needed when user auth fails - but compiles without
+            # user_lang = LANGUAGE_DEFAULT
+            flash.failure = t("auth.sign_in_failure")
+            # ...
+          end
+        end
+      end
+    end
+    ```
+    These files have translations but have no special notes
+    ```
     # src/actions/password_resets/create.cr
     # src/actions/password_reset_requests/create.cr
     ```
