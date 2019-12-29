@@ -9,7 +9,7 @@ class Guides::Frontend::Internationalization < GuideAction
     <<-MD
     **Working with multiple languages**
 
-    If these steps are done in oder then Lucky should continue to compile (& be testable) with each change.
+    If these steps are done in oder then Lucky should continue to compile (& be usable/testable) with each change.
 
     ## Step 1 - Add i18n shard
 
@@ -62,7 +62,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     and for example additional ones as needed: i.e. German
     ```
-    # de.yml
+    # config/locales/de.yml
     de:
       auth:
         sign_in: Anmeldung
@@ -80,7 +80,7 @@ class Guides::Frontend::Internationalization < GuideAction
         modify_page: "Um diese Seite zu Ändern"
         after_signin: "Eine andere Seite nach anmelden"
     ```
-    
+
     **NOTE:** All lang yml files need all the same keys defined. I18n shard is pretty finicky and its error messages aren't very helpful _(expect a little frustation getting the ymls correct and debugged)._
 
     ## Step 3 - Configure i18n within Lucky
@@ -93,7 +93,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     ## Step 4 - Add 'lang' to users table
-    generate a migration with:
+
+    generate a migration using:
     ```
     lucky db.migration AddLanguageToUser
     ```
@@ -145,19 +146,20 @@ class Guides::Frontend::Internationalization < GuideAction
       getter lang : String
 
       DEFAULT_LANGUAGE = "en"
-      AVAILABLE_LANGUAGES = ["en", "de"] # TODO: autodect these
+      AVAILABLE_LANGUAGES = ["en", "de"]
 
       def initialize(user : User? = nil)
         @lang = user.try(&.lang) || DEFAULT_LANGUAGE
       end
 
-      def t(key : String)
-        I18n.t(key, @lang)
-      end
-
-      def t(key : String, count : Int32)
-        I18n.t(key, @lang, count)
-      end
+      # I don't think these are needed
+      # def t(key : String)
+      #   I18n.t(key, @lang)
+      # end
+      #
+      # def t(key : String, count : Int32)
+      #   I18n.t(key, @lang, count)
+      # end
     end
     ```
 
