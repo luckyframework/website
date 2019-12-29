@@ -167,7 +167,6 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     abstract class MainLayout
       # ...
-      needs current_user : User
       needs translator : Translator
       # ...
       def page_title
@@ -200,8 +199,7 @@ class Guides::Frontend::Internationalization < GuideAction
         #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         h3 "\#{I18n.t("me.email", @translator.lang)}:  \#{@current_user.email}"
         #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-        helpful_tips
+        # ...
       end
 
       private def helpful_tips
@@ -235,8 +233,7 @@ class Guides::Frontend::Internationalization < GuideAction
       end
 
       def render
-        html_doctype
-
+        # ...
         html lang: @translator.lang do
           #        ^^^^^^^^^^^^^^^^
           # ...
@@ -248,17 +245,16 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     # src/pages/password_reset_requests/new_page.cr
     class PasswordResetRequests::NewPage < AuthLayout
-      needs operation : RequestPasswordReset
-
+      # ...
       def content
         h1 I18n.t("auth.reset_pwd_request", @translator)
         #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        render_form(@operation)
+        # ...
       end
 
       private def render_form(op)
         form_for PasswordResetRequests::Create do
-          mount Shared::Field.new(op.email), &.email_input
+          # ...
           submit I18n.t("auth.reset_pwd_request", @translator), flow_id: "request-password-reset-button"
           #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
@@ -289,8 +285,7 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     # src/pages/sign_ins/new_page.cr
     class SignIns::NewPage < AuthLayout
-      needs operation : SignInUser
-
+      # ...
       def content
         h1 I18n.t("auth.sign_in", @translator)
         #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -316,19 +311,17 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
     # src/pages/sign_ups/new_page.cr
     class SignUps::NewPage < AuthLayout
-      needs operation : SignUpUser
-
+      # ...
       def content
         h1 I18n.t("auth.sign_up", @translator)
         #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        render_sign_up_form(@operation)
+        # ...
       end
 
       private def render_sign_up_form(op)
         form_for SignUps::Create do
-          sign_up_fields(op)
+          # ...
           submit I18n.t("auth.sign_up", @translator), flow_id: "sign-up-button"
-          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
         link I18n.t("auth.sign_in", @translator), to: SignIns::New
         #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
