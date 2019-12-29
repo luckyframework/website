@@ -40,7 +40,7 @@ class Guides::Frontend::Internationalization < GuideAction
     mkdir config/locales
     ```
 
-    then add a localization
+    then add at least one localization: i.e. English
     ```
     # config/locales/en.yml
     en:
@@ -55,10 +55,33 @@ class Guides::Frontend::Internationalization < GuideAction
         email: E-Mail
         profile: Profile
         next: "Next, you may want to"
-        auth_guides: "Check out the authentication guides"
+        auth_guides: "Check out the Authentication Guides"
         modify_page: "Modify this page"
         after_signin: "Change where you go after sign in"
     ```
+
+    and for example additional ones as needed: i.e. German
+    ```
+    # de.yml
+    de:
+      auth:
+        sign_in: Anmeldung
+        sign_up: Anmelden
+        sign_out: Abmelden
+        update_pwd: "Kennwort aktualisieren"
+        reset_pwd_request: "Kennwort zurücksetzen"
+      default:
+        page_title: Wilkommen
+      me:
+        email: Mail
+        profile: Profil
+        next: "Zunächst bitte kontrolliere"
+        auth_guides: "Bitte kontrolliere die 'Authentication Guides'"
+        modify_page: "Um diese Seite zu Ändern"
+        after_signin: "Eine andere Seite nach anmelden"
+    ```
+    
+    **NOTE:** All lang yml files need all the same keys defined. I18n shard is pretty finicky and its error messages aren't very helpful _(expect a little frustation getting the ymls correct and debugged)._
 
     ## Step 3 - Configure i18n within Lucky
     ```
@@ -81,7 +104,7 @@ class Guides::Frontend::Internationalization < GuideAction
     class AddLanguageToUser::V20191228100116 < Avram::Migrator::Migration::V1
       def migrate
         alter table_for(User) do
-          add lang : String, default: "en"
+          add lang : String, default: "en"  # the appropriate default lang key
         end
       end
 
@@ -101,54 +124,31 @@ class Guides::Frontend::Internationalization < GuideAction
     ## Step 5 - Add lang column to User model
     ```
     # src/models/user.cr
+    class User < BaseModel
+      # ...
       table do
         column lang : String
-        column email : String
-        column encrypted_password : String
-       end
-    ```
-
-    ## Step 6 - Validate user language choice
-
-    TODO: autodect and autocreate the language list based on the config/locales yml files.
-    ```
-    # src/operations/sign_up_user.cr
-    class SignUpUser < User::SaveOperation
-      param_key :user
-      # Change password validations in src/operations/mixins/password_validations.cr
-      include PasswordValidations
-
-      permit_columns email
-      attribute password : String
-      attribute password_confirmation : String
-
-      before_save do
-        validate_uniqueness_of email
-        validate_inclusion_of lang, in: ["en"] # or whatever ymls exist ["en", "de", "fr", "it"]
-        Authentic.copy_and_encrypt password, to: encrypted_password
+        # ...
       end
+      # ...
     end
     ```
 
-    ## Step 7 - Add language to signup form
+    ## Step 6 - Create a Translator class
 
-    TODO: use the same list found in validations (shared constant?)
-    ```
-    # comming soon - when I figure out dropdowns
-    ```
+    TODO: finalize the best approach & ideally be ready to capture any Frontend JS overrides
+    TODO: autodect and autocreate the language list based on the config/locales yml files.
 
-    ## Step 8 - Create a Translator class
-
-    _or module or whatever we decide_
-
-    TODO: frontend JS should eventually also be capture and override the user stored preference
     ```
     # src/components/translator.cr
     class Translator
       getter lang : String
 
+      DEFAULT_LANGUAGE = "en"
+      AVAILABLE_LANGUAGES = ["en", "de"] # TODO: autodect these
+
       def initialize(user : User? = nil)
-        @lang = user.try(&.lang) || "en"
+        @lang = user.try(&.lang) || DEFAULT_LANGUAGE
       end
 
       def t(key : String)
@@ -161,9 +161,33 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
+    ## Step 7 - Validate user language choice
+
+    ```
+    # src/operations/sign_up_user.cr
+    class SignUpUser < User::SaveOperation
+      # ...
+      before_save do
+        # ...
+        validate_inclusion_of lang, in: Translator::AVAILABLE_LANGUAGES
+        # ...
+      end
+    end
+    ```
+
+    ## Step 8 - Add language to signup form
+
+    TODO: use the same list found in validations (shared constant?)
+    ```
+    # comming soon - when I figure out dropdowns
+    ```
+
+
     ## Step 8 - Internationalize pages
 
-    Basic idea: everywhere there is static text it needs to be replaced with: `I18n.t("default.page_name", @translator.lang)` -- and of course the key needs to be in all the yml files (I18n - ia pretty finicky and its error messages aren't very helpful)
+    Basic ideas:
+    - every abstract class needs the Translator (i.e. MainLayout and AuthLayout)
+    - everywhere there is static text (in a concrete or abstract layout) translations can be added with: `I18n.t("default.page_name", @translator.lang)`
     ```
     abstract class MainLayout
       # ...
@@ -171,14 +195,12 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       def page_title
         I18n.t("default.page_name", @translator.lang)
-        #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
 
       def render
         html_doctype
 
         html lang: @translator.lang do
-          #        ^^^^^^^^^^^^^^^^
           # ...
         end
       end
@@ -186,37 +208,6 @@ class Guides::Frontend::Internationalization < GuideAction
       private def render_signed_in_user
         # ...
         link I18n.t("auth.sign_out", @translator.lang), to: SignIns::Delete, flow_id: "sign-out-button"
-        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      end
-    end
-    ```
-
-    ```
-    # src/pages/me/show_page.cr
-    class Me::ShowPage < MainLayout
-      def content
-        h1 I18n.t("me.profile", @translator.lang)
-        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        h3 "\#{I18n.t("me.email", @translator.lang)}:  \#{@current_user.email}"
-        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        # ...
-      end
-
-      private def helpful_tips
-        h3 "\#{I18n.t("me.next")}:"
-        #    ^^^^^^^^^^^^^^^^^^^^^^
-        ul do
-          li { link_to_authentication_guides }
-          li "\#{I18n.t("me.modify_page", @translator.lang)}: src/pages/me/show_page.cr"
-          #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-          li "\#{I18n.t("me.after_signin", @translator.lang)}: src/actions/home/index.cr"
-          #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        end
-      end
-
-      private def link_to_authentication_guides
-        link I18n.t("me.auth_guides", @translator.lang), to: "https://luckyframework.org/guides/authentication"
-        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
     end
     ```
@@ -229,15 +220,37 @@ class Guides::Frontend::Internationalization < GuideAction
 
       def page_title
         I18n.t("default.page_name", @translator.lang)
-        #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
 
       def render
         # ...
         html lang: @translator.lang do
-          #        ^^^^^^^^^^^^^^^^
           # ...
         end
+      end
+    end
+    ```
+
+    ```
+    # src/pages/me/show_page.cr
+    class Me::ShowPage < MainLayout
+      def content
+        h1 I18n.t("me.profile", @translator.lang)
+        h3 "\#{I18n.t("me.email", @translator.lang)}:  \#{@current_user.email}"
+        # ...
+      end
+
+      private def helpful_tips
+        h3 "\#{I18n.t("me.next", @translator.lang)}:"
+        ul do
+          # ...
+          li "\#{I18n.t("me.modify_page", @translator.lang)}: src/pages/me/show_page.cr"
+          li "\#{I18n.t("me.after_signin", @translator.lang)}: src/actions/home/index.cr"
+        end
+      end
+
+      private def link_to_authentication_guides
+        link I18n.t("me.auth_guides", @translator.lang), to: "https://luckyframework.org/guides/authentication"
       end
     end
     ```
@@ -248,7 +261,6 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       def content
         h1 I18n.t("auth.reset_pwd_request", @translator)
-        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         # ...
       end
 
@@ -256,7 +268,6 @@ class Guides::Frontend::Internationalization < GuideAction
         form_for PasswordResetRequests::Create do
           # ...
           submit I18n.t("auth.reset_pwd_request", @translator), flow_id: "request-password-reset-button"
-          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
       end
     end
@@ -268,7 +279,6 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       def content
         h1 I18n.t("auth.update_pwd", @translator)
-        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         render_password_reset_form(@operation)
       end
 
@@ -276,7 +286,6 @@ class Guides::Frontend::Internationalization < GuideAction
         form_for PasswordResets::Create.with(@user_id) do
           # ...
           submit I18n.t("auth.update_pwd", @translator), flow_id: "update-password-button"
-          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
       end
     end
@@ -288,21 +297,17 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       def content
         h1 I18n.t("auth.sign_in", @translator)
-        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        render_sign_in_form(@operation)
+        # ...
       end
 
       private def render_sign_in_form(op)
         form_for SignIns::Create do
-          sign_in_fields(op)
+          # ...
           submit I18n.t("auth.sign_in", @translator), flow_id: "sign-in-button"
-          #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         end
         link I18n.t("auth.reset_pwd_request", @translator), to: PasswordResetRequests::New
-        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         text " | "
         link I18n.t("auth.sign_up", @translator), to: SignUps::New
-        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
       # ...
     end
@@ -314,7 +319,6 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       def content
         h1 I18n.t("auth.sign_up", @translator)
-        #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         # ...
       end
 
@@ -324,7 +328,6 @@ class Guides::Frontend::Internationalization < GuideAction
           submit I18n.t("auth.sign_up", @translator), flow_id: "sign-up-button"
         end
         link I18n.t("auth.sign_in", @translator), to: SignIns::New
-        #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       end
       # ...
     end
