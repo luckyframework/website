@@ -270,12 +270,9 @@ class Guides::Frontend::Internationalization < GuideAction
     abstract class MainLayout
       include Translator
       # ...
-      # 'needs current_user : User' makes it so that the current_user
-      # is always required for pages using MainLayout
       needs current_user : User
-
-      # we also have to make @current_user available as current_user
-      quick_def current_user, @current_user
+      # make @current_user available as current_user
+      getter current_user
       # ...
       def page_title
         t("default.page_name")
