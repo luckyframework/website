@@ -40,15 +40,26 @@ class Guides::Frontend::Internationalization < GuideAction
     mkdir config/locales
     ```
 
-    then add at least one localization: i.e. English
+    then add at least one localization: i.e. English (here is a list of the fixed text - excluding the ones missed)
     ```
     # config/locales/en.yml
     en:
       action:
-        form_error: "It looks like the form is not valid"
         save_success: "The record has been saved"
         update_success: "The record has been updated"
         delete_success: "Deleted the record"
+        index_title: "All Records"
+        create_new: "New Record"
+        new: New
+        edit: Edit
+        delete: Delete
+        confirm: "Are you sure?"
+        update: Update
+        updating: "Updating..."
+        save: Save
+        saving: "Saving..."
+        back: Back
+        back_to_index: "Back to All"
       auth:
         sign_in: "Sign In"
         sign_in_success: "You're now signed in"
@@ -59,7 +70,8 @@ class Guides::Frontend::Internationalization < GuideAction
         signed_out: "You have been signed out"
         pwd_update: "Update Password"
         pwd_update_success: "Your password has been reset"
-        pwd_reset_request: "Reset Password"
+        pwd_reset: "Password Reset"
+        pwd_reset_request: "Reset your Password"
         pwd_reset_req_success: "You should receive an email on how to reset your password shortly"
       auth_token:
         not_authenticated: "Not Authenticated."
@@ -67,51 +79,27 @@ class Guides::Frontend::Internationalization < GuideAction
         missing: "An authentication token is required. Please include a token in an 'auth_token' param or 'Authorization' header."
       default:
         page_name: Welcome
-      me:
+      error:
+        title: "Something went wrong"
+        try_home: "Try heading back to home"
+        locked_out: "Locked-out"
+        auth_incorrect: "is wrong"
+        form_not_valid: "It looks like the form is not valid"
+        not_in_system: "is not in our system"
+      user:
         email: E-Mail
         profile: Profile
         next: "Next, you may want to"
         auth_guides: "Check out the 'Authentication Guides'"
         modify_page: "Modify this page"
         after_signin: "Change where you go after sign in"
+        preferred_language: "Preferred Language"
     ```
 
-    and for example additional ones as needed: i.e. German
-    ```
-    # config/locales/de.yml
-    de:
-      action:
-        form_error: "Der Form ist Invalid"
-        save_success: "Speichern Erfolgreich"
-        update_success: "Update Erfolgreich"
-        delete_success: "Löschen Erfolgreich"
-      auth:
-        sign_in: Anmeldung
-        sign_in_success: "Erfolgreiche Anmeldung"
-        sign_in_failure: "Fehlerhafte Anmeldung"
-        sign_up: Anmelden
-        sign_out: Abmelden
-        signed_out: "Sie sind Abgemeldet"
-        pwd_update: "Kennwort aktualisieren"
-        pwd_update_success: "Ihr Kennwort ist aktualisiert"
-        pwd_reset_request: "Kennwort zurücksetzen"
-        pwd_reset_req_success: "Ein Mail mit hinweisen um Ihr Kennwort zurücksetzen soll bald ankommen"
-      auth_token:
-        not_authenticated: "Nicht Authentifiziert."
-        invalid: "Der Authentifizierungtoken ist nicht Gültig."
-        missing: "Ein Authentifizierungtoken ist gezwungen. Gebe der Token im 'auth_token' param or 'Authorization' header."
-      default:
-        page_title: Wilkommen
-      me:
-        email: Mail
-        profile: Profil
-        next: "Zunächst bitte kontrolliere"
-        auth_guides: "Bitte kontrolliere die 'Authentication Guides'"
-        modify_page: "Um diese Seite zu Ändern"
-        after_signin: "Eine andere Seite nach anmelden"
-    ```
+    - add additional langauges as needed in the same folder.
+    - i18n is very unforgiving with yml files and the error messages aren't helpful.  If you have problem - be sure to use an online yml validator,
 
-    **NOTE:** All lang yml files need all the same keys defined. I18n shard is pretty finicky and its error messages aren't very helpful _(expect a little frustation getting the ymls correct and debugged)._
+    **NOTE:** All lang yml files need all the same keys defined!
 
     ## Step 2 - Configure i18n within Lucky
     ```
@@ -207,8 +195,8 @@ class Guides::Frontend::Internationalization < GuideAction
     - add translations, i.e.: email.add_error t("error.not_our_system")
 
     Also necessary for sign_up_user operation:
-    - update permitted columns
-    - update validations
+    - update permitted columns (required for the signup form)
+    - update validations (will prevent run-time crashes)
 
     ```
     # src/operations/sign_up_user.cr
@@ -234,41 +222,9 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/operations/sign_up_user.cr
     ```
 
-    ## Step 7 - Add language to signup page
+    ## Step 7 - Internationalize Templates
 
-    TODO: use the same list found in validations (shared constant?)
-    ```
-    # src/pages/sign_ups/new_page.cr
-    class SignUps::NewPage < AuthLayout
-      include Lucky::SelectHelpers
-      needs operation : SignUpUser
-
-      def content
-        h1 "Sign Up"
-        render_sign_up_form(@operation)
-      end
-
-      private def render_sign_up_form(op)
-        form_for SignUps::Create do
-          sign_up_fields(op)
-          submit "Sign Up", flow_id: "sign-up-button"
-        end
-        link "Sign in instead", to: SignIns::New
-      end
-
-      private def sign_up_fields(op)
-        mount Shared::Field.new(op.email), &.email_input(autofocus: "true")
-        label_for op.lang, t("user.preferred_language")
-        select_input(op.lang) do
-          options_for_select(op.lang, LANGUAGES_SELECTOR_LIST)
-        end
-        mount Shared::Field.new(op.password), &.password_input
-        mount Shared::Field.new(op.password_confirmation), &.password_input
-      end
-    end
-    ```
-
-    ## Step 8 - Internationalize Page Displays
+    This is required before doing the `concrete classes`
 
     Basic ideas:
     - every Layout (abstract class) needs the Translator included.
@@ -338,8 +294,16 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
+    ## Step 8 - Internationalize Pages
 
-    **IMPORTANT:** update signup form _(you'll need to style the select to your tastes!)_
+    **IMPORTANT:** start with and test the signup page so that users can choose the language of their choice
+
+    Basic Idea:
+    - add translations
+    - add dropdown menu of language choices
+    - this step requires `permit_columns` in `src/operations/sign_up_user.cr`
+
+    **You'll need to style the select to your tastes - the default is UGLY!**
     ```
     # src/pages/sign_ups/new_page.cr
     class SignUps::NewPage < AuthLayout
@@ -367,7 +331,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Since the following pages inherrit from MainLayout or AuthLayout - no more `require`s and `include`s are needed, just replace the fixed text with translations.
+    Here is a more complex example of combining messages with other text info (urls).
     ```
     # src/pages/me/show_page.cr
     class Me::ShowPage < MainLayout
@@ -392,7 +356,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Follow the same logic in the following additional files:
+    Follow the same logic for the following files (as desired):
     ```
     # src/pages/password_reset_requests/new_page.cr
     # src/pages/password_resets/new_page.cr
@@ -400,7 +364,7 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/pages/errors/show_page.cr
     ```
 
-    ## Step 9 - Internationalize Flash Messages
+    ## Step 9 - Internationalize Flash Messages & Actions
 
     ```
     # src/actions/browser_action.cr
