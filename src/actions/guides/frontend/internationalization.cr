@@ -11,6 +11,16 @@ class Guides::Frontend::Internationalization < GuideAction
 
     If these steps are done in oder then Lucky should continue to compile (& be usable/testable) with each change.
 
+    **Summary:**
+    After configuration you can apply translations using either:
+    ```
+    # simplest (requires user_lang or current_user to be defined)
+    t("tranlation.key.values")
+
+    # or where ever current user is available
+    I18n.t("tranlation.key.values", current_user.lang)
+    ```
+
     ## Step 1 - Add i18n shard
 
     ```
@@ -20,7 +30,7 @@ class Guides::Frontend::Internationalization < GuideAction
         version: ~> 0.1.1
     ```
 
-    add to the end of `shards.cr` file with the new requirements
+    Add to the end of `shards.cr` file with the new requirements
     ```
     # shards.cr
     # ...
@@ -40,7 +50,7 @@ class Guides::Frontend::Internationalization < GuideAction
     mkdir config/locales
     ```
 
-    then add at least one localization: i.e. English (here is a list of the fixed text - excluding the ones missed)
+    Then add at least one localization: i.e. English (here is a list of the fixed text - excluding the ones missed)
     ```
     # config/locales/en.yml
     en:
@@ -96,10 +106,8 @@ class Guides::Frontend::Internationalization < GuideAction
         preferred_language: "Preferred Language"
     ```
 
-    - add additional langauges as needed in the same folder.
-    - i18n is very unforgiving with yml files and the error messages aren't helpful.  If you have problem - be sure to use an online yml validator,
-
-    **NOTE:** All lang yml files need all the same keys defined!
+    > Add additional langauges as needed in the same folder.
+    > Be sure that all lang yml files contain the same keys. If there's no translation for that key, just leave the value blank.
 
     ## Step 3 - Configure i18n within Lucky
     ```
@@ -112,7 +120,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 4 - Add 'lang' to users table
 
-    generate a migration using:
+    Generate a migration using:
     ```
     lucky db.migration AddLanguageToUser
     ```
@@ -135,7 +143,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    and of course migrate
+    Of course migrate
     ```
     lucky db.migrate
     ```
@@ -186,15 +194,15 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 7 - Update Operations
 
-    **IMPORTANT:** - `src/operations/sign_up_user.cr` must be updated -- it needs:
-    - update permitted columns (required for the signup form)
-    - update validations (will prevent run-time crashes)
-
     All Operation Files with translations need:
-    - add `require "../translator"` at the top of the file when needed for operations
-    - add `include Translator` to the class
-    - add `quick_def user_lang`, LANGUAGE_DEFAULT for the failure error messages (ok since happy path messages are handled in other paths)
-    - add translations, i.e.: email.add_error t("error.not_our_system")
+    - Add `require "../translator"` at the top of the file when needed for operations
+    - Add `include Translator` to the class
+    - Add `quick_def user_lang`, LANGUAGE_DEFAULT for the failure error messages (ok since happy path messages are handled in other paths)
+    - Add translations
+
+    > Additionally SignUp Save Opoeration needs:
+    - Update permitted columns (required for the signup form)
+    - Update validations (will prevent run-time crashes)
 
     ```
     # src/operations/sign_up_user.cr
@@ -213,7 +221,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    sign_in user also needs to cover the case where the login fails (no current_user)
+    Sign_in user also needs to cover the case where the login fails (no current_user)
     ```
     # src/operations/sign_in_user.cr
     require "../translator"
@@ -221,8 +229,7 @@ class Guides::Frontend::Internationalization < GuideAction
     class SignInUser < Avram::Operation
       # ...
       include Translator
-
-      # given these classes inheret from Avram::Operation - I these defaults will be reset in other operations
+      # no user is available before the user signs-in - so `user_lang` must be defined
       quick_def user_lang, LANGUAGE_DEFAULT
       # ...
       private def validate_credentials(user)
@@ -238,7 +245,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    the following other operations can be updated for consistency:
+    The following other operations can be updated for consistency:
     ```
     # src/operations/request_password_reset.cr
     require "../translator"
@@ -261,12 +268,11 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 8 - Internationalize Templates
 
-    **REQUIRED:** before updating the `concrete page classes`
-
     Basic ideas:
-    - every Layout (abstract class) needs the Translator included.
-    - everywhere there is static text a translations can be added with: `t("primary_key.sub_key")` - keys can be nested arbritrarily deep.
+    - Every Layout (abstract class) needs the `include Translator`
+    - Everywhere there is static text a translations can be added
     ```
+    # src/pages/main_layout.cr
     abstract class MainLayout
       include Translator
       # ...
@@ -292,8 +298,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    AuthLayout needs updates.
-    TODO: figure out how to allow Frontend choice affect Auth Pages
+    AuthLayout needs updates and user_lang defined (since no user is available yet)
     ```
     # src/pages/auth_layout.cr
     abstract class AuthLayout
@@ -315,7 +320,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Error Show Page is a good idea too.
+    Error Show Page also additinally needs user_lang defined.
     ```
     # src/pages/errors/show_page.cr
     class Errors::ShowPage
@@ -339,14 +344,11 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 9 - Update Sign-up Form
 
-    **IMPORTANT:** start with and test the signup page so that users can choose the language of their choice
-
     Basic Idea:
-    - add translations
-    - add dropdown menu of language choices
-    - this step requires `permit_columns` in `src/operations/sign_up_user.cr`
+    - Add translations
+    - Add language choices to the sign-up form
 
-    **You'll need to style the select to your tastes - the default is UGLY!**
+    > You'll need to style the select to your tastes.
     ```
     # src/pages/sign_ups/new_page.cr
     class SignUps::NewPage < AuthLayout
@@ -377,7 +379,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 10 - Internationalize Pages
 
-    Here is a more complex example of combining messages with other text info (urls).
+    Add translations to the pages.
     ```
     # src/pages/me/show_page.cr
     class Me::ShowPage < MainLayout
@@ -412,6 +414,8 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 11 - Internationalize Actions
 
+    Add `include Translator` to the abstract class BrowserAction
+
     ```
     # src/actions/browser_action.cr
     abstract class BrowserAction < Lucky::Action
@@ -420,7 +424,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    now in actions you can use translations in actions:
+    Now in actions you can add translations to actions (and in cases where users may not be available - define `user_lang`)
     ```
     # src/actions/sign_ins/create.cr
     class SignIns::Create < BrowserAction
@@ -430,8 +434,8 @@ class Guides::Frontend::Internationalization < GuideAction
             flash.success = t("auth.success")
             # ...
           else
-            # might be needed when user auth fails - but compiles without
-            # user_lang = LANGUAGE_DEFAULT
+            # may be needed when user auth fails
+            user_lang = LANGUAGE_DEFAULT
             flash.failure = t("auth.failure")
             # ...
           end
@@ -439,7 +443,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    # more testing needed, but just in case put the translation before signout at logout
+    And the delete (sign-out)
     ```
     # src/actions/sign_ins/delete.cr
     class SignIns::Delete < BrowserAction
@@ -503,8 +507,6 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
     end
     ```
-
-    _Thanks to @paulcsmith & @bdtomlin and others for helping and guiding this document._
     MD
   end
 end
