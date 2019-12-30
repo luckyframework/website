@@ -412,7 +412,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 11 - Internationalize Actions
 
-    Add `include Translator` to the abstract class BrowserAction
+    Add `include Translator` to the abstract class BrowserAction - this allows translations in flash messages too.
 
     ```
     # src/actions/browser_action.cr
@@ -422,7 +422,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Now in actions you can add translations to actions (and in cases where users may not be available - define `user_lang`)
+    In these next two classes (Actions) there are cases where the user context may not be available - so assign `user_lang` to the `LANGUAGE_DEFAULT`)
     ```
     # src/actions/sign_ins/create.cr
     class SignIns::Create < BrowserAction
@@ -441,23 +441,9 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    And the delete (sign-out)
-    ```
-    # src/actions/sign_ins/delete.cr
-    class SignIns::Delete < BrowserAction
-      delete "/sign_out" do
-        # assign the flash before loosing the current_user
-        flash.info = t("auth.signed_out")
-        sign_out
-        redirect to: SignIns::New
-      end
-    end
-    ```
-
-    Follow the same logic in the following files:
+    And the same here.
     ```
     # src/actions/sign_ups/create.cr
-    ```
     class SignUps::Create < BrowserAction
       # ...
       route do
@@ -474,7 +460,21 @@ class Guides::Frontend::Internationalization < GuideAction
       end
     end
     ```
-    These files have translations but have no special notes
+
+    With SignIns::Delete (Sign-out) - put the flash assignment first so it has the user conext before the user session is gone.
+    ```
+    # src/actions/sign_ins/delete.cr
+    class SignIns::Delete < BrowserAction
+      delete "/sign_out" do
+        # assign the flash before loosing the current_user
+        flash.info = t("auth.signed_out")
+        sign_out
+        redirect to: SignIns::New
+      end
+    end
+    ```
+
+    Follow the same logic in these files:
     ```
     # src/actions/password_resets/create.cr
     # src/actions/password_reset_requests/create.cr
