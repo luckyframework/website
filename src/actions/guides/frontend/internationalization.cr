@@ -185,17 +185,21 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Add this module to the `src/app.cr` so its available to Lucky files (except operations - so operations files need the `require` command)
+    Add this module to the `src/app.cr` so its available to Lucky files.  Put this at the top of the file to be sure it is available to all aspect of Lucky!
     ```
     # src/app.cr
+    require "./shards"
+
+    # Load the asset manifest in public/mix-manifest.json
+    Lucky::AssetHelpers.load_manifest
+
+    require "./translator"
     # ...
-    require "./translate"
     ```
 
     ## Step 7 - Update Operations
 
     All Operation Files with translations need:
-    - Add `require "../translator"` at the top of the file when needed for operations
     - Add `include Translator` to the class
     - Add `quick_def user_lang`, LANGUAGE_DEFAULT for the failure error messages (ok since happy path messages are handled in other paths)
     - Add translations
@@ -206,8 +210,6 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ```
     # src/operations/sign_up_user.cr
-    require "../translator"
-
     class SignUpUser < User::SaveOperation
       include Translator
       # ...
@@ -224,8 +226,6 @@ class Guides::Frontend::Internationalization < GuideAction
     Sign_in user also needs to cover the case where the login fails (no current_user)
     ```
     # src/operations/sign_in_user.cr
-    require "../translator"
-
     class SignInUser < Avram::Operation
       # ...
       include Translator
@@ -248,8 +248,6 @@ class Guides::Frontend::Internationalization < GuideAction
     The following other operations can be updated for consistency:
     ```
     # src/operations/request_password_reset.cr
-    require "../translator"
-
     class RequestPasswordReset < Avram::Operation
       # ...
       include Translator
