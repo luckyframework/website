@@ -20,7 +20,7 @@ class Guides::Frontend::Internationalization < GuideAction
         version: ~> 0.1.1
     ```
 
-    add to the end of `shards.cr` file with the new requirements
+    Add to the end of `shards.cr` file with the new requirements
     ```
     # shards.cr
     # ...
@@ -28,19 +28,19 @@ class Guides::Frontend::Internationalization < GuideAction
     require "i18n/backends/yaml"
     ```
 
-    and of course install the shard
+    Install the shard
     ```
     shards install
     ```
 
     ## Step 2 - Add localization ymls
 
-    first make a locales folder:
+    Make a locales folder:
     ```
     mkdir config/locales
     ```
 
-    then add at least one localization: i.e. English
+    Add at least one localization: i.e. English
     ```
     # config/locales/en.yml
     en:
@@ -60,7 +60,7 @@ class Guides::Frontend::Internationalization < GuideAction
         after_signin: "Change where you go after sign in"
     ```
 
-    and for example additional ones as needed: i.e. German
+    Add additional languages as needed: i.e. German, etc.
     ```
     # config/locales/de.yml
     de:
@@ -81,7 +81,7 @@ class Guides::Frontend::Internationalization < GuideAction
         after_signin: "Eine andere Seite nach anmelden"
     ```
 
-    **NOTE:** All lang yml files need all the same keys defined. I18n shard is pretty finicky and its error messages aren't very helpful _(expect a little frustation getting the ymls correct and debugged)._
+    > Be sure that all lang yml files contain the same keys. If there's no translation for that key, just leave the value blank.
 
     ## Step 3 - Configure i18n within Lucky
     ```
@@ -94,12 +94,12 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 4 - Add 'lang' to users table
 
-    generate a migration using:
+    Generate a migration using:
     ```
     lucky db.migration AddLanguageToUser
     ```
 
-    edit the file to look like (of course, the number will vary):
+    Edit the file to look like (of course, the number will vary):
     ```
     # db/migrations/20191228100116_add_language_to_user.cr
     class AddLanguageToUser::V20191228100116 < Avram::Migrator::Migration::V1
@@ -117,7 +117,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    and of course migrate
+    And migrate
     ```
     lucky db.migrate
     ```
@@ -137,9 +137,6 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 6 - Create a Translator class
 
-    TODO: finalize the best approach & ideally be ready to capture any Frontend JS overrides
-    TODO: autodect and autocreate the language list based on the config/locales yml files.
-
     ```
     # src/components/translator.cr
     class Translator
@@ -147,31 +144,36 @@ class Guides::Frontend::Internationalization < GuideAction
 
       DEFAULT_LANGUAGE = "en"
       AVAILABLE_LANGUAGES = ["en", "de"]
+      LANGUAGES_SELECTOR_LIST = [{"English", "en"}, {"Deutsch", "de"}]
 
       def initialize(user : User? = nil)
         @lang = user.try(&.lang) || DEFAULT_LANGUAGE
       end
 
-      # I don't think these are needed
-      # def t(key : String)
-      #   I18n.t(key, @lang)
-      # end
-      #
-      # def t(key : String, count : Int32)
-      #   I18n.t(key, @lang, count)
-      # end
+      def t(key : String)
+        I18n.t(key, @lang)
+      end
+
+      def t(key : String, count : Int32)
+        I18n.t(key, @lang, count)
+      end
     end
     ```
 
-    ## Step 7 - Validate user language choice
+    ## Step 7 - Update Operations
+
+    Add `lang` to `permit_columns`
+    Add a validation for `lang` to prevent errors
 
     ```
     # src/operations/sign_up_user.cr
     class SignUpUser < User::SaveOperation
       # ...
+      permit_columns email, lang
+      # ...
       before_save do
         # ...
-        validate_inclusion_of lang, in: Translator::AVAILABLE_LANGUAGES
+        validate_inclusion_of lang, in: LANGUAGES_AVAILABLE
         # ...
       end
     end
@@ -179,11 +181,31 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 8 - Add language to signup form
 
-    TODO: use the same list found in validations (shared constant?)
     ```
-    # comming soon - when I figure out dropdowns
-    ```
+    class SignUps::NewPage < AuthLayout
+      # ...
+      def content
+        h1 t("auth.sign_up")
+        # ...
+      end
 
+      private def render_sign_up_form(op)
+        form_for SignUps::Create do
+          # ...
+          submit t("auth.sign_up"), flow_id: "sign-up-button"
+        end
+        link t("auth.sign_in"), to: SignIns::New
+      end
+
+      private def sign_up_fields(op)
+        label_for op.lang, t("user.preferred_language")
+        select_input(op.lang) do
+          options_for_select(op.lang, LANGUAGES_SELECTOR_LIST)
+        end
+        # ...
+      end
+    end
+    ```
 
     ## Step 8 - Internationalize pages
 
@@ -200,8 +222,7 @@ class Guides::Frontend::Internationalization < GuideAction
       end
 
       def render
-        html_doctype
-
+        # ...
         html lang: @translator.lang do
           # ...
         end
@@ -334,8 +355,6 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
     end
     ```
-
-    _Thanks to @paulcsmith & @bdtomlin and others for helping and guiding this document._
     MD
   end
 end
