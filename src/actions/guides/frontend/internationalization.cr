@@ -9,6 +9,16 @@ class Guides::Frontend::Internationalization < GuideAction
     <<-MD
     **Working with multiple languages**
 
+    **Summary**
+    After configuration translations can be added with:
+    ```
+    @translator.t("default.page_name")
+    # or
+    I18n.t("default.page_name", @translator.lang)
+    # or
+    I18n.t("default.page_name", current_user.lang)
+    ```
+
     If these steps are done in oder then Lucky should continue to compile (& be usable/testable) with each change.
 
     ## Step 1 - Add i18n shard
@@ -207,11 +217,9 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 8 - Internationalize pages
+    ## Step 9 - Internationalize Layout Pages
 
-    Basic ideas:
-    - every abstract class needs the Translator (i.e. MainLayout and AuthLayout)
-    - everywhere there is static text (in a concrete or abstract layout) translations can be added with: `I18n.t("default.page_name", @translator.lang)`
+    - Every abstract class needs the Translator (i.e. MainLayout and AuthLayout)
     ```
     abstract class MainLayout
       # ...
@@ -253,6 +261,10 @@ class Guides::Frontend::Internationalization < GuideAction
       end
     end
     ```
+
+    ## Step 10 - Internationalize pages
+
+    - Everywhere there is static text translations can be added.
 
     ```
     # src/pages/me/show_page.cr
