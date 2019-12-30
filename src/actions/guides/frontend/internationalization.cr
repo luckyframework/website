@@ -17,6 +17,10 @@ class Guides::Frontend::Internationalization < GuideAction
     I18n.t("default.page_name", @translator.lang)
     # or
     I18n.t("default.page_name", current_user.lang)
+    # or
+    I18n.t("default.page_name", Translator::DEFAULT_LANGUAGE)
+    # or
+    Translator.t("default.page_name", Translator::DEFAULT_LANGUAGE)
     ```
 
     If these steps are done in oder then Lucky should continue to compile (& be usable/testable) with each change.
@@ -53,43 +57,61 @@ class Guides::Frontend::Internationalization < GuideAction
     Add at least one localization: i.e. English
     ```
     # config/locales/en.yml
+    # config/locales/en.yml
     en:
+      action:
+        save_success: "The record has been saved"
+        update_success: "The record has been updated"
+        delete_success: "Deleted the record"
+        index_title: "All Records"
+        create_new: "New Record"
+        new: New
+        edit: Edit
+        delete: Delete
+        confirm: "Are you sure?"
+        update: Update
+        updating: "Updating..."
+        save: Save
+        saving: "Saving..."
+        back: Back
+        back_to_index: "Back to All"
       auth:
-        sign_in: "Sign-In"
-        sign_up: "Sign-up"
-        update_pwd: "Update Password"
-        reset_pwd_request: "Reset Password"
+        sign_in: "Sign In"
+        sign_in_success: "You're now signed in"
+        sign_in_failure: "Sign in failed"
+        sign_up: "Sign up"
+        sign_up_success: "Thanks for signing up"
+        sign_up_failure: "Couldn't sign you up"
+        signed_out: "You have been signed out"
+        pwd_update: "Update Password"
+        pwd_update_success: "Your password has been reset"
+        pwd_reset: "Password Reset"
+        pwd_reset_request: "Reset your Password"
+        pwd_reset_req_success: "You should receive an email on how to reset your password shortly"
+      auth_token:
+        not_authenticated: "Not Authenticated."
+        invalid: "The provided authentication token was incorrect."
+        missing: "An authentication token is required. Please include a token in an 'auth_token' param or 'Authorization' header."
       default:
         page_name: Welcome
-      me:
+      error:
+        title: "Something went wrong"
+        try_home: "Try heading back to home"
+        locked_out: "Locked-out"
+        auth_incorrect: "is wrong"
+        form_not_valid: "It looks like the form is not valid"
+        not_in_system: "is not in our system"
+      user:
         email: E-Mail
         profile: Profile
         next: "Next, you may want to"
-        auth_guides: "Check out the Authentication Guides"
+        auth_guides: "Check out the 'Authentication Guides'"
         modify_page: "Modify this page"
         after_signin: "Change where you go after sign in"
+        preferred_language: "Preferred Language"
     ```
 
     Add additional languages as needed: i.e. German, etc.
-    ```
-    # config/locales/de.yml
-    de:
-      auth:
-        sign_in: Anmeldung
-        sign_up: Anmelden
-        sign_out: Abmelden
-        update_pwd: "Kennwort aktualisieren"
-        reset_pwd_request: "Kennwort zurücksetzen"
-      default:
-        page_title: Wilkommen
-      me:
-        email: Mail
-        profile: Profil
-        next: "Zunächst bitte kontrolliere"
-        auth_guides: "Bitte kontrolliere die 'Authentication Guides'"
-        modify_page: "Um diese Seite zu Ändern"
-        after_signin: "Eine andere Seite nach anmelden"
-    ```
 
     > Be sure that all lang yml files contain the same keys. If there's no translation for that key, just leave the value blank.
 
@@ -172,8 +194,13 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 7 - Update Operations
 
-    Add `lang` to `permit_columns`
-    Add a validation for `lang` to prevent errors
+    All Operation Files with translations need:
+    - add `require "../components/translator"` at the top of the file when needed for operations
+    - add translations
+
+    SignUpUser also need the folowing:
+    - Add `lang` to `permit_columns`
+    - Add a validation for `lang` to prevent errors
 
     ```
     # src/operations/sign_up_user.cr
@@ -189,9 +216,92 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 8 - Add language to signup form
+    SignInUser has translations without a user
+    ```
+    # src/operations/sign_in_user.cr
+    require "../components/translator"
+
+    class SignInUser < Avram::Operation
+      # ...
+      private def validate_credentials(user)
+        if user
+          unless Authentic.correct_password?(user, password.value.to_s)
+            password.add_error I18n.t("error.auth_incorrect", Translator::DEFAULT_LANGUAGE)
+          end
+        else
+          # ...
+          email.add_error I18n.t("error.not_in_system", Translator::DEFAULT_LANGUAGE)
+        end
+      end
+    end
+    ```
+
+    Similarly RequestPasswordReset would look like:
+    ```
+    # src/operations/request_password_reset.cr
+    require "../components/translator"
+
+    class RequestPasswordReset < Avram::Operation
+      # ...
+      def validate(user : User?)
+        # ...
+        if user.nil?
+          email.add_error I18n.t("error.not_in_system", Translator::DEFAULT_LANGUAGE)
+        end
+      end
+    end
+    ```
+
+    ## Step 8 - Internationalize Layouts
+
+    Every abstract class needs the Translator (then its available in the Pages)
+    - this example shows two different ways to use the translator with a User available
+    ```
+    abstract class MainLayout
+      # ...
+      needs translator : Translator
+      # ...
+      def page_title
+        I18n.t("default.page_title", @current_user.lang)
+      end
+
+      def render
+        # ..
+        html lang: @translator.lang do
+          # ...
+        end
+      end
+
+      private def render_signed_in_user
+        # ...
+        link @translator.t("auth.sign_out"), to: SignIns::Delete, flow_id: "sign-out-button"
+      end
+    end
+    ```
 
     ```
+    # src/pages/auth_layout.cr
+    abstract class AuthLayout
+      # ...
+      needs translator : Translator
+
+      def page_title
+        I18n.t("default.page_name", @translator.lang)
+      end
+
+      def render
+        # ...
+        html lang: @translator.lang do
+          # ...
+        end
+      end
+    end
+    ```
+
+    ## Step 9 - Add language preference to signup form
+
+    ```
+    # src/pages/sign_ups/new_page.cr
     class SignUps::NewPage < AuthLayout
       # ...
       def content
@@ -216,53 +326,7 @@ class Guides::Frontend::Internationalization < GuideAction
       end
     end
     ```
-
-    ## Step 9 - Internationalize Layout Pages
-
-    - Every abstract class needs the Translator (i.e. MainLayout and AuthLayout)
-    ```
-    abstract class MainLayout
-      # ...
-      needs translator : Translator
-      # ...
-      def page_title
-        I18n.t("default.page_name", @translator.lang)
-      end
-
-      def render
-        # ...
-        html lang: @translator.lang do
-          # ...
-        end
-      end
-
-      private def render_signed_in_user
-        # ...
-        link I18n.t("auth.sign_out", @translator.lang), to: SignIns::Delete, flow_id: "sign-out-button"
-      end
-    end
-    ```
-
-    ```
-    # src/pages/auth_layout.cr
-    abstract class AuthLayout
-      # ...
-      needs translator : Translator
-
-      def page_title
-        I18n.t("default.page_name", @translator.lang)
-      end
-
-      def render
-        # ...
-        html lang: @translator.lang do
-          # ...
-        end
-      end
-    end
-    ```
-
-    ## Step 10 - Internationalize pages
+    ## Step 10 - Internationalize Pages
 
     - Everywhere there is static text translations can be added.
 
@@ -290,79 +354,102 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
+    Similarly, add translations to the files:
     ```
     # src/pages/password_reset_requests/new_page.cr
-    class PasswordResetRequests::NewPage < AuthLayout
-      # ...
-      def content
-        h1 I18n.t("auth.reset_pwd_request", @translator)
-        # ...
-      end
-
-      private def render_form(op)
-        form_for PasswordResetRequests::Create do
-          # ...
-          submit I18n.t("auth.reset_pwd_request", @translator), flow_id: "request-password-reset-button"
-        end
-      end
-    end
-    ```
-
-    ```
     # src/pages/password_resets/new_page.cr
-    class PasswordResets::NewPage < AuthLayout
-      # ...
-      def content
-        h1 I18n.t("auth.update_pwd", @translator)
-        render_password_reset_form(@operation)
-      end
-
-      private def render_password_reset_form(op)
-        form_for PasswordResets::Create.with(@user_id) do
-          # ...
-          submit I18n.t("auth.update_pwd", @translator), flow_id: "update-password-button"
-        end
-      end
-    end
-    ```
-
-    ```
     # src/pages/sign_ins/new_page.cr
-    class SignIns::NewPage < AuthLayout
-      # ...
-      def content
-        h1 I18n.t("auth.sign_in", @translator)
-        # ...
-      end
+    ```
 
-      private def render_sign_in_form(op)
-        form_for SignIns::Create do
-          # ...
-          submit I18n.t("auth.sign_in", @translator), flow_id: "sign-in-button"
+    The show errors page has no template so it needs the following modifications
+    ```
+    # src/pages/errors/show_page.cr
+    class Errors::ShowPage
+      # ...
+      def render
+        # ...
+        html lang: Translator::DEFAULT_LANGUAGE do
+          head do
+            # ...
+            title I18n.t("error.title", Translator::DEFAULT_LANGUAGE)
+            # ...
+          end
+
+          body do
+            div class: "container" do
+              # ...
+              ul class: "helpful-links" do
+                li do
+                  link I18n.t("error.try_home", Translator::DEFAULT_LANGUAGE), to: "/", class: "helpful-link"
+                end
+              end
+            end
+          end
         end
-        link I18n.t("auth.reset_pwd_request", @translator), to: PasswordResetRequests::New
-        text " | "
-        link I18n.t("auth.sign_up", @translator), to: SignUps::New
       end
       # ...
     end
     ```
 
+    ## Step 11 - Internationalize Actions
     ```
-    # src/pages/sign_ups/new_page.cr
-    class SignUps::NewPage < AuthLayout
+    # src/actions/browser_action.cr
+    abstract class BrowserAction < Lucky::Action
+    # ...
+    expose current_user
+    def translator
+      Translator.new(current_user)
+    end
+    expose translator
       # ...
-      def content
-        h1 I18n.t("auth.sign_up", @translator)
-        # ...
+    end
+    ```
+
+    now in actions you can use translations in actions:
+    ```
+    # src/actions/sign_ins/create.cr
+    class SignIns::Create < BrowserAction
+      # ...
+          if authenticated_user
+            # ...
+            flash.success = translator.t("auth.success")
+            # ...
+          else
+            flash.failure = I18n.t("auth.failure", Translator::DEFAULT_LANGUAGE)
+            # ...
+          end
+      # ...
+    end
+    ```
+
+    Follow the same logic in the following files:
+    ```
+    # src/actions/sign_ins/delete.cr
+    # src/actions/sign_ups/create.cr
+    # src/actions/password_resets/create.cr
+    # src/actions/password_reset_requests/create.cr
+    ```
+
+    ## Step 12 - Internationalize API Responses
+    Given the deep namespace for the API - the require statement is a bit clumsy looking but works.
+    ```
+    # src/actions/mixins/api/auth/require_auth_token.cr
+    module Api::Auth::RequireAuthToken
+      include Translator
+      # ...
+      private def auth_error_json
+        ErrorSerializer.new(
+          message: I18n.t("auth_token.not_authenticated", Translator::DEFAULT_LANGUAGE),
+          # ...
+        )
       end
 
-      private def render_sign_up_form(op)
-        form_for SignUps::Create do
-          # ...
-          submit I18n.t("auth.sign_up", @translator), flow_id: "sign-up-button"
+      private def auth_error_details : String
+        if auth_token
+          I18n.t("auth_token.invalid", Translator::DEFAULT_LANGUAGE)
+        else
+          I18n.t("auth_token.invalid", Translator::DEFAULT_LANGUAGE)
         end
-        link I18n.t("auth.sign_in", @translator), to: SignIns::New
       end
       # ...
     end
