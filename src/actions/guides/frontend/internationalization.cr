@@ -11,6 +11,9 @@ class Guides::Frontend::Internationalization < GuideAction
 
     **Summary**
     After configuration translations can be added with:
+
+    > This document assumes you are using the default Authorization - if not you will need to make adjustments to the `user` in the Translator!
+
     ```
     @translator.t("default.page_name")
     # or
@@ -298,7 +301,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 9 - Add language preference to signup form
+    ## Step 9 - Add language to signup form
 
     ```
     # src/pages/sign_ups/new_page.cr
