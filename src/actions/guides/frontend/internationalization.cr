@@ -202,37 +202,39 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 7 - Update Operations
 
-    All Operation Files with translations need:
-    - Add `include Translator` to the class
-    - Add `quick_def user_lang`, LANGUAGE_DEFAULT for the failure error messages (ok since happy path messages are handled in other paths)
-    - Add translations
-
-    > Additionally SignUp Save Opoeration needs:
+    SignUp Save Opoeration needs:
     - Update permitted columns (required for the signup form)
     - Update validations (will prevent run-time crashes)
 
     ```
     # src/operations/sign_up_user.cr
     class SignUpUser < User::SaveOperation
-      include Translator
       # ...
       permit_columns email, lang
       # ...
       before_save do
         # ...
-        validate_inclusion_of lang, in: AVAILABLE_LANGUAGES
+        validate_inclusion_of lang, in: Translator::AVAILABLE_LANGUAGES
         # ...
       end
     end
     ```
 
-    Sign_in user also needs to cover the case where the login fails (no current_user)
+    Other Operation Files with translations need:
+    - Add `include Translator` to the class
+    - Add `quick_def user_lang`, LANGUAGE_DEFAULT for the failure error messages (ok since happy path messages are handled in other paths)
+    - Add translations: i.e. `t("translation.keys")`
+      * in cases where there is no user in the entire class override `user_lang` with `quick_def user_lang, LANGUAGE_DEFAULT`
+      * in cases where the user login failed (or something like that) you can translate using: `I18n.t("translation.keys", LANGUAGE_DEFAULT)` or override the `user_lang` locally with `user_lang = LANGUAGE_DEFAULT`
+
+    > TODO: In cases where there is no user -- the translation language should ideally use the values set on the frontend (not the system default)
+
+    Thus Sign_in would look like the situation with no user since the only messages it creates are when the login fails.
     ```
     # src/operations/sign_in_user.cr
     class SignInUser < Avram::Operation
       # ...
       include Translator
-      # no user is available before the user signs-in - so `user_lang` must be defined
       quick_def user_lang, LANGUAGE_DEFAULT
       # ...
       private def validate_credentials(user)
@@ -248,14 +250,12 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    The following other operations can be updated for consistency:
+    Similarly, RequestPasswordReset only messages when the user can't be found.
     ```
     # src/operations/request_password_reset.cr
     class RequestPasswordReset < Avram::Operation
       # ...
       include Translator
-
-      # needed for errors when no user found
       quick_def user_lang, LANGUAGE_DEFAULT
       # ...
       def validate(user : User?)
