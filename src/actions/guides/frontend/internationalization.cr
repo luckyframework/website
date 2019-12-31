@@ -452,11 +452,12 @@ class Guides::Frontend::Internationalization < GuideAction
       route do
         SignUpUser.create(params) do |operation, user|
           if user
+            flash.success = t("auth.sign_up_success")
             # ...
           else
-            # might be needed when user auth fails - but compiles without
-            # user_lang = LANGUAGE_DEFAULT
-            flash.failure = t("auth.sign_in_failure")
+            # when user signup fails we need a language preference
+            user_lang = LANGUAGE_DEFAULT
+            flash.failure = t("auth.sign_up_failure")
             # ...
           end
         end
@@ -485,24 +486,36 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 12 - Internationalize API Responses
 
-    Given the deep namespace for the API - the require statement is a bit clumsy looking but works.
+    If standard APIs responses need translation `include Translator` here:
+    ```
+    # src/actions/api_action.cr
+    abstract class ApiAction < Lucky::Action
+      include Translator
+      # ...
+    end
+    ```
+
+    And here too for API Auth Responses
     ```
     # src/actions/mixins/api/auth/require_auth_token.cr
     module Api::Auth::RequireAuthToken
       include Translator
       # ...
       private def auth_error_json
+        # since we have no valid user define `user_lang`
+        user_lang = LANGUAGE_DEFAULT
         ErrorSerializer.new(
-          message: t("auth_token.not_authenticated"),
-          details: auth_error_details
+          message: t("auth_token.not_authenticated"), details: auth_error_details
         )
       end
 
       private def auth_error_details : String
+        # since we have no valid user define `user_lang`
+        user_lang = LANGUAGE_DEFAULT
         if auth_token
           t("auth_token.invalid")
         else
-          t("auth_token.invalid")
+          t("auth_token.missing")
         end
       end
       # ...
