@@ -34,7 +34,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Add to the end of `shards.cr` file with the new requirements
     ```
-    # shards.cr
+    # src/shards.cr
     # ...
     require "i18n"
     require "i18n/backends/yaml"
