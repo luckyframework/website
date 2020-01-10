@@ -129,7 +129,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     edit the file to look like (of course, the number will vary):
     ```
-    # db/migrations/20191228100116_add_language_to_user.cr
+    # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_language_to_user.cr
     class AddLanguageToUser::V20191228100116 < Avram::Migrator::Migration::V1
       def migrate
         alter table_for(User) do
