@@ -9,7 +9,7 @@ class Guides::Frontend::Internationalization < GuideAction
     <<-MD
     **Working with multiple languages**
 
-    If these steps are done in oder then Lucky should continue to compile (& be usable/testable) with each change.
+    If these steps are done in order then Lucky should continue to compile (& be usable/testable) with each change.
 
     **Summary:**
     After configuration you can apply translations using either:
