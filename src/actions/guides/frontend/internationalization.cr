@@ -21,7 +21,7 @@ class Guides::Frontend::Internationalization < GuideAction
     I18n.t("tranlation.key.values", current_user.lang)
     ```
 
-    > This document assumes you are using the default Authorization - if not you will need to make adjustments to the `user` in the Translator!
+    > This document assumes you are using the default [Authentication](https://luckyframework.org/guides/authentication) - if not, you will need to make adjustments to the `user` in the Translator!
 
     ## Step 1 - Add i18n shard
 
