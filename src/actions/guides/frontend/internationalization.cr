@@ -32,7 +32,7 @@ class Guides::Frontend::Internationalization < GuideAction
         version: ~> 0.1.1
     ```
 
-    Add to the end of `shards.cr` file with the new requirements
+    Add to the end of `src/shards.cr` file with the new requirements
     ```
     # src/shards.cr
     # ...
