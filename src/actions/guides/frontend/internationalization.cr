@@ -127,7 +127,7 @@ class Guides::Frontend::Internationalization < GuideAction
     lucky gen.migration AddLanguageToUser
     ```
 
-    edit the file to look like (of course, the number will vary):
+    edit the new migration file in `db/migrations/`:
     ```
     # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_language_to_user.cr
     class AddLanguageToUser::V20191228100116 < Avram::Migrator::Migration::V1
