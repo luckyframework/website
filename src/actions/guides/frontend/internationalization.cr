@@ -124,7 +124,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Generate a migration using:
     ```
-    lucky db.migration AddLanguageToUser
+    lucky gen.migration AddLanguageToUser
     ```
 
     edit the file to look like (of course, the number will vary):
