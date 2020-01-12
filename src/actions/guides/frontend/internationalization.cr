@@ -52,7 +52,14 @@ class Guides::Frontend::Internationalization < GuideAction
     mkdir config/locales
     ```
 
-    Then add at least one localization: i.e. English (here is a list of the fixed text - excluding the ones missed)
+    Then add at least one **default** localization: i.e. in this case English.  Below is a list of the starting keys in a standard LUCKY project with authorization and web pages.
+
+    * Add additional langauges as needed in the same folder.  Language files need to be named with the `2-letter` language code (ISO 639-1) https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes - so the sample file is named `en.yml`
+    * The yml file must start with it's langauge code, i.e. in this example `en:`  _(becareful, yml files are indentation sensitive)!_
+    * Be sure that all lang yml files contain the same keys. If there's no translation for that key, just leave the value blank.  **If you miss a language key you will see an error message like: `MISSING: de.auth.sign_out`**
+
+    > **NOTE:** If you missed a key and get the above error **YOU MUST RESTART LUCKY** to reload its config.
+
     ```
     # config/locales/en.yml
     en:
@@ -79,6 +86,7 @@ class Guides::Frontend::Internationalization < GuideAction
         sign_up: "Sign up"
         sign_up_success: "Thanks for signing up"
         sign_up_failure: "Couldn't sign you up"
+        sign_out: "Sign Out"
         signed_out: "You have been signed out"
         pwd_update: "Update Password"
         pwd_update_success: "Your password has been reset"
@@ -108,10 +116,11 @@ class Guides::Frontend::Internationalization < GuideAction
         preferred_language: "Preferred Language"
     ```
 
-    > Add additional langauges as needed in the same folder.
-    > Be sure that all lang yml files contain the same keys. If there's no translation for that key, just leave the value blank.
-
     ## Step 3 - Configure i18n within Lucky
+
+    The i18n needs to know the location of your language files.
+    > NOTE: This config file is only executed at load, so all language changes require a server restart.
+
     ```
     # config/i18n.cr
     I18n.backend = I18n::Backends::YAML.new.tap do |backend|
@@ -122,12 +131,14 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 4 - Add 'lang' to users table
 
+    This setup will assocatiate a language key with each user this language key is used when displaying information.
+
     Generate a migration using:
     ```
     lucky gen.migration AddLanguageToUser
     ```
 
-    edit the new migration file in `db/migrations/`:
+    Edit the new migration file in `db/migrations/`:
     ```
     # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_language_to_user.cr
     class AddLanguageToUser::V20191228100116 < Avram::Migrator::Migration::V1
@@ -165,8 +176,15 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 6 - Create a Translator module
 
+    First create a location to extend your lucky system (I suggest `mixins`):
+
     ```
-    # src/translator.cr
+    $ mkdir src/mixins
+    $ touch src/mixins/translator.cr
+    ```
+
+    ```
+    # src/mixins/translator.cr
     module Translator
       LANGUAGE_DEFAULT = "en"
       LANGUAGES_AVAILABLE = ["en", "de"]
@@ -188,7 +206,8 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Add this module to the `src/app.cr` so its available to Lucky files.  Put this at the top of the file to be sure it is available to all aspect of Lucky!
+    Add this module to the `src/app.cr` so its available to Lucky files.
+    > NOTE: Put this at the **top of this config file** to be sure it is available to all aspect of Lucky!
     ```
     # src/app.cr
     require "./shards"
@@ -196,7 +215,7 @@ class Guides::Frontend::Internationalization < GuideAction
     # Load the asset manifest in public/mix-manifest.json
     Lucky::AssetHelpers.load_manifest
 
-    require "./translator"
+    require "./mixins/translator"
     # ...
     ```
 
@@ -227,7 +246,7 @@ class Guides::Frontend::Internationalization < GuideAction
       * in cases where there is no user in the entire class override `user_lang` with `quick_def user_lang, LANGUAGE_DEFAULT`
       * in cases where the user login failed (or something like that) you can translate using: `I18n.t("translation.keys", LANGUAGE_DEFAULT)` or override the `user_lang` locally with `user_lang = LANGUAGE_DEFAULT`
 
-    > TODO: In cases where there is no user -- the translation language should ideally use the values set on the frontend (not the system default)
+    > TODO: The translation module should use language settigns from the frontend (JS) first and fallback to the user or default setting.
 
     Thus Sign_in would look like the situation with no user since the only messages it creates are when the login fails.
     ```
