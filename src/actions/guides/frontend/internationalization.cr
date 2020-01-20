@@ -17,7 +17,7 @@ class Guides::Frontend::Internationalization < GuideAction
     # simplest (requires user_lang or current_user to be defined)
     t("tranlation.key.values")
 
-    # or where ever current user is available
+    # or wherever `current_user` is available
     I18n.t("tranlation.key.values", current_user.lang)
     ```
 
