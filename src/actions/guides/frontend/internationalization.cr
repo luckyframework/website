@@ -7,13 +7,13 @@ class Guides::Frontend::Internationalization < GuideAction
 
   def markdown : String
     <<-MD
-    **Working with multiple languages**
+    ## Working with multiple languages
 
     If these steps are done in order then Lucky should continue to compile (& be usable/testable) with each change.
 
     **Summary:**
     After configuration you can apply translations using either:
-    ```
+    ```crystal
     # simplest (requires user_lang or current_user to be defined)
     t("tranlation.key.values")
 
@@ -25,15 +25,16 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 1 - Add i18n shard
 
-    ```
+    ```yaml
     dependencies:
       i18n:
         github: vladfaust/i18n.cr
         version: ~> 0.1.1
     ```
 
-    Add to the end of `src/shards.cr` file with the new requirements
-    ```
+    Add to the end of `src/shards.cr` file with the new requirements:
+
+    ```crystal
     # src/shards.cr
     # ...
     require "i18n"
@@ -48,7 +49,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ## Step 2 - Add localization ymls
 
     first make a locales folder:
-    ```
+
+    ```bash
     mkdir config/locales
     ```
 
@@ -60,7 +62,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     > **NOTE:** If you missed a key and get the above error **YOU MUST RESTART LUCKY** to reload its config.
 
-    ```
+    ```yaml
     # config/locales/en.yml
     en:
       action:
@@ -121,7 +123,7 @@ class Guides::Frontend::Internationalization < GuideAction
     The i18n needs to know the location of your language files.
     > NOTE: This config file is only executed at load, so all language changes require a server restart.
 
-    ```
+    ```crystal
     # config/i18n.cr
     I18n.backend = I18n::Backends::YAML.new.tap do |backend|
       backend.load_paths << Dir.current + "/config/locales"
@@ -134,12 +136,14 @@ class Guides::Frontend::Internationalization < GuideAction
     This setup will assocatiate a language key with each user this language key is used when displaying information.
 
     Generate a migration using:
-    ```
+
+    ```bash
     lucky gen.migration AddLanguageToUser
     ```
 
     Edit the new migration file in `db/migrations/`:
-    ```
+
+    ```crystal
     # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_language_to_user.cr
     class AddLanguageToUser::V20191228100116 < Avram::Migrator::Migration::V1
       def migrate
@@ -156,13 +160,15 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Of course migrate
-    ```
+    Then run the migrations:
+
+    ```bash
     lucky db.migrate
     ```
 
     ## Step 5 - Add lang column to User model
-    ```
+
+    ```crystal
     # src/models/user.cr
     class User < BaseModel
       # ...
@@ -178,11 +184,11 @@ class Guides::Frontend::Internationalization < GuideAction
 
     First create a location to extend your lucky system (at the top level is good if you have no other convention):
 
-    ```
+    ```bash
     $ touch src/translator.cr
     ```
 
-    ```
+    ```crystal
     # src/translator.cr
     module Translator
       LANGUAGE_DEFAULT = "en"
@@ -207,7 +213,8 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Add this module to the `src/app.cr` so its available to Lucky files.
     > NOTE: Put this at the **top of this config file** to be sure it is available to all aspect of Lucky!
-    ```
+
+    ```crystal
     # src/app.cr
     require "./shards"
 
@@ -224,7 +231,7 @@ class Guides::Frontend::Internationalization < GuideAction
     - Update permitted columns (required for the signup form)
     - Update validations (will prevent run-time crashes)
 
-    ```
+    ```crystal
     # src/operations/sign_up_user.cr
     class SignUpUser < User::SaveOperation
       # ...
@@ -247,8 +254,9 @@ class Guides::Frontend::Internationalization < GuideAction
 
     > TODO: The translation module should use language settigns from the frontend (JS) first and fallback to the user or default setting.
 
-    Thus Sign_in would look like the situation with no user since the only messages it creates are when the login fails.
-    ```
+    Thus SignIn would look like the situation with no user since the only messages it creates are when the login fails.
+
+    ```crystal
     # src/operations/sign_in_user.cr
     class SignInUser < Avram::Operation
       # ...
@@ -269,7 +277,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     Similarly, RequestPasswordReset only messages when the user can't be found.
-    ```
+
+    ``crystal
     # src/operations/request_password_reset.cr
     class RequestPasswordReset < Avram::Operation
       # ...
@@ -290,7 +299,8 @@ class Guides::Frontend::Internationalization < GuideAction
     Basic ideas:
     - Every Layout (abstract class) needs the `include Translator`
     - Everywhere there is static text a translations can be added
-    ```
+
+    ```crystal
     # src/pages/main_layout.cr
     abstract class MainLayout
       include Translator
@@ -318,7 +328,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     AuthLayout needs updates and user_lang defined (since no user is available yet)
-    ```
+
+    ```crystal
     # src/pages/auth_layout.cr
     abstract class AuthLayout
       include Translator
@@ -340,7 +351,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     Error Show Page also additinally needs user_lang defined.
-    ```
+
+    ```crystal
     # src/pages/errors/show_page.cr
     class Errors::ShowPage
       # ...
@@ -368,7 +380,8 @@ class Guides::Frontend::Internationalization < GuideAction
     - Add language choices to the sign-up form
 
     > You'll need to style the select to your tastes.
-    ```
+
+    ```crystal
     # src/pages/sign_ups/new_page.cr
     class SignUps::NewPage < AuthLayout
       # ...
@@ -399,7 +412,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ## Step 10 - Internationalize Pages
 
     Add translations to the pages.
-    ```
+
+    ```crystal
     # src/pages/me/show_page.cr
     class Me::ShowPage < MainLayout
       def content
@@ -424,6 +438,7 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     Follow the same logic for the following files (as desired):
+
     ```
     # src/pages/password_reset_requests/new_page.cr
     # src/pages/password_resets/new_page.cr
@@ -435,7 +450,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Add `include Translator` to the abstract class BrowserAction - this allows translations in flash messages too.
 
-    ```
+    ```crystal
     # src/actions/browser_action.cr
     abstract class BrowserAction < Lucky::Action
       include Translator
@@ -444,7 +459,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     In these next two classes (Actions) there are cases where the user context may not be available - so assign `user_lang` to the `LANGUAGE_DEFAULT`)
-    ```
+
+    ```crystal
     # src/actions/sign_ins/create.cr
     class SignIns::Create < BrowserAction
       # ...
@@ -462,8 +478,9 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    And the same here.
-    ```
+    And the same here:
+
+    ```crystal
     # src/actions/sign_ups/create.cr
     class SignUps::Create < BrowserAction
       # ...
@@ -484,7 +501,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     With SignIns::Delete (Sign-out) - put the flash assignment first so it has the user conext before the user session is gone.
-    ```
+
+    ```crystal
     # src/actions/sign_ins/delete.cr
     class SignIns::Delete < BrowserAction
       delete "/sign_out" do
@@ -497,7 +515,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     Follow the same logic in these files:
-    ```
+
+    ```crystal
     # src/actions/password_resets/create.cr
     # src/actions/password_reset_requests/create.cr
     ```
@@ -505,7 +524,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ## Step 12 - Internationalize API Responses
 
     If standard APIs responses need translation `include Translator` here:
-    ```
+
+    ```crystal
     # src/actions/api_action.cr
     abstract class ApiAction < Lucky::Action
       include Translator
@@ -514,7 +534,8 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     And here too for API Auth Responses
-    ```
+
+    ```crystal
     # src/actions/mixins/api/auth/require_auth_token.cr
     module Api::Auth::RequireAuthToken
       include Translator
