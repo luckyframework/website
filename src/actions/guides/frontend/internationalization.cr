@@ -176,15 +176,14 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 6 - Create a Translator module
 
-    First create a location to extend your lucky system (I suggest `mixins`):
+    First create a location to extend your lucky system (at the top level is good if you have no other convention):
 
     ```
-    $ mkdir src/mixins
-    $ touch src/mixins/translator.cr
+    $ touch src/translator.cr
     ```
 
     ```
-    # src/mixins/translator.cr
+    # src/translator.cr
     module Translator
       LANGUAGE_DEFAULT = "en"
       LANGUAGES_AVAILABLE = ["en", "de"]
@@ -215,7 +214,7 @@ class Guides::Frontend::Internationalization < GuideAction
     # Load the asset manifest in public/mix-manifest.json
     Lucky::AssetHelpers.load_manifest
 
-    require "./mixins/translator"
+    require "./translator"
     # ...
     ```
 
