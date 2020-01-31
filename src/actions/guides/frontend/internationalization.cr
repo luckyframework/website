@@ -278,7 +278,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Similarly, RequestPasswordReset only messages when the user can't be found.
 
-    ``crystal
+    ```crystal
     # src/operations/request_password_reset.cr
     class RequestPasswordReset < Avram::Operation
       # ...
