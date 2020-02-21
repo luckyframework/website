@@ -1,7 +1,7 @@
 require "./shards"
 
 # Load .env file before any other config or app code
-Dotenv.load
+Dotenv.load?
 
 # Load the asset manifest in public/mix-manifest.json
 Lucky::AssetHelpers.load_manifest
