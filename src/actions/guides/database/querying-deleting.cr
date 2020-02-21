@@ -400,7 +400,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     ```
 
     `select_min` and `select_max` will return a union type of the column and `Nil`.
-    > For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
+    For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
 
 
     ## Associations and Joins
