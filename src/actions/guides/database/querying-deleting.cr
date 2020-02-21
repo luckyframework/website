@@ -372,18 +372,14 @@ class Guides::Database::QueryingDeleting < GuideAction
     `SELECT SUM(users.age) FROM users`
 
     ```crystal
-    # Returns Nil if there are no records
+    # Returns an Int64 for integer columns, or a Float64 for float columns
+    # Returns nil if there are no records
     UserQuery.new.age.select_sum
 
+    # Returns an Int64 for integer columns, or a Float64 for float columns
     # Returns 0 if there are no records
     UserQuery.new.age.select_sum!
     ```
-
-    > The return type for `select_sum` will be `Int64 | Nil` if the column is an `Int`.
-    > If the column is a `Float` it will be `Float64 | Nil`.
-    >
-    > The return type for `select_sum!` will be `Int64` if the column is an `Int`.
-    > If the column is a `Float` it will be `Float64`.
 
     ### Min / Max
 
