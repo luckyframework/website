@@ -399,7 +399,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.select_max
     ```
 
-    > `select_min` and `select_max` will return a union type of the column and `Nil`.
+    `select_min` and `select_max` will return a union type of the column and `Nil`.
     > For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
 
 
