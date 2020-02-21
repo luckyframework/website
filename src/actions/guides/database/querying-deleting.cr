@@ -360,14 +360,30 @@ class Guides::Database::QueryingDeleting < GuideAction
     `SELECT AVG(users.age) FROM users`
 
     ```crystal
+    # This will return a Float64 | Nil.
+    # The value will be nil if there are no records.
     UserQuery.new.age.select_average
+
+    # This will return a Float64.
+    # The value will be 0 if there are no records.
+    UserQuery.new.age.select_average!
     ```
 
     `SELECT SUM(users.age) FROM users`
 
     ```crystal
+    # Returns Nil if there are no records
     UserQuery.new.age.select_sum
+
+    # Returns 0 if there are no records
+    UserQuery.new.age.select_sum!
     ```
+
+    > The return type for `select_sum` will be `Int64 | Nil` if the column is an `Int`.
+    > If the column is a `Float` it will be `Float64 | Nil`.
+    >
+    > The return type for `select_sum!` will be `Int64` if the column is an `Int`.
+    > If the column is a `Float` it will be `Float64`.
 
     ### Min / Max
 
@@ -382,6 +398,10 @@ class Guides::Database::QueryingDeleting < GuideAction
     ```crystal
     UserQuery.new.age.select_max
     ```
+
+    > `select_min` and `select_max` will return a union type of the column and `Nil`.
+    > For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
+
 
     ## Associations and Joins
 
