@@ -171,6 +171,15 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age(54)
     ```
 
+    In most cases, your value will come from a dynamic source like `params`.
+    If the value you pass in to your query method is nilable, Avram will raise an exception.
+
+    For these cases, you can use the `nilable_eq` method.
+
+    ```crystal
+    UserQuery.new.age.nilable_eq(potential_age_or_nil_value)
+    ```
+
     ### A = B AND C = D
 
     Find rows where `A` is equal to `B` and `C` is equal to `D`.
