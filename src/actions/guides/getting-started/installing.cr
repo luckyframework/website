@@ -11,7 +11,7 @@ class Guides::GettingStarted::Installing < GuideAction
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
     ## Install Required Dependencies
 
-    ### Crystal v0.32.1
+    ### Crystal v0.33.0
 
     **We recommend using a version manager** to make sure the correct
     version of Crystal is used with Lucky.
@@ -59,17 +59,11 @@ class Guides::GettingStarted::Installing < GuideAction
     ### On macOS
 
     * Install [Homebrew](https://brew.sh/)
-    * Run `brew install openssl` to make sure you have OpenSSL
     * Run `brew tap luckyframework/homebrew-lucky`
     * Run `brew install lucky`
     * Make sure [Postgres CLI tools](https://postgresapp.com/documentation/cli-tools.html)
       are installed if you're using Postgres.app
-    * If you are on macOS High Sierra you need to add `export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig`
-    to your `~/.bash_profile` or `~/.zshrc`
 
-    > If you get an error like this: `Package libssl/libcrypto was not found in the
-    pkg-config search path` then be sure to run the last step listed above so that
-    Crystal knows where OpenSSL is located.
 
     ### On Linux
 
