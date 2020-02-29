@@ -12,12 +12,13 @@
     }
   }
 
-  h2 {
+  h2,
+  h3 {
     position: relative;
 
     .md-anchor {
-      @apply no-underline text-teal-dark opacity-0;
-      transition: 0.3s ease-in-out all;
+      @apply no-underline opacity-0;
+      transition: 0.2s ease-in-out all;
       display: block;
       position: absolute;
       border: none;
@@ -30,9 +31,21 @@
       display: block;
 
       &:hover {
-        @apply text-teal-darkest;
+        @apply text-black;
       }
     }
+
+    &:target .md-anchor {
+      @apply text-black;
+    }
+  }
+
+  h2 .md-anchor {
+    @apply text-teal-dark;
+  }
+
+  h3 .md-anchor {
+    @apply text-grey-darker;
   }
 
   h2 {
