@@ -329,6 +329,19 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.limit(limit).offset(offset)
     ```
 
+    To know the total number of pages, you'll need to use your query
+    without the `limit` and `offset` applied. For this, Avram gives
+    you `reset_limit`, and `reset_offset` methods.
+
+    ```crystal
+    query = UserQuery.new.limit(limit).offset(offset)
+
+    total_pages = (query.clone.reset_limit.reset_offset.select_count / per_page).ceil
+    ```
+
+    > We call `clone` on the original query because `select_count` will modify the
+    > original query. This allows us to perform a separate count query.
+
     ### Limit
 
     `SELECT COLUMNS FROM users LIMIT 1`
@@ -337,12 +350,24 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.limit(1)
     ```
 
+    To remove the limit from the query, use `reset_limit`
+
+    ```crystal
+    users_query.reset_limit
+    ```
+
     ### Offset
 
     `SELECT COLUMNS FROM users OFFSET 20`
 
     ```crystal
     UserQuery.new.offset(20)
+    ```
+
+    To remove the offset from the query, use `reset_offset`
+
+    ```crystal
+    users_query.reset_offset
     ```
 
     ## Aggregates
