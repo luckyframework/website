@@ -437,7 +437,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     You can use this to help refine your association.
 
     ```crystal
-    # SELECT COLUMNS INNER JOIN tasks ON tasks.user_id = users.id FROM users WHERE tasks.title = 'Clean up notes'
+    # SELECT COLUMNS FROM users INNER JOIN tasks ON users.id = tasks.user_id WHERE tasks.title = 'Clean up notes'
     UserQuery.new.where_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
