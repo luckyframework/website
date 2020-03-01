@@ -432,20 +432,35 @@ class Guides::Database::QueryingDeleting < GuideAction
     ### Associations
 
     Each association defined on your model will have a method prefixed with `where_` that takes a
-    query from the association.
+    query from the association. This method will add in the join for you.
 
     You can use this to help refine your association.
 
     ```crystal
-    # SELECT COLUMNS FROM users WHERE tasks.title = 'Clean up notes'
+    # SELECT COLUMNS INNER JOIN tasks ON tasks.user_id = users.id FROM users WHERE tasks.title = 'Clean up notes'
     UserQuery.new.where_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
-    This will return all users who have a task with a title "Clean up notes". You can continue to scope
-    this on both the `User` and `Task` side.
+    This will return all users who have a task with a title "Clean up notes".
+    You can continue to scope this on both the `User` and `Task` side.
 
     > This example shows the `has_many` association, but all associations including `has_one`, and
-    > `belongs_to` take a block in the same format.
+    > `belongs_to` use the same format.
+
+
+    ### Joins
+
+    By default, using the `where_` methods will use `INNER JOIN`, but you have the option
+    to configure this by passing `false` to the `auto_inner_join` argument, and specifying
+    a different join method.
+
+    ```crystal
+    UserQuery.new
+      .left_join_tasks
+      .where_tasks(
+        TaskQuery.new.title("Clean up notes"),
+        auto_inner_join: false)
+    ```
 
     ### Inner joins
 
