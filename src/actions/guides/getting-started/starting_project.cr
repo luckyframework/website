@@ -28,6 +28,9 @@ class Guides::GettingStarted::StartingProject < GuideAction
     * No static file serving or public folder
     * No HTML rendering folders
 
+    > If you'd like to skip the wizard, you can run `lucky custom.init my_app`. You can
+    > pass `--api` or `--no-auth` as options. Use the `-h` flag for more help.
+
     ## Start the Server
 
     To start the server and run your project,
