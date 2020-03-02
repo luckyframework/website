@@ -432,7 +432,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     ### Associations
 
     Each association defined on your model will have a method prefixed with `where_` that takes a
-    query from the association. This method will add in the join for you.
+    query from the association. This method will add an inner join for you.
 
     You can use this to help refine your association.
 
