@@ -151,7 +151,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     end
     ```
 
-    If you open `src/actions/errors/show_page.cr`, you'll see the other errors
+    If you open `src/actions/errors/show.cr`, you'll see the other errors
     that Lucky handles by default.
 
     One of special note is the `Lucky::RenderableError`. We'll talk about
