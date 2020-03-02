@@ -96,7 +96,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
       if html?
         error_html message: "Custom error message.", status: 418
       else
-        error_html message: "Custom error", status: 418
+        error_json message: "Custom error", status: 418
       end
     end
     ```
