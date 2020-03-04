@@ -31,14 +31,16 @@ class Guides::Database::ValidatingSaving < GuideAction
     user sign ups.
 
     #{permalink(ANCHOR_PERMITTING_COLUMNS)}
-    ## Allowing params to be saved
+    ## Allowing params to be saved with permit_columns
 
     By default you won’t be able to set any data from params. This is a security
-    measure to make sure that parameters can only be set that you want to allow
+    measure to make sure that parameters can only be set that you want to permit
     users to fill out. For example, you might not want your users to be able to
-    set an admin status through the `SaveUser` operation.
+    set an admin status through the `SaveUser` operation, but setting the
+    name is ok.
 
-    To allow users to set columns from JSON/form params, use the `permit_columns` macro:
+    To permit users to set columns from JSON or form params, use the
+    `permit_columns` macro:
 
     ```crystal
     # src/operations/save_user.cr
@@ -47,7 +49,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    Now you will be able to fill out the user’s name from params.
+    Now you will be able to fill out the user’s name from request params.
 
     ## Creating records
 
