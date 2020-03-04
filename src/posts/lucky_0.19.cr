@@ -50,6 +50,9 @@ class Lucky019Release < BasePost
     end
     ```
 
+    View more details in the
+    [change tracking guide]#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_CHANGE_TRACKING)}).
+
     ### Built-in Gzipping (compression) of static assets
 
     By default Lucky's webpack setup will now compress assets with Gzip when
