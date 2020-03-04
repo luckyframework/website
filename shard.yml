@@ -8,15 +8,15 @@ targets:
   website_v2:
     main: src/website_v2.cr
 
-crystal: 0.32.1
+crystal: 0.33.0
 
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: ~> 0.18.2
+    version: ~> 0.19.0
   authentic:
     github: luckyframework/authentic
-    version: ~> 0.5.0
+    version: ~> 0.5.1
   carbon:
     github: luckyframework/carbon
     version: ~> 0.1
@@ -24,7 +24,7 @@ dependencies:
     github: gdotdesign/cr-dotenv
   lucky_flow:
     github: luckyframework/lucky_flow
-    version: ~> 0.6.0
+    version: ~> 0.6.2
   markd:
     github: icyleaf/markd
     branch: master
