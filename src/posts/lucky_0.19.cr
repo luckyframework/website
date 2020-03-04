@@ -30,9 +30,9 @@ class Lucky019Release < BasePost
 
     ### Change tracking
 
-    Somtimes you want to perform an action only if certain attributes change, or
-    you may want to audit changes database attributes. This is now super easy
-    with the new change tracking methods in save operations:
+    Somtimes you want to perform an action only if certain attributes change,
+    or you may want to audit changes to database attributes. This is now
+    simple to do with the new change tracking methods on attributes:
 
     ```crystal
     class SaveUser < User::SaveOperation
