@@ -180,7 +180,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.nilable_eq(potential_age_or_nil_value)
     ```
 
-    ### A = B AND C = D
+    ### WHERE with AND (A = B AND C = D)
 
     Find rows where `A` is equal to `B` and `C` is equal to `D`.
 
@@ -206,7 +206,7 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ### A IS NULL / IS NOT NULL
 
-    Find rows where `A` is `nil`.
+    Find rows where `A` is `nil` using is_nil.
 
     `SELECT COLUMNS FROM users WHERE users.name IS NULL`
 
@@ -224,7 +224,12 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ### A gt/lt B
 
-    Find rows where `A` is greater than or equal to `B`.
+    * gt: >
+    * gte: >=
+    * lt: <
+    * lte: <=
+
+    Find rows where `A` is greater than or equal to (>=) `B`.
 
     `WHERE users.age >= 21`
 
@@ -381,7 +386,7 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ## Aggregates
 
-    ### Count
+    ### Select Count
 
     `SELECT COUNT(*) FROM users`
 
@@ -389,7 +394,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     total_count = UserQuery.new.select_count
     ```
 
-    ### Avg / Sum
+    ### Select Avg / Sum
 
     `SELECT AVG(users.age) FROM users`
 
@@ -415,7 +420,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.select_sum!
     ```
 
-    ### Min / Max
+    ### Select Min / Max
 
     `SELECT MIN(users.age) FROM users`
 
