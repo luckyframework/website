@@ -2,6 +2,7 @@ class Guides::Database::ValidatingSaving < GuideAction
   ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
   ANCHOR_PARAM_KEY             = "perma-param-key"
   ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
+  ANCHOR_CHANGE_TRACKING       = "perma-change-tracking"
   guide_route "/database/validating-saving"
 
   def self.title
@@ -432,6 +433,60 @@ class Guides::Database::ValidatingSaving < GuideAction
 
       def notify_user_of_new_comment(new_comment : Comment)
         NewCommentNotificationEmail.new(new_comment, to: comment.author!).deliver_now
+      end
+    end
+    ```
+
+    #{permalink(ANCHOR_CHANGE_TRACKING)}
+    ## Tracking changed attributes
+
+    Sometimes you need to run code only when certain attributes have changed
+    (sometimes called "dirty tracking"). Avram Attributes have a `changed?`
+    and `original_value` method that makes it easy to see if an attribute has
+    changed.
+
+    The following change tracking methods are available:
+
+    * `changed?` - returns `true` if the attribute value has changed.
+    * `changed?(from: value)` - returns `true` if the attribute has changed
+      from the passed in value to anything else.
+    * `changed?(to: value)` - returns `true` if the attribute value has changed
+      to the passed in value.
+    * `original_value` - returns the original value before it was changed. If the
+      attribute is unchanged, `value` and `original_value` will be the same.
+
+    > You can also combine `from` and `to` together: `name.changed?(from: nil, to: "Joe")`
+
+    Here is an example using `changed?` and `original_value` in an operation:
+
+    ```crystal
+    class SaveUser < User::SaveOperation
+      permit_columns name, email, admin
+
+      before_save do
+        if admin.changed?(to: true)
+          validate_company_email
+        end
+      end
+
+      def validate_company_email
+        if !email.value.ends_with?("@my-company.com")
+          email.add_error("must be from @my-company.com to be an admin")
+        end
+      end
+
+      after_save log_changes
+
+      def log_changes(user : User)
+        # Get changed attributes and log each of them
+        attributes.select(&.changed).each do |attribute|
+          Lucky.logger.info(
+            user_id: user.id,
+            changed_attribute: attribute.name.to_s,
+            from: attribute.original_value.to_s,
+            to: attribute.value.to_s
+          )
+        end
       end
     end
     ```
