@@ -60,7 +60,7 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     All of the input helper methods take an `Avram::PermittedAttribute`. These are created
     from declaring an `attribute` or `permit_columns` in your `Avram::Operation`.
-    See the [Operations Guide](#{Guides::Database::ValidatingSaving.path}) for more info.
+    See the [Operations Guide](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PERMITTING_COLUMNS)}) for more info.
 
     > For these examples, `op` will refer to an instance of an `Avram::Operation` (e.g. `SaveUser`).
 
