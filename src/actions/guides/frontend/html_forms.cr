@@ -66,7 +66,7 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Input fields
 
-    All of the input helper methods take an `Avram::Attribute`. These are created
+    All of the input helper methods take an `Avram::PermittedAttribute`. These are created
     from setting an `attribute` or `permit_columns` in your `Avram::Operation`.
     Then calling that attribute on the Operation.
     See the [Operations Guide](#{Guides::Database::ValidatingSaving.path}) for more info.
