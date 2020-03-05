@@ -428,7 +428,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     # or using a block
 
     label_for(op.first_name) do
-      text("First Name: ")
+      strong("First Name: ")
     end
     ```
 
