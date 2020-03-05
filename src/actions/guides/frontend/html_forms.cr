@@ -405,15 +405,21 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Labels
 
+    The text will be derived from the name of the attribute.
+
     ```crystal
-    label_for(op.first_name)
+    label_for(op.first_name, class: "custom-label")
+    ```
 
-    # or with custom text
+    If you need custom text, you can pass it in as the second argument.
 
-    label_for(op.first_name, "Enter your First name:")
+    ```crystal
+    label_for(op.first_name, "Enter your First name:", class: "custom-label")
+    ```
 
-    # or using a block
+    or use a block for extra customization
 
+    ```crystal
     label_for(op.first_name) do
       strong("First Name: ")
     end
