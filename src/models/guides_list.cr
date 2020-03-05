@@ -22,6 +22,7 @@ class GuidesList
       ] of GuideAction.class),
       GuideCategory.new("Frontend", [
         Guides::Frontend::RenderingHtml,
+        Guides::Frontend::HtmlForms,
         Guides::Frontend::AssetHandling,
         Guides::Frontend::Internationalization,
         Guides::Frontend::Testing,

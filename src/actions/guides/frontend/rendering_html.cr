@@ -241,7 +241,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Rendering HTML forms
 
-    There are some helpers for rendering HTML forms. For more info see the [saving
+    Lucky gives you lots of helper methods to make working with forms easier.
+    See the [rendering HTML forms](#{Guides::Frontend::HtmlForms.path}) guide to learn more.
+
+    For info on interacting with databases, see the [saving
     data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
     ### Other special helpers
