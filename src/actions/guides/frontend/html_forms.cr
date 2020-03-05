@@ -44,7 +44,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
-    The Action class already has a route defined that sets the HTTP METHOD. When passing
+    The Action class already has a route defined that defines which HTTP method to use (GET, PUT, etc.). When passing
     that class in, Lucky will know which method to set for you.
 
     You can also pass in a route path if you need to pass in additional URL params.
