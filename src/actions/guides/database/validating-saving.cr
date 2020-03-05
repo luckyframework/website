@@ -133,7 +133,6 @@ class Guides::Database::ValidatingSaving < GuideAction
         form_for Users::Create do
           label_for operation.name
           text_input operation.name
-          errors_for operation.name
 
           submit "Save User"
         end
@@ -141,9 +140,8 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    > A private method `render_form` is extracted because it makes it easier to
-    reference the form as `op`. It also makes it easier to see what a page looks like
-    with a quick glance at the `content` method.
+    > A private method `render_form` is extracted because it makes it easier
+    > to see what a page looks like with a quick glance at the `content` method.
 
     ```crystal
     class Users::Create < BrowserAction
@@ -186,98 +184,12 @@ class Guides::Database::ValidatingSaving < GuideAction
     > params must be nested under the param key to be found. (e.g. HTML
     > `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
 
-    ### Simplify inputs with `Shared::Field`
 
-    In the above form we had to write a fair amount of code to show a label, input,
-    and errors tag. Lucky generates a `Shared::Field` component that you can use
-    and customize to make this simpler. It is found in `src/components/shared/field.cr`
-    and is used in pages like this:
+    ### Form element inputs
 
-    ```crystal
-    # This will render a label, an input, and any errors for the 'name'
-    mount Shared::Field.new(op.name)
+    To see a list of all the different form element inputs, check out the
+    [HTML Forms](#{Guides::Frontend::HtmlForms.path}) guide.
 
-    # You can customize the generated input
-    mount Shared::Field.new(operation.email), &.email_input
-    mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
-    mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
-
-    # You can append to or replace the HTML class on the input
-    mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
-    mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
-    ```
-
-    Look in `src/components/shared/field.cr` to see even more options and customize
-    the generated markup.
-
-    > You can also duplicate and rename the component for different styles of input
-    > fields in your app. For example, you might have a `CompactField` component,
-    > or a `FieldWithoutLabel` component.
-
-    ### Select, email input, and other special inputs
-
-    The main inputs that you can use with Lucky:
-
-    * `text_input`
-    * `email_input`
-    * `color_input`
-    * `hidden_input`
-    * `number_input`
-    * `telephone_input`
-    * `url_input`
-    * `search_input`
-    * `password_input`
-    * `range_input`
-    * `textarea`
-
-    ```crystal
-    # Example using an email input
-    email_input op.email, optional_html_attributes: "anything"
-    ```
-
-    ### Submit
-
-    Call `submit` with the text to display
-
-    ```crystal
-    # In a page
-    submit "Text", optional_html_attributes: "anything you want"
-    ```
-
-    ### Checkboxes
-
-    ```crystal
-    # If checked, will set the `admin` column to true
-    checkbox op.admin, value: "true"
-    ```
-
-    ### Select with options
-
-    ```crystal
-    # Assuming you have an operation with a permitted category_id
-    select_input op.category_id do
-      options_for_select(op.category_id, categories_for_select)
-    end
-
-    private def categories_for_select
-      CategoryQuery.new.map do |category|
-        # The first element is the display name
-        # The second element is the value sent to the form
-        {category.title, category.id}
-      end
-    end
-    ```
-
-    ### Labels
-
-    ```crystal
-    label_for op.title # Will display "Title"
-    label_for op.title, "Custom Title" # Will display "Custom Title"
-    label_for op.title do
-      text "Custom Title"
-      strong "(required)"
-    end
-    ```
 
     ## Validating data
 
@@ -598,7 +510,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
       private def render_form(operation)
         form_for SignUps::Create do
-          # labels and errors_for omitted for brevity
+          # labels omitted for brevity
           text_input operation.name
           email_input operation.email
           password_input operation.password
