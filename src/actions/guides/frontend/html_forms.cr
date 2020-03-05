@@ -23,7 +23,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     gives you access to some helper methods to make this easier. All of these methods will go
     in your `content` method of your page, or in a component.
 
-    ## Form Tag
+    ## Form tag
 
     The `form_for` method takes any route or [Action Class](#{Guides::HttpAndRouting::RoutingAndParams.path}), any html options, and a block
     to encompass the whole form.
@@ -307,6 +307,8 @@ class Guides::Frontend::HtmlForms < GuideAction
     ```
 
     ## Textareas
+
+    The content of the `<textarea>` will come from the value of the attribute (i.e. `op.content`)
 
     ```html
     <textarea id="param_key_content" name="param_key:content" rows="10" cols="20" readonly>
