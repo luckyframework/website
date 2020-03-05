@@ -7,7 +7,7 @@ class Guides::Frontend::HtmlForms < GuideAction
 
   def markdown : String
     <<-MD
-    ### Overview
+    ## Overview
 
     You can generate form tags like `<form>`, `<input>`, etc... using
     [methods like `form` and `input`](#{Guides::Frontend::RenderingHtml.path}),
