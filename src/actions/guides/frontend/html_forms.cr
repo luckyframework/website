@@ -319,6 +319,9 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Select fields
 
+    For select fields, you'll use a combination of `select_tag` and the `options_for_select` methods.
+    The selected value will be determined by the current value of the attribute (i.e. `op.car_make`)
+
     ```html
     <select name="param_key:car_make" class="custom-select">
       <option value="1">Honda</option>
@@ -329,14 +332,25 @@ class Guides::Frontend::HtmlForms < GuideAction
     ```
 
     ```crystal
-    select(op.car_make, class: "custom-select") do
+    select_tag(op.car_make, class: "custom-select") do
       options_for_select(op.car_make, [{"Honda", 1}, {"Toyota", 2}, {"Ford", 3}, {"Volkswagen", 4}])
     end
     ```
 
-    ## Checboxes / Radios
+    The second argument to `options_for_select` takes an `Array(Tuple(String, String | Int32 | Int64))`. If your data is coming from a query, you can easily map that data in to this format.
 
-    ### Chechbox
+    ```crystal
+    # Use with `options_for_select(op.car_make, options_for_cars)`
+    private def options_for_cars
+      CarQuery.all.map do |car|
+        {car.make, car.id}
+      end
+    end
+    ```
+
+    ## Checkboxes / Radios
+
+    ### Checkbox
 
     The `checkbox` method will auto generate a secondary hidden input that will hold the
     unchecked value of your attribute. This allows params to still contain a value even if a
