@@ -7,21 +7,13 @@ class Guides::Frontend::HtmlForms < GuideAction
 
   def markdown : String
     <<-MD
-    ### Working with Lucky's HTML builder
+    ### Overview
 
-    All HTML tags have an associated method based on the name of the tag, with the exception of a few.
-    (e.g. `<form></form>` - `form()`, `<button></button>` - `button()`, etc...)
+    You can generate form tags like `<form>`, `<input>`, etc... using
+    [methods like `form` and `input`](#{Guides::Frontend::RenderingHtml.path}),
+    but the recommended way is to use Lucky's form helpers.
 
-    These are the only HTML tags with an alias name method.
-
-    * `<select></select>` - `select_tag`
-    * `<p></p>` - `para`
-
-    > These are overridden as to not clash with built-in Crystal methods.
-
-    In addition to being able to specify any form element by calling that method, Lucky also
-    gives you access to some helper methods to make this easier. All of these methods will go
-    in your `content` method of your page, or in a component.
+    All of these methods will go in your `content` method of your page, or in a component.
 
     ## Form tag
 
@@ -31,17 +23,17 @@ class Guides::Frontend::HtmlForms < GuideAction
     As well as defining the `<form>` tag for you, the `form_for` method will also include an optional
     `csrf_hidden_input` by default. To disable this option, look in your `config/form_helpers.cr`.
 
+    ```crystal
+    form_for(Posts::Create, class: "inline-form") do
+    end
+    ```
+
+    Will generate this
+
     ```html
     <form method="post" action="/posts" class="inline-form">
       <input type="hidden" name="_csrf" value="some_token" />
     </form>
-    ```
-
-    becomes
-
-    ```crystal
-    form_for(Posts::Create, class: "inline-form") do
-    end
     ```
 
     The Action class already has a route defined that defines which HTTP method to use (GET, PUT, etc.). When passing
@@ -67,13 +59,16 @@ class Guides::Frontend::HtmlForms < GuideAction
     ## Input fields
 
     All of the input helper methods take an `Avram::PermittedAttribute`. These are created
-    from setting an `attribute` or `permit_columns` in your `Avram::Operation`.
-    Then calling that attribute on the Operation.
+    from declaring an `attribute` or `permit_columns` in your `Avram::Operation`.
     See the [Operations Guide](#{Guides::Database::ValidatingSaving.path}) for more info.
 
-    > For these examples, `op` will refer to an instance of an `Avram::Operation`.
+    > For these examples, `op` will refer to an instance of an `Avram::Operation` (e.g. `SaveUser`).
 
     ### text input
+
+    ```crystal
+    text_input(op.full_name, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="text"
@@ -84,11 +79,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    text_input(op.full_name, attrs: [:required], class: "custom-input")
-    ```
-
     ### password input
+
+    ```crystal
+    password_input(op.password, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="password"
@@ -99,11 +94,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    password_input(op.password, attrs: [:required], class: "custom-input")
-    ```
-
     ### email input
+
+    ```crystal
+    email_input(op.email, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="email"
@@ -114,11 +109,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    email_input(op.email, attrs: [:required], class: "custom-input")
-    ```
-
     ### hidden input
+
+    ```crystal
+    hidden_input(op.shh_secret, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="hidden"
@@ -129,11 +124,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    hidden_input(op.shh_secret, attrs: [:required], class: "custom-input")
-    ```
-
     ### file input
+
+    ```crystal
+    file_input(op.users_face, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="file"
@@ -144,11 +139,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    file_input(op.users_face, attrs: [:required], class: "custom-input")
-    ```
-
     ### color input
+
+    ```crystal
+    color_input(op.theme_color, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="color"
@@ -159,11 +154,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    color_input(op.theme_color, attrs: [:required], class: "custom-input")
-    ```
-
     ### number input
+
+    ```crystal
+    number_input(op.score, attrs: [:required], class: "custom-input", min: "0", max: "10")
+    ```
 
     ```html
     <input type="number"
@@ -176,11 +171,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    number_input(op.score, attrs: [:required], class: "custom-input", min: "0", max: "10")
-    ```
-
     ### url input
+
+    ```crystal
+    url_input(op.website, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="url"
@@ -191,11 +186,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    url_input(op.website, attrs: [:required], class: "custom-input")
-    ```
-
     ### search input
+
+    ```crystal
+    search_input(op.search, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="search"
@@ -206,11 +201,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    search_input(op.search, attrs: [:required], class: "custom-input")
-    ```
-
     ### range input
+
+    ```crystal
+    range_input(op.distance, attrs: [:required], class: "custom-input", min: "10", max: "100", step: "10")
+    ```
 
     ```html
     <input type="range"
@@ -224,11 +219,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    range_input(op.distance, attrs: [:required], class: "custom-input", min: "10", max: "100", step: "10")
-    ```
-
     ### telephone input
+
+    ```crystal
+    telephone_input(op.mobile_num, attrs: [:required], class: "custom-input", pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}")
+    ```
 
     ```html
     <input type="tel"
@@ -240,11 +235,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    telephone_input(op.mobile_num, attrs: [:required], class: "custom-input", pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}")
-    ```
-
     ### time input
+
+    ```crystal
+    time_input(op.appointment_time, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="time"
@@ -255,11 +250,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    time_input(op.appointment_time, attrs: [:required], class: "custom-input")
-    ```
-
     ### date input
+
+    ```crystal
+    date_input(op.anniversary, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="date"
@@ -270,11 +265,11 @@ class Guides::Frontend::HtmlForms < GuideAction
            required />
     ```
 
-    ```crystal
-    date_input(op.anniversary, attrs: [:required], class: "custom-input")
-    ```
-
     ### datetime input
+
+    ```crystal
+    datetime_input(op.expired_at, attrs: [:required], class: "custom-input")
+    ```
 
     ```html
     <input type="datetime-local"
@@ -283,10 +278,6 @@ class Guides::Frontend::HtmlForms < GuideAction
            value=""
            class="custom-input"
            required />
-    ```
-
-    ```crystal
-    datetime_input(op.expired_at, attrs: [:required], class: "custom-input")
     ```
 
     > The `datetime` input generates a `type="datetime-local"`, and not `type="datetime"`.
@@ -298,31 +289,37 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     You can use the `input` method to craft any custom input you'd like.
 
-    ```html
-    <input type="text" value="taco" name="food" required />
-    ```
-
     ```crystal
     input(type: "text", value: "taco", name: "food", attrs: [:required])
+    ```
+
+    ```html
+    <input type="text" value="taco" name="food" required />
     ```
 
     ## Textareas
 
     The content of the `<textarea>` will come from the value of the attribute (i.e. `op.content`)
 
+    ```crystal
+    textarea(op.content, attrs: [:readonly], rows: "10", cols: "20")
+    ```
+
     ```html
     <textarea id="param_key_content" name="param_key:content" rows="10" cols="20" readonly>
     </textarea>
-    ```
-
-    ```crystal
-    textarea(op.content, attrs: [:readonly], rows: "10", cols: "20")
     ```
 
     ## Select fields
 
     For select fields, you'll use a combination of `select_tag` and the `options_for_select` methods.
     The selected value will be determined by the current value of the attribute (i.e. `op.car_make`)
+
+    ```crystal
+    select_tag(op.car_make, class: "custom-select") do
+      options_for_select(op.car_make, [{"Honda", 1}, {"Toyota", 2}])
+    end
+    ```
 
     ```html
     <select name="param_key:car_make" class="custom-select">
@@ -331,12 +328,6 @@ class Guides::Frontend::HtmlForms < GuideAction
       <option value="3">Ford</option>
       <option value="4">Volkswagen</option>
     </select>
-    ```
-
-    ```crystal
-    select_tag(op.car_make, class: "custom-select") do
-      options_for_select(op.car_make, [{"Honda", 1}, {"Toyota", 2}, {"Ford", 3}, {"Volkswagen", 4}])
-    end
     ```
 
     The second argument to `options_for_select` takes an `Array(Tuple(String, String | Int32 | Int64))`. If your data is coming from a query, you can easily map that data in to this format.
@@ -358,6 +349,10 @@ class Guides::Frontend::HtmlForms < GuideAction
     unchecked value of your attribute. This allows params to still contain a value even if a
     checkbox is not checked.
 
+    ```crystal
+    checkbox(op.with_cheese, "no", "yes", class: "custom-check")
+    ```
+
     ```html
     <input type="hidden" name="param_key:with_cheese" value="no" />
     <input type="checkbox"
@@ -368,11 +363,12 @@ class Guides::Frontend::HtmlForms < GuideAction
            checked="true" />
     ```
 
-    ```crystal
-    checkbox(op.with_cheese, "no", "yes", class: "custom-check")
-    ```
-
     ### Radio
+
+    ```crystal
+    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "Yes")
+    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "No")
+    ```
 
     ```html
     <input type="radio"
@@ -383,40 +379,31 @@ class Guides::Frontend::HtmlForms < GuideAction
            value="No" />
     ```
 
-    ```crystal
-    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "Yes")
-    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "No")
-    ```
-
     > ISSUE REF: https://github.com/luckyframework/lucky/issues/1023
 
     ## Buttons
 
     ### button tag
 
-    ```html
-    <button role="submit" class="btn">Go!</button>
-    ```
-
     ```crystal
     button("Go!", role: "submit", class: "btn")
     ```
 
-    ### submit input
-
     ```html
-    <input type="submit" value="Go!" class="btn" />
+    <button role="submit" class="btn">Go!</button>
     ```
+
+    ### submit input
 
     ```crystal
     submit("Go!", class: "btn")
     ```
 
-    ## Labels
-
     ```html
-    <label for="param_key_first_name" class="custom-label">First Name</label>
+    <input type="submit" value="Go!" class="btn" />
     ```
+
+    ## Labels
 
     ```crystal
     label_for(op.first_name)
@@ -432,6 +419,10 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
+    ```html
+    <label for="param_key_first_name" class="custom-label">First Name</label>
+    ```
+
     ## Saving Data
 
     HTML Forms in Lucky are based around the concept of [Operations](#{Guides::Database::ValidatingSaving.path}). We use these for securing param values from form inputs, and doing validations.
@@ -441,16 +432,16 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Displaying Errors
 
-    If your permitted column / attribute fail any sort of validation, it's common to
+    If your permitted column / attribute fails any sort of validation, it's common to
     display an error about why it failed. For this, Lucky generates a component you can use
     in `src/components/shared/field_errors.cr`.
 
-    ```html
-    <div class="error">Email must be valid</div>
-    ```
-
     ```crystal
     mount Shared::FieldErrors.new(op.email)
+    ```
+
+    ```html
+    <div class="error">Email must be valid</div>
     ```
 
     ## Simple Example
@@ -458,7 +449,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     ```crystal
     # src/operations/save_post.cr
     class SavePost < Post::SaveOperation
-      permit_columns title, body, released_at, draft
+      permit_columns title, body
     end
 
     # src/pages/posts/edit_page.cr
@@ -477,18 +468,6 @@ class Guides::Frontend::HtmlForms < GuideAction
             label_for(@op.body)
             textarea(@op.body)
             error_for(@op.body)
-          end
-
-          para do
-            label_for(@op.released_at)
-            datetime_input(@op.released_at)
-            error_for(@op.released_at)
-          end
-
-          para do
-            label_for(@op.draft, "Mark as Draft?")
-            checkbox(@op.draft)
-            error_for(@op.draft)
           end
 
           submit("Update Post", class: "btn")
