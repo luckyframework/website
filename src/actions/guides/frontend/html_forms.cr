@@ -47,7 +47,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     The Action class already has a route defined that defines which HTTP method to use (GET, PUT, etc.). When passing
     the action class in, Lucky will use the defined HTTP method automatically.
 
-    You can also pass in a route path if you need to pass in additional URL params.
+    You can also pass in a route path using `with` if the action requires params to be passed in.
 
     ```crystal
     form_for(Posts::Create.with(author_id: @current_user.id)) do
