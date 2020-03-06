@@ -46,7 +46,16 @@ class Guides::ShowPage
         end
 
         next_button
+        edit_guide_on_github
       end
+    end
+  end
+
+  def edit_guide_on_github
+    div class: "rounded bg-grey-light p-5 mt-12" do
+      text "See a problem? Have an idea for improvement?"
+      text " "
+      link "Edit this page on GitHub", GitHubPath.for_file(@guide_file_path), target: "_blank"
     end
   end
 
