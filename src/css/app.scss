@@ -25,6 +25,14 @@
 @import "components/markdown-content";
 @import "vendor/nord-highlightjs-theme";
 
+ul {
+  @apply .pl-10;
+}
+
+h3 {
+  @apply .font-bold;
+}
+
 .split-columns {
   column-count: 2;
   break-inside: avoid;

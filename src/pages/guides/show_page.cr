@@ -57,7 +57,7 @@ class Guides::ShowPage
       text " "
       link "Edit this page on GitHub", GitHubPath.for_file(@guide_file_path),
         target: "_blank",
-        class: "text-teal-dark hover:text-teal-darker"
+        class: "text-teal-dark hover:text-teal-darker underline"
     end
   end
 
@@ -66,7 +66,7 @@ class Guides::ShowPage
 
     if next_guide
       div class: "mb-12 pt-12 pb-6 border-t" do
-        link to: next_guide, class: "flex flex-col text-right pr-6 no-underline group" do
+        link to: next_guide, class: "flex flex-col text-right pr-6 no-underline group underline" do
           span "Next guide →", class: "font-bold text-grey-dark text-sm tracking-wider uppercase pb-2"
           span next_guide.title, class: "font-bold underline text-xl m-0 text-teal-dark group-hover:text-teal-darkest"
         end
@@ -76,8 +76,8 @@ class Guides::ShowPage
 
   def table_of_contents
     div class: "hidden md:block mt-5 pl-sidebar #{algolia_docsearch_class}" do
-      h1 @title, class: "font-normal font-xl text-white text-shadow mb-6 tracking-medium"
-      ul class: "list-reset text-shadow text-lg mb-4 #{guide_sections.size > 6 && "split-columns"}" do
+      h1 @title, class: "font-normal text-3xl text-white text-shadow mb-6 tracking-medium"
+      ul class: "p-0 text-shadow text-lg mb-4 #{guide_sections.size > 6 && "split-columns"}" do
         guide_sections.each do |section|
           li do
             link "##{GenerateHeadingAnchor.new(section).call}", class: "text-white block py-1 no-underline " do
