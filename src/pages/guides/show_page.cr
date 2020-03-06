@@ -52,10 +52,12 @@ class Guides::ShowPage
   end
 
   def edit_guide_on_github
-    div class: "rounded bg-grey-light p-5 mt-12" do
+    div class: "rounded bg-grey-light p-5 mb-12" do
       text "See a problem? Have an idea for improvement?"
       text " "
-      link "Edit this page on GitHub", GitHubPath.for_file(@guide_file_path), target: "_blank"
+      link "Edit this page on GitHub", GitHubPath.for_file(@guide_file_path),
+        target: "_blank",
+        class: "text-teal-dark hover:text-teal-darker"
     end
   end
 
@@ -63,7 +65,7 @@ class Guides::ShowPage
     next_guide = GuidesList.next_guide(current_guide: @guide_action)
 
     if next_guide
-      div class: "mb-24 pt-12 pb-6 border-t" do
+      div class: "mb-12 pt-12 pb-6 border-t" do
         link to: next_guide, class: "flex flex-col text-right pr-6 no-underline group" do
           span "Next guide →", class: "font-bold text-grey-dark text-sm tracking-wider uppercase pb-2"
           span next_guide.title, class: "font-bold underline text-xl m-0 text-teal-dark group-hover:text-teal-darkest"
