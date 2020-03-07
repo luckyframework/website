@@ -312,11 +312,11 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Select fields
 
-    For select fields, you'll use a combination of `select_tag` and the `options_for_select` methods.
+    For select fields, you'll use a combination of `select_input` and the `options_for_select` methods.
     The selected value will be determined by the current value of the attribute (i.e. `op.car_make`)
 
     ```crystal
-    select_tag(op.car_make, class: "custom-select") do
+    select_input(op.car_make, class: "custom-select") do
       options_for_select(op.car_make, [{"Honda", 1}, {"Toyota", 2}])
     end
     ```
