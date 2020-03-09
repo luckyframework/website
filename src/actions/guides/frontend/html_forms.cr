@@ -1,4 +1,5 @@
 class Guides::Frontend::HtmlForms < GuideAction
+  ANCHOR_SHARED_COMPONENTS = "shared-components"
   guide_route "/frontend/html-forms"
 
   def self.title
@@ -330,7 +331,9 @@ class Guides::Frontend::HtmlForms < GuideAction
     </select>
     ```
 
-    The second argument to `options_for_select` takes an `Array(Tuple(String, String | Int32 | Int64))`. If your data is coming from a query, you can easily map that data in to this format.
+    The second argument to `options_for_select` takes an `Array(Tuple(String,
+    String | Int32 | Int64))`. If your data is coming from a query, you can
+    easily map that data in to this format.
 
     ```crystal
     # Use with `options_for_select(op.car_make, options_for_cars)`
@@ -340,6 +343,22 @@ class Guides::Frontend::HtmlForms < GuideAction
       end
     end
     ```
+
+    ### Using selects with `Shared::Field` component
+
+    Here is how you would use `select_input` with a `Shared::Field` or other
+    field component.
+
+    ```
+    mount Shared::Field.new(op.car_make) do |input_html|
+      input_html.select_input append_class: "select-input" do
+      options_for_select op.car_make, options_for_cars
+      end
+    end
+    ```
+
+    You can learn about field components in the section "[Shared
+    Components](#{ANCHOR_SHARED_COMPONENTS})"
 
     ## Checkboxes / Radios
 
@@ -486,6 +505,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_SHARED_COMPONENTS)}
     ## Shared Components
 
     In the above form we had to write a fair amount of code to show a label, input, and error.
@@ -505,6 +525,17 @@ class Guides::Frontend::HtmlForms < GuideAction
     # You can append to or replace the HTML class on the input
     mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
     mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
+    ```
+
+    If your lines are long you can name the block argument. This is extra helpful
+    for selects since they are typically more complex:
+
+    ```crystal
+    mount Shared::Field.new(op.car_make) do |input_html|
+      input_html.select_input append_class: "select-input" do
+        options_for_select op.car_make, [{"Toyota", 1, "Tesla", 2}]
+      end
+    end
     ```
 
     Look in `src/components/shared/field.cr` to see even more options and customize
