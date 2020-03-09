@@ -58,13 +58,12 @@ class Guides::Database::QueryingDeleting < GuideAction
     * `find(id)` - Returns the record with the primary key `id`. Raise `Avram::RecordNotFoundError` if no record is found.
     * `last` - Returns the last record. Raise `Avram::RecordNotFoundError` if no record is found.
     * `last?` - Returns the last record. Returns `nil` if no record is found.
-    * `all` - Returns an array of all the records.
 
     ```crystal
     first_user = UserQuery.first
     last_user = UserQuery.last
     specific_user = UserQuery.find(4)
-    all_users = UserQuery.all
+    all_users = UserQuery.new
     ```
 
     ### Lazy loading
@@ -104,7 +103,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     `SELECT COLUMNS FROM users`
 
     ```crystal
-    users = UserQuery.new.all
+    users = UserQuery.new
     ```
 
     ### Select first
