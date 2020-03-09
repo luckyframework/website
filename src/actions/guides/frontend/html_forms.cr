@@ -358,7 +358,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     ```
 
     You can learn about field components in the section "[Shared
-    Components](#{ANCHOR_SHARED_COMPONENTS})"
+    Components](##{ANCHOR_SHARED_COMPONENTS})"
 
     ## Checkboxes / Radios
 
