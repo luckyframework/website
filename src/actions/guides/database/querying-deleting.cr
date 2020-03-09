@@ -63,6 +63,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     first_user = UserQuery.first
     last_user = UserQuery.last
     specific_user = UserQuery.find(4)
+    all_users = UserQuery.new
     ```
 
     ### Lazy loading
