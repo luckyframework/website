@@ -352,7 +352,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     ```
     mount Shared::Field.new(op.car_make) do |input_html|
       input_html.select_input append_class: "select-input" do
-      options_for_select op.car_make, options_for_cars
+        options_for_select op.car_make, options_for_cars
       end
     end
     ```
