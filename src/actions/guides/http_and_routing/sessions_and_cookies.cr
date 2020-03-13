@@ -42,7 +42,6 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     ```crystal
     # Delete a specific session key
     session.delete(:name)
-    session.deleted?(:name) #=> true
 
     # Clear the current session
     session.clear
