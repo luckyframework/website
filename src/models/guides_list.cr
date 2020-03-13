@@ -20,7 +20,7 @@ class GuidesList
         Guides::HttpAndRouting::HTTPHandlers,
         Guides::HttpAndRouting::SecurityHeaders,
       ] of GuideAction.class),
-      GuideCategory.new("Frontend", [
+      GuideCategory.new("Frontend and HTML", [
         Guides::Frontend::RenderingHtml,
         Guides::Frontend::HtmlForms,
         Guides::Frontend::AssetHandling,
