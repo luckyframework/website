@@ -7,7 +7,7 @@ class Shared::Header < BaseComponent
         div class: "flex flex-wrap md:flex-no-wrap justify-between items-center md:px-6" do
           div do
             link(Home::Index, class: "text-white ml-6 md:ml-0 mr-10 self-center") do
-              img src: asset("images/logo.png"), class: "h-8", alt: "Lucky Logo"
+              img src: asset("images/logo.png"), class: "h-8 inline", alt: "Lucky Logo"
             end
           end
           main_navigation
@@ -22,7 +22,7 @@ class Shared::Header < BaseComponent
   end
 
   private def nav_and_search
-    nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-no-grow md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
+    nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-grow-0 md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
       nav_links
       docsearch_input
       docsearch_js
