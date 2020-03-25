@@ -1,5 +1,5 @@
-class Guides::Frontend::Testing < GuideAction
-  guide_route "/frontend/testing"
+class Guides::Testing::HtmlAndInteractivity < GuideAction
+  guide_route "/testing/html-and-interactivity"
 
   def self.title
     "Testing HTML and Interactivity"

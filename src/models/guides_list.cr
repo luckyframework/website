@@ -25,7 +25,6 @@ class GuidesList
         Guides::Frontend::HtmlForms,
         Guides::Frontend::AssetHandling,
         Guides::Frontend::Internationalization,
-        Guides::Frontend::Testing,
       ] of GuideAction.class),
       GuideCategory.new("Database", [
         Guides::Database::IntroToAvramAndORMs,
@@ -35,7 +34,6 @@ class GuidesList
         Guides::Database::QueryingDeleting,
         Guides::Database::ValidatingSaving,
         Guides::Database::RawSql,
-        Guides::Database::Testing,
       ] of GuideAction.class),
       GuideCategory.new("JSON and APIs", [
         Guides::JsonAndApis::RenderingJson,
@@ -58,6 +56,12 @@ class GuidesList
       GuideCategory.new("Deploying", [
         Guides::Deploying::Heroku,
         Guides::Deploying::Ubuntu,
+      ] of GuideAction.class),
+      GuideCategory.new("Testing your App", [
+        Guides::Testing::Introduction,
+        Guides::Testing::HtmlAndInteractivity,
+        Guides::Testing::CreatingTestData,
+        Guides::Testing::TestingActions,
       ] of GuideAction.class),
     ]
   end

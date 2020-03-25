@@ -49,8 +49,8 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### Dependencies for browser tests
 
-    You will need additional dependencies if you want to test your frontend using [LuckyFlow](#{Guides::Frontend::Testing.path}),
-    see the [Testing HTML and Interactivity](#{Guides::Frontend::Testing.path}) guide for details.
+    You will need additional dependencies if you want to test your frontend using [LuckyFlow](#{Guides::Testing::HtmlAndInteractivity.path}),
+    see the [Testing HTML and Interactivity](#{Guides::Testing::HtmlAndInteractivity.path}) guide for details.
 
     ## Install Lucky CLI
 

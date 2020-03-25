@@ -1,5 +1,5 @@
-class Guides::Database::Testing < GuideAction
-  guide_route "/database/testing"
+class Guides::Testing::CreatingTestData < GuideAction
+  guide_route "/testing/creating-test-data"
 
   def self.title
     "Creating Test Data"
