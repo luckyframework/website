@@ -9,9 +9,57 @@ class Guides::GettingStarted::Installing < GuideAction
   def markdown : String
     <<-MD
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
-    ## Install Required Dependencies
+    ## MacOS requirements
 
-    ### Crystal v0.33.0
+    ### 1. Install Homebrew
+
+    Installation instructions from the [Homebrew website](https://brew.sh/)
+
+    ```plain
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    ```
+
+    ### 2. Install OpenSSL
+
+    ```plain
+    brew install openssl
+    ```
+
+    ### 3. Configure SSL for Crystal
+
+    You'll need to add `export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig`
+    to your `~/.bash_profile` or `~/.zshrc` so Crystal can use SSL through the
+    openssl package.
+
+    ```shell
+    # For Bash, the default shell on MacOS
+    echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.bash_profile
+
+    # For ZSH
+    echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.zshrc
+    ```
+
+    > If you get an error like this: "Package libssl/libcrypto was not found in the
+      pkg-config search path" then be sure to run this step so that
+      Crystal knows where OpenSSL is located.
+
+    ## Linux requirements
+
+    ### Debian (Ubuntu should be similar)
+
+    ```plain
+    apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev
+    ```
+
+    ### Fedora (28)
+
+    ```plain
+    dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
+    ```
+
+    ## Crystal v0.33.0
+
+    ### 1. Install Crystal
 
     **We recommend using a version manager** to make sure the correct
     version of Crystal is used with Lucky.
@@ -20,7 +68,93 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Alternatively you could [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
 
-    ### Process manager
+    ### 2. Check installation
+
+    ```plain
+    crystal -v
+    ```
+
+    Should return at least `0.33.0`
+
+    ## Install Lucky CLI on macOS
+
+    Once the required dependencies above are installed, set up Lucky for your system.
+
+    ### 1. Add the Lucky tap to Homebrew
+
+    ```plain
+    brew tap luckyframework/homebrew-lucky
+    ```
+
+    ### 2. Install the Lucky CLI with Homebrew
+
+    ```plain
+    brew install lucky
+    ```
+
+    ### 3. Check installation
+
+    Let's make sure the Lucky CLI installed correctly:
+
+    ```plain
+    lucky -v
+    ```
+
+    This should return `#{LuckyCliVersion.current_version}`
+
+    ## Install Lucky CLI on Linux
+
+    ### 1. Clone the CLI repo
+
+    ```plain
+    git clone https://github.com/luckyframework/lucky_cli
+    ```
+
+    ### 2. Change into the newly cloned directory
+
+    ```plain
+    cd lucky_cli
+    ```
+
+    ### 3. Check out the latest released version
+
+    ```plain
+    git checkout #{LuckyCliVersion.current_tag}
+    ```
+
+    ### 4. Install shards
+
+    We call packages/libraries in Crystal "shards". Let's install the shards that Lucky CLI needs:
+
+    ```plain
+    shards install
+    ```
+
+    ### 5. Build the CLI
+
+    ```plain
+    crystal build src/lucky.cr
+    ```
+
+    ### 6. Move the generated binary to your path
+
+    This will let you use `lucky` from the command line.
+
+    ```plain
+    mv lucky /usr/local/bin
+    ```
+
+    ### 7. Check installation
+
+    Let's make sure the Lucky CLI installed correctly:
+
+    ```plain
+    lucky -v
+    ```
+
+    This should return `#{LuckyCliVersion.current_version}`
+
+    ## Process manager
 
     Lucky uses a process manager to watch assets and start the server in development.
 
@@ -29,54 +163,63 @@ class Guides::GettingStarted::Installing < GuideAction
     [forego](https://github.com/ddollar/forego#installation),
     or [foreman](https://github.com/ddollar/foreman#installation).
 
-    > By  default Lucky creates a `Procfile.dev` that  defines  what processes should be started when running `lucky dev`.
+    > By default Lucky creates a `Procfile.dev` that  defines  what processes should be started when running `lucky dev`.
     > You can modify the `Procfile.dev` to start other processes like running
     > background jobs.
 
-    ### Postgres database
+    ## Postgres database
+
+    ### 1. Install Postgres
 
     Lucky uses Postgres for its database. Install Postgres ([macOS](https://postgresapp.com)/[Others](https://wiki.postgresql.org/wiki/Detailed_installation_guides))
 
-    ### Debian and Fedora dependencies
+    ### 1a. (macOS only) Ensure Postgres CLI tools installed
 
-    * Debian (Ubuntu should be similar): run `apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev`
-    * Fedora (28): run `dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel`. libpng-devel is for Laravel Mix
+    If you're using [Postgres.app](https://postgresapp.com) on macOS make sure
+    [Postgres CLI tools](https://postgresapp.com/documentation/cli-tools.html) are installed
 
-    ### For building assets (skip if building APIs)
+    ```plain
+    sudo mkdir -p /etc/paths.d &&
+      echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp
+    ```
 
-    * [Node](https://nodejs.org/en/download/). Requires at least v6
+    There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
+
+    ### 2. Ensure Postgres CLI tools installed
+
+    ```plain
+    psql --version
+    ```
+
+    Should return `psql (PostgreSQL) 10.x` or higher.
+
+    ## Chromedriver (optional)
+
+    > You can skip this if you only plan to only build APIs.
+
+    If you want to test your frontend using
+    [LuckyFlow](#{Guides::Frontend::Testing.path}) you will need
+    Chromedriver, see the [Testing HTML and
+    Interactivity](#{Guides::Frontend::Testing.path}) guide for details and installation.
+
+    ## Node and Yarn (optional)
+
+    > You can skip this if you only plan to only build APIs.
+
+    ### 1. Install
+
+    * [Node](https://nodejs.org/en/download/). Requires at least v11
     * [Yarn](https://yarnpkg.com/lang/en/docs/install/)
 
-    ### Dependencies for browser tests
+    ### 2. Check installation
 
-    You will need additional dependencies if you want to test your frontend using [LuckyFlow](#{Guides::Frontend::Testing.path}),
-    see the [Testing HTML and Interactivity](#{Guides::Frontend::Testing.path}) guide for details.
+    ```plain
+    node -v
+    yarn -v
+    ```
 
-    ## Install Lucky CLI
+    Node should return greater than v11. Yarn should return greater than 1.x.
 
-    Once the required dependencies are installed, set up Lucky for your system.
-
-    ### On macOS
-
-    * Install [Homebrew](https://brew.sh/)
-    * Run `brew tap luckyframework/homebrew-lucky`
-    * Run `brew install lucky`
-    * Make sure [Postgres CLI tools](https://postgresapp.com/documentation/cli-tools.html)
-      are installed if you're using Postgres.app
-
-
-    ### On Linux
-
-    * `git clone` the CLI repo at https://github.com/luckyframework/lucky_cli
-    * cd into the newly cloned directory
-    * Check out latest [released version](https://github.com/luckyframework/lucky_cli/releases) `git checkout #{LuckyCliVersion.current_tag}`
-    * Run `shards install`
-    * Run `crystal build src/lucky.cr`
-    * Move the generated `lucky` binary to your path. Most of the time you can move
-      it to `/usr/local/bin` and it should work: `mv lucky /usr/local/bin`.
-
-    If you needed different steps, please help contribute to this section by
-    [editing this page on GitHub](https://github.com/luckyframework/website/blob/master/src/actions/guides/getting-started/installing.cr).
     MD
   end
 end

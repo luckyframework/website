@@ -103,14 +103,22 @@
   .hljs-comment,
   .hljs-quote {
     @apply text-blue-lighter italic;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   code {
     font-size: 16px;
     font-family: Menlo, Roboto Mono, Courier New, monospace;
     border-radius: 4px;
-    padding: 2px 4px;
+    padding: 1px 5px;
+
+    a {
+      @apply no-underline text-grey border-grey-dark;
+    }
+
+    a:hover {
+      @apply text-grey-lighter border-grey;
+    }
   }
 
   &.-large-code {
@@ -124,19 +132,24 @@
     }
   }
 
-  code:not(.hljs) {
-    word-break: break-word;
-    color: #16417c;
-    padding: 1px 4px 1px 4px;
-    margin-left: 1px;
-    margin-right: 1px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    font-size: 15px;
-    @apply border border-blue-lighter bg-blue-lightest;
+  .language-plain {
+    @apply text-white;
+    opacity: 0.9;
   }
 
-  blockquote code:not(.hljs) {
-    @apply bg-blue-lightest;
+  blockquote,
+  p,
+  ul {
+    code {
+      @apply bg-blue-lightest;
+      word-break: break-word;
+      color: #16417c;
+      padding: 1px 4px 1px 4px;
+      margin-left: 1px;
+      margin-right: 1px;
+      font-size: 15px;
+      @apply border border-blue-lighter bg-blue-lightest;
+    }
   }
 
   pre,
