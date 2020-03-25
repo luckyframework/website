@@ -57,7 +57,7 @@ class GuidesList
         Guides::Deploying::Heroku,
         Guides::Deploying::Ubuntu,
       ] of GuideAction.class),
-      GuideCategory.new("Testing your App", [
+      GuideCategory.new("Testing", [
         Guides::Testing::Introduction,
         Guides::Testing::HtmlAndInteractivity,
         Guides::Testing::CreatingTestData,
