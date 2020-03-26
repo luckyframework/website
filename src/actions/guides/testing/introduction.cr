@@ -9,17 +9,22 @@ class Guides::Testing::Introduction < GuideAction
     <<-MD
     ## Getting Started
 
-    All of your tests will go in the `spec/` directory located at the top level of your application.
-    When you generate your Lucky project, there are a few files generated for you to help make testing
-    easier.
+    Lucky uses the built-in Crystal method for testing specs. In Crystal, we refer to all of the tests
+    collectively as a "spec suite". If you are unfamiliar with this term, it just refers to specifications.
+    Read more on [testing in Crystal](https://crystal-lang.org/reference/guides/testing.html).
 
-    > The generated files will be different based on whether your app is API only, and whether you have chosen to generate authentication files.
+    All of your specs will go in the `spec/` directory located at the top level of your application.
+    When you generate your Lucky project, there are a few files generated for you to help make testing
+    easier. When you're ready to run your specs, you'll just run `crystal spec`.
+
+    > The generated files will be different based on whether your app is API only, and whether you have
+    > chosen to generate authentication files.
 
     ### spec_helper.cr
 
     The `spec/spec_helper.cr` file will require all of the necessary files and configuration your testing
     suite will need to run. Every time you add a new spec file for testing, you will need to require this file
-    first. Read more on [testing in Crystal](https://crystal-lang.org/reference/guides/testing.html).
+    first.
 
     ## Flows
 
@@ -30,8 +35,11 @@ class Guides::Testing::Introduction < GuideAction
 
     ## Setup
 
-    This directory is used to setup all of your testing. Any additional setups needed before your spec suite runs
-    should go in here. All files in `spec/setup` will be automatically required and ran in alphabetical order.
+    The `spec/setup/` directory is used to run necessary setup for your spec suite to work. Any additional setups
+    needed before your spec suite runs should go in here. All files in `spec/setup` will be automatically required
+    and ran in alphabetical order.
+
+    There are a few setup steps generated with a new Lucky app.
 
     ### setup/clean_database.cr
 
@@ -39,14 +47,18 @@ class Guides::Testing::Introduction < GuideAction
 
     ### setup/reset_emails.cr
 
-    Every test email sent is tracked as delivered. This will clear out "delivered" test email before each spec.
+    When sending email, [Carbon](https://github.com/luckyframework/carbon) will record delivery emails in memory so you can test
+    whether an email has been sent. This step will clear the emails in memory before each step.
 
     ### setup/setup_database.cr
 
     This will create and migrate your test database for you. By default, Lucky apps will use the name of your app
     with the current environment as a suffix. (i.e. my_app_test or my_app_development).
 
-    This is ran for you when you run `crystal spec`.
+    This can be configured in `config/database.cr`.
+
+    > If you update migrations that have already been ran, you'll need to make sure your test database is updated as well.
+    > To reset your test database, run `LUCKY_ENV=test lucky db.drop`, and then run `crystal spec`.
 
     ### setup/start_app_server.cr
 
@@ -55,12 +67,13 @@ class Guides::Testing::Introduction < GuideAction
 
     ## Support
 
-    Support files are files needed to make testing easier. This includes mock objects, model tests (a.k.a Boxes), and
-    your Flow objects which are used in your flow specs, and whatever else you may need.
+    Files in `spec/support/` contain code to make testing easier. This includes mock objects, objects for creating test
+    data (e.g. [Boxes](#{Guides::Testing::CreatingTestData.path})), and your Flow objects which are used in your flow specs,
+    and whatever else you may need.
 
     ### support/app_client.cr
 
-    The HTTP client you'll use to make requests to your actions. See [#{Guides::Testing::TestingActions.title}](#{Guides::Testing::TestingActions.path})
+    The HTTP client you'll use to make requests to your API actions. See [#{Guides::Testing::TestingActions.title}](#{Guides::Testing::TestingActions.path})
 
     ### support/flows/
 

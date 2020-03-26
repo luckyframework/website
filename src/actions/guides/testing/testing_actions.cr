@@ -25,7 +25,7 @@ class Guides::Testing::TestingActions < GuideAction
     AppClient.exec(Posts::Create)
     ```
 
-    You can also use the route helper if you need to pass specific values for actions.
+    You can also pass path and query params using `with` if your Action requires them.
 
     ```crystal
     # PUT /users/1
@@ -33,13 +33,18 @@ class Guides::Testing::TestingActions < GuideAction
 
     # DELETE /posts/3
     AppClient.exec(Posts::Delete.with(post.id))
+
+    # or pass additional query params
+    AppClient.exec(Posts::Search.with(q: "Lucky"))
     ```
 
-    ### Setting params
+    Read more on [URL generation](#{Guides::HttpAndRouting::LinkGeneration.path}).
+
+    ### Setting body params
 
     The second argument to the `exec` method will take a `NamedTuple` of params you want to send.
     In most cases, these params will be sent to an [Operation](#{Guides::Database::ValidatingSaving.path}),
-    so these params will need to be nested with the proper param_key.
+    so these params will need to be nested with the proper [param_key](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PARAM_KEY)}).
 
     ```crystal
     AppClient.exec(Posts::Create, post: {title: "My next Taco Dish", posted_at: 1.day.ago})
@@ -58,12 +63,32 @@ class Guides::Testing::TestingActions < GuideAction
       .headers("Accept", "application/vnd.api.v1+json")
       .headers("Set-Cookie", "remember_me=1")
       .headers("Authorization", "Bearer abc123")
+
+    # Then make your request:
+    client.exec(Api::Users::Index)
     ```
 
-    Then to make your request, you can call the `exec` method on `client` like normal.
+    ### Creating methods for common setup
+
+    Let's say your API uses a Range header to determine which range of items should be included.
+    We can create a method on our `AppClient` to make this easier to reuse.
 
     ```crystal
-    client.exec(Api::Users::Index)
+    # spec/support/app_client.cr
+    class AppClient < Lucky::BaseHTTPClient
+      # ...
+
+      def page(page : Int32, per_page = 10)
+        # Set pagination headers
+        headers("Range",  "order,id \#{page * per_page}; order=desc,max=\#{per_page}"
+      end
+    end
+    ```
+
+    Now we can use this in our tests
+
+    ```crystal
+    response = AppClient.new.page(2).exec(Api::Users::Index)
     ```
 
     ### User Auth
@@ -87,10 +112,9 @@ class Guides::Testing::TestingActions < GuideAction
 
     ```crystal
     class Api::Rockets::Show < ApiAction
-
       get "/api/rockets/:rocket_id" do
         rocket = RocketQuery.find(rocket_id)
-        json({name: rocket.name})
+        json({id: rocket.id, type: rocket.type, name: rocket.name})
       end
     end
     ```
@@ -104,6 +128,7 @@ class Guides::Testing::TestingActions < GuideAction
         rocket = RocketBox.create &.name("Dragon 1")
         response = AppClient.auth(current_user).exec(Api::Rockets::Show.with(rocket.id))
 
+        # The JSON response should have the key `name` with a value `"Dragon 1"`.
         response.should send_json(200, name: "Dragon 1")
       end
 
