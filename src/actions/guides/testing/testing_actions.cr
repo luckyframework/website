@@ -15,7 +15,7 @@ class Guides::Testing::TestingActions < GuideAction
     ### Making requests
 
     All requests can be made by using `AppClient.exec`, and passing the action class. Lucky will automatically
-    infer which HTTP method to use based on the class.
+    infer which HTTP method to use based on route defined in the Action class.
 
     ```crystal
     # GET /users
