@@ -35,7 +35,7 @@ class Guides::Testing::Introduction < GuideAction
 
     ### setup/clean_database.cr
 
-    Before every spec, your database will automatically be truncated wiping out any test records you've added.
+    Before every spec, your database will automatically be truncated. This will wipe out any test records you've added in previous specs.
 
     ### setup/reset_emails.cr
 
