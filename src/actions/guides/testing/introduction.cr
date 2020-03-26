@@ -64,7 +64,7 @@ class Guides::Testing::Introduction < GuideAction
 
     ### support/flows/
 
-    The Flows used for testing your frontend. See [#{Guides::Testing::HtmlAndInteractivity.title}](#{Guides::Testing::HtmlAndInteractivity.path})
+    The LuckyFlow objects used for testing your frontend. See [#{Guides::Testing::HtmlAndInteractivity.title}](#{Guides::Testing::HtmlAndInteractivity.path})
 
     ### support/boxes/
 
