@@ -198,9 +198,9 @@ class Guides::GettingStarted::Installing < GuideAction
     > You can skip this if you only plan to only build APIs.
 
     If you want to test your frontend using
-    [LuckyFlow](#{Guides::Frontend::Testing.path}) you will need
+    [LuckyFlow](#{Guides::Testing::HtmlAndInteractivity.path}) you will need
     Chromedriver, see the [Testing HTML and
-    Interactivity](#{Guides::Frontend::Testing.path}) guide for details and installation.
+    Interactivity](#{Guides::Testing::HtmlAndInteractivity.path}) guide for details and installation.
 
     ## Node and Yarn (optional)
 

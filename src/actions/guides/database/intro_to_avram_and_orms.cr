@@ -93,7 +93,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     reference followed by "Box". (e.g. `User` model, `UserBox` box) You'll find these located in your app's
     `spec/support/boxes/` folder.
 
-    [Learn more about boxes](#{Guides::Database::Testing.path})
+    [Learn more about boxes](#{Guides::Testing::CreatingTestData.path})
 
     ## Alternate ORMs
 

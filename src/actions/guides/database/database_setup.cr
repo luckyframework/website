@@ -77,7 +77,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     data you use in development, or even special data your application expects to exist in production.
 
     By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`,
-    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Database::Testing.path}) or [Operations](#{Guides::Database::ValidatingSaving.path}) to create the data.
+    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Testing::CreatingTestData.path}) or [Operations](#{Guides::Database::ValidatingSaving.path}) to create the data.
 
     ### Required Seeds
 
