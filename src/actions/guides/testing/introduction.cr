@@ -31,7 +31,7 @@ class Guides::Testing::Introduction < GuideAction
     ## Setup
 
     This directory is used to setup all of your testing. Any additional setups needed before your spec suite runs
-    should go in here. They will be automatically required and ran in alphabetical order.
+    should go in here. All files in `spec/setup` will be automatically required and ran in alphabetical order.
 
     ### setup/clean_database.cr
 
