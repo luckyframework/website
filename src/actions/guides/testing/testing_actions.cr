@@ -90,7 +90,7 @@ class Guides::Testing::TestingActions < GuideAction
 
       get "/api/rockets/:rocket_id" do
         rocket = RocketQuery.find(rocket_id)
-        json(rocket)
+        json({name: rocket.name})
       end
     end
     ```
