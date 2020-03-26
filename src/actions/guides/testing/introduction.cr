@@ -23,7 +23,7 @@ class Guides::Testing::Introduction < GuideAction
 
     ## Flows
 
-    If you need to test your HTML views and/or the interactivity of your site (e.g. a user clicking a button to login),
+    If you need to test your HTML pages and/or the interactivity of your site (e.g. a user clicking a button to login),
     you will create your flow specs in this directory.
 
     > If you generated authentication for your app, you will have a few flow specs added in for you!
