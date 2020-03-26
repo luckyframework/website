@@ -13,7 +13,7 @@ class Guides::Testing::Introduction < GuideAction
     When you generate your Lucky project, there are a few files generated for you to help make testing
     easier.
 
-    > The files generated will be different based on Full/Api and/or Authentication generated.
+    > The generated files will be different based on whether your app is API only, and whether you have chosen to generate authentication files.
 
     ### spec_helper.cr
 
