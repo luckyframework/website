@@ -107,6 +107,13 @@ class Guides::Frontend::AssetHandling < GuideAction
     Note that assets are checked at compile time so if it is not found, Lucky will
     let you know. It will also let you know if you had a typo and suggest an asset
     that is close to what you typed.
+    
+    If the path of the asset is only known at runtime, you can use the `dynamic_asset`
+    helper instead.
+    
+    ```crystal
+    img src: dynamic_asset("images/\#{name}.png")
+    ```
 
     ### Using assets outside of pages and components
 
