@@ -186,6 +186,8 @@ class Guides::GettingStarted::Installing < GuideAction
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
 
     ### 2. Ensure Postgres CLI tools installed
+    
+    First open a new session to reload your terminal, then:
 
     ```plain
     psql --version
