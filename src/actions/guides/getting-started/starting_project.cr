@@ -28,8 +28,26 @@ class Guides::GettingStarted::StartingProject < GuideAction
     * No static file serving or public folder
     * No HTML rendering folders
 
-    > If you'd like to skip the wizard, you can run `lucky custom.init my_app`. You can
-    > pass `--api` or `--no-auth` as options. Use the `-h` flag for more help.
+    ## Skipping the Wizard
+
+    If you'd like to skip the wizard, you can run `lucky custom.init my_app`. This option supports
+    all of the same options as the wizard does, but also with some additional flags for quick customization.
+
+    This option is great if you need to generate a Lucky app programmatically, or just prefer to get going right away.
+
+    ```
+    # Generate an API only app
+    lucky custom.init my_app --api
+
+    # Skip generating User Auth
+    lucky custom.init my_app --no-auth
+
+    # Customize the directory where your app is generated.
+    # Default is your current directory
+    lucky custom.init my_app --dir /home/me/projects
+    ```
+
+    > Use the `-h` flag for a quick reference from the terminal.
 
     ## Start the Server
 
