@@ -454,55 +454,6 @@ class Guides::Database::ValidatingSaving < GuideAction
     the `SaveUser`. It will make a getter available for `current_user` so you can use
     it in the operation, like in the `before_save` macro shown in the example.
 
-    ### Declaring needs only for update, create, or save
-
-    Sometimes you only want to pass extra data when creating or updating a record.
-    You can use the `on` option to do that:
-
-    * `:update` if only required for update
-    * `:create` if only required for create
-    * `:save` if required for update and create, but not when calling `new`
-
-    ```crystal
-    class SaveComment < Comment::SaveOperation
-      needs author : User, on: :create # can also be `:update`, `:save`
-
-      before_save prepare_comment
-
-      def prepare_comment
-        author.try do |user|
-          authored_by_id.value = user.id
-        end
-      end
-    end
-    ```
-
-    > Note that `author` is not required when calling `SaveUser.new` when using
-    the `on` option. This means `author` can be `nil` in the operation. That's why we
-    needed to use `try` in the `prepare_comment` method.
-
-    ```crystal
-    # You must pass an author when creating
-    SaveComment.create(params, author: a_user) do |operation, user|
-      # do something
-    end
-
-    # But you can't when you are updating
-    SaveComment.update(comment, params) do |operation, user|
-      # do something
-    end
-
-    # You also can't pass it in when instantiating a new SaveComment
-    SaveComment.new
-    ```
-
-    > **When should I use `on`?** If you are building a server rendered HTML app,
-    then you will almost always wants to use `on :save|:update|:create` because
-    you will call `SaveComment.new` without the needs. If you are building a JSON API
-    you may want to omit the `on` option since you rarely use `.new`. If you omit
-    `on` then you don't need to worry about the value ever being `nil`, which can
-    make your program more reliable and easier to understand.
-
     ## Non-database column attributes
 
     Sometimes you want users to submit data that isn't saved to the database. For that
