@@ -556,6 +556,53 @@ class Guides::Database::QueryingDeleting < GuideAction
     task.user!
     ```
 
+    ## Reloading
+
+    Reloading a model can be useful when you've loaded a model, but then there is a change to the data.
+
+    ```crystal
+    author = AuthorQuery.find(5)
+
+    # Let's say the Author's profile picture is hidden
+    author.hide_face #=> true
+
+    # If this database value is updated...
+    SaveAuthor.update!(author, hide_face: false)
+
+    # We can reload to get the new value
+    author.reload.hide_face #=> false
+    ```
+
+    When calling the `reload` method on the [model](#{Guides::Database::Models.path}), the original
+    instance is not updated.
+
+    ```crystal
+    # The new value grabbed from the reloaded model
+    author.reload.hide_face #=> false
+
+    # The original value is still in place
+    author.hide_face #=> true
+    ```
+
+    ### Reloading with preloading
+
+    You can also use the `reload` method to preload associations. For example, if you
+    have a post, and want to get the comments preloaded, you can use `reload` with a block. This
+    will help you with performance by avoiding N+1 performance issues.
+
+    ```crystal
+    post = PostQuery.first
+
+    # This is not preloaded, and can lead to performance issues
+    post.comments
+
+    # Preload the comments for better performance
+    post.reload(&.preload_comments).comments
+    ```
+
+    Read up on [preloading associations](#{Guides::Database::QueryingDeleting.path(anchor: Guides::Database::QueryingDeleting::ANCHOR_PRELOADING)})
+    for more information.
+
     ## No results
 
     Avram gives you a `none` method to return no results. This can be helpful when under
