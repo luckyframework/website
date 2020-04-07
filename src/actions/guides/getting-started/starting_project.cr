@@ -36,6 +36,9 @@ class Guides::GettingStarted::StartingProject < GuideAction
     This option is great if you need to generate a Lucky app programmatically, or just prefer to get going right away.
 
     ```
+    # Generate a Full Web app with Authentication
+    lucky custom.init my_app
+
     # Generate an API only app
     lucky custom.init my_app --api
 
