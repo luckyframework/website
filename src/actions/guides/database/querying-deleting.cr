@@ -668,6 +668,52 @@ class Guides::Database::QueryingDeleting < GuideAction
     > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
     > or raw SQL.
 
+    ## Resetting Queries
+
+    If you need to remove parts of the SQL query after the query has been built, Avram gives you
+    a few reset methods for that.
+
+    ### Reset where
+
+    The `reset_where` method takes a block where you call the name of the column you want to remove
+    from your query.
+
+    ```crystal
+    # SELECT * FROM users WHERE name = 'Billy' AND signed_up < '2 days ago'
+    user_query = UserQuery.new.name("Billy").signed_up.lt(2.days.ago)
+
+    # The `name = 'Billy'` is removed
+    # SELECT * FROM users WHERE signed_up < '2 days ago'
+    user_query.reset_where(&.name)
+    ```
+
+    ### Reset order
+
+    ```crystal
+    user_query = UserQuery.new.age.desc_order
+
+    # This will remove the `ORDER BY age DESC`
+    user_query.reset_order
+    ```
+
+    ### Reset limit
+
+    ```crystal
+    user_query = UserQuery.new.limit(10)
+
+    # This will remove the `LIMIT 10`
+    user_query.reset_limit
+    ```
+
+    ### Reset offset
+
+    ```crystal
+    user_query = UserQuery.new.offset(25)
+
+    # This will remove the `OFFSET 25`
+    user_query.reset_offset
+    ```
+
     ## Debugging Queries
 
     Sometimes you may need to double check that the query you wrote outputs the SQL you expect.
