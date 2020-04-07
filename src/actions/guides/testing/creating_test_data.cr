@@ -162,6 +162,27 @@ class Guides::Testing::CreatingTestData < GuideAction
       end
     end
     ```
+
+    ### Reloading model data
+
+    If you've made a change to your data, you can call `reload` to get the updated data.
+
+    ```crystal
+    it "updates a post title" do
+      post = PostBox.create &.title("Custom Post")
+
+      SavePost.update!(post, title: "New Post Title")
+
+      # We still have our original value
+      post.title.should eq "Custom Post"
+
+      # Now we have the new value
+      post.reload.title.should eq "New Post Title"
+    end
+    ```
+
+    Read up on [reloading models](#{Guides::Database::QueryingDeleting.path(anchor: Guides::Database::QueryingDeleting::ANCHOR_RELOADING)})
+    for more information.
     MD
   end
 end

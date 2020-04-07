@@ -1,5 +1,6 @@
 class Guides::Database::QueryingDeleting < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
+  ANCHOR_RELOADING = "perma-reloading"
   guide_route "/database/querying-deleting"
 
   def self.title
@@ -556,6 +557,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     task.user!
     ```
 
+    #{permalink(ANCHOR_RELOADING)}
     ## Reloading
 
     Reloading a model can be useful when you've loaded a model, but then there is a change to the data.
