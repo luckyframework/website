@@ -1,9 +1,9 @@
-class Guides::Database::QueryingDeleting < GuideAction
+class Guides::Database::Querying < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
-  guide_route "/database/querying-deleting"
+  guide_route "/database/querying-records"
 
   def self.title
-    "Querying and Deleting records"
+    "Querying records"
   end
 
   def markdown : String
@@ -617,48 +617,6 @@ class Guides::Database::QueryingDeleting < GuideAction
         .where_tasks(task_query, auto_inner_join: false)
     end
     ```
-
-    ## Deleting Records
-
-    ### Delete one
-
-    Deleting a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
-    instance of the model, you can just call `delete` on that record.
-
-    ```crystal
-    user = UserQuery.find(4)
-
-    # DELETE FROM users WHERE users.id = 4
-    user.delete
-    ```
-
-    ### Bulk delete
-
-    If you need to bulk delete a group of records based on a where query, you can use `delete` at
-    the end of your query. This returns the number of records deleted.
-
-    ```crystal
-    # DELETE FROM users WHERE banned_at IS NOT NULL
-    UserQuery.new.banned_at.is_not_nil.delete
-    ```
-
-    ### Truncate
-
-    If you need to delete every record in the entire table, you can use `truncate`.
-
-    `TRUNCATE TABLE users`
-
-    ```crystal
-    UserQuery.truncate
-    ```
-
-    You can also truncate your entire database by calling `truncate` on your database class.
-
-    ```crystal
-    AppDatabase.truncate
-    ```
-
-    > This method is great for tests; horrible for production. Also note this method is not chainable.
 
     ## Complex Queries
 
