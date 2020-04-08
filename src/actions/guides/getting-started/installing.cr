@@ -27,16 +27,22 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 3. Configure SSL for Crystal
 
-    You'll need to add `export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig`
-    to your `~/.bash_profile` or `~/.zshrc` so Crystal can use SSL through the
-    openssl package.
+    You'll need to add tell Crystal how to find OpenSSL by adding an `export`
+    to your `~/.bash_profile` or `~/.zshrc`.
 
-    ```shell
-    # For Bash, the default shell on MacOS
-    echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.bash_profile
+    > You can run `echo $SHELL` in your terminal if you're not sure whether you
+      are using ZSH or Bash.
 
-    # For ZSH
+    **For ZSH (the default as of macOS Catalina):**
+
+    ```plain
     echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.zshrc
+    ```
+
+    **For Bash:**
+
+    ```plain
+    echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.bash_profile
     ```
 
     > If you get an error like this: "Package libssl/libcrypto was not found in the
