@@ -18,7 +18,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     filled. `{ModelName}::SaveOperation` automatically defines an attribute for each model field.
 
     We’ll be using the migration and model from the [Querying
-    guide](#{Guides::Database::QueryingDeleting.path}). Once you have that set up, let’s set
+    guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
     up a save operation:
 
     ```crystal

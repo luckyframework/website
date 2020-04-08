@@ -35,7 +35,7 @@ class Guides::Database::Models < GuideAction
 
     * [User model](##{ANCHOR_SETTING_UP_A_MODEL}) - Located in `./src/models/user.cr`
     * [SaveUser Operation](#{Guides::Database::ValidatingSaving.path}) - Located in `./src/operations/save_user.cr`
-    * [User query](#{Guides::Database::QueryingDeleting.path}) - Located in `./src/queries/user_query.cr`
+    * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
     * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
     #{permalink(ANCHOR_SETTING_UP_A_MODEL)}
@@ -386,7 +386,7 @@ class Guides::Database::Models < GuideAction
     ### Preloading polymorphic associations
 
     Since the polymorphic associations are just regular `belongs_to` associations with some sweet
-    helper methods, all of the [preloading](#{Guides::Database::QueryingDeleting.path(anchor: Guides::Database::QueryingDeleting::ANCHOR_PRELOADING)}) still exists.
+    helper methods, all of the [preloading](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_PRELOADING)}) still exists.
 
     ```crystal
     comment = CommentQuery.new.preload_commentable
