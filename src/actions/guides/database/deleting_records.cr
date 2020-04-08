@@ -11,8 +11,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Delete one
 
-    Deleting a single record is actually done on the [model](#{Guides::Database::Models.path}) directly.
-    Since each query returns an instance of the model, you can just call `delete` on that record.
+    Deleting a single record is done on the [model](#{Guides::Database::Models.path}) directly.
 
     ```crystal
     user = UserQuery.find(4)
@@ -39,14 +38,14 @@ class Guides::Database::DeletingRecords < GuideAction
     Avram comes with some built-in modules to help working with soft deleted records a lot easier. Let's add it
     to an existing `Article` model.
 
-    * We need to add a new `soft_deleted_at : Time?` column to our table that we want soft deletes.
+    * First, we need to add a new `soft_deleted_at : Time?` column to the table that needs soft deletes.
 
     ```
     # Run this in your terminal
-    lucky gen.migration AddSoftDeleteToArticle
+    lucky gen.migration AddSoftDeleteToArticles
     ```
 
-    * Open your new `db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_soft_delete_to_article.cr` file.
+    * Open your new `db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_soft_delete_to_articles.cr` file.
 
     ```crystal
     def migrate
@@ -60,21 +59,23 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ```crystal
     class Article < BaseModel
-      # Include this module
+      # Include this module to add methods for
+      # soft deleting and restoring
       include Avram::SoftDelete::Model
 
       table do
-        # Add this to your table
+        # Add the new column to your model
         column soft_deleted_at : Time?
       end
     end
     ```
 
-    * Next you just need to update `src/queries/article_query.cr`.
+    * Next you need to update `src/queries/article_query.cr`.
 
     ```crystal
     class ArticleQuery < Article::BaseQuery
-      # Add this module
+      # Include this module to add methods for
+      # querying and soft deleting records
       include Avram::SoftDelete::Query
     end
     ```
@@ -97,15 +98,14 @@ class Guides::Database::DeletingRecords < GuideAction
     article.reload.soft_deleted? #=> true
     ```
 
-    ### Marking all records as soft deleted
+    ### Soft deleting in bulk
 
-    You can bulk update a group of records as soft deleted with the `soft_delete` method called on a Query object
-    instead of the model directly.
+    You can bulk update a group of records as soft deleted with the `soft_delete` method on your Query object.
 
     ```crystal
     articles_to_delete = ArticleQuery.new.created_at.gt(3.years.ago)
 
-    # Marks only the articles created over 3 years ago as soft deleted
+    # Marks the articles created over 3 years ago as soft deleted
     articles_to_delete.soft_delete
     ```
 
@@ -118,15 +118,15 @@ class Guides::Database::DeletingRecords < GuideAction
     article.restore
     ```
 
-    ### Restoring all soft deleted records
+    ### Bulk restoring soft deleted records
 
-    The same as bulk updating records as soft deleted, we can also bulk update to restore them with
+    The same as we can bulk soft delet records, we can also bulk update to restore them with
     the `restore` method.
 
     ```crystal
-    articles_to_restore = ArticleQuery.new.only_soft_deleted
+    articles_to_restore = ArticleQuery.new.published_at.lt(1.week.ago)
 
-    # Restore all of the soft deleted records
+    # Restore recently published articles
     articles_to_restore.restore
     ```
 
@@ -138,8 +138,33 @@ class Guides::Database::DeletingRecords < GuideAction
 
     # Return all articles that are soft deleted
     ArticleQuery.new.only_soft_deleted
+    ```
 
-    # Return all articles whether soft deleted or not
+    ### Default queries without soft deleted
+
+    If you want to skip all of your soft deleted records by default, it's really easy to do.
+    Just add the `only_kept` method to your `initialize`.
+
+    ```crystal
+    class ArticleQuery < Article::BaseQuery
+      include Avram::SoftDelete::Query
+
+      # All queries will scope to only_kept
+      def initialize
+        only_kept
+      end
+    end
+    ```
+
+    ```crystal
+    # Return all articles that are not soft deleted
+    ArticleQuery.new
+    ```
+
+    Even with your default scope, you can still return soft deleted records when you need.
+
+    ```crystal
+    # Return all articles, both `kept` and soft deleted
     ArticleQuery.new.with_soft_deleted
     ```
 
