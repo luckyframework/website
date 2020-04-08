@@ -558,7 +558,7 @@ class Guides::Database::Querying < GuideAction
     ```
 
     #{permalink(ANCHOR_RELOADING)}
-    ## Reloading
+    ## Reloading Data
 
     Reloading a model can be useful when you've loaded a model, but then there is a change to the data.
 
@@ -566,13 +566,13 @@ class Guides::Database::Querying < GuideAction
     author = AuthorQuery.find(5)
 
     # Let's say the Author's profile picture is hidden
-    author.hide_face #=> true
+    author.hide_avatar #=> true
 
     # If this database value is updated...
-    SaveAuthor.update!(author, hide_face: false)
+    SaveAuthor.update!(author, hide_avatar: false)
 
     # We can reload to get the new value
-    author.reload.hide_face #=> false
+    author.reload.hide_avatar #=> false
     ```
 
     When calling the `reload` method on the [model](#{Guides::Database::Models.path}), the original
@@ -580,29 +580,30 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     # The new value grabbed from the reloaded model
-    author.reload.hide_face #=> false
+    author.reload.hide_avatar #=> false
 
     # The original value is still in place
-    author.hide_face #=> true
+    author.hide_avatar #=> true
     ```
 
-    ### Reloading with preloading
+    ### Adding preloads when reloading
 
     You can also use the `reload` method to preload associations. For example, if you
-    have a post, and want to get the comments preloaded, you can use `reload` with a block. This
-    will help you with performance by avoiding N+1 performance issues.
+    have a post, and want to preload comments, you can use `reload` with a block.
 
     ```crystal
-    post = PostQuery.first
+    # `post` is a recently updated record.
+    # We want to get all of the author names that commented on this `post`.
 
     # This is not preloaded, and can lead to performance issues
-    post.comments
+    post.comments.map(&.author.name)
 
-    # Preload the comments for better performance
-    post.reload(&.preload_comments).comments
+    # Preload the comments and authors for better performance
+    post.reload(&.preload_comments(CommentQuery.new.preload_authors))
+      .comments.map(&.author.name)
     ```
 
-    Read up on [preloading associations](#{Guides::Database::QueryingDeleting.path(anchor: Guides::Database::QueryingDeleting::ANCHOR_PRELOADING)})
+    Read up on [preloading associations](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_PRELOADING)})
     for more information.
 
     ## No results

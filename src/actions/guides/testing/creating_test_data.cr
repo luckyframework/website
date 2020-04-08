@@ -173,15 +173,16 @@ class Guides::Testing::CreatingTestData < GuideAction
 
       SavePost.update!(post, title: "New Post Title")
 
-      # We still have our original value
+      # The `post` still has the original data
       post.title.should eq "Custom Post"
 
-      # Now we have the new value
-      post.reload.title.should eq "New Post Title"
+      # Reloading returns a new model with the updated data
+      updated_post = post.reload
+      updated_post.title.should eq "New Post Title"
     end
     ```
 
-    Read up on [reloading models](#{Guides::Database::QueryingDeleting.path(anchor: Guides::Database::QueryingDeleting::ANCHOR_RELOADING)})
+    Read up on [reloading models](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_RELOADING)})
     for more information.
     MD
   end
