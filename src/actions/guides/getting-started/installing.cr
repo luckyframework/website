@@ -61,12 +61,28 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 1. Install Crystal
 
-    **We recommend using a version manager** to make sure the correct
-    version of Crystal is used with Lucky.
-    Try [crenv](https://github.com/pine/crenv) (recommended) or
-    [asdf-crystal](https://github.com/marciogm/asdf-crystal) (great if you already use [asdf](https://github.com/asdf-vm/asdf))
+    **Using asdf version manager:**
 
-    Alternatively you could [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
+    We recommend using a version manager to make sure the correct version of
+    Crystal is used with Lucky.
+
+    * [Install asdf](https://asdf-vm.com/#/core-manage-asdf-vm)
+    * Install the [asdf-crystal](https://github.com/marciogm/asdf-crystal) plugin:
+
+    ```plain
+    asdf plugin-add crystal https://github.com/asdf-community/asdf-crystal.git
+    ```
+
+    * Set up `asdf` so it uses the `.crystal-version` file to determine which version to use:
+
+    ```plain
+    echo "legacy_version_file = yes" >>~/.asdfrc
+    ```
+
+    **Or, install Crystal without a version manager**
+
+    If you can't get asdf installed or don't want to use a version manager,
+    you can [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
 
     ### 2. Check installation
 
