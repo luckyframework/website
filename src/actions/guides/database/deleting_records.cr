@@ -143,7 +143,7 @@ class Guides::Database::DeletingRecords < GuideAction
     ### Default queries without soft deleted
 
     If you want to filter out soft deleted records by default, it's really easy to do.
-    Just add the `only_kept` method to your `initialize`.
+    Just add the `only_kept` method to an `initialize` method.
 
     ```crystal
     class ArticleQuery < Article::BaseQuery
