@@ -1,10 +1,10 @@
-class Guides::Database::QueryingDeleting < GuideAction
+class Guides::Database::Querying < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
   ANCHOR_RELOADING = "perma-reloading"
-  guide_route "/database/querying-deleting"
+  guide_route "/database/querying-records"
 
   def self.title
-    "Querying and Deleting records"
+    "Querying records"
   end
 
   def markdown : String
@@ -667,48 +667,6 @@ class Guides::Database::QueryingDeleting < GuideAction
     end
     ```
 
-    ## Deleting Records
-
-    ### Delete one
-
-    Deleting a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
-    instance of the model, you can just call `delete` on that record.
-
-    ```crystal
-    user = UserQuery.find(4)
-
-    # DELETE FROM users WHERE users.id = 4
-    user.delete
-    ```
-
-    ### Bulk delete
-
-    If you need to bulk delete a group of records based on a where query, you can use `delete` at
-    the end of your query. This returns the number of records deleted.
-
-    ```crystal
-    # DELETE FROM users WHERE banned_at IS NOT NULL
-    UserQuery.new.banned_at.is_not_nil.delete
-    ```
-
-    ### Truncate
-
-    If you need to delete every record in the entire table, you can use `truncate`.
-
-    `TRUNCATE TABLE users`
-
-    ```crystal
-    UserQuery.truncate
-    ```
-
-    You can also truncate your entire database by calling `truncate` on your database class.
-
-    ```crystal
-    AppDatabase.truncate
-    ```
-
-    > This method is great for tests; horrible for production. Also note this method is not chainable.
-
     ## Complex Queries
 
     If you need more complex queries that Avram may not support, you can run
@@ -716,6 +674,52 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
     > or raw SQL.
+
+    ## Resetting Queries
+
+    If you need to remove parts of the SQL query after the query has been built, Avram gives you
+    a few reset methods for that.
+
+    ### Reset where
+
+    The `reset_where` method takes a block where you call the name of the column you want to remove
+    from your query.
+
+    ```crystal
+    # SELECT * FROM users WHERE name = 'Billy' AND signed_up < '2 days ago'
+    user_query = UserQuery.new.name("Billy").signed_up.lt(2.days.ago)
+
+    # The `name = 'Billy'` is removed
+    # SELECT * FROM users WHERE signed_up < '2 days ago'
+    user_query.reset_where(&.name)
+    ```
+
+    ### Reset order
+
+    ```crystal
+    user_query = UserQuery.new.age.desc_order
+
+    # This will remove the `ORDER BY age DESC`
+    user_query.reset_order
+    ```
+
+    ### Reset limit
+
+    ```crystal
+    user_query = UserQuery.new.limit(10)
+
+    # This will remove the `LIMIT 10`
+    user_query.reset_limit
+    ```
+
+    ### Reset offset
+
+    ```crystal
+    user_query = UserQuery.new.offset(25)
+
+    # This will remove the `OFFSET 25`
+    user_query.reset_offset
+    ```
 
     ## Debugging Queries
 

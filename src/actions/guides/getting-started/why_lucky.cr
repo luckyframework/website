@@ -24,7 +24,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     ## Spend less time writing tests and debugging
 
-    [Type safe database queries](#{Guides::Database::QueryingDeleting.path}), [rock solid
+    [Type safe database queries](#{Guides::Database::Querying.path}), [rock solid
     routing](#{Guides::HttpAndRouting::RoutingAndParams.path}), [type safe forms and
     validations](#{Guides::Database::ValidatingSaving.path}), and more. This is how Lucky helps you
     find errors before they reach your customers, write fewer tests, and spend less

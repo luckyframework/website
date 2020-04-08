@@ -58,7 +58,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     Lucky will create a `User::BaseQuery` class for you, and your `UserQuery` object will inherit from that.
     (e.g. `UserQuery < User::BaseQuery`).
 
-    [Learn more about queries](#{Guides::Database::QueryingDeleting.path})
+    [Learn more about queries](#{Guides::Database::Querying.path})
 
     ## Operations
 

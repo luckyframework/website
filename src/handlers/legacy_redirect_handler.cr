@@ -8,7 +8,7 @@ class LegacyRedirectHandler
     "/guides/database-migrations"                 => Guides::Database::Migrations,
     "/guides/actions-and-routing"                 => Guides::HttpAndRouting::RoutingAndParams,
     "/guides/rendering-html"                      => Guides::Frontend::RenderingHtml,
-    "/guides/querying-the-database"               => Guides::Database::QueryingDeleting,
+    "/guides/querying-the-database"               => Guides::Database::Querying,
     "/guides/custom-queries"                      => Guides::Database::RawSql,
     "/guides/saving-with-forms"                   => Guides::Database::ValidatingSaving,
     "/guides/asset-handling"                      => Guides::Frontend::AssetHandling,
@@ -24,7 +24,8 @@ class LegacyRedirectHandler
     "/guides/authentication"                      => Guides::Authentication::Intro,
     "/guides/deploying-heroku"                    => Guides::Deploying::Heroku,
     "/guides/database/validating-saving-deleting" => Guides::Database::ValidatingSaving,
-    "/guides/database/querying"                   => Guides::Database::QueryingDeleting,
+    "/guides/database/querying"                   => Guides::Database::Querying,
+    "/guides/database/querying-deleting"          => Guides::Database::Querying,
   }
 
   def call(context)
