@@ -1,5 +1,6 @@
 class Guides::Database::Querying < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
+  ANCHOR_RELOADING = "perma-reloading"
   guide_route "/database/querying-records"
 
   def self.title
@@ -555,6 +556,55 @@ class Guides::Database::Querying < GuideAction
     # Returns the associated author and does not trigger a preload error
     task.user!
     ```
+
+    #{permalink(ANCHOR_RELOADING)}
+    ## Reloading Data
+
+    Reloading a model can be useful when you've loaded a model, but then there is a change to the data.
+
+    ```crystal
+    author = AuthorQuery.find(5)
+
+    # Let's say the Author's profile picture is hidden
+    author.hide_avatar #=> true
+
+    # If this database value is updated...
+    SaveAuthor.update!(author, hide_avatar: false)
+
+    # We can reload to get the new value
+    author.reload.hide_avatar #=> false
+    ```
+
+    When calling the `reload` method on the [model](#{Guides::Database::Models.path}), the original
+    instance is not updated.
+
+    ```crystal
+    # The new value grabbed from the reloaded model
+    author.reload.hide_avatar #=> false
+
+    # The original value is still in place
+    author.hide_avatar #=> true
+    ```
+
+    ### Adding preloads when reloading
+
+    You can also use the `reload` method to preload associations. For example, if you
+    have a post, and want to preload comments, you can use `reload` with a block.
+
+    ```crystal
+    # `post` is a recently updated record.
+    # We want to get all of the author names that commented on this `post`.
+
+    # This is not preloaded, and can lead to performance issues
+    post.comments.map(&.author.name)
+
+    # Preload the comments and authors for better performance
+    post.reload(&.preload_comments(CommentQuery.new.preload_authors))
+      .comments.map(&.author.name)
+    ```
+
+    Read up on [preloading associations](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_PRELOADING)})
+    for more information.
 
     ## No results
 
