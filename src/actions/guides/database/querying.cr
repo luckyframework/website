@@ -1,6 +1,6 @@
 class Guides::Database::Querying < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
-  ANCHOR_RELOADING = "perma-reloading"
+  ANCHOR_RELOADING  = "perma-reloading"
   guide_route "/database/querying-records"
 
   def self.title
