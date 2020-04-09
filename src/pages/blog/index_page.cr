@@ -24,7 +24,7 @@ class Blog::IndexPage < BlogLayout
 
   def content
     div class: "md:mt-6" do
-      @posts.each do |post|
+      posts.each do |post|
         div class: "py-8 flex flex-col #{responsive_container_classes}" do
           mount PublishedAt.new(post)
           link post.title,

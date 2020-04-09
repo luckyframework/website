@@ -42,8 +42,8 @@ class Home::IndexPage
           end
 
           div class: "my-10 md:mt-10 md:mb-8" do
-            link "View on GitHub", "https://github.com/luckyframework/lucky", class: "btn btn--blue w-full sm:w-auto sm:mr-5"
-            link "Get Started", Guides::GettingStarted::Installing, class: "btn w-full sm:w-auto mt-6 sm:mt-0"
+            a "View on GitHub", href: "https://github.com/luckyframework/lucky", class: "btn btn--blue w-full sm:w-auto sm:mr-5"
+            link "Get Started", to: Guides::GettingStarted::Installing, class: "btn w-full sm:w-auto mt-6 sm:mt-0"
           end
         end
       end

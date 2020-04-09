@@ -1,28 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Exit if any subcommand fails
 set -e
 set -o pipefail
 
-indent() {
-    while read LINE; do
-        echo "  $LINE" || true
-    done
-}
+source script/helpers/text_helpers
 
-if ! command -v yarn > /dev/null; then
-    printf 'Yarn is not installed.\n'
-    printf 'See https://yarnpkg.com/lang/en/docs/install/ for install instructions.\n'
-    exit 1
-fi
 
-printf "\n▸ Installing node dependencies\n"
+notice "Running System Check"
+./script/system_check
+print_done
+
+notice "Installing node dependencies"
 yarn install --no-progress | indent
 
-printf "\n▸ Compiling assets\n"
+notice "Compiling assets"
 yarn dev | indent
 
-printf "\n▸ Installing shards\n"
+print_done
+
+notice "Installing shards"
 shards install | indent
 
-printf "\n✔ All done. Run 'lucky dev' to start the app\n"
+if [ ! -f ".env" ]; then
+  notice "No .env found. Creating one."
+  touch .env
+  print_done
+fi
+
+print_done
+notice "Run 'lucky dev' to start the app"

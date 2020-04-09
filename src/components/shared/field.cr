@@ -23,21 +23,22 @@
 # You may also want to have more more classes if you render fields
 # differently in different parts of your app, e.g. `Shared::CompactField``
 class Shared::Field(T) < BaseComponent
+  include Lucky::CatchUnpermittedAttribute
   needs field : Avram::FillableField(T)
 
   def render
-    label_for @field
+    label_for field
 
     # You can add more default options here. For example:
     #
     #    with_defaults field: @field, class: "input"
     #
     # Will add the class "input" to the generated HTML.
-    with_defaults field: @field do |input_builder|
+    with_defaults field: field do |input_builder|
       yield input_builder
     end
 
-    mount Shared::FieldErrors.new(@field)
+    mount Shared::FieldErrors.new(field)
   end
 
   # Use a text_input by default
