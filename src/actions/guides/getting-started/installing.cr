@@ -57,7 +57,7 @@ class Guides::GettingStarted::Installing < GuideAction
     dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
     ```
 
-    ## Crystal v0.33.0
+    ## Crystal v0.34.0
 
     ### 1. Install Crystal
 
@@ -74,7 +74,7 @@ class Guides::GettingStarted::Installing < GuideAction
     crystal -v
     ```
 
-    Should return at least `0.33.0`
+    Should return at least `0.34.0`
 
     ## Install Lucky CLI on macOS
 
@@ -186,7 +186,7 @@ class Guides::GettingStarted::Installing < GuideAction
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
 
     ### 2. Ensure Postgres CLI tools installed
-    
+
     First open a new session to reload your terminal, then:
 
     ```plain
