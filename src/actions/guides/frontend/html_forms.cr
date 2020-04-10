@@ -43,7 +43,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     You can also pass in a route path using `with` if the action requires params to be passed in.
 
     ```crystal
-    form_for(Posts::Create.with(author_id: @current_user.id)) do
+    form_for(Posts::Create.with(author_id: current_user.id)) do
     end
     ```
 
@@ -484,15 +484,15 @@ class Guides::Frontend::HtmlForms < GuideAction
       def content
         form_for(Posts::Update) do
           para do
-            label_for(@op.title)
-            text_input(@op.title)
-            error_for(@op.title)
+            label_for(op.title)
+            text_input(op.title)
+            error_for(op.title)
           end
 
           para do
-            label_for(@op.body)
-            textarea(@op.body)
-            error_for(@op.body)
+            label_for(op.body)
+            textarea(op.body)
+            error_for(op.body)
           end
 
           submit("Update Post", class: "btn")

@@ -129,7 +129,7 @@ class Guides::Database::ValidatingSaving < GuideAction
       needs save_user : SaveUser
 
       def content
-        render_form(@save_user)
+        render_form(save_user)
       end
 
       private def render_form(operation)
