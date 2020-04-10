@@ -8,7 +8,7 @@ abstract class BlogLayout
   needs title : String
 
   def page_title
-    @title
+    title
   end
 
   def render
