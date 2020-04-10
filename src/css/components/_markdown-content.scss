@@ -113,11 +113,19 @@
     padding: 1px 5px;
 
     a {
-      @apply no-underline text-grey border-grey-dark;
+      @apply text-blue-dark no-underline border-b border-blue-light;
     }
 
     a:hover {
       @apply text-grey-lighter border-grey;
+    }
+  }
+
+  pre {
+    code {
+      a {
+        @apply no-underline text-grey border-grey-dark;
+      }
     }
   }
 
