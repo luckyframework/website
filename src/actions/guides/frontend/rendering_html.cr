@@ -160,7 +160,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs, crystal allows you to use quotes like in `:"v-on:click"`
+    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will
+    > become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs,
+    > crystal allows you to use quotes like in `:"v-on:click"`
 
     ## Special tags (link, form helpers, etc.)
 
@@ -168,16 +170,13 @@ class Guides::Frontend::RenderingHtml < GuideAction
     anchor tag, we have the `link` helper.
 
     ```crystal
-    link "Link Text", to: "/somewhere", class: "some-html-class"
-
-    # The real power comes when used with route helpers from actions
-    link "Show user", to: Users::Show.with("user_id"), class: "some-html-class"
+    link "Show user", to: Users::Show.with(user.id), class: "some-html-class"
 
     # Leave off `with` if an route doesn't need params
     link "List of users", to: Users::Index
     ```
 
-    When you pass a route helper as we did with `Users::Show.with("user_id")`, the
+    When you pass a route helper as we did with `Users::Show.with(user.id)`, the
     link helper automatically sets the path *and* the correct HTTP verb.
 
     Since the HTTP verb (`GET`, `POST`, `PUT`, etc.) is automatically used by `link`
@@ -186,10 +185,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # data-method="delete" will automatically be set.
     # This means the link submits with the right HTTP verb automatically.
-    link "Delete", to: Users::Delete.with("user_id")
+    link "Delete", to: Users::Delete.with(user.id)
 
     # You can use the same nesting as with most other tags
-    link to: Users::Delete.with("user_id"), class: "delete-link" do
+    link to: Users::Delete.with(user.id), class: "delete-link" do
       img src: asset("images/delete-icon.svg")
     end
     ```
@@ -238,6 +237,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # This tells Crystal to look for the top-level Tasks constant
     link "View task", ::Tasks::Show.with(123)
     ```
+
+    > The `link` helper method doesn't allow for a plain string path. If you need to pass a string,
+    > you can use the `a()` method. (e.g. `a href: "/"`).
 
     ### Rendering HTML forms
 
@@ -318,7 +320,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ```crystal
     truncate("Four score and seven years ago", length: 20) do
-      link "Read more", to: "#"
+      link "Read more", to: President::Addresses
     end
     # => "Four score and se...<a href="#">Read more</a>"
     ```

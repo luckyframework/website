@@ -432,7 +432,7 @@ class Guides::Frontend::Internationalization < GuideAction
       end
 
       private def link_to_authentication_guides
-        link t("me.auth_guides"), to: "https://luckyframework.org/guides/authentication"
+        a t("me.auth_guides"), href: "https://luckyframework.org/guides/authentication"
       end
     end
     ```
