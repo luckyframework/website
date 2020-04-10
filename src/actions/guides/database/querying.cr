@@ -305,7 +305,7 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.ilike("jim")
     ```
 
-    ## Ordering
+    ## Order By
 
     Return rows ordered by the `age` column in descending (or ascending) order.
 
@@ -328,6 +328,18 @@ class Guides::Database::Querying < GuideAction
     # Also sort with NULLS LAST
     UserQuery.new.age.desc_order(:nulls_last)
     ```
+
+    ## Group By
+
+    Return rows grouped by the `age` column.
+
+    `SELECT COLUMNS FROM users GROUP BY users.age, users.id`
+
+    ```crystal
+    UserQuery.new.group_by(&.age).group_by(&.id)
+    ```
+
+    > Using the Postgres GROUP BY function can be confusing. Read more on [postgres aggregate functions](https://www.postgresql.org/docs/current/tutorial-agg.html).
 
     ## Pagination
 
@@ -733,6 +745,18 @@ class Guides::Database::Querying < GuideAction
       .age(45)
       .limit(1)
       .to_sql #=> ["SELECT COLUMNS FROM users WHERE users.name = $1 AND users.age = $2 LIMIT $3", "Stan", 45, 1]
+    ```
+
+    You can also use the `to_prepared_sql` method to combine your query and args. This is helpful when
+    you need to copy and paste your query in to [psql](https://www.postgresql.org/docs/current/app-psql.html)
+    directly during development when working with more complex queries.
+
+    ```crystal
+    UserQuery.new
+      .where_posts(PostQuery.new.published(true).tags(["crystal", "lucky"]))
+      .limit(10)
+      .to_prepared_sql
+    #=> "SELECT COLUMNS FROM users INNER JOIN posts ON users.id = posts.user_id WHERE posts.tags = '{"crystal", "lucky"}' LIMIT 10"
     ```
     MD
   end
