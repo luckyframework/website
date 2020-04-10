@@ -1,4 +1,5 @@
 class Guides::GettingStarted::StartingProject < GuideAction
+  ANCHOR_SYSTEM_CHECK = "perma-system-check"
   guide_route "/getting-started/starting-project"
 
   def self.title
@@ -56,16 +57,56 @@ class Guides::GettingStarted::StartingProject < GuideAction
 
     To start the server and run your project,
     * first change into the directory for your newly created app with `cd {project_name}`.
+    * Next, you may need to update your database settings in `config/database.cr`.
     * Then run `script/setup` to install dependencies
-    * and then `lucky dev` to start the server.
+    * and finally `lucky dev` to start the server.
 
     Running `lucky dev` will use an installed process manager (Overmind, Foreman,
     etc.) to start the processes defined in `Procfile.dev`. By default
-    `Procfile.dev` will start the lucky server, and will start asset compilation not in API mode.
+    `Procfile.dev` will start the lucky server, start asset compilation (browser app only),
+    and run a [system check](##{ANCHOR_SYSTEM_CHECK}).
 
     > Lucky will look for a number of process managers. So if you prefer Forego
     and someone else on your team prefers to use Overmind, `lucky dev` will work
     for both of you.
+
+    ## Script Helpers
+
+    Your new Lucky project comes with a few helper scripts located in the `script/` folder.
+    This also includes some additional Bash helper scripts located in the `script/helpers/` folder.
+
+    ### Setup script
+
+    The first script you will use is the `script/setup`. This should be ran after you
+    first created your project. It will do a few things for you.
+
+    * Run a [system check](##{ANCHOR_SYSTEM_CHECK}) script first.
+    * Install Javascript dependencies. (browser app only)
+    * Install Crystal dependencies.
+    * Add a `.env` file if you don't already have one.
+    * Create your database. (Note: the configuration settings are in `config/database.cr`)
+    * Verify the connection to your database.
+    * Run [database migrations](#{Guides::Database::Migrations.path}).
+    * Seed your database with data.
+
+    #{permalink(ANCHOR_SYSTEM_CHECK)}
+    ### System check script
+
+    The `script/system_check` script is called when you run the `script/setup` as well as on every
+    boot of `lucky dev`. You'll find this in the `Procfile.dev`.
+
+    The purpose of this script is to check that your system has everything it needs in order to run
+    this application for local development. To start, we check these things:
+
+    * Ensure `yarn` is installed. (browser apps only)
+    * Ensure you have a process manage (Overmind, Foreman, etc.)
+    * Check that postgres client tools are installed.
+
+    You can also extend this script to include checks for additional systems you may need.
+    (i.e. redis, elasticsearch, etc.).
+
+    Located in the `script/helpers/` directory are two more helper scripts that will make writing
+    Bash just a tad bit easier for those of us not used to writing it.
     MD
   end
 end
