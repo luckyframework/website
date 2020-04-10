@@ -21,8 +21,15 @@ class Guides::Deploying::Heroku < GuideAction
     `heroku git:remote -a <APP-NAME>`
     * Add the following buildpacks in
     order:
-      * `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs`
-      * `heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal`
+
+    ```plain
+    # Add this if your app has HTML and Assets
+    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
+
+    # Then add this for all Lucky apps
+    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
+    ```
+
     * Set `LUCKY_ENV` to `production`:
     `heroku config:set LUCKY_ENV=production`
     * Set `SECRET_KEY_BASE`:
@@ -89,8 +96,7 @@ class Guides::Deploying::Heroku < GuideAction
     to our app:
 
     ```bash
-    $ heroku buildpacks:add
-    https://github.com/heroku/heroku-buildpack-nodejs
+    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
     ```
 
     While Heroku has a buildpack for Node.js apps,
@@ -103,8 +109,7 @@ class Guides::Deploying::Heroku < GuideAction
     and install the dependencies for Lucky:
 
     ```bash
-    $ heroku buildpacks:add
-    https://github.com/luckyframework/heroku-buildpack-crystal
+    $ heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
     ```
 
     ## Adding environment variables
