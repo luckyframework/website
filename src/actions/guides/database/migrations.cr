@@ -277,7 +277,7 @@ class Guides::Database::Migrations < GuideAction
     * If you have not yet released the app, consider using `fill_existing_with: :nothing`
       and dropping the database with `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
     * Consider making the type nilable (example: `add otp_code : String?`), then fill the values with whatever value you need.
-      Then make it required with `make_required :otp_code`. See the example below:
+      Then make it required with `make_required :users, :otp_code`. See the example below:
 
     ``` crystal
     def migrate
@@ -288,11 +288,11 @@ class Guides::Database::Migrations < GuideAction
 
       # Then add values to it
       UserQuery.new.each do |user|
-        User::SaveOperation.udpate!(user, otp_code: CodeGenerator.generate)
+        SaveUser.udpate!(user, otp_code: CodeGenerator.generate)
       end
 
       # Then make it non-nullable
-      make_required :otp_code
+      make_required table_for(User), :otp_code
     end
     ```
 
@@ -312,7 +312,7 @@ class Guides::Database::Migrations < GuideAction
     You can also update some of the options passed to a column such as a float precision.
 
     ```crystal
-    alter :transactions do
+    alter table_for(Transaction) do
       change_type amount : Float64, precision: 4, scale: 2
     end
     ```
