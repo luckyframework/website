@@ -256,11 +256,11 @@ class Guides::Database::Migrations < GuideAction
 
     ## Using fill_existing_with and default values
 
-    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`. 
+    When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
     This is useful when a default value is NOT desired, but the existing data should be backfilled anyway.
 
-    If your column is required, you will need to set a **default** value or use `fill_existing_with` 
-    otherwise you'll have errors.  **NOTE:** You must use either `default` or  `fill_existing_with`. 
+    If your column is required, you will need to set a **default** value or use `fill_existing_with`
+    otherwise you'll have errors.  **NOTE:** You must use either `default` or  `fill_existing_with`.
     They can't be used together since they both solve similar problems.
 
     ```crystal
