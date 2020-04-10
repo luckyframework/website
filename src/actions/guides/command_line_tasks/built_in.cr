@@ -51,6 +51,9 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     ▸ routes                    Show all the routes for the app
     ▸ watch                     Start and recompile project when files change
     ```
+
+    > For more information on any of these tasks, you can pass the `-h` or `--help` flag
+    > to the task directly. (e.g. `lucky db.migrate --help`)
     MD
   end
 end
