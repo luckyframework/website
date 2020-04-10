@@ -339,7 +339,7 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.group_by(&.age).group_by(&.id)
     ```
 
-    > Using the PostgreSQL GROUP BY function can be confusing. Read more on [postgres aggregate functions](https://www.postgresql.org/docs/current/tutorial-agg.html).
+    > Using the Postgres GROUP BY function can be confusing. Read more on [postgres aggregate functions](https://www.postgresql.org/docs/current/tutorial-agg.html).
 
     ## Pagination
 
@@ -748,8 +748,8 @@ class Guides::Database::Querying < GuideAction
     ```
 
     You can also use the `to_prepared_sql` method to combine your query and args. This is helpful when
-    you need to copy and paste your query in to `psql` directly during development when working with more
-    complex queries.
+    you need to copy and paste your query in to [psql](https://www.postgresql.org/docs/current/app-psql.html)
+    directly during development when working with more complex queries.
 
     ```crystal
     UserQuery.new
