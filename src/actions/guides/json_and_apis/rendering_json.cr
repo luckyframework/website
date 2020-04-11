@@ -1,5 +1,6 @@
 class Guides::JsonAndApis::RenderingJson < GuideAction
-  ANCHOR_SERIALIZERS = "perma-create-serializer"
+  ANCHOR_SERIALIZERS            = "perma-create-serializer"
+  ANCHOR_CUSTOMIZING_COLLECTION = "perma-customizing-collection"
   guide_route "/json-and-apis/rendering-json"
 
   def self.title
@@ -115,6 +116,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_CUSTOMIZING_COLLECTION)}
     ## Customizing collection rendering
 
     Let's say you want collection rendering to include a root key. We can change

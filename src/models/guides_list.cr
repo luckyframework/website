@@ -34,6 +34,7 @@ class GuidesList
         Guides::Database::Querying,
         Guides::Database::ValidatingSaving,
         Guides::Database::DeletingRecords,
+        Guides::Database::Pagination,
         Guides::Database::RawSql,
       ] of GuideAction.class),
       GuideCategory.new("JSON and APIs", [
