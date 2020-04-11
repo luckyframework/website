@@ -75,7 +75,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     Run this task with 'lucky generate_sitemaps'
     ```
 
-    If your task require special arguments, or needs further explanation, you can override
+    If your task requires special arguments, or needs further explanation, you can override
     this help message by defining a `help_message` method in your task.
 
     ```crystal
