@@ -29,3 +29,6 @@ dependencies:
   markd:
     github: icyleaf/markd
     branch: master
+  cadmium_transliterator:
+    github: cadmiumcr/transliterator
+    branch: master

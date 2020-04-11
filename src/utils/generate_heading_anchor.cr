@@ -4,9 +4,6 @@ class GenerateHeadingAnchor
   end
 
   def call : String
-    @heading_text
-      .gsub(" ", "-")
-      .gsub("&", "-")
-      .downcase
+    Cadmium::Transliterator.parameterize(@heading_text.gsub("&", "-"))
   end
 end
