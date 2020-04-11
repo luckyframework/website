@@ -7,7 +7,7 @@ describe CustomMarkdownRenderer do
 
     Should remain unmodified
 
-    ### Subheading with anchor
+    ### Subheading with _anchor_
     MD
 
     parsed = parse(content)
@@ -22,7 +22,7 @@ describe CustomMarkdownRenderer do
     parsed.should contain <<-HTML
     <h3 id="subheading-with-anchor">
       <a href="#subheading-with-anchor" class="md-anchor">#</a>
-      Subheading with anchor
+      Subheading with <em>anchor</em>
     </h3>
     HTML
 

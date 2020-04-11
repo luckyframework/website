@@ -14,15 +14,15 @@ class CustomMarkdownRenderer < Markd::HTMLRenderer
   end
 
   def self.add_anchor_to_heading(tag : String, heading_html : String) : String
-    heading_without_html = heading_html
+    heading_without_wrapper_tag = heading_html
       .gsub("<#{tag}>", "")
       .gsub("</#{tag}>", "")
-    anchor = GenerateHeadingAnchor.new(heading_without_html).call
+    anchor = GenerateHeadingAnchor.new(heading_without_wrapper_tag).call
 
     <<-HTML
     <#{tag} id="#{anchor}">
       <a href="##{anchor}" class="md-anchor">#</a>
-      #{heading_without_html}
+      #{heading_without_wrapper_tag}
     </#{tag}>
     HTML
   end

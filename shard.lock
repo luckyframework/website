@@ -12,6 +12,10 @@ shards:
     github: kostya/blank
     version: 0.1.0
 
+  cadmium_transliterator:
+    github: cadmiumcr/transliterator
+    commit: 6ee68d64869ade8f39d2ec16cae3c7b80d5a4805
+
   carbon:
     github: luckyframework/carbon
     version: 0.1.1
