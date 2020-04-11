@@ -343,68 +343,7 @@ class Guides::Database::Querying < GuideAction
 
     ## Pagination
 
-    To do paginating, you'll use a combination of limit and offset. You can also use this formula to help.
-
-    ```crystal
-    page = 1
-    per_page = 12
-
-    limit = per_page
-    offset = per_page * (page - 1)
-
-    UserQuery.new.limit(limit).offset(offset)
-    ```
-
-    To know the total number of pages, you'll need to use your query
-    without the `limit` and `offset` applied. For this, Avram gives
-    you `reset_limit`, and `reset_offset` methods.
-
-    ```crystal
-    query = UserQuery.new.limit(limit).offset(offset)
-
-    total_pages = (query.clone.reset_limit.reset_offset.select_count / per_page).ceil
-    ```
-
-    > We call `clone` on the original query because `select_count` will modify the
-    > original query. This allows us to perform a separate count query.
-
-    ### Limit
-
-    `SELECT COLUMNS FROM users LIMIT 1`
-
-    ```crystal
-    UserQuery.new.limit(1)
-    ```
-
-    To remove the limit from the query, use `reset_limit`
-
-    ```crystal
-    users_query.reset_limit
-    ```
-
-    ### Offset
-
-    `SELECT COLUMNS FROM users OFFSET 20`
-
-    ```crystal
-    UserQuery.new.offset(20)
-    ```
-
-    To remove the offset from the query, use `reset_offset`
-
-    ```crystal
-    users_query.reset_offset
-    ```
-
-    ## Aggregates
-
-    ### Select Count
-
-    `SELECT COUNT(*) FROM users`
-
-    ```crystal
-    total_count = UserQuery.new.select_count
-    ```
+    This section has been moved to its own [pagination guide](#{Guides::Database::Pagination.path}).
 
     ### Select Avg / Sum
 
