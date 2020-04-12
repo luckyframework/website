@@ -50,7 +50,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def content
         ul class: "my-user-list" do
-          @user_names.each do |name|
+          user_names.each do |name|
             li name, class: "user-name"
           end
         end
@@ -63,8 +63,8 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ## Declaring what a page needs
 
     You’ll notice we used `needs` near the top of the class. This declares that for
-    this page to render we need an Array of Strings and that they will be assigned
-    to the `@user_names` variable. We set the user names by passing it in the
+    this page to render we need an Array of Strings and that they will be accessible
+    from the `user_names` getter method. We set the user names by passing it in the
     `html` macro in our action: `html IndexPage, user_names: ["Paul", "Sally", "Jane"]`
 
     > This is nice because you won’t accidentally forget to pass something to a page
@@ -554,7 +554,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def render
         div class: "user-row" do
-          link @user.name, to: Users::Show.with(@user)
+          link user.name, to: Users::Show.with(user)
         end
       end
     end
@@ -567,7 +567,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       needs user : User
 
       def content
-        mount Users::Row.new(@user)
+        mount Users::Row.new(user)
       end
     end
     ```
@@ -637,8 +637,30 @@ class Guides::Frontend::RenderingHtml < GuideAction
       route do
         html IndexPage
       end
+
+      private def current_user_name
+        "Bobby"
+      end
+    end
+
+    # Accessing it on all pages with `needs`
+    abstract class MainLayout
+      include Lucky::HTMLPage
+
+      needs current_user_name : String
+
+      #...
+    end
+
+    class Users::IndexPage < MainLayout
+      def content
+        h1 "Hello, \#{current_user_name}"
+      end
     end
     ```
+
+    > `needs` will create a Crystal `getter` method by that name for you. Putting it in
+    > the `MainLayout` gives you access to that method on all pages.
 
     ### Full example
 
@@ -714,7 +736,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def content
         h1 "New Blog Post"
-        render_post_form(@save_post)
+        render_post_form(save_post)
       end
 
       def render_post_form(operation)

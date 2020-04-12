@@ -306,8 +306,6 @@ class Guides::Frontend::Internationalization < GuideAction
       include Translator
       # ...
       needs current_user : User
-      # make @current_user available as current_user
-      getter current_user
       # ...
       def page_title
         t("default.page_name")
