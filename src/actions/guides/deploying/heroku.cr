@@ -15,30 +15,70 @@ class Guides::Deploying::Heroku < GuideAction
     steps you need to get up
     and running:
 
-    * If not already created, create an app: `heroku create <APP_NAME>`
-    * Optional: if you created the app through the dashboard instead of the CLI,
+    If not already created, create an app:
+
+    ```plain
+    heroku create <APP_NAME>
+    ```
+
+    **Optional**: if you created the app through the dashboard instead of the CLI,
     add a git remote that points to your Heroku app:
-    `heroku git:remote -a <APP-NAME>`
-    * Add the following buildpacks in
-    order:
-      * `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs`
-      * `heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal`
-    * Set `LUCKY_ENV` to `production`:
-    `heroku config:set LUCKY_ENV=production`
-    * Set `SECRET_KEY_BASE`:
-    `heroku config:set SECRET_KEY_BASE=$(lucky gen.secret_key)`
-    * Set `APP_DOMAIN`:
-    `heroku config:set APP_DOMAIN=https://your-domain.com`. **If you don't have a
-    custom domain** set this to `https://<APP_NAME>.herokuapp.com`.
-    * Set `SEND_GRID_KEY`: `heroku config:set SEND_GRID_KEY=<key from sendgrid.com>`.
+
+    ```plain
+    heroku git:remote -a <APP-NAME>
+    ```
+
+    Add the following buildpacks in order:
+
+    ```plain
+    # Skip this buildpack for API only app. Add this for HTML and Assets
+    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
+
+    # Then add this for all Lucky apps
+    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
+    ```
+
+    Set `LUCKY_ENV` to `production`:
+
+    ```plain
+    heroku config:set LUCKY_ENV=production
+    ```
+
+    Set `SECRET_KEY_BASE`:
+
+    ```plain
+    heroku config:set SECRET_KEY_BASE=$(lucky gen.secret_key)
+    ```
+
+    Set `APP_DOMAIN`:
+
+    ```plain
+    heroku config:set APP_DOMAIN=https://your-domain.com
+    ```
+
+    **If you don't have a custom domain** set this to `https://<APP_NAME>.herokuapp.com`.
+
+    Set `SEND_GRID_KEY`:
+
+    ```plain
+    heroku config:set SEND_GRID_KEY=<key from sendgrid.com>
+    ```
+
     **If you're not sending emails**, set the key to `unused` or go to `config/email.cr`
     and change the adapter to `Carbon::DevAdapter`.
-    * Add a
-    [postgresql database](https://elements.heroku.com/addons/heroku-postgresql)
+
+    Add a [postgresql database](https://elements.heroku.com/addons/heroku-postgresql)
     add-on:
-    `heroku addons:create heroku-postgresql:hobby-dev`
-    * Push to Heroku:
-    `git push heroku master`
+
+    ```plain
+    heroku addons:create heroku-postgresql:hobby-dev
+    ```
+
+    Push to Heroku:
+
+    ```plain
+    git push heroku master
+    ```
 
     Each step is explained in more detail below.
 
@@ -72,7 +112,7 @@ class Guides::Deploying::Heroku < GuideAction
     The first thing we'll do is to connect our Lucky app to the Heroku app by adding a git remote:
 
     ```bash
-    $ heroku git:remote -a <APP-NAME>
+    heroku git:remote -a <APP-NAME>
     ```
 
     ## Buildpacks
@@ -89,8 +129,7 @@ class Guides::Deploying::Heroku < GuideAction
     to our app:
 
     ```bash
-    $ heroku buildpacks:add
-    https://github.com/heroku/heroku-buildpack-nodejs
+    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
     ```
 
     While Heroku has a buildpack for Node.js apps,
@@ -103,8 +142,7 @@ class Guides::Deploying::Heroku < GuideAction
     and install the dependencies for Lucky:
 
     ```bash
-    $ heroku buildpacks:add
-    https://github.com/luckyframework/heroku-buildpack-crystal
+    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
     ```
 
     ## Adding environment variables
@@ -120,7 +158,7 @@ class Guides::Deploying::Heroku < GuideAction
     and use additional environment variables for its configuration:
 
     ```bash
-    $ heroku config:set LUCKY_ENV=production
+    heroku config:set LUCKY_ENV=production
     ```
 
     ### `APP_DOMAIN`
@@ -128,7 +166,7 @@ class Guides::Deploying::Heroku < GuideAction
     Lucky needs the app's domain when it builds full URLs.
 
     ```bash
-    $ heroku config:set APP_DOMAIN=https://myapp.com
+    heroku config:set APP_DOMAIN=https://myapp.com
     ```
 
     ### `SECRET_KEY_BASE`
@@ -141,7 +179,7 @@ class Guides::Deploying::Heroku < GuideAction
     we can set the `SECRET_KEY_BASE` environment variable with that key:
 
     ```bash
-    $ heroku config:set SECRET_KEY_BASE=$(lucky gen.secret_key)
+    heroku config:set SECRET_KEY_BASE=$(lucky gen.secret_key)
     ```
 
     ### `SEND_GRID_KEY` (set to "unused" if not sending emails)
@@ -151,7 +189,7 @@ class Guides::Deploying::Heroku < GuideAction
     environment variable:
 
     ```bash
-    $ heroku config:set SEND_GRID_KEY=<KEY>
+    heroku config:set SEND_GRID_KEY=<KEY>
     ```
 
     If you don't need to send emails you can set the value to `unused`.
@@ -189,7 +227,7 @@ class Guides::Deploying::Heroku < GuideAction
     and copy our local `master` branch to Heroku's `master` branch:
 
     ```bash
-    $ git push heroku master
+    git push heroku master
     ```
 
     First,
@@ -210,7 +248,7 @@ class Guides::Deploying::Heroku < GuideAction
     use Heroku's `open` command:
 
     ```bash
-    $ heroku open
+    heroku open
     ```
 
     Happy shipping!
