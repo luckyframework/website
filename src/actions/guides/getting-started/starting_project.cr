@@ -73,12 +73,11 @@ class Guides::GettingStarted::StartingProject < GuideAction
     ## Script Helpers
 
     Your new Lucky project comes with a few helper scripts located in the `script/` folder.
-    This also includes some additional Bash helper scripts located in the `script/helpers/` folder.
 
     ### Setup script
 
-    The first script you will use is the `script/setup`. This should be ran after you
-    first created your project. It will do a few things for you.
+    The first script you will use is the `script/setup`. You should ran this after you
+    first create your project. It will do a few things for you.
 
     * Run a [system check](##{ANCHOR_SYSTEM_CHECK}) script first.
     * Install Javascript dependencies. (browser app only)
@@ -92,21 +91,97 @@ class Guides::GettingStarted::StartingProject < GuideAction
     #{permalink(ANCHOR_SYSTEM_CHECK)}
     ### System check script
 
-    The `script/system_check` script is called when you run the `script/setup` as well as on every
-    boot of `lucky dev`. You'll find this in the `Procfile.dev`.
+    The `script/system_check` script is called when you run `script/setup`. It is also called every
+    time you run `lucky dev` because Lucky defines a `system_check` process in your `Procfile.dev`.
 
     The purpose of this script is to check that your system has everything it needs in order to run
-    this application for local development. To start, we check these things:
+    this application for local development. By default we check these things:
 
     * Ensure `yarn` is installed. (browser apps only)
-    * Ensure you have a process manage (Overmind, Foreman, etc.)
+    * Ensure you have a process manager (Overmind, Foreman, etc.)
     * Check that postgres client tools are installed.
 
     You can also extend this script to include checks for additional systems you may need.
     (i.e. redis, elasticsearch, etc.).
 
-    Located in the `script/helpers/` directory are two more helper scripts that will make writing
-    Bash just a tad bit easier for those of us not used to writing it.
+    ## Bash function helpers
+
+    Located in `script/helpers/function_helpers` is a set of Bash functions used for writing a few
+    simple checks for your Lucky app.
+
+    ### The `command_not_found` function
+
+    return `true` if the command passed to it is not found.
+
+    ```bash
+    if command_not_found "yarn"; then
+      echo "Yarn is not installed"
+    fi
+    ```
+
+    ### The `command_not_running` function
+
+    return `true` if the command passed to it is not currently running.
+
+    ```bash
+    if command_not_running "redis-cli ping"; then
+      echo "Redis is not running"
+    fi
+    ```
+
+    ### The `is_mac` function
+
+    return `true` if you run this script on macOS.
+
+    ```bash
+    if is_mac; then
+      echo "Running on macOS"
+    fi
+    ```
+
+    ### The `is_linux` function
+
+    return `true` if you run this script on linux.
+
+    ```bash
+    if is_linux; then
+      echo "Running on Linux"
+    fi
+    ```
+
+    > There are a lot of Linux flavors out there. This should catch the most common ones at least.
+
+    ### The `print_error` function
+
+    print your custom error message and exit to allow for stopping your process manager.
+
+    ```bash
+    print_error "Redis is not running. Be sure to start it with 'brew services start redis'"
+    ```
+
+    ### Full example
+
+    You can use a combination of these functions to remind you of which services you need
+    running every time you start your application for local development. For example,
+    if your app uses background job processing, and you need redis running for that to work,
+    then you could add this to your `script/system_check`.
+
+    ```bash
+    if command_not_found "redis-cli"; then
+      print_error "Redis is required, and must be installed"
+    fi
+
+    if command_not_running "redis-cli ping"; then
+      if is_mac; then
+        booting_guide = "brew services start redis"
+      fi
+      if is_linux; then
+        booting_guide = "sudo systemctl start redis-server"
+      fi
+
+      print_error "Redis is not currently running. Try using " $booting_guide
+    fi
+    ```
     MD
   end
 end
