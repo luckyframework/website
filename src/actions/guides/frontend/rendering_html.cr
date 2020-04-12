@@ -63,8 +63,8 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ## Declaring what a page needs
 
     You’ll notice we used `needs` near the top of the class. This declares that for
-    this page to render we need an Array of Strings and that they will be assigned
-    to the `user_names` getter method. We set the user names by passing it in the
+    this page to render we need an Array of Strings and that they will be accessible
+    from the `user_names` getter method. We set the user names by passing it in the
     `html` macro in our action: `html IndexPage, user_names: ["Paul", "Sally", "Jane"]`
 
     > This is nice because you won’t accidentally forget to pass something to a page
