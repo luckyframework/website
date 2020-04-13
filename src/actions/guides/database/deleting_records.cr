@@ -1,4 +1,5 @@
 class Guides::Database::DeletingRecords < GuideAction
+  ANCHOR_SOFT_DELETE = "perma-soft-delete"
   guide_route "/database/deleting-records"
 
   def self.title
@@ -30,6 +31,7 @@ class Guides::Database::DeletingRecords < GuideAction
     UserQuery.new.banned_at.is_not_nil.delete
     ```
 
+    #{permalink(ANCHOR_SOFT_DELETE)}
     ## Soft Deletes
 
     A "soft delete" is when you want to hide a record as if it were deleted, but you want to keep the actual
