@@ -124,11 +124,8 @@ class Lucky020Release < BasePost
 
     ### New system_check script
 
-    Lucky projects already have a `script/setup` file that makes it easy to
-    get your project up and running.
-
-    Now Lucky also has a `script/system_check` that runs at the start of `script/setup`
-    and whenever you start your dev server with `lucky dev`.
+    Lucky v0.20 now has a `script/system_check` that runs at the start of
+    `script/setup` and whenever you start your dev server with `lucky dev`.
 
     It will make sure Postgres is up and running, and required dependencies
     are installed. You can modify this script to add your own system checks
