@@ -392,12 +392,14 @@ class Guides::Database::ValidatingSaving < GuideAction
       def log_changes(user : User)
         # Get changed attributes and log each of them
         attributes.select(&.changed).each do |attribute|
-          Lucky.logger.info(
-            user_id: user.id,
-            changed_attribute: attribute.name.to_s,
-            from: attribute.original_value.to_s,
-            to: attribute.value.to_s
-          )
+          Log.dexter.info do
+            {
+              user_id: user.id,
+              changed_attribute: attribute.name.to_s,
+              from: attribute.original_value.to_s,
+              to: attribute.value.to_s
+            }
+          end
         end
       end
     end

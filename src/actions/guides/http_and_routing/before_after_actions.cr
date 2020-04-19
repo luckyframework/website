@@ -58,7 +58,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
       end
 
       private def log_request_path
-        Lucky.logger.info({method: request.method, path: request.path})
+        Log.dexter.info { {method: request.method, path: request.path} }
       end
     end
     ```
@@ -97,7 +97,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
       after log_request_path
 
       def log_request_path
-        Lucky.logger.info({method: request.method, path: request.path})
+        Log.dexter.info { {method: request.method, path: request.path} }
       end
     end
     ```
