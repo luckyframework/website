@@ -76,7 +76,7 @@ class Guides::GettingStarted::StartingProject < GuideAction
 
     ### Setup script
 
-    The first script you will use is the `script/setup`. You should ran this after you
+    The first script you will use is the `script/setup`. You should run this after you
     first create your project. It will do a few things for you.
 
     * Run a [system check](##{ANCHOR_SYSTEM_CHECK}) script first.
