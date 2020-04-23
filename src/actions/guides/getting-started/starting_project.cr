@@ -31,24 +31,24 @@ class Guides::GettingStarted::StartingProject < GuideAction
 
     ## Skipping the Wizard
 
-    If you'd like to skip the wizard, you can run `lucky custom.init my_app`. This option supports
+    If you'd like to skip the wizard, you can run `lucky init.custom my_app`. This option supports
     all of the same options as the wizard does, but also with some additional flags for quick customization.
 
     This option is great if you need to generate a Lucky app programmatically, or just prefer to get going right away.
 
     ```
     # Generate a Full Web app with Authentication
-    lucky custom.init my_app
+    lucky init.custom my_app
 
     # Generate an API only app
-    lucky custom.init my_app --api
+    lucky init.custom my_app --api
 
     # Skip generating User Auth
-    lucky custom.init my_app --no-auth
+    lucky init.custom my_app --no-auth
 
     # Customize the directory where your app is generated.
     # Default is your current directory
-    lucky custom.init my_app --dir /home/me/projects
+    lucky init.custom my_app --dir /home/me/projects
     ```
 
     > Use the `-h` flag for a quick reference from the terminal.
