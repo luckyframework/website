@@ -326,8 +326,6 @@ class Guides::Frontend::HtmlForms < GuideAction
     <select name="param_key:car_make" class="custom-select">
       <option value="1">Honda</option>
       <option value="2" selected="true">Toyota</option>
-      <option value="3">Ford</option>
-      <option value="4">Volkswagen</option>
     </select>
     ```
 
