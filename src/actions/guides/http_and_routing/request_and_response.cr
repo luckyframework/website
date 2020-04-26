@@ -8,7 +8,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     "Requests and Responses"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Handling Requests
 
@@ -33,7 +33,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
           json(UserSerializer.new(current_user))
         else
           # Just render the page like normal
-          render Users::ShowPage
+          html Users::ShowPage
         end
       end
     end
@@ -69,21 +69,21 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     class Admin::Reports::Show < BrowserAction
       route do
         response.headers["Cache-Control"] = "max-age=150"
-        render ShowPage
+        html ShowPage
       end
     end
     ```
 
-    Read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html)
+    You can read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html).
 
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
 
     Every action is required to return a response
-    
+
     These are the built-in Lucky response methods:
 
-    * `render` - render a Lucky::HTMLPage
+    * `html` - render a Lucky::HTMLPage
     * `redirect` - redirect the request to another location
     * `plain_text` - respond with plain text
     * `json` - return a json response
@@ -106,7 +106,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html)
+    > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html).
 
     #{permalink(ANCHOR_REDIRECTING)}
     ## Redirecting
@@ -114,7 +114,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     You can redirect using the `redirect` method:
 
     > Note that for most methods that link you elsewhere (like `redirect`, or the
-    `link` helper in HTML pages) you can pass the action directly if it does not
+    `link` helper in HTML pages), you can pass the action directly if it does not
     need any params. You can see this in the first `redirect` example below.
 
     ```crystal
@@ -130,7 +130,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ### Redirect statuses
 
-    The default status for a redirect is `HTTP::Status::FOUND` (302), but if you need a different status code, you can pass any [HTTP Status Enum](https://crystal-lang.org/api/HTTP/Status.html)
+    The default status for a redirect is `HTTP::Status::FOUND` (302), but if you need a different status code, you can pass any [HTTP Status Enum](https://crystal-lang.org/api/HTTP/Status.html).
 
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD

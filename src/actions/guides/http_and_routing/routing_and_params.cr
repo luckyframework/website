@@ -7,7 +7,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     "Routing and Params"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     > Check out ["Designing Lucky: Rock Solid Actions &
     Routing"](https://robots.thoughtbot.com/designing-lucky-actions-routing) to
@@ -19,12 +19,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Instead of having separate definition files for routes and controllers, Lucky combines them in action classes.
     This allows for solid error detection, and method and helper creation.
 
-    To save some typing, Lucky automatically infers a default route path from the name of the action class,
+    To save some typing, Lucky can automatically infer a default route path from the name of the action class,
     if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
 
-    For example, an action named `Item::Show` will by default respond to `get "/item/:item_id"`, a HTTP GET request
-
-    for a specific item, and have the requested item_id available as #{:item_id}.
+    ### Example without route inference
 
     To see what a simple action looks like, let's generate an index action for showing users with
     `lucky gen.action.browser Users::Index`.
@@ -67,16 +65,20 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```crystal
     # src/actions/home/index.cr
     class Home::Index < BrowserAction
-      include Auth::SkipRequireSignIn
+      include Auth::AllowGuests
 
       get "/" do
         if current_user?
-          # By default signed in users go to the profile page
-          # You can redirect them somewhere else if you prefer
           redirect Me::Show
         else
-          # Change this to redirect to a different page when not signed in
-          render Lucky::WelcomePage
+          # When you're ready change this line to:
+          #
+          #   redirect SignIns::New
+          #
+          # Or maybe show signed out users a marketing page:
+          #
+          #   html Marketing::IndexPage
+          html Lucky::WelcomePage
         end
       end
     end
@@ -146,7 +148,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
      #   "Users" is the resource, and
      #   "Show" is the RESTful action.
 
-      route do   # The infered route is:  get "/users/:user_id"
+      route do   # The inferred route is:  get "/users/:user_id"
         plain_text "A request was made for the user_id: \#{user_id}"
       end
     end
@@ -167,7 +169,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       #   "Users" is the nested resource
       #   "Index" is the RESTful action
 
-      nested_route do  # The infered route is: get "/projects/:project_id/users"
+      nested_route do  # The inferred route is: get "/projects/:project_id/users"
         plain_text "Render list of users in project \#{project_id}"
       end
     end
@@ -186,7 +188,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       # From the name,
       # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
 
-      route do   # The infered route is: get "/admin/projects"
+      route do   # The inferred route is: get "/admin/projects"
         plain_text "Render list of projects"
       end
     end

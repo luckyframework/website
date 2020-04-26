@@ -10,7 +10,7 @@ class Guides::Database::Models < GuideAction
     "Database Models"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Introduction
 
@@ -35,7 +35,7 @@ class Guides::Database::Models < GuideAction
 
     * [User model](##{ANCHOR_SETTING_UP_A_MODEL}) - Located in `./src/models/user.cr`
     * [SaveUser Operation](#{Guides::Database::ValidatingSaving.path}) - Located in `./src/operations/save_user.cr`
-    * [User query](#{Guides::Database::QueryingDeleting.path}) - Located in `./src/queries/user_query.cr`
+    * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
     * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
     #{permalink(ANCHOR_SETTING_UP_A_MODEL)}
@@ -65,11 +65,11 @@ class Guides::Database::Models < GuideAction
 
     By default the `table` macro will use the underscored and pluralized
     version of the model's class name. So `CompletedProject` would have the
-    table name `:completed_project`.
+    table name `:completed_projects`.
 
     ```crystal
     class CompletedProject < BaseModel
-      # Will use :completed_projects as the tbale name
+      # Will use :completed_projects as the table name
       table do
       end
     end
@@ -177,12 +177,12 @@ class Guides::Database::Models < GuideAction
     * `Int64` - `bigint` column type.
     * `Float64` - `numeric` column type.
     * `Bool` - `boolean` column type.
-    * `Time` - `timestamp with time zone` (`timestampz`) column type.
+    * `Time` - `timestamp with time zone` (`timestamptz`) column type.
     * `UUID` - `uuid` column type.
     * `JSON::Any` - `jsonb` column type.
     * `Array(T)` - `[]` column type where `T` is any other supported type.
 
-    Any of your columns can also define "nillable" types by adding Crystal `Nil` Union `?`.
+    Any of your columns can also define "nilable" types by adding Crystal `Nil` Union `?`.
     This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an
     `int` or `NULL` value).
 
@@ -360,7 +360,7 @@ class Guides::Database::Models < GuideAction
 
     ```crystal
     photo = SavePhoto.create!
-    comment = SaveComment.create!(phot_id: photo.id)
+    comment = SaveComment.create!(photo_id: photo.id)
 
     comment.commentable == photo
     ```
@@ -371,7 +371,7 @@ class Guides::Database::Models < GuideAction
     For each polymorphic association, you'll need to add a `belongs_to`. This helps to keep
     our polymorphic associations type-safe! [See migrations](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}) for `add_belongs_to`.
 
-    You'll also note that the `belongs_to` has nillable models. This is required for the polymorphic
+    You'll also note that the `belongs_to` has nilable models. This is required for the polymorphic
     association. Even though these are set as nilable, the association still requires at least 1 of the
     `associations` to exist. This means that `commentable` is never actually `nil`.
 
@@ -386,7 +386,7 @@ class Guides::Database::Models < GuideAction
     ### Preloading polymorphic associations
 
     Since the polymorphic associations are just regular `belongs_to` associations with some sweet
-    helper methods, all of the [preloading](#{Guides::Database::QueryingDeleting.path(anchor: Guides::Database::QueryingDeleting::ANCHOR_PRELOADING)}) still exists.
+    helper methods, all of the [preloading](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_PRELOADING)}) still exists.
 
     ```crystal
     comment = CommentQuery.new.preload_commentable

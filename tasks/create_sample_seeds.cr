@@ -13,9 +13,9 @@ class Db::CreateSampleSeeds < LuckyCli::Task
     # Use the defaults, but override just the email
     # UserBox.create &.email("me@example.com")
 
-    # Using a form:
+    # Using an operation:
     #
-    # UserForm.create!(email: "me@example.com", name: "Jane")
+    # SaveUser.create!(email: "me@example.com", name: "Jane")
     puts "Done adding sample data"
   end
 end

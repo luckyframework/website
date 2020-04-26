@@ -6,6 +6,7 @@ Lucky::Server.configure do |settings|
     settings.secret_key_base = secret_key_from_env
     settings.host = "0.0.0.0"
     settings.port = ENV["PORT"].to_i
+    settings.gzip_enabled = true
   else
     settings.secret_key_base = "2/4teCSDIg6iSpVHdcHyY60N7vSK4+ao4vQUgdss11c="
     # Change host/port in config/watch.yml

@@ -1,13 +1,12 @@
 require "./shards"
 
 # Load .env file before any other config or app code
-Dotenv.load
+Dotenv.load?
 
 # Load the asset manifest in public/mix-manifest.json
 Lucky::AssetHelpers.load_manifest
 
 require "./app_database"
-require "./models/base_model"
 require "./models/mixins/**"
 require "./models/**"
 require "./posts/base_post"

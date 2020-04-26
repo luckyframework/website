@@ -10,6 +10,7 @@ class Shared::LayoutHead < BaseComponent
       js_link asset("js/app.js"), defer: "defer", data_turbolinks_track: "reload"
       csrf_meta_tags
       meta name: "description", content: @seo.page_description
+      rss_link
 
       responsive_meta_tag
       meta name: "mobile-web-app-capable", content: "yes"
@@ -30,5 +31,9 @@ class Shared::LayoutHead < BaseComponent
     meta property: "og:description", content: @seo.page_description
     meta property: "og:locale", content: "en_US"
     meta property: "og:image", content: Lucky::RouteHelper.settings.base_uri + asset("images/lucky_og_screenshot.png")
+  end
+
+  private def rss_link
+    tag "link", rel: "alternate", type: "application/rss+xml", href: Blog::Feed.url, title: "Lucky Blog"
   end
 end

@@ -8,7 +8,7 @@ abstract class BlogLayout
   needs title : String
 
   def page_title
-    @title
+    title
   end
 
   def render
@@ -29,7 +29,7 @@ abstract class BlogLayout
         end
       end
 
-      mount Shared::Footer.new()
+      mount Shared::Footer.new
     end
   end
 end

@@ -5,7 +5,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     "Why use Lucky?"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## The Lucky philosophy
 
@@ -24,7 +24,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     ## Spend less time writing tests and debugging
 
-    [Type safe database queries](#{Guides::Database::QueryingDeleting.path}), [rock solid
+    [Type safe database queries](#{Guides::Database::Querying.path}), [rock solid
     routing](#{Guides::HttpAndRouting::RoutingAndParams.path}), [type safe forms and
     validations](#{Guides::Database::ValidatingSaving.path}), and more. This is how Lucky helps you
     find errors before they reach your customers, write fewer tests, and spend less
@@ -69,7 +69,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     Instead of nil errors in production, Crystal and Lucky tell you about nil errors
     at compile time, before your customers ever see them. Lucky has designed its
-    [router], [HTML], [actions], params, and [forms] so that Crystal can catch as
+    [router], [HTML], [actions], params, and [operations] so that Crystal can catch as
     many `nil` errors as possible.
 
     [router]: #{Guides::HttpAndRouting::RoutingAndParams.path}
@@ -167,7 +167,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     that isn’t allowed to be filled out.
 
     ```crystal
-    # A form that is used to register a new user
+    # An operation that is used to register a new user
     class RegisterUser < User::SaveOperation
       permit_columns name, email # company_name is not allowed to be filled out
     end

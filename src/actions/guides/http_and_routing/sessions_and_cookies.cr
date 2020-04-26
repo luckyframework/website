@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     "Sessions and Cookies"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Cookies and Sessions
 
@@ -37,12 +37,11 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
 
     ### Clearing Sessions and Cookies
 
-    If you need to remove a session, or delete a cookie.
+    If you need to remove a session, or delete a cookie, do this:
 
     ```crystal
     # Delete a specific session key
     session.delete(:name)
-    session.deleted?(:name) #=> true
 
     # Clear the current session
     session.clear
@@ -57,7 +56,7 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
 
     ### Customize Cookies
 
-    If you need to customize specific [cookie options](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie), each cookie is an instance of [HTTP::Cookie](https://crystal-lang.org/api/HTTP/Cookie.html) which gives you access to several helpful methods.
+    If you need to customize specific [cookie options](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie), each cookie is an instance of [HTTP::Cookie](https://crystal-lang.org/api/HTTP/Cookie.html), which gives you access to several helpful methods.
 
     ```crystal
     # This gives you a HTTP::Cookie or raise an exception

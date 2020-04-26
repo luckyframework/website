@@ -5,12 +5,12 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     "HTTP Handlers"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## About handlers
 
-    Crystal comes with a module [HTTP::Handler](https://crystal-lang.org/api/HTTP/Handler.html) which is used as middleware for your HTTP Server stack.
-    These are classes you create that include the `HTTP::Handler` module to process incoming requests, and return responses.
+    Crystal comes with a module [HTTP::Handler](https://crystal-lang.org/api/HTTP/Handler.html), which is used as middleware for your HTTP Server stack.
+    These are classes you create that include the `HTTP::Handler` module to process incoming requests and return responses.
 
     ## Built-in handlers
 
@@ -36,19 +36,19 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     ```
 
     The `request` object will start in the `Lucky::ForceSSLHandler`, do some processing, then move on to the `Lucky::LogHandler`, and so on.
-    In the `Lucky::RouteHandler` it will look for a `Lucky::Action` that mathes the request, run any pipes, then run the action. If no action is found,
+    In the `Lucky::RouteHandler` it will look for a `Lucky::Action` that matches the request, run any pipes, then run the action. If no action is found,
     we check to see if there's a static file in `Lucky::StaticFileHandler`. Finally, if no route or file matches the request, we run the `Lucky::RouteNotFoundHandler`.
 
     ## Creating custom handlers
 
-    Your application may have special requirements like routing legacy URLs, sending bug reporting, CORS, or even doing HTTP Basic auth while your app is in beta.
-    Whatever your usecase, creating a custom handler is really easy!
+    Your application may have special requirements like routing legacy URLs, sending bug reporting, CORS, or even doing [HTTP Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication) while your app is in beta.
+    Whatever your use case, creating a custom handler is really easy!
 
-    First we start off by creating a new directory where we can place all of our custom handlers. Create a `src/handlers/` directory, and be sure to require it `src/app.cr`.
+    First we start off by creating a new directory where we can place all of our custom handlers. Create a `src/handlers/` directory and be sure to require it `src/app.cr`.
 
     Next, your handler needs 3 things:
     1. It must include `HTTP::Handler`
-    2. It must define a `call` method that an argument of `context : HTTP::Server::Context`
+    2. It must define a `call` method with an argument of `context : HTTP::Server::Context`
     3. It needs to call the `call_next(context)` to go to the next handler in the stack
 
     ```crystal
@@ -69,7 +69,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     end
     ```
 
-    Lastly, we need to make sure our new custom handler is in our stack. Open up `src/app_server.cr`, and place a new instance in the stack!
+    Lastly, we need to make sure our new custom handler is in our stack. Open up `src/app_server.cr` and place a new instance in the stack!
 
     ```crystal
     # src/app_server.cr

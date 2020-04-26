@@ -8,11 +8,11 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     "Error Handling"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## How Lucky renders errors
 
-    When an error occurs the `Lucky::ErrorHandler` calls the auto-generated
+    When an error occurs, the `Lucky::ErrorHandler` calls the auto-generated
     `Errors::Show` action in `src/actions/errors/show.cr`.
 
     The `Errors::Show` action has 3 key methods:
@@ -96,7 +96,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
       if html?
         error_html message: "Custom error message.", status: 418
       else
-        error_html message: "Custom error", status: 418
+        error_json message: "Custom error", status: 418
       end
     end
     ```
@@ -124,7 +124,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     end
     ```
 
-    If the clients wants JSON back it will get this error message, otherwise
+    If the client wants JSON back, it will get this error message, otherwise
     the method will return `nil` and Lucky will fall back to using the
     `default_render` method.
 
@@ -151,7 +151,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     end
     ```
 
-    If you open `src/actions/errors/show_page.cr` you'll see the other errors
+    If you open `src/actions/errors/show.cr`, you'll see the other errors
     that Lucky handles by default.
 
     One of special note is the `Lucky::RenderableError`. We'll talk about
@@ -172,7 +172,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     `renderable_message` method defined.
 
     By default, `Lucky::RenderableError`s are handled with the `render(error
-    : Lucky::RenderableError)` method included in all new Lucky projects
+    : Lucky::RenderableError)` method included in all new Lucky projects.
 
     It looks something like this:
 
@@ -186,7 +186,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     end
     ```
 
-    If you want to make it so your error is rendered with this method
+    If you want to make it so your error is rendered with this method,
     you can do this:
 
     ```crystal
@@ -253,7 +253,7 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
 
     Some errors don't need to be reported. `Errors::Show` has a `dont_report`
     macro that accepts an array of classes that should not be reported. By
-    default Lucky does not report `Lucky::RouteNotFoundError` but you can
+    default Lucky does not report `Lucky::RouteNotFoundError`, but you can
     add any errors there that you don't want reported.
 
     ```

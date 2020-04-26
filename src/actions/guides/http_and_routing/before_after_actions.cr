@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
     "Before / After Actions"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Creating pipes
 
@@ -41,13 +41,13 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
     other pipe will run.
 
     > If your `before` pipe returns with a render or redirect, then the
-    > action will not be called
+    > action will not be called.
 
     ## Sharing pipes across actions
 
     Sharing code between actions will be pretty common. Whether it's for
-    authenticating, authorization, or just some logging, it's recommended to
-    place these common methods in to a module that can be included in to the
+    authentication, authorization, or just some logging, it's recommended to
+    place these common methods in a module that can be included in the
     actions that need them.
 
     ```crystal
@@ -58,12 +58,12 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
       end
 
       private def log_request_path
-        Lucky.logger.info({method: request.method, path: request.path})
+        Log.dexter.info { {method: request.method, path: request.path} }
       end
     end
     ```
 
-    With our mixin defined, we can include it in to each action that requires it.
+    With our mixin defined, we can include it in each action that requires it.
 
     ```crystal
     class Dashboard::Show < BrowserAction
@@ -76,13 +76,13 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
     ```
 
     You could also include this in a base class like the built-in `BrowserAction`
-    or `ApiAction` so all actions that inherit those will run the pipes.
+    or `ApiAction`, so all actions that inherit those will run the pipes.
 
-    You could also create a new base action using an an [abstract class](https://crystal-lang.org/reference/syntax_and_semantics/virtual_and_abstract_types.html)
-    like we do with the built-in ones. For example you could have an
+    You could also create a new base action using an [abstract class](https://crystal-lang.org/reference/syntax_and_semantics/virtual_and_abstract_types.html)
+    like we do with the built-in ones. For example, you could have an
     `AdminAction` that inherits from `BrowserAction` and includes your
-    authorization based pipes. Then all admin actions can inherit from
-    `AdminAction` and the authorization based pipes will be run.
+    authorization-based pipes. Then all admin actions can inherit from
+    `AdminAction` and the authorization-based pipes will be run.
 
     ## Skipping a pipe
 
@@ -97,7 +97,7 @@ class Guides::HttpAndRouting::BeforeAfterActions < GuideAction
       after log_request_path
 
       def log_request_path
-        Lucky.logger.info({method: request.method, path: request.path})
+        Log.dexter.info { {method: request.method, path: request.path} }
       end
     end
     ```

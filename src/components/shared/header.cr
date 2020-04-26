@@ -7,7 +7,7 @@ class Shared::Header < BaseComponent
         div class: "flex flex-wrap md:flex-no-wrap justify-between items-center md:px-6" do
           div do
             link(Home::Index, class: "text-white ml-6 md:ml-0 mr-10 self-center") do
-              img src: asset("images/logo.png"), class: "h-8", alt: "Lucky Logo"
+              img src: asset("images/logo.png"), class: "h-8 inline", alt: "Lucky Logo"
             end
           end
           main_navigation
@@ -22,7 +22,7 @@ class Shared::Header < BaseComponent
   end
 
   private def nav_and_search
-    nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-no-grow md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
+    nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-grow-0 md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
       nav_links
       docsearch_input
       docsearch_js
@@ -53,8 +53,8 @@ class Shared::Header < BaseComponent
   end
 
   private def nav_links
-    nav_link("Guides", Guides::GettingStarted::Installing)
-    nav_link("Blog", Blog::Index)
+    nav_link("Guides", Guides::GettingStarted::Installing.path)
+    nav_link("Blog", Blog::Index.path)
     nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
     nav_link("GitHub", "https://github.com/luckyframework/lucky")
   end
@@ -65,7 +65,7 @@ class Shared::Header < BaseComponent
         type: "text",
         placeholder: "Search...",
         class: "w-full md:w-32 my-6 mr-6 md:m-0 md:mx-0 py-2 px-4 bg-blue-darker appearance-none border-2 border-grey-dark rounded-full transition-base text-white leading-tight focus:text-black md:focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal"
-        img src: asset("icons/search.svg")
+      img src: asset("icons/search.svg")
     end
   end
 
@@ -83,8 +83,8 @@ class Shared::Header < BaseComponent
   end
 
   private def nav_link(title, href, active : Bool = false)
-    link title,
-      to: href,
+    a title,
+      href: href,
       class: "uppercase block md:inline-block font-bold text-white tracking-wide no-underline md:mr-4 px-8 py-5 md:px-4 md:py-8 text-sm hover:bg-blue-darker hover:text-white"
   end
 end

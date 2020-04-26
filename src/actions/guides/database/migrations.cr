@@ -7,7 +7,7 @@ class Guides::Database::Migrations < GuideAction
     "Migrations"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Migrating Data
 
@@ -254,15 +254,18 @@ class Guides::Database::Migrations < GuideAction
 
     > You can also use a symbol for a table name. For example `create :users`.
 
-    ## Using fill_existing_with
+    ## Using fill_existing_with and default values
 
     When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
+    This is useful when a default value is NOT desired, but the existing data should be backfilled anyway.
 
-    If your column is required, you will need to set a default value on all records otherwise you'll have errors.
+    If your column is required, you will need to set a **default** value or use `fill_existing_with`
+    otherwise you'll have errors.  **NOTE:** You must use either `default` or  `fill_existing_with`.
+    They can't be used together since they both solve similar problems.
 
     ```crystal
     alter table_for(User) do
-      add active : Bool, default: true, fill_existing_with: true
+      add active : Bool, default: true
       add otp_code : String, fill_existing_with: "fake-otp-code-123"
     end
     ```
@@ -272,9 +275,9 @@ class Guides::Database::Migrations < GuideAction
     If a static value will not work, try this:
 
     * If you have not yet released the app, consider using `fill_existing_with: :nothing`
-      and dropping the database `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
-    * Consider making the type nilable `add otp_code : String?`, then fill the values with whatever value you need.
-      Then later make it required with `make_required :otp_code`
+      and dropping the database with `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
+    * Consider making the type nilable (example: `add otp_code : String?`), then fill the values with whatever value you need.
+      Then make it required with `make_required :users, :otp_code`. See the example below:
 
     ``` crystal
     def migrate
@@ -285,11 +288,11 @@ class Guides::Database::Migrations < GuideAction
 
       # Then add values to it
       UserQuery.new.each do |user|
-        User::SaveOperation.udpate!(user, otp_code: CodeGenerator.generate)
+        SaveUser.udpate!(user, otp_code: CodeGenerator.generate)
       end
 
       # Then make it non-nullable
-      make_required :otp_code
+      make_required table_for(User), :otp_code
     end
     ```
 
@@ -309,7 +312,7 @@ class Guides::Database::Migrations < GuideAction
     You can also update some of the options passed to a column such as a float precision.
 
     ```crystal
-    alter :transactions do
+    alter table_for(Transaction) do
       change_type amount : Float64, precision: 4, scale: 2
     end
     ```
@@ -328,7 +331,7 @@ class Guides::Database::Migrations < GuideAction
     ## Add index
 
     The easiest way is to add the `index: true` option on the `add` method.
-    However, if you're adding indicies after the table is created, you can use the `create_index` method.
+    However, if you're adding indices after the table is created, you can use the `create_index` method.
 
     ```crystal
     def migrate
@@ -385,7 +388,7 @@ class Guides::Database::Migrations < GuideAction
       create table_for(Comment) do
         primary_key id : UUID
         add_timestamps
-        add_belongs author : User, on_delete: :cascade, foreign_key_type: UUID
+        add_belongs_to author : User, on_delete: :cascade, foreign_key_type: UUID
       end
     end
     ```

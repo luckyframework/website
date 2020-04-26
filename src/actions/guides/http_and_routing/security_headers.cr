@@ -5,13 +5,13 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
     "Security Headers"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Securing actions
 
     Security is a very important part to building an application, and Lucky comes with a few small tools to help you out.
 
-    If you look in your `src/actions/browser_action.cr`, you'll see Lucky has added the `Lucky::ProtectFromForgery` module which helps to protect you against [Cross-Site Request Forgery (CSRF)](https://www.owasp.org/index.php/Cross-Site_Request_Forgery).
+    If you look in your `src/actions/browser_action.cr`, you'll see Lucky has added the `Lucky::ProtectFromForgery` module, which helps to protect you against [Cross-Site Request Forgery (CSRF)](https://www.owasp.org/index.php/Cross-Site_Request_Forgery).
 
     There's a few other modules you can include in your actions to help secure your app against attacks. It's up to you to decide which ones work best for your needs.
 
@@ -25,13 +25,14 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
     abstract class BrowserAction < Lucky::Action
       include Lucky::SecureHeaders::SetFrameGuard
 
-      def frame_guard_value
+      def frame_guard_value : String
         "deny"
       end
     end
     ```
 
     > The `frame_guard_value` method is required, and must be `"sameorigin"`, `"deny"`, or a valid URL for your website.
+    > The explicit return type (`String` in this example) is required when you override abstract method with explicit return type.
 
     ### `SetSniffGuard`
 
@@ -59,7 +60,7 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
 
     ## Forcing SSL and HSTS
 
-    ['Strict-Transport-Security' header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) is used for telling a browser that this site should only be accessed using HTTPS. 
+    ['Strict-Transport-Security' header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) is used for telling a browser that this site should only be accessed using HTTPS.
     Lucky comes with a `Lucky::ForceSSLHandler` handler already included, but disabled by default. To enable this, go to `config/server.cr`, and set the `settings.enabled` option to `true`.
 
     If you would like to enable HSTS, you can add the options to the `settings.strict_transport_security` option.

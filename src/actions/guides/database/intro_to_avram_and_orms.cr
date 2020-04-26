@@ -5,7 +5,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     "Intro to Avram and ORMs"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Avram
 
@@ -58,7 +58,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     Lucky will create a `User::BaseQuery` class for you, and your `UserQuery` object will inherit from that.
     (e.g. `UserQuery < User::BaseQuery`).
 
-    [Learn more about queries](#{Guides::Database::QueryingDeleting.path})
+    [Learn more about queries](#{Guides::Database::Querying.path})
 
     ## Operations
 
@@ -93,7 +93,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     reference followed by "Box". (e.g. `User` model, `UserBox` box) You'll find these located in your app's
     `spec/support/boxes/` folder.
 
-    [Learn more about boxes](#{Guides::Database::Testing.path})
+    [Learn more about boxes](#{Guides::Testing::CreatingTestData.path})
 
     ## Alternate ORMs
 

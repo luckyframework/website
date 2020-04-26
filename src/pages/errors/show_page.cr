@@ -2,7 +2,7 @@ class Errors::ShowPage
   include Lucky::HTMLPage
 
   needs status : Int32
-  needs title : String
+  needs message : String
 
   def render
     html_doctype
@@ -17,12 +17,12 @@ class Errors::ShowPage
 
       body do
         div class: "container" do
-          h2 @status, class: "status-code"
-          h1 @title, class: "title"
+          h2 status, class: "status-code"
+          h1 message, class: "title"
 
           ul class: "helpful-links" do
             li do
-              link "Try heading back to home", to: "/", class: "helpful-link"
+              a "Try heading back to home", href: "/", class: "helpful-link"
             end
           end
         end

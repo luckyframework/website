@@ -5,7 +5,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     "URL and Link Generation"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Path and route helpers
 
@@ -30,7 +30,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     end
     ```
 
-    You can then call these methods
+    You can then call these methods:
 
     * `Projects::Users::Index.path(project_id: "my_project_id")` and it will return ->
       `"/projects/my_project_id/users"`
@@ -40,7 +40,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
       is what you'll usually use for generating links, submitting forms, and redirecting.
 
     We'll talk about this more in the [Pages guide](#{Guides::Frontend::RenderingHtml.path}). You can use the route helper with
-    links and forms to automatically set the path *and* HTTP method at the same time.
+    links and operations to automatically set the path *and* HTTP method at the same time.
     MD
   end
 end

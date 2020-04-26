@@ -1,12 +1,13 @@
-class Guides::Database::QueryingDeleting < GuideAction
+class Guides::Database::Querying < GuideAction
   ANCHOR_PRELOADING = "perma-preloading"
-  guide_route "/database/querying-deleting"
+  ANCHOR_RELOADING  = "perma-reloading"
+  guide_route "/database/querying-records"
 
   def self.title
-    "Querying and Deleting records"
+    "Querying records"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Query Objects
 
@@ -58,13 +59,12 @@ class Guides::Database::QueryingDeleting < GuideAction
     * `find(id)` - Returns the record with the primary key `id`. Raise `Avram::RecordNotFoundError` if no record is found.
     * `last` - Returns the last record. Raise `Avram::RecordNotFoundError` if no record is found.
     * `last?` - Returns the last record. Returns `nil` if no record is found.
-    * `all` - Returns an array of all the records.
 
     ```crystal
     first_user = UserQuery.first
     last_user = UserQuery.last
     specific_user = UserQuery.find(4)
-    all_users = UserQuery.all
+    all_users = UserQuery.new
     ```
 
     ### Lazy loading
@@ -104,7 +104,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     `SELECT COLUMNS FROM users`
 
     ```crystal
-    users = UserQuery.new.all
+    users = UserQuery.new
     ```
 
     ### Select first
@@ -171,7 +171,16 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age(54)
     ```
 
-    ### A = B AND C = D
+    In some cases, the value you pass in may be nilable. If you pass in a `nil` value,
+    Avram will raise an exception.
+
+    For these cases, you would use the `nilable_eq` method.
+
+    ```crystal
+    UserQuery.new.age.nilable_eq(potential_age_or_nil_value)
+    ```
+
+    ### WHERE with AND (A = B AND C = D)
 
     Find rows where `A` is equal to `B` and `C` is equal to `D`.
 
@@ -197,7 +206,7 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ### A IS NULL / IS NOT NULL
 
-    Find rows where `A` is `nil`.
+    Find rows where `A` is `nil` using is_nil.
 
     `SELECT COLUMNS FROM users WHERE users.name IS NULL`
 
@@ -215,7 +224,12 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ### A gt/lt B
 
-    Find rows where `A` is greater than or equal to `B`.
+    * gt: >
+    * gte: >=
+    * lt: <
+    * lte: <=
+
+    Find rows where `A` is greater than or equal to (>=) `B`.
 
     `WHERE users.age >= 21`
 
@@ -245,6 +259,16 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     ```crystal
     UserQuery.new.updated_at.lt(3.months.ago)
+    ```
+
+    ### A between C and D
+
+    Find rows where `A` is between `C` and `D`.
+
+    `WHERE users.updated_at >= '#{3.days.ago}' AND users.updated_at <= '#{1.day.ago}'`
+
+    ```crystal
+    UserQuery.new.updated_at.between(3.days.ago, 1.day.ago)
     ```
 
     ### A in / not in (B)
@@ -281,7 +305,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.name.ilike("jim")
     ```
 
-    ## Ordering
+    ## Order By
 
     Return rows ordered by the `age` column in descending (or ascending) order.
 
@@ -293,61 +317,61 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.asc_order
     ```
 
+    ### NULLS FIRST / LAST
+
+    Sort records placing NULL values first or last
+
+    `SELECT COLUMNS FROM users ORDER BY users.age DESC NULLS FIRST`
+
+    ```crystal
+    UserQuery.new.age.desc_order(:nulls_first)
+    # Also sort with NULLS LAST
+    UserQuery.new.age.desc_order(:nulls_last)
+    ```
+
+    ## Group By
+
+    Return rows grouped by the `age` column.
+
+    `SELECT COLUMNS FROM users GROUP BY users.age, users.id`
+
+    ```crystal
+    UserQuery.new.group_by(&.age).group_by(&.id)
+    ```
+
+    > Using the Postgres GROUP BY function can be confusing. Read more on [postgres aggregate functions](https://www.postgresql.org/docs/current/tutorial-agg.html).
+
     ## Pagination
 
-    To do paginating, you'll use a combination of limit and offset. You can also use this formula to help.
+    This section has been moved to its own [pagination guide](#{Guides::Database::Pagination.path}).
 
-    ```crystal
-    page = 1
-    per_page = 12
-
-    limit = per_page
-    offset = per_page * (page - 1)
-
-    UserQuery.new.limit(limit).offset(offset)
-    ```
-
-    ### Limit
-
-    `SELECT COLUMNS FROM users LIMIT 1`
-
-    ```crystal
-    UserQuery.new.limit(1)
-    ```
-
-    ### Offset
-
-    `SELECT COLUMNS FROM users OFFSET 20`
-
-    ```crystal
-    UserQuery.new.offset(20)
-    ```
-
-    ## Aggregates
-
-    ### Count
-
-    `SELECT COUNT(*) FROM users`
-
-    ```crystal
-    total_count = UserQuery.new.select_count
-    ```
-
-    ### Avg / Sum
+    ### Select Avg / Sum
 
     `SELECT AVG(users.age) FROM users`
 
     ```crystal
+    # This will return a Float64 | Nil.
+    # The value will be nil if there are no records.
     UserQuery.new.age.select_average
+
+    # This will return a Float64.
+    # The value will be 0 if there are no records.
+    UserQuery.new.age.select_average!
     ```
 
     `SELECT SUM(users.age) FROM users`
 
     ```crystal
+    # Returns an Int64 for integer columns, or a Float64 for float columns
+    # Returns nil if there are no records
     UserQuery.new.age.select_sum
+
+    # Returns an Int64 for integer columns, or a Float64 for float columns
+    # Returns 0 if there are no records
+    UserQuery.new.age.select_sum!
     ```
 
-    ### Min / Max
+    ### Select Min / Max
 
     `SELECT MIN(users.age) FROM users`
 
@@ -361,6 +385,10 @@ class Guides::Database::QueryingDeleting < GuideAction
     UserQuery.new.age.select_max
     ```
 
+    `select_min` and `select_max` will return a union type of the column and `Nil`.
+    For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
+
+
     ## Associations and Joins
 
     When you have a model that is associated to another, your association is a method you can use
@@ -369,20 +397,35 @@ class Guides::Database::QueryingDeleting < GuideAction
     ### Associations
 
     Each association defined on your model will have a method prefixed with `where_` that takes a
-    query from the association.
+    query from the association. This method will add an inner join for you.
 
     You can use this to help refine your association.
 
     ```crystal
-    # SELECT COLUMNS FROM users WHERE tasks.title = 'Clean up notes'
+    # SELECT COLUMNS FROM users INNER JOIN tasks ON users.id = tasks.user_id WHERE tasks.title = 'Clean up notes'
     UserQuery.new.where_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
-    This will return all users who have a task with a title "Clean up notes". You can continue to scope
-    this on both the `User` and `Task` side.
+    This will return all users who have a task with a title "Clean up notes".
+    You can continue to scope this on both the `User` and `Task` side.
 
     > This example shows the `has_many` association, but all associations including `has_one`, and
-    > `belongs_to` take a block in the same format.
+    > `belongs_to` use the same format.
+
+
+    ### Joins
+
+    By default, using the `where_` methods will use `INNER JOIN`, but you have the option
+    to configure this by passing `false` to the `auto_inner_join` argument, and specifying
+    a different join method.
+
+    ```crystal
+    UserQuery.new
+      .left_join_tasks
+      .where_tasks(
+        TaskQuery.new.title("Clean up notes"),
+        auto_inner_join: false)
+    ```
 
     ### Inner joins
 
@@ -422,11 +465,11 @@ class Guides::Database::QueryingDeleting < GuideAction
     #{permalink(ANCHOR_PRELOADING)}
     ## Preloading
 
-    In development and test environemnts Lucky requries preloading associations. If you forget to preload an
+    In development and test environments Lucky requires preloading associations. If you forget to preload an
     association, a runtime error will be raised when you try to access it. In production, the association will
     be lazy loaded so that users do not see errors.
 
-    This solution means you will find N+1 queries as you develop instead of in productionm and users will never
+    This solution means you will find N+1 queries as you develop instead of in production and users will never
     see an error.
 
     To preload, just call `preload_{association name}` on the query:
@@ -465,6 +508,55 @@ class Guides::Database::QueryingDeleting < GuideAction
     task.user!
     ```
 
+    #{permalink(ANCHOR_RELOADING)}
+    ## Reloading Data
+
+    Reloading a model can be useful when you've loaded a model, but then there is a change to the data.
+
+    ```crystal
+    author = AuthorQuery.find(5)
+
+    # Let's say the Author's profile picture is hidden
+    author.hide_avatar #=> true
+
+    # If this database value is updated...
+    SaveAuthor.update!(author, hide_avatar: false)
+
+    # We can reload to get the new value
+    author.reload.hide_avatar #=> false
+    ```
+
+    When calling the `reload` method on the [model](#{Guides::Database::Models.path}), the original
+    instance is not updated.
+
+    ```crystal
+    # The new value grabbed from the reloaded model
+    author.reload.hide_avatar #=> false
+
+    # The original value is still in place
+    author.hide_avatar #=> true
+    ```
+
+    ### Adding preloads when reloading
+
+    You can also use the `reload` method to preload associations. For example, if you
+    have a post, and want to preload comments, you can use `reload` with a block.
+
+    ```crystal
+    # `post` is a recently updated record.
+    # We want to get all of the author names that commented on this `post`.
+
+    # This is not preloaded, and can lead to performance issues
+    post.comments.map(&.author.name)
+
+    # Preload the comments and authors for better performance
+    post.reload(&.preload_comments(CommentQuery.new.preload_authors))
+      .comments.map(&.author.name)
+    ```
+
+    Read up on [preloading associations](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_PRELOADING)})
+    for more information.
+
     ## No results
 
     Avram gives you a `none` method to return no results. This can be helpful when under
@@ -499,7 +591,7 @@ class Guides::Database::QueryingDeleting < GuideAction
     ### Using with associations
 
     ```crystal
-    class UserQuery < Uery::BaseQuery
+    class UserQuery < User::BaseQuery
       def recently_completed_admin_tasks
         task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
 
@@ -527,48 +619,6 @@ class Guides::Database::QueryingDeleting < GuideAction
     end
     ```
 
-    ## Deleting Records
-
-    ### Delete one
-
-    Deteling a single record is actually done on the [model](#{Guides::Database::Models.path}) directly. Since each query returns an
-    instance of the model, you can just call `delete` on that record.
-
-    ```crystal
-    user = UserQuery.find(4)
-
-    # DELETE FROM users WHERE users.id = 4
-    user.delete
-    ```
-
-    ### Bulk delete
-
-    If you need to bulk delete a group of records based on a where query, you can use `delete` at
-    the end of your query. This returns the number of records deleted.
-
-    ```crystal
-    # DELETE FROM users WHERE banned_at IS NOT NULL
-    UserQuery.new.banned_at.is_not_nil.delete
-    ```
-
-    ### Truncate
-
-    If you need to delete every record in the entire table, you can use `truncate`.
-
-    `TRUNCATE TABLE users`
-
-    ```crystal
-    UserQuery.truncate
-    ```
-
-    You can also truncate your entire database by calling `truncate` on your database class.
-
-    ```crystal
-    AppDatabase.truncate
-    ```
-
-    > This method is great for tests; horrible for production. Also note this method is not chainable.
-
     ## Complex Queries
 
     If you need more complex queries that Avram may not support, you can run
@@ -576,6 +626,52 @@ class Guides::Database::QueryingDeleting < GuideAction
 
     > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
     > or raw SQL.
+
+    ## Resetting Queries
+
+    If you need to remove parts of the SQL query after the query has been built, Avram gives you
+    a few reset methods for that.
+
+    ### Reset where
+
+    The `reset_where` method takes a block where you call the name of the column you want to remove
+    from your query.
+
+    ```crystal
+    # SELECT * FROM users WHERE name = 'Billy' AND signed_up < '2 days ago'
+    user_query = UserQuery.new.name("Billy").signed_up.lt(2.days.ago)
+
+    # The `name = 'Billy'` is removed
+    # SELECT * FROM users WHERE signed_up < '2 days ago'
+    user_query.reset_where(&.name)
+    ```
+
+    ### Reset order
+
+    ```crystal
+    user_query = UserQuery.new.age.desc_order
+
+    # This will remove the `ORDER BY age DESC`
+    user_query.reset_order
+    ```
+
+    ### Reset limit
+
+    ```crystal
+    user_query = UserQuery.new.limit(10)
+
+    # This will remove the `LIMIT 10`
+    user_query.reset_limit
+    ```
+
+    ### Reset offset
+
+    ```crystal
+    user_query = UserQuery.new.offset(25)
+
+    # This will remove the `OFFSET 25`
+    user_query.reset_offset
+    ```
 
     ## Debugging Queries
 
@@ -588,6 +684,18 @@ class Guides::Database::QueryingDeleting < GuideAction
       .age(45)
       .limit(1)
       .to_sql #=> ["SELECT COLUMNS FROM users WHERE users.name = $1 AND users.age = $2 LIMIT $3", "Stan", 45, 1]
+    ```
+
+    You can also use the `to_prepared_sql` method to combine your query and args. This is helpful when
+    you need to copy and paste your query in to [psql](https://www.postgresql.org/docs/current/app-psql.html)
+    directly during development when working with more complex queries.
+
+    ```crystal
+    UserQuery.new
+      .where_posts(PostQuery.new.published(true).tags(["crystal", "lucky"]))
+      .limit(10)
+      .to_prepared_sql
+    #=> "SELECT COLUMNS FROM users INNER JOIN posts ON users.id = posts.user_id WHERE posts.tags = '{"crystal", "lucky"}' LIMIT 10"
     ```
     MD
   end

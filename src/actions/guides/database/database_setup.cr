@@ -1,5 +1,5 @@
 class Guides::Database::DatabaseSetup < GuideAction
-  ANCHOR_SEEDING_DATA = "perma-seeding-data"
+  ANCHOR_SEEDING_DATA       = "perma-seeding-data"
   ANCHOR_MULTIPLE_DATABASES = "perma-multiple-databases"
   guide_route "/database/database-setup"
 
@@ -7,7 +7,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     "Database Setup"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Configure
 
@@ -77,7 +77,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     data you use in development, or even special data your application expects to exist in production.
 
     By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`,
-    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Database::Testing.path}) or [Operations](#{Guides::Database::ValidatingSaving.path}) to create the data.
+    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Testing::CreatingTestData.path}) or [Operations](#{Guides::Database::ValidatingSaving.path}) to create the data.
 
     ### Required Seeds
 
@@ -142,9 +142,9 @@ class Guides::Database::DatabaseSetup < GuideAction
     class SecondaryDatabase < Avram::Database
     end
     ```
-    
+
     Then require the file in `src/app.cr`:
-    
+
     ```crystal
     # Add this right above the `require "./app_database.cr"`
     require "./secondary_database.cr"
@@ -179,33 +179,33 @@ class Guides::Database::DatabaseSetup < GuideAction
     end
     ```
 
-    If you have many models that require connection to the `SecondaryDatabase`, you can 
-    make a `SecondayBaseModel` class in `src/models/secondary_base_model.cr` and have 
+    If you have many models that require connection to the `SecondaryDatabase`, you can
+    make a `SecondaryBaseModel` class in `src/models/secondary_base_model.cr` and have
     those models inherit from that class.
-    
+
     ```crystal
     # src/models/secondary_base_model.cr
-    abstract class SecondayBaseModel < Avram::Model
+    abstract class SecondaryBaseModel < Avram::Model
       def self.database : Avram::Database.class
         SecondaryDatabase
       end
     end
     ```
-    
+
     Require it in `src/app.cr`:
-    
+
     ```crystal
     # Add this right above the `require "./models/base_model.cr"`
     require "./secondary_base_model.cr"
     ```
-    
+
     Models can now inherit from this class:
-    
+
     ```crystal
     class LegacyUser < SecondaryBaseModel
     end
     ```
- 
+
 
     > Note: migrations are ran against the `AppDatabase`. If you need to run migrations against
     > another database, you'll need to update the `database_to_migrate` option in `config/database.cr`

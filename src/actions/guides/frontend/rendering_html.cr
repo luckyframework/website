@@ -7,7 +7,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     "Rendering HTML"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Intro to Lucky HTML
 
@@ -33,7 +33,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     class Users::Index < BrowserAction
       route do
         # Renders the Users::IndexPage
-        render IndexPage, user_names: ["Paul", "Sally", "Jane"]
+        html IndexPage, user_names: ["Paul", "Sally", "Jane"]
       end
     end
     ```
@@ -50,7 +50,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def content
         ul class: "my-user-list" do
-          @user_names.each do |name|
+          user_names.each do |name|
             li name, class: "user-name"
           end
         end
@@ -63,9 +63,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ## Declaring what a page needs
 
     You’ll notice we used `needs` near the top of the class. This declares that for
-    this page to render we need an Array of Strings and that they will be assigned
-    to the `@user_names` variable. We set the user names by passing it in the
-    `render` macro in our action: `render user_names: ["Paul", "Sally", "Jane"]`
+    this page to render we need an Array of Strings and that they will be accessible
+    from the `user_names` getter method. We set the user names by passing it in the
+    `html` macro in our action: `html IndexPage, user_names: ["Paul", "Sally", "Jane"]`
 
     > This is nice because you won’t accidentally forget to pass something to a page
     ever again. If you forget, the compiler will tell you that you’re missing
@@ -140,11 +140,11 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    If you need to pass in data attributes, or any arbitrary attributes for use in SPAs (i.e. ng-app, v-bind:click, etc...), you can also use a string.
+    If you need to pass in data attributes, or any arbitrary attributes for use in SPAs (i.e. ng-app, ng-click, etc...), you can also use a string.
 
     ```crystal
     def content
-      div(ng_model: "something", data_action: "someAction", "v-bind:click": "update")
+      div(ng_model: "something", data_action: "someAction", "ng-click": "update")
     end
     ```
 
@@ -160,7 +160,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs, crystal allows you to use quotes like in `:"v-bind:click"`
+    > NOTE: Lucky will automatically run attributes through a dasherize inflector. This means underscores will
+    > become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs,
+    > crystal allows you to use quotes like in `:"v-on:click"`
 
     ## Special tags (link, form helpers, etc.)
 
@@ -168,16 +170,13 @@ class Guides::Frontend::RenderingHtml < GuideAction
     anchor tag, we have the `link` helper.
 
     ```crystal
-    link "Link Text", to: "/somewhere", class: "some-html-class"
-
-    # The real power comes when used with route helers from actions
-    link "Show user", to: Users::Show.with("user_id"), class: "some-html-class"
+    link "Show user", to: Users::Show.with(user.id), class: "some-html-class"
 
     # Leave off `with` if an route doesn't need params
     link "List of users", to: Users::Index
     ```
 
-    When you pass a route helper as we did with `Users::Show.with("user_id")`, the
+    When you pass a route helper as we did with `Users::Show.with(user.id)`, the
     link helper automatically sets the path *and* the correct HTTP verb.
 
     Since the HTTP verb (`GET`, `POST`, `PUT`, etc.) is automatically used by `link`
@@ -186,10 +185,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # data-method="delete" will automatically be set.
     # This means the link submits with the right HTTP verb automatically.
-    link "Delete", to: Users::Delete.with("user_id")
+    link "Delete", to: Users::Delete.with(user.id)
 
     # You can use the same nesting as with most other tags
-    link to: Users::Delete.with("user_id"), class: "delete-link" do
+    link to: Users::Delete.with(user.id), class: "delete-link" do
       img src: asset("images/delete-icon.svg")
     end
     ```
@@ -239,15 +238,21 @@ class Guides::Frontend::RenderingHtml < GuideAction
     link "View task", ::Tasks::Show.with(123)
     ```
 
+    > The `link` helper method doesn't allow for a plain string path. If you need to pass a string,
+    > you can use the `a()` method. (e.g. `a href: "/"`).
+
     ### Rendering HTML forms
 
-    There are some helpers for rendering HTML forms. For more info see the [saving
+    Lucky gives you lots of helper methods to make working with forms easier.
+    See the [rendering HTML forms](#{Guides::Frontend::HtmlForms.path}) guide to learn more.
+
+    For info on interacting with databases, see the [saving
     data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
     ### Other special helpers
 
     * `html_doctype` - Renders `<!DOCTYPE html>`
-    * `css_link(href, **options)` - Renders a `<link rel="stylesheet" media="sceen">` tag with `href` and any additional/override `options`
+    * `css_link(href, **options)` - Renders a `<link rel="stylesheet" media="screen">` tag with `href` and any additional/override `options`
     * `js_link(src, **options)` - Renders a `<script>` tag with `src` and any additional/override `options`
     * `utf8_charset` - Renders a `<meta charset="utf8">` tag
     * `responsive_meta_tag` - Another meta tag for responsive design.
@@ -315,7 +320,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ```crystal
     truncate("Four score and seven years ago", length: 20) do
-      link "Read more", to: "#"
+      link "Read more", to: President::Addresses
     end
     # => "Four score and se...<a href="#">Read more</a>"
     ```
@@ -380,6 +385,35 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     text excerpt("This is a beautiful morning", "beautiful", radius: 5)
     # => "...is a beautiful morn..."
+    ```
+
+    ### Distance of time in words
+
+    Returns a `String` with distance in time between two `Time` objects.
+
+    ```crystal
+    distance_of_time_in_words(Time.utc(2019, 8, 14, 10, 0, 0), Time.utc(2019, 8, 14, 10, 0, 5))
+    # => "5 seconds"
+    distance_of_time_in_words(Time.utc(2019, 8, 14, 10, 0), Time.utc(2019, 8, 14, 10, 25))
+    # => "25 minutes"
+    distance_of_time_in_words(Time.utc(2019, 8, 14, 10), Time.utc(2019, 8, 14, 11))
+    # => "an hour"
+    distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2019, 8, 16))
+    # => "2 days"
+    distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2019, 10, 4))
+    # => "about a month"
+    distance_of_time_in_words(Time.utc(2019, 8, 14), Time.utc(2061, 10, 4))
+    # => "almost 42 years"
+    ```
+
+    ### Time ago in words
+
+    Similar to `distance_of_time_in_words`.
+    Returns a `String` with distance in time between current moment and some time in the past.
+
+    ```crystal
+    time_ago_in_words(Time.utc(2019, 8, 30))
+    # => "about a month"
     ```
 
     ## Layouts
@@ -520,7 +554,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def render
         div class: "user-row" do
-          link @user.name, to: Users::Show.with(@user)
+          link user.name, to: Users::Show.with(user)
         end
       end
     end
@@ -533,7 +567,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       needs user : User
 
       def content
-        mount Users::Row.new(@user)
+        mount Users::Row.new(user)
       end
     end
     ```
@@ -588,7 +622,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # Without `expose`
     class Users::Index < BrowserAction
       route do
-        render IndexPage, current_user_name: current_user_name
+        html IndexPage, current_user_name: current_user_name
       end
 
       private def current_user_name
@@ -601,10 +635,32 @@ class Guides::Frontend::RenderingHtml < GuideAction
       expose current_user_name
 
       route do
-        render IndexPage
+        html IndexPage
+      end
+
+      private def current_user_name
+        "Bobby"
+      end
+    end
+
+    # Accessing it on all pages with `needs`
+    abstract class MainLayout
+      include Lucky::HTMLPage
+
+      needs current_user_name : String
+
+      #...
+    end
+
+    class Users::IndexPage < MainLayout
+      def content
+        h1 "Hello, \#{current_user_name}"
       end
     end
     ```
+
+    > `needs` will create a Crystal `getter` method by that name for you. Putting it in
+    > the `MainLayout` gives you access to that method on all pages.
 
     ### Full example
 
@@ -633,6 +689,14 @@ class Guides::Frontend::RenderingHtml < GuideAction
     dependencies:
       kilt:
         github: jeromegn/kilt
+    ```
+
+    ### Add Kilt to shards file
+
+    Add this line to `src/shards.cr`
+
+    ```crystal
+    require "kilt"
     ```
 
     ### Add a `render_template` macro to make it easier to render
@@ -668,18 +732,18 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # In src/posts/new_page.cr
     class Posts::NewPage < MainLayout
-      needs form : SavePost
+      needs save_post : SavePost
 
       def content
         h1 "New Blog Post"
-        render_post_form(@form)
+        render_post_form(save_post)
       end
 
-      def render_post_form(f)
+      def render_post_form(operation)
         form_for Posts::Create do
-          mount Shared::Field.new(f.title), &.text_input(autofocus: "true")
-          mount Shared::Field.new(f.body)
-          mount Shared::Field.new(f.published_at)
+          mount Shared::Field.new(operation.title), &.text_input(autofocus: "true")
+          mount Shared::Field.new(operation.body)
+          mount Shared::Field.new(operation.published_at)
 
           submit "Save", data_disable_with: "Saving..."
         end
@@ -700,7 +764,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ```erb
     <h1>New Blog Post<h1>
-    <% render_post_form(@form) %>
+    <% render_post_form(@operation) %>
     ```
 
     And you're done!

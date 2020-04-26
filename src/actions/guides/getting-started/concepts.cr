@@ -5,7 +5,7 @@ class Guides::GettingStarted::Concepts < GuideAction
     "Philosophy and Concepts"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## The Lucky philosophy
 
@@ -32,7 +32,7 @@ class Guides::GettingStarted::Concepts < GuideAction
     2. Lucky routes the request to a matching [Action](#{Guides::HttpAndRouting::RoutingAndParams.path}).
       * In Lucky, [an Action defines what HTTP method and path it handles](#{Guides::HttpAndRouting::RoutingAndParams.path}).
     3. Action processes the request. For example:
-      * [Query the database with Avram](#{Guides::Database::QueryingDeleting.path}).
+      * [Query the database with Avram](#{Guides::Database::Querying.path}).
       * [Create or update db records with Avram](#{Guides::Database::ValidatingSaving.path}).
       * [Send an email with Carbon](#{Guides::Emails::SendingEmailsWithCarbon.path}).
     4. The Action generates a response for the browser or client. For example:

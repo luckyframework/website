@@ -5,7 +5,7 @@ class Guides::JsonAndApis::Cors < GuideAction
     "Cross-Origin Resource Sharing (CORS)"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Handling CORS
 
@@ -66,7 +66,7 @@ class Guides::JsonAndApis::Cors < GuideAction
         context.response.headers["Access-Control-Allow-Origin"] = "*"
         context.response.headers["Access-Control-Allow-Credentials"] = "true"
         context.response.headers["Access-Control-Allow-Methods"] = "POST,GET,OPTIONS"
-        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authentication"
+        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
 
         # If this is an OPTIONS call, respond with just the needed headers and
         # respond with an empty response.
@@ -137,7 +137,7 @@ class Guides::JsonAndApis::Cors < GuideAction
         context.response.headers["Access-Control-Allow-Origin"] = allowed_origin?(request_origin) ? request_origin : ""
         context.response.headers["Access-Control-Allow-Credentials"] = "true"
         context.response.headers["Access-Control-Allow-Methods"] = "POST,GET,OPTIONS"
-        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authentication"
+        context.response.headers["Access-Control-Allow-Headers"] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
 
         # If this is an OPTIONS call, respond with just the needed headers.
         if context.request.method == "OPTIONS"

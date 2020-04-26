@@ -2,13 +2,14 @@ class Guides::Database::ValidatingSaving < GuideAction
   ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
   ANCHOR_PARAM_KEY             = "perma-param-key"
   ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
+  ANCHOR_CHANGE_TRACKING       = "perma-change-tracking"
   guide_route "/database/validating-saving"
 
   def self.title
     "Validating and Saving"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Setting up an operation
 
@@ -17,7 +18,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     filled. `{ModelName}::SaveOperation` automatically defines an attribute for each model field.
 
     We’ll be using the migration and model from the [Querying
-    guide](#{Guides::Database::QueryingDeleting.path}). Once you have that set up, let’s set
+    guide](#{Guides::Database::Querying.path}). Once you have that set up, let’s set
     up a save operation:
 
     ```crystal
@@ -31,14 +32,16 @@ class Guides::Database::ValidatingSaving < GuideAction
     user sign ups.
 
     #{permalink(ANCHOR_PERMITTING_COLUMNS)}
-    ## Allowing params to be saved
+    ## Allowing params to be saved with permit_columns
 
     By default you won’t be able to set any data from params. This is a security
-    measure to make sure that parameters can only be set that you want to allow
+    measure to make sure that parameters can only be set that you want to permit
     users to fill out. For example, you might not want your users to be able to
-    set an admin status through the `SaveUser` operation.
+    set an admin status through the `SaveUser` operation, but setting the
+    name is ok.
 
-    To allow users to set columns from JSON/form params, use the `permit_columns` macro:
+    To permit users to set columns from JSON or form params, use the
+    `permit_columns` macro:
 
     ```crystal
     # src/operations/save_user.cr
@@ -47,7 +50,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    Now you will be able to fill out the user’s name from params.
+    Now you will be able to fill out the user’s name from request params.
 
     ## Creating records
 
@@ -66,9 +69,9 @@ class Guides::Database::ValidatingSaving < GuideAction
     # inside of an action with some form params
     SaveUser.create(params) do |operation, user|
       if user # the user was saved
-        render Users::ShowPage, user: user
+        html Users::ShowPage, user: user
       else
-        render Users::NewPage, operation: operation
+        html Users::NewPage, save_user: operation
       end
     end
     ```
@@ -84,9 +87,9 @@ class Guides::Database::ValidatingSaving < GuideAction
     user = UserQuery.new.first
     SaveUser.update(user, params) do |operation, updated_user|
       if operation.saved?
-        render Users::ShowPage, user: updated_user
+        html Users::ShowPage, user: updated_user
       else
-        render Users::NewPage, save_operation: operation
+        html Users::NewPage, save_operation: operation
       end
     end
     ```
@@ -104,6 +107,10 @@ class Guides::Database::ValidatingSaving < GuideAction
     updated_user = SaveUser.update!(user, params)
     ```
 
+    > `params` is defined in your actions for you. You can also
+    > [save without a params object](#saving-without-a-params-object), for example, in your specs, or in
+    > a seeds file.
+
     ## Using with JSON endpoints
 
     See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
@@ -119,17 +126,16 @@ class Guides::Database::ValidatingSaving < GuideAction
     ```crystal
     # src/pages/users/new_page.cr
     class Users::NewPage < MainLayout
-      needs operation : SaveUser
+      needs save_user : SaveUser
 
       def content
-        render_form(@operation)
+        render_form(save_user)
       end
 
-      private def render_form(op)
+      private def render_form(operation)
         form_for Users::Create do
-          label_for op.name
-          text_input op.name
-          errors_for op.name
+          label_for operation.name
+          text_input operation.name
 
           submit "Save User"
         end
@@ -137,20 +143,19 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    > A private method `render_form` is extracted because it makes it easier to
-    reference the form as `op`. It also makes it easier to see what a page looks like
-    with a quick glance at the `render` method.
+    > A private method `render_form` is extracted because it makes it easier
+    > to see what a page looks like with a quick glance at the `content` method.
 
     ```crystal
     class Users::Create < BrowserAction
       route do
         # params will have the form params sent from the HTML form
-        SaveUser.create(params) do |form, user|
+        SaveUser.create(params) do |operation, user|
           if user # if the user was saved
             redirect to: Home::Index
           else
             # re-render the NewPage so the user can correct their mistakes
-            render NewPage, user_form: form
+            html NewPage, save_user: operation
           end
         end
       end
@@ -165,7 +170,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     SaveOperation's underscored model name. (e.g. a `SaveUser` which inherits
     from `User::SaveOperation` will submit a `user` param key).
 
-    For non `SaveOperations` (not backed by a databse model) the `param_key`
+    For non `SaveOperations` (not backed by a database model) the `param_key`
     is the underscored class name. So `RequestPasswordReset` would look for
     params in a `request_password_reset` key.
 
@@ -182,98 +187,12 @@ class Guides::Database::ValidatingSaving < GuideAction
     > params must be nested under the param key to be found. (e.g. HTML
     > `user:email=abc@example.com`, JSON `{"user":{"email":"abc@example.com"}}`)
 
-    ### Simplify inputs with `Shared::Field`
 
-    In the above form we had to write a fair amount of code to show a label, input,
-    and errors tag. Lucky generates a `Shared::Field` component that you can use
-    and customize to make this simpler. It is found in `src/components/shared/field.cr`
-    and is used in pages like this:
+    ### Form element inputs
 
-    ```crystal
-    # This will render a label, an input, and any errors for the 'name'
-    mount Shared::Field.new(op.name)
+    To see a list of all the different form element inputs, check out the
+    [HTML Forms](#{Guides::Frontend::HtmlForms.path}) guide.
 
-    # You can customize the generated input
-    mount Shared::Field.new(operation.email), &.email_input
-    mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
-    mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
-
-    # You can append to or replace the HTML class on the input
-    mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
-    mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
-    ```
-
-    Look in `src/components/shared/field.cr` to see even more options and customize
-    the generated markup.
-
-    > You can also duplicate and rename the component for different styles of input
-    > fields in your app. For example, you might have a `CompactField` component,
-    > or a `FieldWithoutLabel` component.
-
-    ### Select, email input, and other special inputs
-
-    The main inputs that you can use with Lucky:
-
-    * `text_input`
-    * `email_input`
-    * `color_input`
-    * `hidden_input`
-    * `number_input`
-    * `telephone_input`
-    * `url_input`
-    * `search_input`
-    * `password_input`
-    * `range_input`
-    * `textarea`
-
-    ```crystal
-    # Example using an email input
-    email_input op.email, optional_html_attributes: "anything"
-    ```
-
-    ### Submit
-
-    Call `submit` with the text to display
-
-    ```crystal
-    # In a page
-    submit "Text", optional_html_attributes: "anything you want"
-    ```
-
-    ### Checkboxes
-
-    ```crystal
-    # If checked, will set the `admin` column to true
-    checkbox op.admin, value: "true"
-    ```
-
-    ### Select with options
-
-    ```crystal
-    # Assuming you have a form with a permitted category_id
-    select_input op.category_id do
-      options_for_select(op.category_id, categories_for_select)
-    end
-
-    private def categories_for_select
-      CategoryQuery.new.map do |category|
-        # The first element is the display name
-        # The second element is the value sent to the form
-        {category.title, category.id}
-      end
-    end
-    ```
-
-    ### Labels
-
-    ```crystal
-    label_for op.title # Will display "Title"
-    label_for op.title, "Custom Title" # Will display "Custom Title"
-    label_for op.title do
-      text "Custom Title"
-      strong "(required)"
-    end
-    ```
 
     ## Validating data
 
@@ -286,7 +205,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     * `validate_size_of` - check the size of a number.
     * `validate_uniqueness_of` - to only allow one record with a field's value
 
-    > Note: non-nillable (required) fields automatically use
+    > Note: non-nilable (required) fields automatically use
     `validate_required`. They will run after all other `before_save` callbacks have run. This way data
     with missing fields will never be sent to the database.
 
@@ -430,6 +349,62 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_CHANGE_TRACKING)}
+    ## Tracking changed attributes
+
+    Sometimes you need to run code only when certain attributes have changed
+    (sometimes called "dirty tracking"). Avram Attributes have a `changed?`
+    and `original_value` method that makes it easy to see if an attribute has
+    changed.
+
+    The following change tracking methods are available:
+
+    * `changed?` - returns `true` if the attribute value has changed.
+    * `changed?(from: value)` - returns `true` if the attribute has changed
+      from the passed in value to anything else.
+    * `changed?(to: value)` - returns `true` if the attribute value has changed
+      to the passed in value.
+    * `original_value` - returns the original value before it was changed. If the
+      attribute is unchanged, `value` and `original_value` will be the same.
+
+    > You can also combine `from` and `to` together: `name.changed?(from: nil, to: "Joe")`
+
+    Here is an example using `changed?` and `original_value` in an operation:
+
+    ```crystal
+    class SaveUser < User::SaveOperation
+      permit_columns name, email, admin
+
+      before_save do
+        if admin.changed?(to: true)
+          validate_company_email
+        end
+      end
+
+      def validate_company_email
+        if !email.value.ends_with?("@my-company.com")
+          email.add_error("must be from @my-company.com to be an admin")
+        end
+      end
+
+      after_save log_changes
+
+      def log_changes(user : User)
+        # Get changed attributes and log each of them
+        attributes.select(&.changed).each do |attribute|
+          Log.dexter.info do
+            {
+              user_id: user.id,
+              changed_attribute: attribute.name.to_s,
+              from: attribute.original_value.to_s,
+              to: attribute.value.to_s
+            }
+          end
+        end
+      end
+    end
+    ```
+
     ## Passing data without route params
 
     Often times you want to add extra data to a form that the user does not fill out.
@@ -479,56 +454,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     This will make it so that you must pass in `current_user` when creating or updating
     the `SaveUser`. It will make a getter available for `current_user` so you can use
-    it in the form, like in the `before_save` macro shown in the example.
-
-    ### Declaring needs only for update, create, or save
-
-    Sometimes you only want to pass extra data when creating or updating a record.
-    You can use the `on` option to do that:
-
-    * `:update` if only required for update
-    * `:create` if only required for create
-    * `:save` if required for update and create, but not when calling `new`
-
-    ```crystal
-    class SaveComment < Comment::SaveOperation
-      needs author : User, on: :create # can also be `:update`, `:save`
-
-      before_save prepare_comment
-
-      def prepare_comment
-        author.try do |user|
-          authored_by_id.value = user.id
-        end
-      end
-    end
-    ```
-
-    > Note that `author` is not required when calling `SaveUser.new` when using
-    the `on` option. This means `author` can be `nil` in the form. That's why we
-    needed to use `try` in the `prepare_comment` method.
-
-    ```crystal
-    # You must pass an author when creating
-    SaveComment.create(params, author: a_user) do |operation, user|
-      # do something
-    end
-
-    # But you can't when you are updating
-    SaveComment.update(comment, params) do |operation, user|
-      # do something
-    end
-
-    # You also can't pass it in when instantiating a new SaveComment
-    SaveComment.new
-    ```
-
-    > **When should I use `on`?** If you are building a server rendered HTML app,
-    then you will almost always wants to use `on :save|:update|:create` because
-    you will call `SaveComment.new` without the needs. If you are building a JSON API
-    you may want to omit the `on` option since you rarely use `.new`. If you omit
-    `on` then you don't need to worry about the value ever being `nil`, which can
-    make your program more reliable and easier to understand.
+    it in the operation, like in the `before_save` macro shown in the example.
 
     ## Non-database column attributes
 
@@ -592,14 +518,14 @@ class Guides::Database::ValidatingSaving < GuideAction
         render_form(@sign_up_user)
       end
 
-      private def render_form(op)
+      private def render_form(operation)
         form_for SignUps::Create do
-          # labels and errors_for ommitted for brevity
-          text_input op.name
-          email_input op.email
-          password_input op.password
-          password_input op.password_confirmation
-          checkbox op.terms_of_service
+          # labels omitted for brevity
+          text_input operation.name
+          email_input operation.email
+          password_input operation.password
+          password_input operation.password_confirmation
+          checkbox operation.terms_of_service
 
           submit "Sign up"
         end
@@ -610,7 +536,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ## Basic Operations
 
     Just like `attribute`, there may also be a time where you have an operation **not** tied to the database.
-    Maybe a search form, or a contact form that just sends an email.
+    Maybe a search operation, or a contact operation that just sends an email.
 
     For these, you can use `Avram::Operation`:
 
@@ -642,13 +568,13 @@ class Guides::Database::ValidatingSaving < GuideAction
         render_form(@search_data)
       end
 
-      private def render_form(op)
+      private def render_form(operation)
         form_for Searches::Create do
-          label_for op.query
-          text_input op.query
+          label_for operation.query
+          text_input operation.query
 
-          label_for op.active
-          checkbox op.active
+          label_for operation.active
+          checkbox operation.active
 
           submit "Filter Results"
         end
@@ -664,9 +590,9 @@ class Guides::Database::ValidatingSaving < GuideAction
         SearchData.new(params).submit do |operation, results|
           # `valid?` is defined on `operation` for you!
           if operation.valid?
-            render SearchResults::IndexPage, users: results
+            html SearchResults::IndexPage, users: results
           else
-            render Searches::NewPage, search_data: operation
+            html Searches::NewPage, search_data: operation
           end
         end
       end
@@ -706,7 +632,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    Then in your form:
+    Then in your operation:
 
     ```crystal
     # src/operations/save_admin_user.cr
@@ -733,7 +659,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     * `SignUpUser` - for signing up a new user. Encrypt passwords, send welcome emails, etc.
     * `SignInUser` - check that passwords match
     * `SaveAdminUser` - sometimes admin can set more fields than a regular user. It’s
-      often a good idea to extract a new form for those cases.
+      often a good idea to extract a new operation for those cases.
     MD
   end
 end

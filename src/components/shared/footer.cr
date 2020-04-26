@@ -22,7 +22,7 @@ class Shared::Footer < BaseComponent
   end
 
   private def footer_icon(url, icon_path, alt_desc)
-    link(url, class: "ml-6 md:ml-0 mr-10 self-center") do
+    a(href: url, class: "ml-6 md:ml-0 mr-10 self-center") do
       img src: icon_path, class: "h-8", alt: alt_desc
     end
   end

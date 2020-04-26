@@ -1,11 +1,11 @@
-class Guides::Database::Testing < GuideAction
-  guide_route "/database/testing"
+class Guides::Testing::CreatingTestData < GuideAction
+  guide_route "/testing/creating-test-data"
 
   def self.title
     "Creating Test Data"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Introduction
 
@@ -162,6 +162,28 @@ class Guides::Database::Testing < GuideAction
       end
     end
     ```
+
+    ### Reloading model data
+
+    If you've made a change to your data, you can call `reload` to get the updated data.
+
+    ```crystal
+    it "updates a post title" do
+      post = PostBox.create &.title("Custom Post")
+
+      SavePost.update!(post, title: "New Post Title")
+
+      # The `post` still has the original data
+      post.title.should eq "Custom Post"
+
+      # Reloading returns a new model with the updated data
+      updated_post = post.reload
+      updated_post.title.should eq "New Post Title"
+    end
+    ```
+
+    Read up on [reloading models](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_RELOADING)})
+    for more information.
     MD
   end
 end

@@ -16,7 +16,7 @@
 //
 // @import "components/my_new_component";
 
-@tailwind preflight;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -24,6 +24,14 @@
 @import "components/algolia-docsearch";
 @import "components/markdown-content";
 @import "vendor/nord-highlightjs-theme";
+
+ul {
+  @apply .pl-10;
+}
+
+h3 {
+  @apply .font-bold;
+}
 
 .split-columns {
   column-count: 2;

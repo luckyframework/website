@@ -5,7 +5,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     "Deploying to an Ubuntu server"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Prerequisites
 
@@ -176,8 +176,8 @@ class Guides::Deploying::Ubuntu < GuideAction
       This tells lucky to run in `production` mode.
     * **SECRET_KEY_BASE**
 
-      This is a secrect key that should be random and unique to your
-      server. You can use the `gen.secrect_key` task to generate
+      This is a secret key that should be random and unique to your
+      server. You can use the `gen.secret_key` task to generate
       a suitable string:
 
       ```bash
@@ -258,8 +258,8 @@ class Guides::Deploying::Ubuntu < GuideAction
                     proxy_pass http://lucky;
             }
 
-            ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem
-            ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key
+            ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+            ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
     }
     ```
 

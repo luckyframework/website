@@ -1,9 +1,11 @@
 class GenerateHeadingAnchor
-  def initialize(heading_text : String)
-    @heading_text = HTML.unescape(heading_text)
+  def initialize(@heading_text : String)
   end
 
   def call : String
-    @heading_text.gsub(" ", "-").downcase
+    text = HTML.unescape(@heading_text)
+      .gsub("&", "-")
+      .gsub(/<[^>]*>/, "") # Remove HTML tags
+    Cadmium::Transliterator.parameterize(text)
   end
 end

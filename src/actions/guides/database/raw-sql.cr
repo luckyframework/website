@@ -5,7 +5,7 @@ class Guides::Database::RawSql < GuideAction
     "Raw SQL and Queries"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Executing Raw SQL
 

@@ -12,12 +12,13 @@
     }
   }
 
-  h2 {
+  h2,
+  h3 {
     position: relative;
 
     .md-anchor {
-      @apply no-underline text-teal-dark opacity-0;
-      transition: 0.3s ease-in-out all;
+      @apply no-underline opacity-0;
+      transition: 0.2s ease-in-out all;
       display: block;
       position: absolute;
       border: none;
@@ -30,9 +31,21 @@
       display: block;
 
       &:hover {
-        @apply text-teal-darkest;
+        @apply text-black;
       }
     }
+
+    &:target .md-anchor {
+      @apply text-black;
+    }
+  }
+
+  h2 .md-anchor {
+    @apply text-teal-dark;
+  }
+
+  h3 .md-anchor {
+    @apply text-grey-darker;
   }
 
   h2 {
@@ -90,14 +103,30 @@
   .hljs-comment,
   .hljs-quote {
     @apply text-blue-lighter italic;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   code {
     font-size: 16px;
     font-family: Menlo, Roboto Mono, Courier New, monospace;
     border-radius: 4px;
-    padding: 2px 4px;
+    padding: 1px 5px;
+
+    a {
+      @apply text-blue-dark no-underline border-b border-blue-light;
+    }
+
+    a:hover {
+      @apply text-grey-lighter border-grey;
+    }
+  }
+
+  pre {
+    code {
+      a {
+        @apply no-underline text-grey border-grey-dark;
+      }
+    }
   }
 
   &.-large-code {
@@ -111,19 +140,24 @@
     }
   }
 
-  code:not(.hljs) {
-    word-break: break-word;
-    color: #16417c;
-    padding: 1px 4px 1px 4px;
-    margin-left: 1px;
-    margin-right: 1px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    font-size: 15px;
-    @apply border border-blue-lighter bg-blue-lightest;
+  .language-plain {
+    @apply text-white;
+    opacity: 0.9;
   }
 
-  blockquote code:not(.hljs) {
-    @apply bg-blue-lightest;
+  blockquote,
+  p,
+  ul {
+    code {
+      @apply bg-blue-lightest;
+      word-break: break-word;
+      color: #16417c;
+      padding: 1px 4px 1px 4px;
+      margin-left: 1px;
+      margin-right: 1px;
+      font-size: 15px;
+      @apply border border-blue-lighter bg-blue-lightest;
+    }
   }
 
   pre,

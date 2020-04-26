@@ -5,7 +5,7 @@ class Guides::Frontend::AssetHandling < GuideAction
     "Asset Handling"
   end
 
-  def markdown
+  def markdown : String
     <<-MD
     ## Asset handling with Webpack and Laravel Mix
 
@@ -46,7 +46,7 @@ class Guides::Frontend::AssetHandling < GuideAction
 
     Note that *RailsUjs is required* if you are rendering HTML pages in Lucky. If
     you remove it, PUT and DELETE links will no longer work correctly. You can
-    safely remove Turoblinks without any problems if you don't want to use it.
+    safely remove Turbolinks without any problems if you don't want to use it.
 
     To add new JavaScript add files to `src/js/{filename}` and import them in `src/js/app.js`
 
@@ -107,6 +107,13 @@ class Guides::Frontend::AssetHandling < GuideAction
     Note that assets are checked at compile time so if it is not found, Lucky will
     let you know. It will also let you know if you had a typo and suggest an asset
     that is close to what you typed.
+
+    If the path of the asset is only known at runtime, you can use the `dynamic_asset`
+    helper instead.
+
+    ```crystal
+    img src: dynamic_asset("images/\#{name}.png")
+    ```
 
     ### Using assets outside of pages and components
 

@@ -2,6 +2,7 @@ module GitHubPath
   extend self
 
   def for_file(file_path = __FILE__)
-    "https://github.com/paulcsmith/website-v2/blob/master#{file_path.gsub(Dir.current, "")}"
+    code_path = file_path[file_path.index("/src")..-1]
+    "https://github.com/luckyframework/website/blob/master#{code_path}"
   end
 end

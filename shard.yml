@@ -8,23 +8,27 @@ targets:
   website_v2:
     main: src/website_v2.cr
 
-crystal: 0.30.0
+crystal: 0.34.0
 
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: ~> 0.17.0
+    version: ~> 0.20.0
   authentic:
     github: luckyframework/authentic
-    branch: master
+    version: ~> 0.5.4
   carbon:
     github: luckyframework/carbon
     version: ~> 0.1
   dotenv:
     github: gdotdesign/cr-dotenv
+    version: 0.7.0
   lucky_flow:
     github: luckyframework/lucky_flow
-    branch: master
+    version: ~> 0.6.2
   markd:
     github: icyleaf/markd
+    branch: master
+  cadmium_transliterator:
+    github: cadmiumcr/transliterator
     branch: master
