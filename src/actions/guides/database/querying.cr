@@ -336,7 +336,7 @@ class Guides::Database::Querying < GuideAction
     `SELECT COLUMNS FROM users GROUP BY users.age, users.id`
 
     ```crystal
-    UserQuery.new.group_by(&.age).group_by(&.id)
+    UserQuery.new.group(&.age).group(&.id)
     ```
 
     > Using the Postgres GROUP BY function can be confusing. Read more on [postgres aggregate functions](https://www.postgresql.org/docs/current/tutorial-agg.html).
