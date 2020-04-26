@@ -237,6 +237,21 @@ class Guides::Database::Pagination < GuideAction
     Next, we'll go into details about all the methods available on the
     `Lucky::Paginator` object.
 
+    ## Paginate arrays
+
+    If you working with arrays that are not coming from the database you can use
+    the `paginate_array` method. It will paginate the array and return the `Paginator`
+    object for that array.
+
+    ```crystal
+      array = [1, 2, 3, 5, 6, 7]
+      pages, numbers = paginate_array(array)
+      html IndexPages, numbers: numbers, pages: pages
+    ```
+
+    The array can contain all different types, like `Int32`, `String`, or your
+    own classes.
+
     ## The Lucky::Paginator object
 
     The `paginate` method returns a `Lucky::Paginator` object. This object
