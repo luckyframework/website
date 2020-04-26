@@ -239,9 +239,9 @@ class Guides::Database::Pagination < GuideAction
 
     ## Paginate arrays
 
-    If you working with arrays that are not coming from the database you can use
-    the `paginate_array` method. It will paginate the array and return the `Paginator`
-    object for that array.
+    If you are working with arrays that are not coming from the database, you
+    can use the `paginate_array` method. It will paginate the array and return
+    the `Paginator` object for that array.
 
     ```crystal
       array = [1, 2, 3, 5, 6, 7]
