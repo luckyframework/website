@@ -288,7 +288,7 @@ class Guides::Database::Migrations < GuideAction
 
       # Then add values to it
       UserQuery.new.each do |user|
-        SaveUser.udpate!(user, otp_code: CodeGenerator.generate)
+        SaveUser.update!(user, otp_code: CodeGenerator.generate)
       end
 
       # Then make it non-nullable
