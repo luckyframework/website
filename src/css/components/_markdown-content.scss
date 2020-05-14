@@ -57,7 +57,7 @@
   }
 
   a {
-    @apply text-blue-dark no-underline border-b border-blue-light;
+    @apply text-blue-dark no-underline border-b border-blue-light break-all;
 
     &:hover {
       @apply text-blue-darker border-blue-darkest;
