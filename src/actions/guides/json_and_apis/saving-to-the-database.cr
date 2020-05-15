@@ -58,7 +58,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
 
     You'll note that we use `create!` instead of `create` with a block. This
     means that Avram will raise an error if the operation fails. This error
-    is handled by `Errors::Show`. By default Lucky handles invalid Operation's
+    is handled by `Errors::Show`. By default Lucky handles invalid operations
     with a nice JSON error message that includes what went wrong, and what param
     caused the issue.
 
