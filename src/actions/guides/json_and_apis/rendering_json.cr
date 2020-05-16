@@ -23,7 +23,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
       route do
         json({title: "My Post"})
         # Add an optional status code
-        json({title: "My Post"}, Status::OK) # or use an integer like `200`
+        json({title: "My Post"}, HTTP::Status::OK) # or use an integer like `200`
       end
     end
     ```

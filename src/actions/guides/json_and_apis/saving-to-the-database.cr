@@ -51,7 +51,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     class Api::Articles::Create < ApiAction
       route do
         article = SaveArticle.create!(params)
-        head Status::Created
+        head HTTP::Status::Created
       end
     end
     ```
