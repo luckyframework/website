@@ -124,6 +124,15 @@ class Guides::Deploying::Ubuntu < GuideAction
     crystal run tasks.cr -- db.migrate
     ```
 
+    > Note: You may have to specify the `DATABASE_URL` and any other evironment
+    > variables your app needs to migrate. Only `DATABASE_URL` needs to be
+    > real. The rest can be blank. You can add them before running crystal like
+    > so:
+    >
+    > ```bash
+    > API_KEY= SUPPORT_EMAIL= DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production crystal run tasks.cr -- db.migrate
+    >```
+
     Exit your session as the `deploy` user, either
     with `CTRL-D` or by entering `exit`.
 
