@@ -27,7 +27,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     ## Install required dependencies
 
     * Follow the
-      [official installation instructions](https://crystal-lang.org/reference/installation/on_debian_and_ubuntu.html)
+      [official installation instructions](https://crystal-lang.org/install/on_ubuntu/)
       to install Crystal. Also install the mentioned
       optional (but recommended) packages.
     * Follow the [installation instructions](https://yarnpkg.com/lang/en/docs/install/#debian-stable) to install yarn
