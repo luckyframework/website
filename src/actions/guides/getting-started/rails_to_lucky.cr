@@ -191,27 +191,31 @@ class Guides::GettingStarted::RailsToLucky < GuideAction
     ### Route helpers
 
     Instead of generating special "helper methods" like `users_path`, Lucky
-    uses a more direct that we think is easier to understand. It also
-    automatically includes the correct HTTP method. This leads to far fewer errors
-    where the path is correct, but the HTTP method is wrong.
+    uses a more direct approach that we think is easier to understand. Luckys
+    route helpers also automatically include the correct HTTP method. This
+    leads to far fewer frustrations where you use the correct path, but
+    forget to specify the HTTP method.
 
-    * `get "/users"`
-      * `Users::Index` or `Users::Index.route`.
+    * When route requires no params: `Users::Index` or `Users::Index.route`.
       * Most link helpers, `redirect`, and forms helpers can take a raw Action class
-        that needs no params. Typically `.route` should not be used.
-    * `get "/users/:user_id"`
-      * `Users::Show.with(user.id)`
-    * Can pass an optional anchor: `Users::Index.with(anchor: "my-anchor")`
+        without `.route`. It is generally best to avoid `.route` and use the
+        raw Action class if the route requires no params.
+    * When params are required: `Users::Show.with(user.id)`
+    * With optional anchor: `Users::Show.with(user.id, anchor: "my-anchor")`
+
+    These methods do *not* return a `String`.
 
     All these methods return a `Lucky::RouteHelper` object with a `path` and
-    `method`. Most Lucky methods that work with Actions allow you to use these objects instead of plain strings.
-    It will use the `path` and `method` to make sure the correct HTTP method is used.
+    `method`. Most Lucky methods that work with Actions allow you to use
+    these objects instead of plain Strings. Lucky helpers will use the `path` and
+    `method` to guarantee that the link, redirect, or form will point to the
+    right place.
 
     For example:
 
     * `redirect to: Users::Show.with(user.id)
     * `link "Users", Users::Index`
-    * `link "Delete", Users::Delete.with(user.id)
+    * `link "Delete", Users::Delete.with(user.id)`
     * `form_for Users::Create`
 
     ### Generating string paths
@@ -221,22 +225,20 @@ class Guides::GettingStarted::RailsToLucky < GuideAction
     generating callbacks, outputting a full URL in emails, etc.
 
     * `url`
-      * `Users::Index.url` -> `"http://localhost:3001/users"`
-      * `Users::Show.with(user.id)` -> `"http://localhost:3001/users/123"`
+      * `Users::Show.url(user.id)` -> `"http://localhost:3001/users/123"`
     * `path`
       * `Tasks::Show.path(project.id, user.id)` -> `"/projects/123/tasks/456"`
     * `url_without_query_params`
-      * Allows generating a URL without query params
+      * Allows generating a URL without query params.
       * Particularly useful for generating callback URLs.
 
     ```crystal
     class OAuth::Create < BrowserAction
-      # The OAuth callback should always return a 'code' query param
-      # But the 'code' param is not needed when generating the URL...
+      # The 'code' param is not needed when generating the URL...
       param code : String
     end
 
-    # Use url_without_query_params to skip passing the 'code'
+    # Use url_without_query_params to skip passing 'code'
     OAuth::Create.url_without_query_params # "http://localhost:3001/oauth/callback"
     ```
 
@@ -261,19 +263,15 @@ class Guides::GettingStarted::RailsToLucky < GuideAction
         # `:project_id` section of the path.
         tasks = TaskQuery.new.project_id(project_id)
 
-        # Use 'hide_completed' to scope the query
-        if hide_completed
-          # Only return tasks with 'false' in the 'complete' column
-          tasks = tasks.complete(false)
-        end
+        # Will be true/false
+        pp! hide_completed
 
-        # You tell Lucky what page to render and pass it data (no instance vars)
+        # Tell Lucky what page to render and pass it data (no instance vars)
         html Tasks::IndexPage, tasks: tasks
       end
 
       def require_awesome_user
-        # All our users are awesome
-        if current_user
+        if current_user # All our users are awesome
           # Unlike Rails, you must explicitly 'continue' or render/redirect.
           continue
         else
