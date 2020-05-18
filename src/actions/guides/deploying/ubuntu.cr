@@ -124,7 +124,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     crystal run tasks.cr -- db.migrate
     ```
 
-    > Note: You may have to specify the `DATABASE_URL` and any other evironment
+    > Note: You may have to specify the `DATABASE_URL` and any other environment
     > variables your app needs to migrate. Only `DATABASE_URL` needs to be
     > real. The rest can be blank. You can add them before running crystal like
     > so:
