@@ -125,9 +125,10 @@ class Guides::Deploying::Ubuntu < GuideAction
     ```
 
     > Note: You may have to specify the `DATABASE_URL` and any other environment
-    > variables your app needs to migrate. Only `DATABASE_URL` needs to be
-    > real. The rest can be blank. You can add them before running crystal like
-    > so:
+    > variables your app uses before you can migrate. Only `DATABASE_URL` needs to be
+    > real. The rest can be blank. For example if your app uses `API_KEY` and
+    > `SUPPORT_EMAIL` environment variables, you can add them before running
+    > crystal like so:
     >
     > ```bash
     > API_KEY= SUPPORT_EMAIL= DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production crystal run tasks.cr -- db.migrate
