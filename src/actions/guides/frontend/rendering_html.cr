@@ -1,6 +1,7 @@
 class Guides::Frontend::RenderingHtml < GuideAction
   ANCHOR_RENDERING_TEMPLATES = "perma-rendering-templates"
   ANCHOR_COMPONENTS          = "perma-components"
+  ANCHOR_EXPOSE              = "perma-expose"
   guide_route "/frontend/rendering-html"
 
   def self.title
@@ -600,6 +601,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_EXPOSE)}
     ## Sharing data used by all pages
 
     Let's say you want to show the currently signed in user on every page in a
