@@ -267,15 +267,14 @@ class Guides::GettingStarted::RailsToLucky < GuideAction
           tasks = tasks.complete(false)
         end
 
-        # Rendering is explicit in Lucky.
         # You tell Lucky what page to render and pass it data (no instance vars)
         html Tasks::IndexPage, tasks: tasks
       end
 
       def require_awesome_user
-        if current_user # All our users are awesome
+        # All our users are awesome
+        if current_user
           # Unlike Rails, you must explicitly 'continue' or render/redirect.
-          # This helps make it clear what the pipe is doing and why.
           continue
         else
           flash.info = "Please sign in first so we can verify awesomeness."
