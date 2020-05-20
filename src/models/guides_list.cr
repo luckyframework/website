@@ -58,6 +58,7 @@ class GuidesList
       GuideCategory.new("Deploying", [
         Guides::Deploying::Heroku,
         Guides::Deploying::Ubuntu,
+        Guides::Deploying::Dokku,
       ] of GuideAction.class),
       GuideCategory.new("Testing", [
         Guides::Testing::Introduction,
