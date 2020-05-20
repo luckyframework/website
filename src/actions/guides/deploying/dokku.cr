@@ -96,4 +96,3 @@ class Guides::Deploying::Dokku < GuideAction
     MD
   end
 end
-
