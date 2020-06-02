@@ -16,6 +16,7 @@ class Shared::LayoutHead < BaseComponent
       meta name: "mobile-web-app-capable", content: "yes"
       open_graph_tags
 
+      script src: "https://kindmetrics.io/js/track.js", attrs: [:async, :defer], data_domain: "luckyframework.org"
       script src: "https://buttons.github.io/buttons.js", attrs: [:async, :defer]
       css_link "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
       script src: "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"
