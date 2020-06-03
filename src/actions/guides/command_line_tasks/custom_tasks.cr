@@ -17,7 +17,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     ```crystal
     # tasks/generate_sitemaps.cr
-    class GenerateSitemaps < LuckCli::Task
+    class GenerateSitemaps < LuckyCli::Task
       summary "Generate the sitemap.xml for this site"
 
       def call
