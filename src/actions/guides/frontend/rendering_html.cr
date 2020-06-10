@@ -258,10 +258,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
     If there's a bodyless tag you would like to render, but there is no helper for it, then use `empty_tag`.
 
     ```crystal
-    # Renders a canonical link element:
-    # <link rel="canonical" href="https://example.com/some/canonical/url">
+    # Renders an alternative language link element:
+    # <link rel="alternate" hreflang="es" href="https://www.example.es/" />
     
-    empty_tag "link", rel: "canonical", href: "https://example.com/some/canonical/url"
+    empty_tag "link", rel: "alternate", hreflang: "es" href: "https://www.example.es/"
     ```
     
     The first argument is a string that represents the tag name, the second is a hash passed to render as attributes. 
