@@ -170,7 +170,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     There are a few specials helpers that make it easier. For creating links with an
     anchor tag, we have the `link` helper.
     
-    > NOTE: If you are looking for a way to create `link` tags in the `<head>`, use the [`empty_tag` helper](##{ANCHOR_EMPTY_TAG}).
+    > NOTE: If you are looking for a way to create `<link>` tags in the `<head>`, use the [`empty_tag` helper](##{ANCHOR_EMPTY_TAG}).
 
     ```crystal
     link "Show user", to: Users::Show.with(user.id), class: "some-html-class"
@@ -255,7 +255,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     #{permalink(ANCHOR_EMPTY_TAG)}
     ### Empty tag
     
-    If there's a tag you would like to render, but there is no helper for it, then use `empty_tag`.
+    If there's a bodyless tag you would like to render, but there is no helper for it, then use `empty_tag`.
 
     ```crystal
     # Renders a canonical link element:
@@ -276,10 +276,6 @@ class Guides::Frontend::RenderingHtml < GuideAction
       empty_tag "link", rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png"
       empty_tag "link", rel: "manifest", href: "/site.webmanifest"
       empty_tag "link", rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#c0ffee"
-      meta name: "apple-mobile-web-app-title", content: "My App"
-      meta name: "application-name", content: "My App"
-      meta name: "msapplication-TileColor", content: "#c0ffee"
-      meta name: "theme-color", content: "#c0ffee"
     end
     ```
     
