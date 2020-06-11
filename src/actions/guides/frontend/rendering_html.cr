@@ -1,6 +1,7 @@
 class Guides::Frontend::RenderingHtml < GuideAction
   ANCHOR_RENDERING_TEMPLATES = "perma-rendering-templates"
   ANCHOR_COMPONENTS          = "perma-components"
+  ANCHOR_EMPTY_TAG           = "perma-empty-tag"
   guide_route "/frontend/rendering-html"
 
   def self.title
@@ -168,6 +169,8 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     There are a few specials helpers that make it easier. For creating links with an
     anchor tag, we have the `link` helper.
+    
+    > NOTE: If you are looking for a way to create `<link>` tags in the `<head>`, use the [`empty_tag` helper](##{ANCHOR_EMPTY_TAG}).
 
     ```crystal
     link "Show user", to: Users::Show.with(user.id), class: "some-html-class"
@@ -249,6 +252,33 @@ class Guides::Frontend::RenderingHtml < GuideAction
     For info on interacting with databases, see the [saving
     data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
+    #{permalink(ANCHOR_EMPTY_TAG)}
+    ### Empty tag
+    
+    If there's a bodyless tag you would like to render, but there is no helper for it, then use `empty_tag`.
+
+    ```crystal
+    # Renders an alternative language link element:
+    # <link rel="alternate" hreflang="es" href="https://www.example.es/" />
+    
+    empty_tag "link", rel: "alternate", hreflang: "es" href: "https://www.example.es/"
+    ```
+    
+    The first argument is a string that represents the tag name, the second is a hash passed to render as attributes. 
+    This is especially convenient for elements with varying attributes, like a set of favicons:
+    
+    ```crystal
+    head do
+      # ...
+
+      empty_tag "link", rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png"
+      empty_tag "link", rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png"
+      empty_tag "link", rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png"
+      empty_tag "link", rel: "manifest", href: "/site.webmanifest"
+      empty_tag "link", rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#c0ffee"
+    end
+    ```
+    
     ### Other special helpers
 
     * `html_doctype` - Renders `<!DOCTYPE html>`
