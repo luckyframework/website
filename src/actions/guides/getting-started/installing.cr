@@ -67,10 +67,10 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 1. Install Crystal
 
-    > **Lucky is not yet compatible with the newly released version of Crystal
-    (0.35.0)**. You must use a version manager to install Crystal 0.34.0.
-
     **Using asdf version manager:**
+
+    We recommend using a version manager to make sure the correct version of
+    Crystal is used with Lucky.
 
     * [Install asdf](https://asdf-vm.com/#/core-manage-asdf-vm)
     * Install the [asdf-crystal](https://github.com/marciogm/asdf-crystal) plugin:
@@ -103,13 +103,18 @@ class Guides::GettingStarted::Installing < GuideAction
     asdf global crystal #{LuckyCliVersion.compatible_crystal_version}
     ```
 
+    **Or, install Crystal without a version manager**
+
+    If you can't get asdf installed or don't want to use a version manager,
+    you can [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
+
     ### 2. Check installation
 
     ```plain
     crystal -v
     ```
 
-    Should return `#{LuckyCliVersion.compatible_crystal_version}`
+    Should return at least `#{LuckyCliVersion.compatible_crystal_version}`
 
     ## Install Lucky CLI on macOS
 
