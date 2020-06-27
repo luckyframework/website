@@ -1,86 +1,98 @@
-version: 1.0
+version: 2.0
 shards:
   authentic:
-    github: luckyframework/authentic
-    version: 0.5.4
+    git: https://github.com/luckyframework/authentic.git
+    version: 0.6.1
 
   avram:
-    github: luckyframework/avram
-    version: 0.13.0
+    git: https://github.com/luckyframework/avram.git
+    version: 0.16.0
 
   blank:
-    github: kostya/blank
+    git: https://github.com/kostya/blank.git
     version: 0.1.0
 
   cadmium_transliterator:
-    github: cadmiumcr/transliterator
-    commit: 6ee68d64869ade8f39d2ec16cae3c7b80d5a4805
+    git: https://github.com/cadmiumcr/transliterator.git
+    version: 0.1.0+git.commit.6ee68d64869ade8f39d2ec16cae3c7b80d5a4805
 
   carbon:
-    github: luckyframework/carbon
-    version: 0.1.1
+    git: https://github.com/luckyframework/carbon.git
+    version: 0.1.2
 
   cry:
-    github: paulcsmith/cry
+    git: https://github.com/luckyframework/cry.git
     version: 0.4.2
 
+  crystar:
+    git: https://github.com/naqvis/crystar.git
+    version: 0.1.7
+
   db:
-    github: crystal-lang/crystal-db
-    version: 0.8.0
+    git: https://github.com/crystal-lang/crystal-db.git
+    version: 0.9.0
 
   dexter:
-    github: luckyframework/dexter
-    version: 0.1.3
+    git: https://github.com/luckyframework/dexter.git
+    version: 0.3.1
 
   dotenv:
-    github: gdotdesign/cr-dotenv
+    git: https://github.com/gdotdesign/cr-dotenv.git
     version: 0.7.0
 
   exception_page:
-    github: crystal-loot/exception_page
+    git: https://github.com/crystal-loot/exception_page.git
     version: 0.1.4
 
+  future:
+    git: https://github.com/crystal-community/future.cr.git
+    version: 0.1.0
+
   habitat:
-    github: luckyframework/habitat
-    version: 0.4.3
+    git: https://github.com/luckyframework/habitat.git
+    version: 0.4.4
 
   lucky:
-    github: luckyframework/lucky
-    version: 0.20.0
+    git: https://github.com/luckyframework/lucky.git
+    version: 0.23.0
 
   lucky_cli:
-    github: luckyframework/lucky_cli
-    version: 0.20.0
+    git: https://github.com/luckyframework/lucky_cli.git
+    version: 0.23.0
 
   lucky_flow:
-    github: luckyframework/lucky_flow
-    version: 0.6.3
+    git: https://github.com/luckyframework/lucky_flow.git
+    version: 0.7.0
 
   lucky_router:
-    github: luckyframework/lucky_router
-    version: 0.2.2
+    git: https://github.com/luckyframework/lucky_router.git
+    version: 0.3.0
 
   markd:
-    github: icyleaf/markd
-    commit: 83dff3bcd8d27a22038121114a0eba19dbb2b4af
+    git: https://github.com/icyleaf/markd.git
+    version: 0.2.1+git.commit.620845abb6776d1765d20d86cc0220aa40f89a91
 
   pg:
-    github: will/crystal-pg
-    version: 0.20.0
+    git: https://github.com/will/crystal-pg.git
+    version: 0.21.1
 
   selenium:
-    github: ysbaddaden/selenium-webdriver-crystal
-    commit: bda2fd406c1a118251c5a2883f1e1f3af242116e
+    git: https://github.com/matthewmcgarvey/selenium.cr.git
+    version: 0.6.0
 
   shell-table:
-    github: luckyframework/shell-table.cr
-    commit: 078a04ea58ead5203bb435a3b5fff448ddabaeea
+    git: https://github.com/luckyframework/shell-table.cr.git
+    version: 0.9.2+git.commit.078a04ea58ead5203bb435a3b5fff448ddabaeea
 
   teeplate:
-    github: luckyframework/teeplate
-    version: 0.8.1
+    git: https://github.com/luckyframework/teeplate.git
+    version: 0.8.2
+
+  webdrivers:
+    git: https://github.com/matthewmcgarvey/webdrivers.cr.git
+    version: 0.3.0
 
   wordsmith:
-    github: luckyframework/wordsmith
+    git: https://github.com/luckyframework/wordsmith.git
     version: 0.2.0
 
