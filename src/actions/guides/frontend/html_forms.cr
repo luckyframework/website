@@ -348,7 +348,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     field component.
 
     ```
-    mount Shared::Field.new(op.car_make) do |input_html|
+    m Shared::Field, op.car_make do |input_html|
       input_html.select_input append_class: "select-input" do
         options_for_select op.car_make, options_for_cars
       end
@@ -460,7 +460,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     in `src/components/shared/field_errors.cr`.
 
     ```crystal
-    mount Shared::FieldErrors.new(op.email)
+    m Shared::FieldErrors, op.email
     ```
 
     ```html
@@ -498,7 +498,7 @@ class Guides::Frontend::HtmlForms < GuideAction
       end
 
       private def error_for(field)
-        mount Shared::FieldErrors.new(field)
+        m Shared::FieldErrors, field
       end
     end
     ```
@@ -513,23 +513,23 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ```crystal
     # This will render a label, an input, and any validation errors for the 'name'
-    mount Shared::Field.new(op.name)
+    m Shared::Field, op.name
 
     # You can customize the generated input
-    mount Shared::Field.new(operation.email), &.email_input
-    mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
-    mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
+    m Shared::Field, operation.email, &.email_input
+    m Shared::Field, operation.email, &.email_input(autofocus: "true")
+    m Shared::Field, operation.username, &.email_input(placeholder: "Username")
 
     # You can append to or replace the HTML class on the input
-    mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
-    mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
+    m Shared::Field, operation.name, &.text_input(append_class: "custom-input-class")
+    m Shared::Field, operation.nickname, &.text_input(replace_class: "compact-input")
     ```
 
     If your lines are long you can name the block argument. This is extra helpful
     for selects since they are typically more complex:
 
     ```crystal
-    mount Shared::Field.new(op.car_make) do |input_html|
+    m Shared::Field, op.car_make do |input_html|
       input_html.select_input append_class: "select-input" do
         options_for_select op.car_make, [{"Toyota", 1, "Tesla", 2}]
       end

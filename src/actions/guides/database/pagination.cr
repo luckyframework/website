@@ -137,7 +137,7 @@ class Guides::Database::Pagination < GuideAction
 
       def render
         # Mount one of the built-in components
-        mount Lucky::Paginator::SimpleNav.new(pages)
+        m Lucky::Paginator::SimpleNav, pages
       end
     end
     ```
@@ -160,8 +160,8 @@ class Guides::Database::Pagination < GuideAction
     1. Find the component you want to customize from the [Lucky repo's components directory](https://github.com/luckyframework/lucky/tree/master/src/lucky/paginator/components)
     1. Copy the contents of the component into your newly generated component
 
-    And that's it! You can `mount` it like any other component `mount
-    PaginationsLinks.new(page)` and customize the HTML and classes as much as
+    And that's it! You can mount it like any other component `m
+    PaginationsLinks, page` and customize the HTML and classes as much as
     you'd like.
 
     ## API responses
