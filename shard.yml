@@ -23,12 +23,14 @@ dependencies:
   dotenv:
     github: gdotdesign/cr-dotenv
     version: 0.7.0
-  lucky_flow:
-    github: luckyframework/lucky_flow
-    version: ~> 0.7.0
   markd:
     github: icyleaf/markd
     branch: master
   cadmium_transliterator:
     github: cadmiumcr/transliterator
     branch: master
+
+development_dependencies:
+  lucky_flow:
+    github: luckyframework/lucky_flow
+    version: ~> 0.7.0
