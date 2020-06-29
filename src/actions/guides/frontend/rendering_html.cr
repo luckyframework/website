@@ -597,7 +597,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       needs user : User
 
       def content
-        mount Users::Row.new(user)
+        m Users::Row, user: user
       end
     end
     ```
@@ -625,7 +625,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     Now use it in a page:
 
     ```crystal
-    mount RoundedContainer.new do
+    m RoundedContainer do
       h1 "This will be inside the div defined in the component"
     end
     ```
@@ -771,9 +771,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def render_post_form(operation)
         form_for Posts::Create do
-          mount Shared::Field.new(operation.title), &.text_input(autofocus: "true")
-          mount Shared::Field.new(operation.body)
-          mount Shared::Field.new(operation.published_at)
+          m Shared::Field, operation.title, &.text_input(autofocus: "true")
+          m Shared::Field, operation.body
+          m Shared::Field, operation.published_at
 
           submit "Save", data_disable_with: "Saving..."
         end
