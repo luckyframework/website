@@ -3,11 +3,11 @@
 #
 # ## Usage
 #
-#     mount Shared::Field.new(operation.name) # Renders text input by default
-#     mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
-#     mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
-#     mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
-#     mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
+#     m Shared::Field, operation.name # Renders text input by default
+#     m Shared::Field, operation.email, &.email_input(autofocus: "true")
+#     m Shared::Field, operation.username, &.email_input(placeholder: "Username")
+#     m Shared::Field, operation.name, &.text_input(append_class: "custom-input-class")
+#     m Shared::Field, operation.nickname, &.text_input(replace_class: "compact-input")
 #
 # ## Customization
 #
@@ -17,7 +17,7 @@
 #    div class: "field-wrapper"
 #      label_for field
 #      yield field
-#      mount Shared::FieldErrors.new(field)
+#      m Shared::FieldErrors, field
 #    end
 #
 # You may also want to have more more classes if you render fields
@@ -38,7 +38,7 @@ class Shared::Field(T) < BaseComponent
       yield input_builder
     end
 
-    mount Shared::FieldErrors.new(field)
+    m Shared::FieldErrors, field
   end
 
   # Use a text_input by default
