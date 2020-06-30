@@ -189,9 +189,10 @@ class Lucky023Release < BasePost
     ## Lucky Flow
 
     The underlying shard that LuckyFlow wraps has been replaced with the selenium shard by
-    [@matthewmcgarvey](https://github.com/matthewmcgarvey/selenium.cr). This update gives us
-    a ton of flexibility by allowing us to support all browsers and not just Chrome. On top of that,
+    [@matthewmcgarvey](https://github.com/matthewmcgarvey/selenium.cr). This update allows us to support all browsers and not just Chrome. On top of that,
     we can now stay up-to-date with the new W3C WebDriver standard going forward.
+    
+    It also automatically installs the correct driver for your version of Chrome so browser testing is easier than ever to get started with.
 
     For the most part, everything still works as it did before, just with a shiny new engine!
 
