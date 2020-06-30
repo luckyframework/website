@@ -30,13 +30,6 @@ jobs:
       run: npm install -g yarn
     - name: Setup Lucky
       run: script/setup
-    - name: Cache shards
-      uses: actions/cache@v1
-      with:
-        path: lib
-        key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-shards-
     - name: Cache Crystal
       uses: actions/cache@v1
       with:
