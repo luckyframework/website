@@ -84,21 +84,21 @@ class Guides::GettingStarted::Installing < GuideAction
     ```plain
     echo "legacy_version_file = yes" >>~/.asdfrc
     ```
-    
+
     * Install Crystal with `asdf`.
-    
+
     ```plain
     asdf install crystal latest
     ```
-    
+
     * See which version of crystal was installed
-    
+
     ```plain
     asdf list crystal
     ```
-    
+
     * Set global version of crystal to that version (#{LuckyCliVersion.compatible_crystal_version} is used as an example)
-    
+
     ```plain
     asdf global crystal #{LuckyCliVersion.compatible_crystal_version}
     ```
