@@ -58,7 +58,7 @@ class Lucky023Release < BasePost
     When you need to access a param value, you'll use `params.get(:key)`, but now, the blankspace
     will be stripped automatically. If you need to get the untouched value, you can use `params.get_raw`.
 
-    ### Memoize 2.0
+    ### Revamped memoization
 
     The `Memoizable` module got a nice little upgrade. It now supports arguments, as well as
     `false` and `nil` values. 
