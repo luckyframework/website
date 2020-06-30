@@ -201,7 +201,7 @@ class Lucky023Release < BasePost
     open source projects, so we just want to say how much we appreciate all of the hard work
     the community has put in to Lucky making this framework so amazing!
 
-    We're really excited about getting closer to a 1.0.0 release, and we can't do it without
+    We're really excited about getting closer to a 1.0 release, and we can't do it without
     your support. Please give it a spin and help us find bugs so our next release is even more solid.
     If you find any issues, don't hesitate to [report the issue](https://github.com/luckyframework/lucky/issues).
     If you're unsure, just hop on [gitter chat](https://gitter.im/luckyframework/Lobby) so we can help you out.
