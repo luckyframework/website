@@ -52,7 +52,7 @@ class Lucky023Release < BasePost
 
     As you can see, you still have all the flexibility, but in a bit more compact version!
 
-    ### Params
+    ### Trim extra whitespace in params
 
     When you need to access a param value, you'll use `params.get(:key)`, but now, the blankspace
     will be stripped automatically. If you need to get the untouched value, you can use `params.get_raw`.
