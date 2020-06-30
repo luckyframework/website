@@ -22,11 +22,12 @@ class Lucky023Release < BasePost
     [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-022-to-023)
     for help with migrating your app.
 
-    ### LuckyDiff
+    ### How to upgrade
+    
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-022-to-023) to learn how to upgrade to Lucky 0.23.0.
 
-    Thanks to a community member [@stephendolan](https://github.com/stephendolan/lucky_diff) for
-    creating this awesome tool, we have started linking to it in our UPGRADE_NOTES to help you
-    see what the differences are between versions!
+    Special thanks to community member [@stephendolan](https://github.com/stephendolan) for
+    creating [LuckyDiff](https://luckydiff.com). This tool helps see what has changed between versions and will be included in upgrade notes from now on. 
 
     ### What happened to 0.22.0?
 
