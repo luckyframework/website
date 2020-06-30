@@ -169,7 +169,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     There are a few specials helpers that make it easier. For creating links with an
     anchor tag, we have the `link` helper.
-    
+
     > NOTE: If you are looking for a way to create `<link>` tags in the `<head>`, use the [`empty_tag` helper](##{ANCHOR_EMPTY_TAG}).
 
     ```crystal
@@ -254,19 +254,19 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     #{permalink(ANCHOR_EMPTY_TAG)}
     ### Empty tag
-    
+
     If there's a bodyless tag you would like to render, but there is no helper for it, then use `empty_tag`.
 
     ```crystal
     # Renders an alternative language link element:
     # <link rel="alternate" hreflang="es" href="https://www.example.es/" />
-    
+
     empty_tag "link", rel: "alternate", hreflang: "es" href: "https://www.example.es/"
     ```
-    
-    The first argument is a string that represents the tag name, the second is a hash passed to render as attributes. 
+
+    The first argument is a string that represents the tag name, the second is a hash passed to render as attributes.
     This is especially convenient for elements with varying attributes, like a set of favicons:
-    
+
     ```crystal
     head do
       # ...
@@ -278,7 +278,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       empty_tag "link", rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#c0ffee"
     end
     ```
-    
+
     ### Other special helpers
 
     * `html_doctype` - Renders `<!DOCTYPE html>`

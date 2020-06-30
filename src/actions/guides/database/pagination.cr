@@ -314,7 +314,7 @@ class Guides::Database::Pagination < GuideAction
 
     ```crystal
     range = pages.item_range
-    "Showing #\{range.begin}-#\{range.end} of #\{pages.item_count}"
+    "Showing \#{range.begin}-\#{range.end} of \#{pages.item_count}"
     ```
 
     ### `series`

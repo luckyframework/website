@@ -10,7 +10,7 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal
+      image: crystallang/crystal:0.35.0
     steps:
       - uses: actions/checkout@v1
       - name: Format
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: crystallang/crystal:0.34.0
+      image: crystallang/crystal:0.35.0
 
     steps:
     - uses: actions/checkout@v2
@@ -30,13 +30,6 @@ jobs:
       run: npm install -g yarn
     - name: Setup Lucky
       run: script/setup
-    - name: Cache shards
-      uses: actions/cache@v1
-      with:
-        path: lib
-        key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-shards-
     - name: Cache Crystal
       uses: actions/cache@v1
       with:
