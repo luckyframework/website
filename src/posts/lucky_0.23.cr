@@ -50,7 +50,7 @@ class Lucky023Release < BasePost
     m MyComponent, arg: 1
     ```
 
-    As you can see, you still have all the flexibility, but in a bit more compact version!
+    You still have all the flexibility, but in a more compact version. The new `m` method also opens the doors for more functionality that we'll be adding to components in future releases of Lucky.
 
     ### Trim extra whitespace in params
 
