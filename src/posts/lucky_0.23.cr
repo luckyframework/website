@@ -35,7 +35,7 @@ class Lucky023Release < BasePost
     updating your Crystal version to 0.35.0. This release didn't change anything other than compatibility
     with the latest Crystal. To get all of the latest goodies, you'll want to go up to 0.23.0.
 
-    ## Quick Updates
+    ## Here's what's new
 
     ### `mount` is now `m`
 
