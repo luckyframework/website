@@ -140,7 +140,7 @@ class Lucky023Release < BasePost
     you start to write your own, you may need to pass in arguments from the CLI. We break these in to 3 different type.
 
     * `arg` - This is the most standard CLI argument type. e.g. `-m User` or `--model=User`.
-    * `switch` - Just like `arg`, but with out a value. Returns `true` if this flag is passed. e.g. `-v`, `-h`
+    * `switch` - Just like `arg`, but without a value. Returns `true` if this flag is passed. e.g. `-v`, `-h`
     * `positional_arg` - When you want to pass args that are not flags. Lucky uses this with generators like
       `lucky gen.page About` where `About` is a positional arg.
 
