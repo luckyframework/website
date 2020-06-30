@@ -9,7 +9,7 @@ class Lucky023Release < BasePost
   def summary : String
     <<-TEXT
     Lucky v0.23 is out now. Lots of new features, bug fixes,
-    and even some performance boosts!
+    improved performance, more powerful tests, and more!
     TEXT
   end
 
@@ -55,8 +55,13 @@ class Lucky023Release < BasePost
 
     ### Trim extra whitespace in params
 
-    When you need to access a param value, you'll use `params.get(:key)`, but now, the blankspace
-    will be stripped automatically. If you need to get the untouched value, you can use `params.get_raw`.
+    Leading and trailing whitespace is now stripped automatically when accessing params. If you need to get the unstripped value, you can use `params.get_raw(:the_key)`.
+
+    ```crystal
+    # the user sends the email param as " email@email.com "
+    params.get(:email) #=> "email@email.com"
+    params.get_raw(:email) #=> " email@email.com"
+    ```
 
     ### Revamped memoization
 
@@ -93,7 +98,6 @@ class Lucky023Release < BasePost
     We've also fixed a few issues related to cookies.
     * You can now set a `samesite` default.
     * Exceptions aren't raised when trying to delete a cookie that doesn't exist
-    * Cookies are written at the correct time
 
     ## Routing Updates
 
@@ -116,28 +120,15 @@ class Lucky023Release < BasePost
     end
     ```
 
-    Sometimes you may have a route with optional path params. For example, imagine a list of
-    blog posts that can be optionally filtered by appending the year, or year and month.
-
-    ```crystal
-    class Posts::Index < BrowserAction
-      # Matches GET /posts
-      # GET /posts/2020
-      # GET /posts/2020/07
-      get "/posts/?:year/?:month" do
-        # ...
-      end
-    end
-    ```
-
     On top of all the neat routing features, we were also able to squeeze a little more performance
     out thanks to [@matthewmcgarvey](https://github.com/luckyframework/lucky_router/pull/26)!
 
     ## CLI Task Args
 
     Writing CLI tasks for your application are pretty common, but they can also be a bit complicated.
-    Lucky already comes with a ton of tasks like `lucky db.migrate`, and `lucky gen.page About`. When
-    you start to write your own, you may need to pass in arguments from the CLI. We break these in to 3 different type.
+    Lucky now makes it easier to write custom CLI tasks with arguments.
+
+    We break CLI arguments in to 3 types:
 
     * `arg` - This is the most standard CLI argument type. e.g. `-m User` or `--model=User`.
     * `switch` - Just like `arg`, but without a value. Returns `true` if this flag is passed. e.g. `-v`, `-h`
