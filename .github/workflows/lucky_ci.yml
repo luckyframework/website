@@ -10,7 +10,7 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal
+      image: crystallang/crystal:0.35.0
     steps:
       - uses: actions/checkout@v1
       - name: Format
