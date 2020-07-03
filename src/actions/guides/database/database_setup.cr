@@ -64,6 +64,9 @@ class Guides::Database::DatabaseSetup < GuideAction
     To create your database, run the `lucky db.create` task. This will create the database
     named from `database_name` in your `config/database.cr` file.
 
+    You can also run `lucky db.setup` to both create, and [migrate](#{Guides::Database::Migrations.path})
+    your database in one task.
+
     ### Drop database
 
     To drop the database, run the `lucky db.drop`

@@ -44,6 +44,7 @@ class Guides::Database::Migrations < GuideAction
     * `db.rollback_all` - Undo all of the migrations back to the beginning.
     * `db.migrations.status` - Displays the current status of migrations.
     * `db.verify_connection` - Tests that Avram can connect to your database.
+    * `db.setup` - Create then migrate your database.
 
     [Learn more about tasks](#{Guides::CommandLineTasks::BuiltIn.path})
 
