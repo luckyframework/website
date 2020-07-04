@@ -302,6 +302,41 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Query parameters
 
+    When query parameters are passed to an action, you have access to these from the `params` method.
+
+    ```crystal
+    # src/actions/users/index.cr
+    class Users::Index < BrowserAction
+
+      # example.com/users?page=1&filter=active
+      get "/users" do
+        # These are both type `String`
+        filter = params.get(:filter)
+        page = params.get(:page)
+
+        # This is missing and will raise an error
+        per = params.get(:per)
+        plain_text "All users starting on page \#{page}"
+      end
+    end
+    ```
+
+    You can also use the `params.get?(:key)` method to return `nil` if the key doesn't exist.
+
+    ```crystal
+    # example.com/users?page=1&filter=active
+    get "/users" do
+      # This will return nil
+      per = params.get?(:per)
+      plain_text "..."
+    end
+    ```
+
+    > By default, all param values are trimmed of blankspace. If you need the raw value,
+    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.
+
+    ### Accepting specific params
+
     Other times you may want to accept parameters in the query string, e.g. `https://example.com?page=2`.
 
     ```crystal
@@ -309,7 +344,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     class Users::Index < BrowserAction
       param page : Int32 = 1
 
-      route do
+      get "/users" do
         plain_text "All users starting on page \#{page}"
       end
     end
