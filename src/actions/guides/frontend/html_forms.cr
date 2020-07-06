@@ -342,6 +342,29 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
+    ### Select prompt
+
+    When you need to display a prompt for your select, you can use the `select_prompt` method.
+    
+    ```crystal
+    select_input(op.car_make, class: "custom-select") do
+      select_prompt("Select your car")
+      options_for_select(op.car_make, [{"Honda", 1}, {"Toyota", 2}])
+    end
+    ```
+
+    Which will generate this HTML
+
+    ```html
+    <option value="">Select your car</option>
+    ```
+
+    Optionally, if you want to render this only when creating a new record:
+
+    ```crystal
+    select_prompt("Select your car") if op.record.nil?
+    ```
+
     ### Using selects with `Shared::Field` component
 
     Here is how you would use `select_input` with a `Shared::Field` or other
