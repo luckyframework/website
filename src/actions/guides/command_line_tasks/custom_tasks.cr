@@ -51,7 +51,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     A switch is a simple flag to represent a `Bool`. If you pass the flag, then the value is `true`; otherwise it's `false` by default.
 
-    Use the `switch` macro and pass a symbol for the name of the flag. All flag names are passed with 2 dashes `-` and the name of the symbol. (e.g. `--test_mode`).
+    Use the `switch` macro and pass a symbol for the name of the flag. All flag names are passed with 2 dashes `--` and the name of the symbol. (e.g. `--test_mode`).
     In your `call` method, you'll have access to a `test_mode?` method which returns a `Bool`.
     
     ```crystal 
