@@ -318,6 +318,17 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    ## Rename column
+
+    The `rename` method must go in the [`alter`](#alter-table) block.
+
+    ```crystal
+    alter table_for(User) do
+      rename :old_name, :new_name
+      rename :birthday, :birthdate
+    end
+    ```
+
     ## Remove column
 
     The `remove` method must go in the [`alter`](#alter-table) block.
@@ -339,6 +350,20 @@ class Guides::Database::Migrations < GuideAction
       create_index :users, [:status], unique: false
     end
     ```
+
+    The name of the index will be generated for you automatically. If you would like to use your own
+    custom index name, you can pass the `name` option.
+
+    ```crystal
+    def migrate
+      create_index :users, 
+                   [:status, :joined_at, :email],
+                   name: "special_status_index"
+    end
+    ```
+
+    > Postgres imposes a 63 byte limit on identifiers. If you create an index on a lot of columns,
+    > you will want to create a custom index name to avoid it being truncated. [read more](https://til.hashrocket.com/posts/8f87c65a0a-postgresqls-max-identifier-length-is-63-bytes)
 
     ## Remove index
 
@@ -391,6 +416,17 @@ class Guides::Database::Migrations < GuideAction
         add_timestamps
         add_belongs_to author : User, on_delete: :cascade, foreign_key_type: UUID
       end
+    end
+    ```
+
+    ### Rename belongs_to
+
+    When you need to rename the association, you can use `rename_belongs_to`.
+
+    ```crystal
+    alter table_for(Employee) do
+      # rename `boss_id` to `manager_id`
+      rename_belongs_to :boss, :manager
     end
     ```
 
