@@ -249,6 +249,42 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     error. This is to throw a 404 when an asset, or some other file is not
     found.
 
+    ## Routing prefix
+
+    Sometimes you need a group of routes to be prefixed with some path.
+    For example, starting all of your routes with `/api/v1/`. For this, you can use the `route_prefix`
+    macro.
+
+    ```crystal
+    # src/actions/api_action.cr
+    abstract class ApiAction < Lucky::Action
+      accepted_formats [:json], default: :json
+
+      route_prefix "/api/v1"
+    end
+    ```
+
+    Now all of your actions that inherit from `ApiAction` will start with `/api/v1`.
+
+    ```crystal
+    class Api::Posts::Index < ApiAction
+
+      # GET /api/v1/posts
+      get "/posts" do
+        json(PostQuery.new)
+      end
+    end
+
+    class Posts::Index < BrowserAction
+      # This is NOT prefixed because it inherits from
+      # BrowserAction.
+      # GET /posts
+      get "/posts" do
+        html IndexPage
+      end
+    end
+    ```
+
     ## Memoization
 
     As your application gets larger, you may need to write helper methods that run expensive

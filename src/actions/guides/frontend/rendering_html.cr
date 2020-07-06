@@ -286,6 +286,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     * `js_link(src, **options)` - Renders a `<script>` tag with `src` and any additional/override `options`
     * `utf8_charset` - Renders a `<meta charset="utf8">` tag
     * `responsive_meta_tag` - Another meta tag for responsive design.
+    * `canonical_link(href)` - Renders a `<link rel="canonical" href="...">` tag.
     * `nbsp(how_many = 1)` - Renders `&nbsp;` entity for the number of times in `how_many` (1 by default).
     * `raw` - Render RAW string to the page.
 

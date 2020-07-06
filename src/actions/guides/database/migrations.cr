@@ -44,6 +44,7 @@ class Guides::Database::Migrations < GuideAction
     * `db.rollback_all` - Undo all of the migrations back to the beginning.
     * `db.migrations.status` - Displays the current status of migrations.
     * `db.verify_connection` - Tests that Avram can connect to your database.
+    * `db.setup` - Create then migrate your database.
 
     [Learn more about tasks](#{Guides::CommandLineTasks::BuiltIn.path})
 
@@ -403,6 +404,39 @@ class Guides::Database::Migrations < GuideAction
         # This will drop the author_id column
         remove_belongs_to :author
       end
+    end
+    ```
+
+    ## Postgres Extensions
+
+    Postgres extensions allow you to enhance your database setup with new functionality. Some common extensions are adding [UUID functions](https://www.postgresql.org/docs/current/uuid-ossp.html),
+    or using [postgis](https://postgis.net/) to do geographic queries. Avram includes a few methods for enabling and disabling these extensions.
+
+    ### Enable extension
+
+    ```crystal
+    def migrate
+      enable_extension "uuid-ossp"
+    end
+    ```
+
+    ### Disable extension
+
+    ```crystal
+    def rollback
+      disable_extension "uuid-ossp"
+    end
+    ```
+
+    ### Update extension
+
+    ```crystal
+    def migrate
+      # Update to the latest version of the extension
+      update_extension "hstore"
+
+      # or update to a specific version
+      update_extension "hstore", to: "2.0"
     end
     ```
 
