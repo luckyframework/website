@@ -356,7 +356,7 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def migrate
-      create_index :users, 
+      create_index :users,
                    [:status, :joined_at, :email],
                    name: "special_status_index"
     end
