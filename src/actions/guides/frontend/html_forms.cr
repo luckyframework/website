@@ -359,7 +359,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     <option value="">Select your car</option>
     ```
 
-    Optionally, if you want to render this only when there's no record, you can do this:
+    Optionally, if you want to render this only when creating a new record:
 
     ```crystal
     select_prompt("Select your car") if op.record.nil?
