@@ -407,6 +407,39 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    ## Postgres Extensions
+
+    Postgres extensions allow you to enhance your database setup with new functionality. Some common extensions are adding [UUID functions](https://www.postgresql.org/docs/current/uuid-ossp.html),
+    or using [postgis](https://postgis.net/) to do geographic queries. Avram includes a few methods for enabling and disabling these extensions.
+
+    ### Enable extension
+
+    ```crystal
+    def migrate
+      enable_extension "uuid-ossp"
+    end
+    ```
+
+    ### Disable extension
+
+    ```crystal
+    def rollback
+      disable_extension "uuid-ossp"
+    end
+    ```
+
+    ### Update extension
+
+    ```crystal
+    def migrate
+      # Update to the latest version of the extension
+      update_extension "hstore"
+
+      # or update to a specific version
+      update_extension "hstore", to: "2.0"
+    end
+    ```
+
     ## Custom SQL
 
     Sometimes SQL can get really complicated, and sometimes it may just be something simple that Avram doesn't support just yet. Don't worry, you still have access to run raw SQL directly.
