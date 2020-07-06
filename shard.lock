@@ -72,6 +72,10 @@ shards:
     git: https://github.com/icyleaf/markd.git
     version: 0.2.1+git.commit.620845abb6776d1765d20d86cc0220aa40f89a91
 
+  myhtml:
+    git: https://github.com/kostya/myhtml.git
+    version: 1.5.1
+
   pg:
     git: https://github.com/will/crystal-pg.git
     version: 0.21.1

@@ -29,6 +29,9 @@ dependencies:
   cadmium_transliterator:
     github: cadmiumcr/transliterator
     branch: master
+  myhtml:
+    github: kostya/myhtml
+    version: 1.5.1
 
 development_dependencies:
   lucky_flow:
