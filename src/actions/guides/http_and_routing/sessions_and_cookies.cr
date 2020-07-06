@@ -123,8 +123,8 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     ```
 
     This will disable writing all cookies, session, and flash messages for this action.
-    If you need to do this for all of your API, you can add the `disable_cookies` macro to
-    your `ApiAction`. Then all actions that inherit from ApiAction will skip writing cookies.
+    If you need to do this for all of your actions, you can add the `disable_cookies` macro to
+    the action you inherit from (For example the `ApiAction`).
     MD
   end
 end
