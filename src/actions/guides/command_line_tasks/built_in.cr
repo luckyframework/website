@@ -33,11 +33,13 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     ▸ db.migrate.one            Run just the next pending migration
     ▸ db.migrations.status      Print the current status of migrations
     ▸ db.redo                   Rollback and run just the last migration
+    ▸ db.reset                  Drop, recreate, and run migrations.
     ▸ db.rollback               Rollback the last migration
     ▸ db.rollback_all           Rollback all migrations
     ▸ db.rollback_to            Rollback to a specific migration
     ▸ db.schema.dump            Export database schema to a sql file
     ▸ db.schema.restore         Restore database from a sql dump file
+    ▸ db.setup                  Runs a few tasks for setting up your database
     ▸ db.verify_connection      Verify connection to postgres
     ▸ exec                      Execute code. Use this in place of a console/REPL
     ▸ gen.action.api            Generate a new api action
