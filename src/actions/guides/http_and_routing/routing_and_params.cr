@@ -336,9 +336,16 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > Learn more about [error handling](#{Guides::HttpAndRouting::ErrorHandling.path}).
 
-    ## Query parameters
+    ## Handling parameters
 
-    When query parameters are passed to an action, you have access to these from the `params` method.
+    Parameters, or `params`, are data that is sent from client back to the server. There are a few different ways this can happen:
+
+    * Path parameters - The dynamic values passed in your route path. e.g. `/users/:id`.
+    * Query parameters - These are added to the end of a URL after the `?` in key/value pairs. e.g. `?page=1`
+    * Form parameters - When you perform an HTTP POST, the data sent through the body. This may be formatted as JSON, or form data
+    * Multipart parameters - Similar to form parameters, but generally to contain a file
+
+    When parameters are passed to an action, you have access to these with the `params` method.
 
     ```crystal
     # src/actions/users/index.cr
@@ -370,6 +377,56 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > By default, all param values are trimmed of blankspace. If you need the raw value,
     > use `params.get_raw(:key)` or `params.get_raw?(:key)`.
+
+    ### Params from query string
+
+    Returns just the query params as `HTTP::Params`.
+
+    You can use the `params.get(:key)` method to get your values from the query string,
+    or `params.get_raw(:key).
+
+    Lucky also gives you access to a `params.from_query["key"]` method which does the same thing.
+
+    ```crystal
+    # example.com?q=Lucky
+    params.get(:q) #=> "Lucky"
+    params.get_query["q"] #=> "Lucky"
+
+    params.get?(:search) #=> nil
+    params.get_query["search"]? #=> nil
+    ```
+
+    ### Params from JSON
+
+    Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
+
+    ```crystal
+    # {"users": [{"name": "Skyler"}]}
+    params.from_json["users"][0]["name"].as_s #=> "Skyler"
+    ```
+
+    ### Params from form data
+
+    Returns x-www-form-urlencoded body params as `HTTP::Params`.
+
+    Generally you'd use `params.get()` for these, but for consistency sake, Lucky gives you this method.
+
+    ```crystal
+    params.get(:name)
+    params.from_form_data["name"]
+    ```
+
+    ### Params from multipart
+
+    Returns multipart params and files.
+
+    ```crystal
+    form_params = params.from_multipart.last # Hash(String, String)
+    form_params["name"]                      # "Kyle"
+
+    files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
+    files["avatar"]                    # Lucky::UploadedFile
+    ```
 
     ### Accepting specific params
 
