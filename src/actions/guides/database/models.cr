@@ -4,6 +4,7 @@ class Guides::Database::Models < GuideAction
   ANCHOR_GENERATE_A_MODEL         = "perma-generate-a-model"
   ANCHOR_COLUMN_TYPES             = "perma-column-types"
   ANCHOR_POLYMORPHIC_ASSOCIATIONS = "perma-polymorphic-associations"
+  ANCHOR_USING_ENUMS              = "perma-using-enums"
   guide_route "/database/models"
 
   def self.title
@@ -181,6 +182,7 @@ class Guides::Database::Models < GuideAction
     * `UUID` - `uuid` column type.
     * `JSON::Any` - `jsonb` column type.
     * `Array(T)` - `[]` column type where `T` is any other supported type.
+    * Avram Enum - [see using enums](##{ANCHOR_USING_ENUMS})
 
     Any of your columns can also define "nilable" types by adding Crystal `Nil` Union `?`.
     This is if your column allows for a `NULL` value. (e.g. `column age : Int32?` allows an
@@ -208,6 +210,57 @@ class Guides::Database::Models < GuideAction
     > Avram is constantly being updated, and some types may not "patch" as easily. If you tried this
     > method, and it doesn't work for you, be sure to [open an issue](https://github.com/luckyframework/avram/issues) so we can get support for that
     > as soon as possible.
+
+    #{permalink(ANCHOR_USING_ENUMS)}
+    ## Using enums
+
+    [Enums](https://crystal-lang.org/reference/syntax_and_semantics/enum.html) are a way to map an Integer to a named value. Computers handle
+    numbers better, but people handle words better. This is a happy medium between the two. For example, a user status may be "active", but we
+    store it as the number 1.
+
+    Avram comes with an `avram_enum` macro to help using Crystal Enum while maintaining Lucky's type-safety with the database.
+
+    ```crystal
+    class User < BaseModel
+
+      avram_enum Status do
+        # Default value starts at 0
+        Guest   # 0
+        Active  # 1
+        Expired # 2
+      end
+
+      avram_enum Role do
+        # Assign custom values
+        Member = 1
+        Admin = 2
+        Superadmin = 3
+      end
+
+      table do
+        column status : User::Status
+        column role : User::Role
+      end
+    end
+    ```
+
+    The column will return an instance of your `avram_enum`. (e.g. `User::Role.new(:admin)`). This gives
+    you access to a few helper methods for handling the enum.
+
+    ```crystal
+    User::Status.new(:active).value #=> 1
+    User::Role.new(:superadmin).value #=> 3
+
+    user = UserQuery.new.first
+    user.status.value #=> 1
+    user.status.active? #=> true
+
+    user.role.value #=> 3
+    user.role.member? #=> false
+    ```
+
+    To learn more about using enums, read up on [saving with enums](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_SAVING_ENUMS)})
+    and [querying with enums](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_QUERYING_ENUMS)}).
 
     #{permalink(ANCHOR_MODEL_ASSOCIATIONS)}
     ## Model associations

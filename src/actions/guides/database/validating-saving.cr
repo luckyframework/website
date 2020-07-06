@@ -3,6 +3,7 @@ class Guides::Database::ValidatingSaving < GuideAction
   ANCHOR_PARAM_KEY             = "perma-param-key"
   ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
   ANCHOR_CHANGE_TRACKING       = "perma-change-tracking"
+  ANCHOR_SAVING_ENUMS          = "perma-saving-enums"
   guide_route "/database/validating-saving"
 
   def self.title
@@ -609,6 +610,15 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     # for updates
     SaveUser.update!(existing_user, name: "David")
+    ```
+
+    #{permalink(ANCHOR_SAVING_ENUMS)}
+    ### Saving an enum value
+
+    You can pass an instance of your `avram_enum` to the column you wish to update.
+
+    ```crystal
+    SaveUser.create!(name: "Paul", role: User::Role.new(:superadmin))
     ```
 
     ## Sharing common validations, callbacks, etc.
