@@ -251,7 +251,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ## Routing prefix
 
-    More common with APIs, sometimes you need a group of routes to be prefixed with some path.
+    Sometimes you need a group of routes to be prefixed with some path.
     For example, starting all of your routes with `/api/v1/`. For this, you can use the `route_prefix`
     macro.
 
