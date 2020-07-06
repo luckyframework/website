@@ -276,7 +276,6 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
 
     class Posts::Index < BrowserAction
-
       # This is NOT prefixed because it inherits from
       # BrowserAction.
       # GET /posts
