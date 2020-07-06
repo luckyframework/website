@@ -1,6 +1,6 @@
 class Guides::Database::Querying < GuideAction
-  ANCHOR_PRELOADING = "perma-preloading"
-  ANCHOR_RELOADING  = "perma-reloading"
+  ANCHOR_PRELOADING     = "perma-preloading"
+  ANCHOR_RELOADING      = "perma-reloading"
   ANCHOR_QUERYING_ENUMS = "perma-querying-enums"
   guide_route "/database/querying-records"
 
