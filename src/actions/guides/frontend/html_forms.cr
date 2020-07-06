@@ -383,8 +383,8 @@ class Guides::Frontend::HtmlForms < GuideAction
     ### Radio
 
     ```crystal
-    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "Yes")
-    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "No")
+    radio(op.question_five, "Yes")
+    radio(op.question_five, "No")
     ```
 
     ```html
@@ -395,8 +395,6 @@ class Guides::Frontend::HtmlForms < GuideAction
            name="param_key:question_five"
            value="No" />
     ```
-
-    > ISSUE REF: https://github.com/luckyframework/lucky/issues/1023
 
     ## Buttons
 
