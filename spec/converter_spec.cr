@@ -1,5 +1,5 @@
 require "./spec_helper"
-require "../src/utils/html2lucky/converter"
+require "../vendor/html2lucky/converter"
 
 describe HTML2Lucky::Converter do
   it "converts basic html" do
