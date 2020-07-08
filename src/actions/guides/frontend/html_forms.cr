@@ -345,7 +345,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     ### Select prompt
 
     When you need to display a prompt for your select, you can use the `select_prompt` method.
-    
+
     ```crystal
     select_input(op.car_make, class: "custom-select") do
       select_prompt("Select your car")

@@ -53,8 +53,8 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     Use the `switch` macro and pass a symbol for the name of the flag. All flag names are passed with 2 dashes `--` and the name of the symbol. (e.g. `--test_mode`).
     In your `call` method, you'll have access to a `test_mode?` method which returns a `Bool`.
-    
-    ```crystal 
+
+    ```crystal
     class ProcessOrders < LuckyCli::Task
       summary "Charge cards, and prep orders for shipping"
 
@@ -154,7 +154,6 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
                      "The columns for this model in format: col:type",
                      to_end: true,
                      format: /\\w+:\\w+/
-                     
 
       def call
         # `model_name` will equal "User"

@@ -15,7 +15,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     Lucky uses Crystal methods for rendering HTML. The Crystal methods map
     as closely as possible to how HTML is used. To help with the transition
     we also have a small app for [converting HTML to
-    Lucky methods](https://luckyhtml.herokuapp.com).
+    Lucky methods](#{ConvertHtmlToLucky::Index.path}).
 
     Using Lucky HTML adds an additional layer of type-safety, is
     auto-formatted with Crystal's formatter, and can be much easier to

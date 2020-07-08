@@ -83,7 +83,7 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     # Set the cookie to HTTP only
     c_is_for_cookie.http_only(true)
 
-    # Set the cookie SameSite to Lax. 
+    # Set the cookie SameSite to Lax.
     # You can also use `:strict` here.
     c_is_for_cookie.samesite(:lax)
     ```

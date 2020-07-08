@@ -23,11 +23,11 @@ class Lucky023Release < BasePost
     for help with migrating your app.
 
     ### How to upgrade
-    
+
     See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-022-to-023) to learn how to upgrade to Lucky 0.23.0.
 
     Special thanks to community member [@stephendolan](https://github.com/stephendolan) for
-    creating [LuckyDiff](https://luckydiff.com). This tool helps see what has changed between versions and will be included in upgrade notes from now on. 
+    creating [LuckyDiff](https://luckydiff.com). This tool helps see what has changed between versions and will be included in upgrade notes from now on.
 
     ### What happened to 0.22.0?
 
@@ -66,7 +66,7 @@ class Lucky023Release < BasePost
     ### Revamped memoization
 
     The `Memoizable` module got a nice little upgrade. It now supports arguments, as well as
-    `false` and `nil` values. 
+    `false` and `nil` values.
 
     ```crystal
     memoize user(user_id : Int64) : User?
@@ -86,7 +86,7 @@ class Lucky023Release < BasePost
     ```
 
     ### Security and more
-    
+
     Some of the HTML page helpers like `highlight`, and `simple_format` would allow for unescaped HTML.
     This could potentially be a security issue, so that's been fixed. All of these methods will escape the
     HTML by default now. If you need the unescaped version, you can pass `escape: false`.
@@ -139,9 +139,9 @@ class Lucky023Release < BasePost
     # lucky search.reindex User
     class Search::Reindex < LuckyCli::Task
       summary "Reindex records for a model"
-    
+
       positional_arg :model, "Specify which model to reindex", required: true
-    
+
       def call
          # made up code to reindex User
          Elasticsearch.reindex(model: model)
@@ -153,7 +153,7 @@ class Lucky023Release < BasePost
     # lucky import_data --dry
     class ImportData < LuckyCli::Task
       summary "Import the latest data"
-    
+
       switch :dry, "Perform a dry run before the actual import", shortcut: "-d"
 
       def call
@@ -171,7 +171,7 @@ class Lucky023Release < BasePost
     class GenerateSitemaps < LuckyCli::Task
       summary "Generate some sitemaps"
       arg :environment, "Specify the ENV for the sitemaps", format: /(dev|prod)/
-    
+
       def call
         # ...
        end
@@ -183,7 +183,7 @@ class Lucky023Release < BasePost
     The underlying shard that LuckyFlow wraps has been replaced with the selenium shard by
     [@matthewmcgarvey](https://github.com/matthewmcgarvey/selenium.cr). This update allows us to support all browsers and not just Chrome. On top of that,
     we can now stay up-to-date with the new W3C WebDriver standard going forward.
-    
+
     It also automatically installs the correct driver for your version of Chrome so browser testing is easier than ever to get started with.
 
     For the most part, everything still works as it did before, just with a shiny new engine!
