@@ -1,5 +1,6 @@
 class HTML2Lucky::TagFactory
-  TEXT_TAG_NAME = "-text"
+  TEXT_TAG_NAME    = "-text"
+  COMMENT_TAG_NAME = "_comment"
 
   getter depth, tag
 
@@ -13,6 +14,8 @@ class HTML2Lucky::TagFactory
   private def tag_class : Tag.class
     if text_tag?(tag)
       TextTag
+    elsif comment_tag?(tag)
+      CommentTag
     elsif single_line_tag?(tag)
       SingleLineTag
     else
@@ -31,5 +34,9 @@ class HTML2Lucky::TagFactory
 
   def text_tag?(tag)
     tag.tag_name == TEXT_TAG_NAME
+  end
+
+  def comment_tag?(tag)
+    tag.tag_name == COMMENT_TAG_NAME
   end
 end

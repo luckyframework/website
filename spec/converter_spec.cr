@@ -229,6 +229,43 @@ describe HTML2Lucky::Converter do
 
     output.should eq_html %q(para "Hello")
   end
+
+  describe "converting comments" do
+    it "does not render a comment" do
+      input = "<!-- this comment -->"
+      output = HTML2Lucky::Converter.new(input).convert
+
+      output.should eq ""
+    end
+
+    it "strips comments from inside of tags" do
+      input = "<div><!-- secret --><span>the man</span></div>"
+      output = HTML2Lucky::Converter.new(input).convert
+
+      output.should eq_html <<-CODE
+      div do
+        span "the man"
+      end
+      CODE
+    end
+
+    it "handles multiline comments" do
+      input = <<-HTML
+      <div>one</div>
+      <!--
+      comment here
+      and more stuff here
+      -->
+      <div>two</div>
+      HTML
+      output = HTML2Lucky::Converter.new(input).convert
+
+      output.should eq_html <<-CODE
+      div "one"
+      div "two"
+      CODE
+    end
+  end
 end
 
 private def eq_html(html)
