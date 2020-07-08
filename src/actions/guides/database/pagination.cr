@@ -178,8 +178,8 @@ class Guides::Database::Pagination < GuideAction
     class Api::Users::Index < ApiAction
       get "/api/users/index" do
         pages, users = paginate(UserQuery.new)
-        reponse.headers["Next-Page"] = pages.path_to_next
-        reponse.headers["Total-Pages"] = pages.total
+        response.headers["Next-Page"] = pages.path_to_next.to_s
+        response.headers["Total-Pages"] = pages.total.to_s
         json UserSerializer.for_collection(users)
       end
     end
