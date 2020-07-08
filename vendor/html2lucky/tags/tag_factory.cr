@@ -1,5 +1,5 @@
 class HTML2Lucky::TagFactory
-  TEXT_TAG_NAME = "-text"
+  TEXT_TAG_NAME    = "-text"
   COMMENT_TAG_NAME = "_comment"
 
   getter depth, tag
