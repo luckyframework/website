@@ -239,12 +239,12 @@ describe HTML2Lucky::Converter do
     end
 
     it "strips comments from inside of tags" do
-      input = "<div><!-- secret --><span>the man</span></div>"
+      input = "<div><!-- secret --><span>with text</span></div>"
       output = HTML2Lucky::Converter.new(input).convert
 
       output.should eq_html <<-CODE
       div do
-        span "the man"
+        span "with text"
       end
       CODE
     end
