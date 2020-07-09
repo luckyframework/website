@@ -6,7 +6,7 @@ shards:
 
   avram:
     git: https://github.com/luckyframework/avram.git
-    version: 0.16.0
+    version: 0.16.1
 
   blank:
     git: https://github.com/kostya/blank.git
@@ -52,13 +52,17 @@ shards:
     git: https://github.com/luckyframework/habitat.git
     version: 0.4.4
 
+  lexbor:
+    git: https://github.com/kostya/lexbor.git
+    version: 2.6.2+git.commit.6ff5909b5eac238cd640d5d550178c5952667b4c
+
   lucky:
     git: https://github.com/luckyframework/lucky.git
     version: 0.23.0
 
   lucky_cli:
     git: https://github.com/luckyframework/lucky_cli.git
-    version: 0.23.0
+    version: 0.23.1
 
   lucky_flow:
     git: https://github.com/luckyframework/lucky_flow.git
@@ -71,10 +75,6 @@ shards:
   markd:
     git: https://github.com/icyleaf/markd.git
     version: 0.2.1+git.commit.620845abb6776d1765d20d86cc0220aa40f89a91
-
-  myhtml:
-    git: https://github.com/kostya/myhtml.git
-    version: 1.5.1
 
   pg:
     git: https://github.com/will/crystal-pg.git

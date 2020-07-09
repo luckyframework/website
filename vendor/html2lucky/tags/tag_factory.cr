@@ -1,10 +1,10 @@
 class HTML2Lucky::TagFactory
-  TEXT_TAG_NAME    = "-text"
-  COMMENT_TAG_NAME = "_comment"
+  TEXT_TAG_SYM    = :_text
+  COMMENT_TAG_SYM = :_em_comment
 
   getter depth, tag
 
-  def initialize(@tag : Myhtml::Node, @depth : Int32)
+  def initialize(@tag : Lexbor::Node, @depth : Int32)
   end
 
   def build : Tag
@@ -33,10 +33,10 @@ class HTML2Lucky::TagFactory
   end
 
   def text_tag?(tag)
-    tag.tag_name == TEXT_TAG_NAME
+    tag.tag_sym == TEXT_TAG_SYM
   end
 
   def comment_tag?(tag)
-    tag.tag_name == COMMENT_TAG_NAME
+    tag.tag_sym == COMMENT_TAG_SYM
   end
 end

@@ -38,6 +38,19 @@ describe HTML2Lucky::Converter do
     output.should eq_html(expected_output.strip)
   end
 
+  it "handles self-closing tags properly" do
+    input = <<-HTML
+    <img src="lucky.png">
+    <img src="logo.jpg">
+    HTML
+    expected_output = <<-CODE
+    img src: "lucky.png"
+    img src: "logo.jpg"
+    CODE
+    output = HTML2Lucky::Converter.new(input).convert
+    output.should eq_html(expected_output.strip)
+  end
+
   it "includes simple attributes" do
     input = "<div class='some-class'>Hello</div>"
     expected_output = <<-CODE
