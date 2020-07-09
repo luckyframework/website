@@ -18,7 +18,6 @@ class HTML2Lucky::TextTag < HTML2Lucky::Tag
   end
 
   private def output_for_text_tag : String
-
     line = raw_text.tr("\n", " ")
     line = wrap_quotes(line)
     padding + "text #{line}"
