@@ -26,6 +26,8 @@ class ConvertHtmlToLucky::IndexPage < PageLayout
           end
         end
       end
+
+      render_warning_note
     end
   end
 
@@ -46,6 +48,19 @@ class ConvertHtmlToLucky::IndexPage < PageLayout
       "h-24"
     else
       "h-full"
+    end
+  end
+
+  private def render_warning_note
+    tag "blockquote" do
+      para do
+        text "The converter is unable to parse entire HTML documents. You can convert "
+        code "<head>"
+        text " tag markup or "
+        code "<body>"
+        text " tag markup. "
+        a "See Issue #358", href: "https://github.com/luckyframework/website/issues/358"
+      end
     end
   end
 end
