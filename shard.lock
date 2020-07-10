@@ -54,7 +54,7 @@ shards:
 
   lexbor:
     git: https://github.com/kostya/lexbor.git
-    version: 2.6.2+git.commit.6ff5909b5eac238cd640d5d550178c5952667b4c
+    version: 2.6.2+git.commit.7dd06e44b1bddcd2f3f7d90a8b89568eb5c0a4aa
 
   lucky:
     git: https://github.com/luckyframework/lucky.git
