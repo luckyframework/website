@@ -43,9 +43,9 @@ class ConvertHtmlToLucky::IndexPage < PageLayout
 
   private def output_default_height
     if @output.empty?
-      return "h-24"
+      "h-24"
+    else
+      "h-full"
     end
-
-    "h-full"
   end
 end
