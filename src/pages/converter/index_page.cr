@@ -19,7 +19,7 @@ class ConvertHtmlToLucky::IndexPage < PageLayout
 
         div class: "space-y-1" do
           h3 "Lucky Output", class: "text-2xl"
-          pre class: "#{output_default_height}" do
+          pre class: output_default_height do
             code class: "h-full language-crystal hljs" do
               text @output
             end
