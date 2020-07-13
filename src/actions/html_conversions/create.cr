@@ -1,10 +1,10 @@
-class ConvertHtmlToLucky::Create < BrowserAction
+class HtmlConversions::Create < BrowserAction
   param input : String = ""
 
-  post "/convert-html-to-lucky" do
+  post "/html" do
     output = HTML2Lucky::Converter.new(input).convert
 
-    html IndexPage,
+    html NewPage,
       title: "Convert HTML to Lucky",
       input: input,
       output: output
