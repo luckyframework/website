@@ -1,6 +1,7 @@
 class Guides::Database::Migrations < GuideAction
   ANCHOR_ASSOCIATIONS = "perma-associations"
   ANCHOR_PRIMARY_KEYS = "perma-primary-keys"
+  ANCHOR_BELONGS_TO   = "perma-belongs-to"
   guide_route "/database/migrations"
 
   def self.title
@@ -383,6 +384,7 @@ class Guides::Database::Migrations < GuideAction
 
     [Learn more about associations with models](#{Guides::Database::Models.path(anchor: Guides::Database::Models::ANCHOR_MODEL_ASSOCIATIONS)})
 
+    #{permalink(ANCHOR_BELONGS_TO)}
     ### Add belongs_to
 
     The `add_belongs_to` method will create that foreign key constraint.

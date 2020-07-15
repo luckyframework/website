@@ -1,5 +1,7 @@
 class Guides::GettingStarted::StartingProject < GuideAction
   ANCHOR_SYSTEM_CHECK = "perma-system-check"
+  ANCHOR_START_SERVER = "perma-start-server"
+
   guide_route "/getting-started/starting-project"
 
   def self.title
@@ -53,6 +55,7 @@ class Guides::GettingStarted::StartingProject < GuideAction
 
     > Use the `-h` flag for a quick reference from the terminal.
 
+    #{permalink(ANCHOR_START_SERVER)}
     ## Start the Server
 
     To start the server and run your project,
