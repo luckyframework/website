@@ -38,6 +38,10 @@ class Guides::Database::Models < GuideAction
     * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
     * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
+    You can even supply the model generator with typed columns, and Lucky will take care of adding those to the appropriate templates, too:
+
+    `lucky gen.model User name:String email:String age:Int32 admin:Bool`
+
     #{permalink(ANCHOR_SETTING_UP_A_MODEL)}
     ## Setting up a model
 
