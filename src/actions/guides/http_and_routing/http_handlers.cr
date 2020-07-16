@@ -25,8 +25,6 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
         Lucky::ForceSSLHandler.new,
         Lucky::HttpMethodOverrideHandler.new,
         Lucky::LogHandler.new,
-        Lucky::SessionHandler.new,
-        Lucky::FlashHandler.new,
         Lucky::ErrorHandler.new(action: Errors::Show),
         Lucky::RouteHandler.new,
         Lucky::StaticFileHandler.new("./public", false),
@@ -80,8 +78,6 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
           Lucky::HttpMethodOverrideHandler.new,
           Lucky::LogHandler.new,
           LegacyRedirectHandler.new,  # Add this line
-          Lucky::SessionHandler.new,
-          Lucky::FlashHandler.new,
           Lucky::ErrorHandler.new(action: Errors::Show),
           Lucky::RouteHandler.new,
           Lucky::StaticFileHandler.new("./public", false),
