@@ -1,6 +1,7 @@
 class Guides::Database::Querying < GuideAction
-  ANCHOR_PRELOADING = "perma-preloading"
-  ANCHOR_RELOADING  = "perma-reloading"
+  ANCHOR_PRELOADING     = "perma-preloading"
+  ANCHOR_RELOADING      = "perma-reloading"
+  ANCHOR_QUERYING_ENUMS = "perma-querying-enums"
   guide_route "/database/querying-records"
 
   def self.title
@@ -303,6 +304,26 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     UserQuery.new.name.ilike("jim")
+    ```
+
+    #{permalink(ANCHOR_QUERYING_ENUMS)}
+    ### Querying enums
+
+    ```crystal
+    class User < BaseModel
+      avram_enum Role do
+        Basic
+        Admin
+      end
+
+      #...
+    end
+    ```
+
+    ```crystal
+    # `admin_value` is equal to 1 here.
+    admin_value = User::Role.new(:admin).value
+    admin_users = UserQuery.new.role(admin_value)
     ```
 
     ## Order By
