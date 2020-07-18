@@ -366,10 +366,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     You can also use the `params.get?(:key)` method to return `nil` if the key doesn't exist.
 
     ```crystal
-    # example.com/users?page=1&filter=active
     get "/users" do
-      # This will return nil
-      per = params.get?(:per)
+      per = params.get?(:per) # returns nil
+
       plain_text "..."
     end
     ```
@@ -379,25 +378,22 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Params from query string
 
-    Returns just the query params as `HTTP::Params`.
-
-    You can use the `params.get(:key)` method to get your values from the query string,
-    or `params.get_raw(:key).
-
-    Lucky also gives you access to a `params.from_query["key"]` method which does the same thing.
+    The `from_query` method returns `HTTP::Params` from query params. You can access the values
+    similar to a `Hash(String, String)`.
 
     ```crystal
-    # example.com?q=Lucky
-    params.get(:q) #=> "Lucky"
-    params.get_query["q"] #=> "Lucky"
-
-    params.get?(:search) #=> nil
-    params.get_query["search"]? #=> nil
+    # /path?q=Lucky
+    params.from_query["q"] #=> "Lucky"
+    params.from_query["search"] #=> Error!
+    params.from_query["search"]? #=> nil
     ```
+
+    > This is the same as using `params.get_raw(:key)` and `params.get_raw?(:key)`.
 
     ### Params from JSON
 
-    Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError` if JSON is invalid.
+    Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError`
+    if JSON is invalid.
 
     ```crystal
     # {"users": [{"name": "Skyler"}]}
@@ -406,12 +402,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Params from form data
 
-    Returns x-www-form-urlencoded body params as `HTTP::Params`.
-
-    Generally you'd use `params.get()` for these, but for consistency sake, Lucky gives you this method.
+    The `from_form_data` method returns `HTTP::Params` from x-www-form-urlencoded body params.
 
     ```crystal
-    params.get(:name)
     params.from_form_data["name"]
     ```
 
