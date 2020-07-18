@@ -347,18 +347,17 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     When parameters are passed to an action, you have access to these with the `params` method.
 
+    Here's an example of using parameters when visiting the `/users?page=1&filter=active` path:
+
     ```crystal
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
 
-      # example.com/users?page=1&filter=active
       get "/users" do
-        # These are both type `String`
-        filter = params.get(:filter)
-        page = params.get(:page)
+        filter = params.get(:filter) # type String
+        page = params.get(:page) # type String
+        per = params.get(:per) # Error! there is no parameter :per
 
-        # This is missing and will raise an error
-        per = params.get(:per)
         plain_text "All users starting on page \#{page}"
       end
     end
