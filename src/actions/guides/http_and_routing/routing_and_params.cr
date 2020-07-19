@@ -341,9 +341,9 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Parameters, or `params`, are data that is sent from client back to the server. There are a few different ways this can happen:
 
     * Path parameters - The dynamic values passed in your route path. e.g. `/users/:id`.
-    * Query parameters - These are added to the end of a URL after the `?` in key/value pairs. e.g. `?page=1`
-    * Form parameters - When you perform an HTTP POST, the data sent through the body. This may be formatted as JSON, or form data
-    * Multipart parameters - Similar to form parameters, but generally to contain a file
+    * Query parameters - The query string at the end of a URL after the `?` in key/value pairs. e.g. `?page=1`
+    * Form parameters - Data sent through HTTP POST. This may be formatted as JSON.
+    * Multipart parameters - Similar to form parameters, but generally to contain a file.
 
     When parameters are passed to an action, you have access to these with the `params` method.
 
@@ -444,6 +444,48 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     Just like path parameters, you can define as many query parameters as you want. Every
     query parameter will have a method generated for it to access the value.
+
+    ### Nested params
+
+    When data is sent through HTML forms, Lucky will namespace or "nest" the
+    parameter names according to the object used in the form. For example,
+    if we're saving a `User` object, all of the param names will be prefixed with
+    `user:`. (i.e. `user:name`, `user:email`).
+
+    To access these values, we can use the `params.nested(:key)` and `params.nested?(:key)`
+    methods.
+
+    ```crystal
+    class Users::Create < BrowserAction
+      # user:name=Alesia&user:age=35&page=1
+      post "/users" do
+        data = params.nested(:user)
+        name = data["name"] #=> "Alesia"
+        email = data["email"]? #=> nil
+
+        plain_text "The name is \#{name}"
+      end
+    end
+    ```
+
+    Lucky also gives you the ability to send more than 1 set of param values
+    at the same time. We call the `many_nested`.
+
+    In this example, we want to create 2 notes at the same time.
+
+    ```crystal
+    # notes[0]:title=Buying&notes[1]:title=Selling
+    class Notes::Create < BrowserAction
+      post "/notes" do
+        notes = params.many_nested(:notes)
+
+        plain_text "The first note title is \#{notes[0]["title"]}"
+      end
+    end
+    ```
+
+    > The `many_nested` method will raise an error if the key does not exist. 
+    > Use `many_nested?(:key)` to return `nil` in that case.
 
     ## Where to put actions
 
