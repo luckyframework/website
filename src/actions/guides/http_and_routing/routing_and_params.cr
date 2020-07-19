@@ -422,7 +422,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Accepting specific params
 
-    Other times you may want to accept parameters in the query string, e.g. `https://example.com?page=2`.
+    Other times you may want to accept parameters in the query string, e.g. `/users?page=2`.
 
     ```crystal
     # src/actions/users/index.cr
@@ -439,7 +439,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     The parameter definition will inspect the given type declaration, so you can easily define
     required or optional parameters by using non- or nilable types (`Int32` vs. `Int32?`).
     Parameter defaults are set by assigning a value in the parameter definition. Query parameters
-    are type-safe as well, so when `https://example.com?page=unlucky` is accessed with the above definition, an exception
+    are type-safe as well, so when `/users?page=unlucky` is accessed with the above definition, an exception
     is raised.
 
     Just like path parameters, you can define as many query parameters as you want. Every
