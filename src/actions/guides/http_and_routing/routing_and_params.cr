@@ -345,7 +345,35 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     * Form parameters - Data sent through HTTP POST. This may be formatted as JSON.
     * Multipart parameters - Similar to form parameters, but generally to contain a file.
 
-    When parameters are passed to an action, you have access to these with the `params` method.
+    ### Type-safe query params
+
+    You may want to accept parameters in the query string, e.g. `/users?page=2`. Lucky gives you access
+    to these in a type-safe way through the `param` macro.
+
+    ```crystal
+    # src/actions/users/index.cr
+    class Users::Index < BrowserAction
+      param page : Int32 = 1
+
+      get "/users" do
+        plain_text "All users starting on page \#{page}"
+      end
+    end
+    ```
+
+    When you add a query parameter with the `param` macro, it will generate a method for you to access the value.
+    The parameter definition will inspect the given type declaration, so you can easily define
+    required or optional parameters by using non- or nilable types (`Int32` vs. `Int32?`).
+    Parameter defaults are set by assigning a value in the parameter definition. Query parameters
+    are type-safe as well, so when `/users?page=unlucky` is accessed with the above definition, an exception
+    is raised.
+
+    Just like path parameters, you can define as many query parameters as you want. Every
+    query parameter will have a method generated for it to access the value.
+
+    ### Params from query string
+
+    You also have access to these with the `params` method.
 
     Here's an example of using parameters when visiting the `/users?page=1&filter=active` path:
 
@@ -363,7 +391,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    You can also use the `params.get?(:key)` method to return `nil` if the key doesn't exist.
+    The `params.get?(:key)` method will return `nil` if the key doesn't exist instead of raising an error.
 
     ```crystal
     get "/users" do
@@ -374,9 +402,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```
 
     > By default, all param values are trimmed of blankspace. If you need the raw value,
-    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.
-
-    ### Params from query string
+    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.    
 
     The `from_query` method returns `HTTP::Params` from query params. You can access the values
     similar to a `Hash(String, String)`.
@@ -419,31 +445,6 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
     files["avatar"]                    # Lucky::UploadedFile
     ```
-
-    ### Type-safe query params
-
-    Other times you may want to accept parameters in the query string, e.g. `/users?page=2`.
-
-    ```crystal
-    # src/actions/users/index.cr
-    class Users::Index < BrowserAction
-      param page : Int32 = 1
-
-      get "/users" do
-        plain_text "All users starting on page \#{page}"
-      end
-    end
-    ```
-
-    When you add a query parameter with the `param` macro, it will generate a method for you to access the value.
-    The parameter definition will inspect the given type declaration, so you can easily define
-    required or optional parameters by using non- or nilable types (`Int32` vs. `Int32?`).
-    Parameter defaults are set by assigning a value in the parameter definition. Query parameters
-    are type-safe as well, so when `/users?page=unlucky` is accessed with the above definition, an exception
-    is raised.
-
-    Just like path parameters, you can define as many query parameters as you want. Every
-    query parameter will have a method generated for it to access the value.
 
     ### Nested params
 
