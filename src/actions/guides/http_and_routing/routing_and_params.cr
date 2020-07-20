@@ -336,16 +336,26 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > Learn more about [error handling](#{Guides::HttpAndRouting::ErrorHandling.path}).
 
-    ## Query parameters
+    ## Handling parameters
 
-    Other times you may want to accept parameters in the query string, e.g. `https://example.com?page=2`.
+    Parameters, or `params`, are data that is sent from client back to the server. There are a few different ways this can happen:
+
+    * Path parameters - The dynamic values passed in your route path. e.g. `/users/:id`.
+    * Query parameters - The query string at the end of a URL after the `?` in key/value pairs. e.g. `?page=1`
+    * Form parameters - Data sent through HTTP POST. This may be formatted as JSON.
+    * Multipart parameters - Similar to form parameters, but generally to contain a file.
+
+    ### Type-safe query params
+
+    You may want to accept parameters in the query string, e.g. `/users?page=2`. Lucky gives you access
+    to these in a type-safe way through the `param` macro.
 
     ```crystal
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
       param page : Int32 = 1
 
-      route do
+      get "/users" do
         plain_text "All users starting on page \#{page}"
       end
     end
@@ -355,11 +365,128 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     The parameter definition will inspect the given type declaration, so you can easily define
     required or optional parameters by using non- or nilable types (`Int32` vs. `Int32?`).
     Parameter defaults are set by assigning a value in the parameter definition. Query parameters
-    are type-safe as well, so when `https://example.com?page=unlucky` is accessed with the above definition, an exception
+    are type-safe as well, so when `/users?page=unlucky` is accessed with the above definition, an exception
     is raised.
 
     Just like path parameters, you can define as many query parameters as you want. Every
     query parameter will have a method generated for it to access the value.
+
+    ### Params from query string
+
+    You also have access to these with the `params` method.
+
+    Here's an example of using parameters when visiting the `/users?page=1&filter=active` path:
+
+    ```crystal
+    # src/actions/users/index.cr
+    class Users::Index < BrowserAction
+
+      get "/users" do
+        filter = params.get(:filter) # type String
+        page = params.get(:page) # type String
+        per = params.get(:per) # Error! there is no parameter :per
+
+        plain_text "All users starting on page \#{page}"
+      end
+    end
+    ```
+
+    The `params.get?(:key)` method will return `nil` if the key doesn't exist instead of raising an error.
+
+    ```crystal
+    get "/users" do
+      per = params.get?(:per) # returns nil
+
+      plain_text "..."
+    end
+    ```
+
+    > By default, all param values are trimmed of blankspace. If you need the raw value,
+    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.    
+
+    The `from_query` method returns `HTTP::Params` from query params. You can access the values
+    similar to a `Hash(String, String)`.
+
+    ```crystal
+    # /path?q=Lucky
+    params.from_query["q"] #=> "Lucky"
+    params.from_query["search"] #=> Error!
+    params.from_query["search"]? #=> nil
+    ```
+
+    > This is the same as using `params.get_raw(:key)` and `params.get_raw?(:key)`.
+
+    ### Params from JSON
+
+    Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError`
+    if JSON is invalid.
+
+    ```crystal
+    # {"users": [{"name": "Skyler"}]}
+    params.from_json["users"][0]["name"].as_s #=> "Skyler"
+    ```
+
+    ### Params from form data
+
+    The `from_form_data` method returns `HTTP::Params` from x-www-form-urlencoded body params.
+
+    ```crystal
+    params.from_form_data["name"]
+    ```
+
+    ### Params from multipart
+
+    Returns multipart params and files.
+
+    ```crystal
+    form_params = params.from_multipart.last # Hash(String, String)
+    form_params["name"]                      # "Kyle"
+
+    files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
+    files["avatar"]                    # Lucky::UploadedFile
+    ```
+
+    ### Nested params
+
+    When data is sent through HTML forms, Lucky will namespace or "nest" the
+    parameter names according to the object used in the form. For example,
+    if we're saving a `User` object, all of the param names will be prefixed with
+    `user:`. (i.e. `user:name`, `user:email`).
+
+    To access these values, we can use the `params.nested(:key)` and `params.nested?(:key)`
+    methods.
+
+    ```crystal
+    class Users::Create < BrowserAction
+      # user:name=Alesia&user:age=35&page=1
+      post "/users" do
+        data = params.nested(:user)
+        name = data["name"] #=> "Alesia"
+        email = data["email"]? #=> nil
+
+        plain_text "The name is \#{name}"
+      end
+    end
+    ```
+
+    Lucky also gives you the ability to send more than 1 set of param values
+    at the same time. We call the `many_nested`.
+
+    In this example, we want to create 2 notes at the same time.
+
+    ```crystal
+    # notes[0]:title=Buying&notes[1]:title=Selling
+    class Notes::Create < BrowserAction
+      post "/notes" do
+        notes = params.many_nested(:notes)
+
+        plain_text "The first note title is \#{notes[0]["title"]}"
+      end
+    end
+    ```
+
+    > The `many_nested` method will raise an error if the key does not exist. 
+    > Use `many_nested?(:key)` to return `nil` in that case.
 
     ## Where to put actions
 
