@@ -420,7 +420,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     files["avatar"]                    # Lucky::UploadedFile
     ```
 
-    ### Accepting specific params
+    ### Type-safe query params
 
     Other times you may want to accept parameters in the query string, e.g. `/users?page=2`.
 
