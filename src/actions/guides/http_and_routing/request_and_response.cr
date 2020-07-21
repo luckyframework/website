@@ -85,11 +85,12 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     * `html` - render a Lucky::HTMLPage
     * `redirect` - redirect the request to another location
-    * `plain_text` - respond with plain text
-    * `json` - return a json response
-    * `xml` - return an xml response
-    * `head` - return a head response with a 204 status
+    * `plain_text` - respond with plain text with `text/plain` Content-Type.
+    * `json` - return a JSON response with `application/json` Content-Type.
+    * `xml` - return an XML response with `text/xml` Content-Type.
+    * `head` - return HTTP HEAD response
     * `file` - return a file for download
+    * `component` - render a [Component](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)}).
 
     ```crystal
     class Jobs::Reports::Create < ApiAction
@@ -107,6 +108,66 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ```
 
     > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html).
+
+    ### Rendering a file
+
+    The `file` method can be used to return a file and it's contents to the browser, or render the contents of the file
+    inline to a web browser.
+
+    ```crystal
+    class Reports::Show < BrowserAction
+
+      get "/reports/sales" do
+        file "/path/to/reports.pdf",
+            disposition: "attachment",
+            filename: "report-\#{Time.utc.month}.pdf",
+            content_type: "application/pdf"
+      end
+    end
+    ```
+
+    ### Rending components
+
+    The `component` method allows you to return the HTML generated from a specific component. This can be used in place
+    of rendering an entire HTML page which can be useful for loading dynamic HTML on your front-end.
+
+    ```crystal
+    # src/components/comment_component.cr
+    class CommentComponent < BaseComponent
+      needs comment : Comment
+
+      def render
+        para(comment.text)
+      end
+    end
+
+    # src/actions/api/comments/show.cr
+    class Api::Comments::Show < ApiAction
+      get "/comments/:id" do
+        comment = CommentQuery.new.find(id)
+
+        component CommentComponent, comment: comment
+      end
+    end
+    ```
+
+    In this example, you could make a javascript call to this `/comments/123` endpoint which would return the HTML just for that comment.
+    This allows you to build out the HTML using Lucky's type-safe builder, but also injecting dynamic HTML in to your page.
+
+    ### Custom responses
+
+    Lucky provides many different built in responses for automatically setting the appropriate Content-Type header for you.
+    When you need to respond with a non-standard Content-Type, you can use the `send_text_response` method directly.
+
+    ```crystal
+    class Playlists::Index < BrowserAction
+
+      get "/playlist.m3u8" do
+        playlist = "..."
+        send_text_response(playlist, "application/x-mpegURL", status: 200)
+      end
+    end
+    ```
 
     #{permalink(ANCHOR_REDIRECTING)}
     ## Redirecting
