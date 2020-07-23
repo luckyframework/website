@@ -306,8 +306,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    You can also memoize methods that have a `nil` or `false` return value like when finding a record.
-    As well as the ability to pass arguments to your memoized method.
+    Memoized methods can return any value, including`nil` or `false`.
+    You can also pass arguments to your memoized method.
 
     ```crystal
     class Users::Show < BrowserAction
