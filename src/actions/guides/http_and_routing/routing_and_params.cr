@@ -390,6 +390,16 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Just like path parameters, you can define as many query parameters as you want. Every
     query parameter will have a method generated for it to access the value.
 
+    To pass these params from a page in to the action, you will use the `with` method.
+
+    ```crystal
+    def content
+      link "View more users", to: Users::Index.with(page: 2)
+    end
+    ```
+
+    [Read more on link generation](#{Guides::HttpAndRouting::LinkGeneration.path})
+
     ### Params from query string
 
     You also have access to these with the `params` method.
