@@ -193,6 +193,23 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     The default status for a redirect is `HTTP::Status::FOUND` (302), but if you need a different status code, you can pass any [HTTP Status Enum](https://crystal-lang.org/api/HTTP/Status.html).
 
+    ### Redirect back
+
+    `redirect_back` allows an action to send the user back to where they made the request from. This is really useful in situations like submitting
+    a lead form where the app might have it in several locations but the app doesn't need to take them anywhere in particular after they submit it.
+    Rather than sending the user to a specific place after submitting the form, we can now send them back to where they originally submitted it.
+
+    ```crystal
+    class NewsletterSignupsCreate < BrowserAction
+      post "/newsletter/signup" do
+        # do the signup code
+        redirect_back fallback: Home::Index
+      end
+    end
+    ```
+
+    > The `fallback` argument is required due to the HTTP Referer being potentially nil.
+
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD
   end
