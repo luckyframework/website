@@ -306,10 +306,29 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    There are a few caveats to the `memoize` macro. It will not memoize `false`, or `nil` return values.
-    If your method returns a "falsey" value, then it will be ran each time. Another thing to note is
-    you can't memoize a method that takes an argument. This is due to the dynamic nature of the
-    arguments.
+    Memoized methods can return any value, including`nil` or `false`.
+    You can also pass arguments to your memoized method.
+
+    ```crystal
+    class Users::Show < BrowserAction
+      get "/users/:id" do
+        user = fetch_user(id)
+
+        if user
+          html ShowPage, user: user
+        else
+          redirect to: Home::IndexPage
+        end
+      end
+
+      # This is only called once per `id` passed in.
+      memoize def fetch_user(id : String) : User
+        make_api_call && UserQuery.new.find(id)
+      end
+    end
+    ```
+
+    If you need access to `memoize` from outside of your action, just `include Lucky::Memoizable`.
 
     [Learn more about memoization](https://en.wikipedia.org/wiki/Memoization).
 
