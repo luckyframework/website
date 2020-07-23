@@ -208,7 +208,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    > The `fallback` argument is required due to the HTTP Referer being potentially nil.
+    The `fallback` argument is required and is used if the HTTP Referer is empty
 
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD
