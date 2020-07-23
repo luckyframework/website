@@ -112,6 +112,21 @@ class Guides::Database::ValidatingSaving < GuideAction
     > [save without a params object](#saving-without-a-params-object), for example, in your specs, or in
     > a seeds file.
 
+    ### Bulk updating
+
+    Bulk updating is when you update one or more columns on more than one record at a time.
+    This is a much faster procedure than iterating over each record to update individually.
+
+    ```crystal
+    # Gather all users that are not active
+    users = UserQuery.new.active(false)
+
+    # Make them all active! Returns the total count of updated records.
+    total_updated = users.update(active: true)
+    ```
+
+    > The bulk update is called on a Query object instead of a `SaveOperation`.
+
     ## Using with JSON endpoints
 
     See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
