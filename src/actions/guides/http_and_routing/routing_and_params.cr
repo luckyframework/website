@@ -421,7 +421,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```
 
     > By default, all param values are trimmed of blankspace. If you need the raw value,
-    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.    
+    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.
 
     The `from_query` method returns `HTTP::Params` from query params. You can access the values
     similar to a `Hash(String, String)`.
@@ -504,7 +504,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    > The `many_nested` method will raise an error if the key does not exist. 
+    > The `many_nested` method will raise an error if the key does not exist.
     > Use `many_nested?(:key)` to return `nil` in that case.
 
     ## Where to put actions

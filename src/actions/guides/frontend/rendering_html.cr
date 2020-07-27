@@ -66,11 +66,68 @@ class Guides::Frontend::RenderingHtml < GuideAction
     You’ll notice we used `needs` near the top of the class. This declares that for
     this page to render we need an Array of Strings and that they will be accessible
     from the `user_names` getter method. We set the user names by passing it in the
-    `html` macro in our action: `html IndexPage, user_names: ["Paul", "Sally", "Jane"]`
+    `html` macro in our action:
+
+    ```crystal
+    # src/actions/users/index.cr
+    class Users::Index < BrowserAction
+      get "/users" do
+        html IndexPage, user_names: ["Paul", "Sally", "Jane"]
+      end
+    end
+    ```
 
     > This is nice because you won’t accidentally forget to pass something to a page
     ever again. If you forget, the compiler will tell you that you’re missing
     something.
+
+    ### Default values and nilable needs
+
+    Your page or component may need some value that is optional. In this case, you can
+    assign a default value to your `needs` or just make the type nilable. (i.e. `String?`)
+
+    ```crystal
+    class Users::IndexPage < MainLayout
+      needs page : Int32 = 1
+      needs status : String?
+
+      def content
+        # `page` will always have a value
+        # `status` may be nil
+      end
+    end
+    ```
+
+    From your action, you can optionally pass either of these values.
+
+    ```crystal
+    get "/users" do
+      html IndexPage
+      # or
+      html IndexPage, page: 2
+      # or
+      html IndexPage, status: "active", page 3
+    end
+    ```
+
+    ### Using needs with Bool
+
+    When you use a `Bool` value for `needs`, Lucky will generate a helpful
+    method for you that ends in `?` to denote that it will return `true` or `false`.
+
+    ```crystal
+    class Users::IndexPage < MainLayout
+      needs admin : Bool = false
+
+      def content
+        if admin?
+          # ...
+        else
+          # ...
+        end
+      end
+    end
+    ```
 
     ## Rendering HTML in our page
 
