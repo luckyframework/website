@@ -118,7 +118,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     This is a much faster procedure than iterating over each record to update individually.
 
     ```crystal
-    # Gather all users that are not active
+    # Query for all users that are inactive
     users = UserQuery.new.active(false)
 
     # Make them all active! Returns the total count of updated records.
