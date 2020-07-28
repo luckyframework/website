@@ -14,7 +14,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     You can access them as class methods on the action itself. They are:
 
     * `route` - returns a `Lucky::RouteHelper` object that contains the path, HTTP method,
-      , and the full URL as methods `path`, `method`, `url`.
+      and the full URL as methods `path`, `method`, `url`.
     * `with` - an alias for `route` that is used for passing parameters.
     * `path` - returns a string of just the path.
     * `url` - returns a string with the whole URL including query params.
