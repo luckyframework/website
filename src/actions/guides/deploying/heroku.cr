@@ -242,7 +242,8 @@ class Guides::Deploying::Heroku < GuideAction
     and run the app!
 
     > Migrations will happen automatically when the app is pushed to Heroku.
-    Lucky makes it so you never have to worry about forgetting to migrate our app when it's deployed!
+    > Lucky makes it so you never have to worry about forgetting to migrate our app when it's deployed!
+    > Read more about the [release phase](https://devcenter.heroku.com/articles/release-phase).
 
     To see our deployed app,
     use Heroku's `open` command:
@@ -251,7 +252,18 @@ class Guides::Deploying::Heroku < GuideAction
     heroku open
     ```
 
-    Happy shipping!
+    Happy shipping! 🚀
+
+    ## Running tasks
+
+    To run any of your Lucky tasks on your new Heroku container, use Heroku's `run` command:
+
+    ```bash
+    heroku run lucky db.create_required_seeds
+    ```
+
+    For a list of the tasks available, run `lucky -h` locally.
+
     MD
   end
 end
