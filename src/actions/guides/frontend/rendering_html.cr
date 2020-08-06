@@ -106,7 +106,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       # or
       html IndexPage, page: 2
       # or
-      html IndexPage, status: "active", page 3
+      html IndexPage, status: "active", page: 3
     end
     ```
 
