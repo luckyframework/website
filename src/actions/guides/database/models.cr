@@ -263,6 +263,17 @@ class Guides::Database::Models < GuideAction
     user.role.member? #=> false
     ```
 
+    In order to store the values in the database, the table must have columns named accordingly and of type `Int32`.
+
+    ```crystal
+    create table_for(User) do
+      primary_key id : Int64
+
+      add status : Int32
+      add role : Int32
+    end
+    ```
+
     To learn more about using enums, read up on [saving with enums](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_SAVING_ENUMS)})
     and [querying with enums](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_QUERYING_ENUMS)}).
 
