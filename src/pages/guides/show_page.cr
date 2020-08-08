@@ -14,15 +14,15 @@ class Guides::ShowPage
     html_doctype
 
     html lang: "en" do
-      m Shared::LayoutHead, seo: SEO.new(page_title), context: @context
+      mount Shared::LayoutHead, seo: SEO.new(page_title), context: @context
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
-        m Shared::Header, @context.request
+        mount Shared::Header, @context.request
         middle_section
         guide_content
       end
 
-      m Shared::Footer
+      mount Shared::Footer
     end
   end
 
@@ -30,7 +30,7 @@ class Guides::ShowPage
     div class: "md:bg-lucky-teal-blue-gradient" do
       div class: "flex relative md:py-8 md:pr-10 container mx-auto text-white" do
         table_of_contents
-        m Guides::Sidebar, guide_action
+        mount Guides::Sidebar, guide_action
       end
     end
   end

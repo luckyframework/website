@@ -137,7 +137,7 @@ class Guides::Database::Pagination < GuideAction
 
       def render
         # Mount one of the built-in components
-        m Lucky::Paginator::SimpleNav, pages
+        mount Lucky::Paginator::SimpleNav, pages
       end
     end
     ```
