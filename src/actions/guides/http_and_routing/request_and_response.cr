@@ -169,6 +169,11 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
+    Text responses are compressed automatically based on two `Lucky::Server.settings` entries. If alternate behavior is desired, these settings can be adjusted in your Lucky app in `config/server.cr`
+
+    - `Lucky::Server.settings.gzip_enabled (default false)`
+    - `Lucky::Server.settings.gzip_content_types`
+
     #{permalink(ANCHOR_REDIRECTING)}
     ## Redirecting
 
