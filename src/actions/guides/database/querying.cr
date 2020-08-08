@@ -366,7 +366,19 @@ class Guides::Database::Querying < GuideAction
 
     This section has been moved to its own [pagination guide](#{Guides::Database::Pagination.path}).
 
-    ### Select Avg / Sum
+    ## Aggregate Functions
+
+    ### Select Count
+
+    `SELECT COUNT(*) FROM users`
+
+    ```crystal
+    # This will return a Float64.
+    # The value will be 0 if there are no records.
+    UserQuery.new.select_count
+    ```
+
+    ### Select Average / Sum
 
     `SELECT AVG(users.age) FROM users`
 
