@@ -141,6 +141,21 @@ class Guides::Frontend::AssetHandling < GuideAction
 
     Make sure to use the `asset` macro to get fingerprinted assets.
 
+    ## Asset compression
+
+    Lucky supports static asset compression out of the box with a convenient middleware handler, `Lucky::StaticCompressionHandler`. You can add to the set of [default middleware handlers](#{Guides::HttpAndRouting::HTTPHandlers.path(anchor: Guides::HttpAndRouting::HTTPHandlers::ANCHOR_BUILT_IN_HANDLERS)}) as necessary in `src/app_server.cr`:
+
+    ```crystal
+    [
+      # ...
+      Lucky::StaticCompressionHandler.new("./public", file_ext: "br", content_encoding: "br"),
+      Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip"),
+      # ...
+    ]
+    ```
+
+    Multiple instances of the `StaticCompressionHandler` can be leveraged to permit different types of compression based on browser support. For example, the settings above would serve Brotli-compressed assets for browsers that support it, and gzipped assets for those that don't.
+
     ## Asset host
 
     Once your app is in production, you may want to serve up your assets through a
