@@ -237,7 +237,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     class Frontend::Index < BrowserAction
       fallback do
         if html?
-          render Home::IndexPage
+          html Home::IndexPage
         else
           raise Lucky::RouteNotFoundError.new(context)
         end
@@ -296,7 +296,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       get "/report" do
         small_number = calculate_numbers
         big_number = calculate_numbers + 1000
-        render ShowPage, small_number: small_number, big_number: big_number
+        html ShowPage, small_number: small_number, big_number: big_number
       end
 
       memoize def calculate_numbers : Int64
