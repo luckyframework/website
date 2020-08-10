@@ -178,7 +178,7 @@ class Guides::Authentication::Browser < GuideAction
     class Posts::Index < BrowserAction
       include Auth::AllowGuests
 
-      route do
+      get "/posts" do
         html Posts::IndexPage, posts: PostQuery.new
       end
     end
@@ -204,7 +204,7 @@ class Guides::Authentication::Browser < GuideAction
 
     ```crystal
     class Settings::Edit < BrowserAction
-      route do
+      get "/settings/edit" do
         html Settings::EditPage
       end
     end
