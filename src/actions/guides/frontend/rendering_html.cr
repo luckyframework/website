@@ -373,7 +373,82 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    ## Page helpers
+    ## Finding the current page
+
+    Lucky provides the convenient `current_page?` helper on both pages and components to make it easier
+    to customize content based on context.
+
+    ### Basic usage
+
+    `current_page?` accepts a `RouteHelper`, `Action`, or path string.
+
+    One common use case is to highlight the currently-viewed page in a navigation header:
+
+    ```crystal
+    nav do
+      ul do
+        link "Home",
+          to: Home::Index,
+          data_selected: current_page?(Home::Index)
+
+        link "Your dashboard",
+          to: Dashboard::Index,
+          data_selected: current_page?(Dashboard::Index)
+
+        link "Your profile",
+          to: Me::Show,
+          data_selected: current_page?(Me::Show)
+      end
+    end
+
+    ```
+
+    ### Advanced usage
+
+    Let's take a look at some of the additional features we can take advantage of with `current_page?`.
+
+    For example, if we are visiting `https://example.com/users?sort_by=name`:
+
+    ```crystal
+    current_page?(Users::Index)
+    # => true
+
+    current_page?("/users")
+    # => true
+
+    current_page?("/users?sort_by=email")
+    # => true
+
+    current_page?("/users?sort_by=name")
+    # => true
+
+    current_page?("https://example.com/users")
+    # => true
+    ```
+
+    We can provide an optional second argument to `current_page?`, `check_query_params`,
+    to tell Lucky whether or not it should care about parameters.
+
+    Let's take a look at our `https://example.com/users?sort_by=name` example from before with this new parameter in mind:
+
+    ```crystal
+    current_page?(Users::Index, check_query_params: true)
+    # => true
+
+    current_page?("/users", check_query_params: true )
+    # => true
+
+    current_page?("/users?sort_by=email", check_query_params: true)
+    # => false
+
+    current_page?("/users?sort_by=name", check_query_params: true)
+    # => true
+
+    current_page?("https://example.com/users", check_query_params: true)
+    # => true
+    ```
+
+    ## Formatting helpers
 
     Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
 
