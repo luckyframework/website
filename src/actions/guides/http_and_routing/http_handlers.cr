@@ -1,4 +1,5 @@
 class Guides::HttpAndRouting::HTTPHandlers < GuideAction
+  ANCHOR_BUILT_IN_HANDLERS = "perma-built-in-handlers"
   guide_route "/http-and-routing/http-handlers"
 
   def self.title
@@ -12,6 +13,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     Crystal comes with a module [HTTP::Handler](https://crystal-lang.org/api/HTTP/Handler.html), which is used as middleware for your HTTP Server stack.
     These are classes you create that include the `HTTP::Handler` module to process incoming requests and return responses.
 
+    #{permalink(ANCHOR_BUILT_IN_HANDLERS)}
     ## Built-in handlers
 
     Lucky comes with some built-in handlers that you can see in your `src/app_server.cr` file under the `middleware` method.
@@ -20,16 +22,18 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     By default when you generate a full application, your middleware stack will look like this:
 
     ```crystal
-    def middleware
+    def middleware : Array(HTTP::Handler)
       [
         Lucky::ForceSSLHandler.new,
         Lucky::HttpMethodOverrideHandler.new,
         Lucky::LogHandler.new,
         Lucky::ErrorHandler.new(action: Errors::Show),
+        Lucky::RemoteIpHandler.new,
         Lucky::RouteHandler.new,
-        Lucky::StaticFileHandler.new("./public", false),
+        Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip"),
+        Lucky::StaticFileHandler.new("./public", fallthrough: false, directory_listing: false),
         Lucky::RouteNotFoundHandler.new,
-      ]
+      ] of HTTP::Handler
     end
     ```
 

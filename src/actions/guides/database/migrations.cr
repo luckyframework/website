@@ -389,6 +389,8 @@ class Guides::Database::Migrations < GuideAction
 
     The `add_belongs_to` method will create that foreign key constraint.
 
+    For example, we can tell our database that a `Comment` should reference a `User` as its author:
+
     ```crystal
     def migrate
       create table_for(Comment) do
@@ -400,6 +402,13 @@ class Guides::Database::Migrations < GuideAction
         add_belongs_to author : User, on_delete: :cascade
       end
     end
+    ```
+
+    This will generate a column called `author_id` on the `comments` table with a foreign key constraint pointing to an entry in the `users` table. It will also ensure that when a `User` is removed from the database, all associated `Comments` are also removed:
+
+    ```
+    comments_author_id_fkey" FOREIGN KEY (author_id) 
+        REFERENCES users(id) ON DELETE CASCADE
     ```
 
     You must include the `on_delete` option which can be one of

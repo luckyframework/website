@@ -39,6 +39,40 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
+    ### Setting accepted request formats
+
+    By default, generated Lucky apps set some helpful boundaries around what formats each action in your application can support.  These can be overriden in specific actions with the `accepted_formats` method.
+
+    For example, API actions only support JSON requests. Because only one format is specified as accepted, it is automatically set as the default format:
+
+    ```crystal
+    abstract class ApiAction < Lucky::Action
+      accepted_formats [:json]
+    end
+    ```
+
+    In an API action, requests would be handled like this:
+
+    - `https://myapp.com/api/users` with no specific request format => Server responds with JSON (the default format)
+    - `https://myapp.com/api/users` with `Accept: application/json` => Server responds with JSON (the requested, accepted format)
+    - `https://myapp.com/api/users` with `Accept: application/csv` => Server responds with 406 (not acceptable)
+
+    Browser actions, on the other hand, can support either JSON or HTML, and treat non-specified formats as HTML by default:
+
+    ```crystal
+    abstract class BrowserAction < Lucky::Action
+      accepted_formats [:html, :json], default: :html
+    end
+    ```
+
+    In a browser action, requests would be handled like this:
+
+    - `https://myapp.com/users` with no specific request format => Server responds with HTML (the default format)
+    - `https://myapp.com/users` with `Accept: application/json` => Server responds with JSON (the requested, accepted format)
+    - `https://myapp.com/users` with `Accept: application/csv` => Server responds with 406 (not acceptable)
+
+    It's important to note that this only controls which requests are *accepted* for processing, and does not automatically create or handle those responses appropriately. For example, requesting `https://myapp.com/users` with an `Accept: application/xml` header does not mean that valid XML content will be returned automatically, only that Lucky will allow your action to process the request.
+
     ## HTTP Headers
 
     ### Accessing Headers
@@ -168,6 +202,11 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
       end
     end
     ```
+
+    Text responses are compressed automatically based on two `Lucky::Server.settings` entries. If alternate behavior is desired, these settings can be adjusted in your Lucky app in `config/server.cr`
+
+    - `Lucky::Server.settings.gzip_enabled (default false)`
+    - `Lucky::Server.settings.gzip_content_types`
 
     #{permalink(ANCHOR_REDIRECTING)}
     ## Redirecting

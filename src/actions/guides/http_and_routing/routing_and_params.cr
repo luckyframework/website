@@ -14,10 +14,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     see how Lucky can make writing your applications reliable and productive
     with its unique approach to HTTP and routing.
 
-    ## Routing
+    ## Routing with Actions
 
     Instead of having separate definition files for routes and controllers, Lucky combines them in action classes.
-    This allows for solid error detection, and method and helper creation.
+    This allows for solid error detection, as well as method and helper creation.
 
     To save some typing, Lucky can automatically infer a default route path from the name of the action class,
     if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
@@ -237,7 +237,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     class Frontend::Index < BrowserAction
       fallback do
         if html?
-          render Home::IndexPage
+          html Home::IndexPage
         else
           raise Lucky::RouteNotFoundError.new(context)
         end
@@ -296,7 +296,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       get "/report" do
         small_number = calculate_numbers
         big_number = calculate_numbers + 1000
-        render ShowPage, small_number: small_number, big_number: big_number
+        html ShowPage, small_number: small_number, big_number: big_number
       end
 
       memoize def calculate_numbers : Int64
