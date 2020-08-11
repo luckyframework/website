@@ -171,6 +171,25 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
+    ### Setting a column default value
+
+    While you can always define database-level default values in a [migration](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ADVANCED_COLUMN_OPTIONS)}) or set default values in a SaveOperation, it's also possible to set a default value at the model level. For example:
+
+    ```crystal
+    class User < BaseModel
+      table do
+        column email
+        column encrypted_password : String
+
+        column greeting : String = "Hello there!"
+        column admin : Bool = false
+        column money : Float64 = 0.0
+      end
+    end
+    ```
+
+    This helps to avoid boilerplate application code, and instead allows your models to do the heavy lifting for you. It also provides one convenient source of truth for the business logic behind any given model.
+
     #{permalink(ANCHOR_COLUMN_TYPES)}
     ### Column types
 

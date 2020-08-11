@@ -1,6 +1,7 @@
 class Guides::Database::Migrations < GuideAction
-  ANCHOR_ASSOCIATIONS = "perma-associations"
-  ANCHOR_PRIMARY_KEYS = "perma-primary-keys"
+  ANCHOR_ASSOCIATIONS            = "perma-associations"
+  ANCHOR_PRIMARY_KEYS            = "perma-primary-keys"
+  ANCHOR_ADVANCED_COLUMN_OPTIONS = "perma-advanced-column-options"
   guide_route "/database/migrations"
 
   def self.title
@@ -208,6 +209,7 @@ class Guides::Database::Migrations < GuideAction
     * `JSON::Any` - Maps to postgres `jsonb`.
     * `Array(T)` - Maps to postgres array fields where `T` is any of the other datatypes.
 
+    #{permalink(ANCHOR_ADVANCED_COLUMN_OPTIONS)}
     ### Advanced Options
 
     The `add` method takes several options for further customization when adding a field.
