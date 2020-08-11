@@ -20,7 +20,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     ```crystal
     # in src/actions/api/articles/show.cr
     class Api::Articles::Show < ApiAction
-      route do
+      get "/api/articles/:article_id" do
         json({title: "My Post"})
         # Add an optional status code
         json({title: "My Post"}, HTTP::Status::OK) # or use an integer like `200`
@@ -57,7 +57,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     ```crystal
     # In the action
     class Api::Articles::Show < ApiAction
-      route do
+      get "/api/articles/:article_id" do
         article = ArticleQuery.new.find(id)
         # Render the article
         json ArticleSerializer.new(article)
@@ -75,7 +75,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
 
     ```crystal
     class Api::Articles::Index < ApiAction
-      route do
+      get "/api/articles" do
         articles = ArticleQuery.new
         json ArticleSerializer.for_collection(articles)
       end

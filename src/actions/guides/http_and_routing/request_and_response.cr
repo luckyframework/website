@@ -27,13 +27,13 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Users::Show < BrowserAction
-      route do
+      get "/me" do
         if json?
           # The client wants json, so let's return some json
           json(UserSerializer.new(current_user))
         else
           # Just render the page like normal
-          html Users::ShowPage
+          html Users::ShowPage, user: current_user
         end
       end
     end
@@ -81,7 +81,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Dashboard::Index < BrowserAction
-      route do
+      get "/dashboard" do
         remote_ip = request.headers["X-Forwarded-For"]?
 
         if remote_ip
@@ -101,7 +101,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Admin::Reports::Show < BrowserAction
-      route do
+      get "/admin/reports/:report_id" do
         response.headers["Cache-Control"] = "max-age=150"
         html ShowPage
       end
@@ -219,7 +219,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Users::Create < BrowserAction
-      route do
+      post "/users" do
         redirect to: Users::Index # Default status is 302
         redirect to: Users::Show.with(user_id: "user_id") # If the action needs params
         redirect to: "/somewhere_else" # Redirect using a string path

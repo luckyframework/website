@@ -32,7 +32,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # in src/actions/users/index.cr
     class Users::Index < BrowserAction
-      route do
+      get "/users" do
         # Renders the Users::IndexPage
         html IndexPage, user_names: ["Paul", "Sally", "Jane"]
       end
@@ -709,7 +709,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # Without `expose`
     class Users::Index < BrowserAction
-      route do
+      get "/users" do
         html IndexPage, current_user_name: current_user_name
       end
 
@@ -722,7 +722,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     class Users::Index < BrowserAction
       expose current_user_name
 
-      route do
+      get "/users" do
         html IndexPage
       end
 
