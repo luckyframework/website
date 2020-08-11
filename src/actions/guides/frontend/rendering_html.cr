@@ -380,7 +380,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ### Basic usage
 
-    `current_page?` accepts a `RouteHelper`, `Action`, or path string.
+    `current_page?` accepts a `RouteHelper`, `Action`, or path `String`.
 
     One common use case is to highlight the currently-viewed page in a navigation header:
 
