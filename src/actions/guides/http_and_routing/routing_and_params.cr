@@ -117,6 +117,26 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     `project_id` and `task_id` method generated on the class for accessing the named
     parameters.
 
+
+    ### Optional path parameters
+
+    Sometimes it can be helpful to allow optional parameters in a route's path. We can accomplish this by prefixing a path parameter with a `?`, like this:
+
+    ```crystal
+    # src/actions/posts/index.cr
+    class Posts::Index < BrowserAction
+      get "/posts/:year/:month/?:day" do
+        if day
+          plain_text "I'll show all posts on a specific day!"
+        else
+          plain_text "I'll show all posts in a given month!"
+        end
+      end
+    end
+    ```
+
+    In the above example, we require that the `Post` index route has both a `:year` and `:day` provided, but allow users to optionally route to a specific `:day` as well.
+
     #{permalink(ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES)}
     ## Automatically generate RESTful routes
 
