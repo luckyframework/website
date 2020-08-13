@@ -120,7 +120,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Optional path parameters
 
-    Sometimes it can be helpful to allow optional parameters in a route's path. We can accomplish this by prefixing a path parameter with a `?`, like this:
+    Sometimes it can be helpful to allow optional parameters in a route's path. We can accomplish 
+    this by prefixing a path parameter with a `?`, like this:
 
     ```crystal
     # src/actions/posts/index.cr
@@ -135,7 +136,8 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    In the above example, we require that the `Post` index route has both a `:year` and `:day` provided, but allow users to optionally route to a specific `:day` as well.
+    In the above example, we require that the `Post` index route has both a `:year` and `:month` provided, 
+    but allow users to optionally route to a specific `:day` as well.
 
     #{permalink(ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES)}
     ## Automatically generate RESTful routes
