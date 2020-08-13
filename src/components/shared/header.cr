@@ -85,6 +85,6 @@ class Shared::Header < BaseComponent
   private def nav_link(title, href, active : Bool = false)
     a title,
       href: href,
-      class: "uppercase block md:inline-block font-bold text-white tracking-wide no-underline md:mr-4 px-8 py-5 md:px-4 md:py-8 text-sm hover:bg-blue-darker hover:text-white"
+      class: "uppercase block md:inline-block font-bold text-white tracking-wider no-underline md:mr-4 px-8 py-5 md:px-4 md:py-8 text-sm hover:bg-blue-darker hover:text-white"
   end
 end
