@@ -11,5 +11,6 @@ require "./support/**"
 require "./setup/**"
 
 include Carbon::Expectations
+include Lucky::RequestExpectations
 
 Habitat.raise_if_missing_settings!
