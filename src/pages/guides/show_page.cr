@@ -76,7 +76,7 @@ class Guides::ShowPage
 
   def table_of_contents
     div class: "hidden md:block mt-5 pl-sidebar #{algolia_docsearch_class}" do
-      h1 title, class: "font-normal text-3xl text-white text-shadow mb-6 tracking-medium"
+      h1 title, class: "font-normal text-3xl text-white text-shadow mb-6 tracking-wide"
       ul class: "p-0 text-shadow text-lg mb-4 #{guide_sections.size > 6 && "split-columns"}" do
         guide_sections.each do |section|
           li do
