@@ -27,6 +27,9 @@ class Guides::Database::DatabaseSetup < GuideAction
     * port
 
     > You can also set a `DATABASE_URL` environment variable. (e.g. `postgres://root@localhost:5432/my_database`)
+    [components](#{Guides::Frontend::RenderingHtml.path}).
+
+    > If you wish to use password-less connections for local development, please see [Installing Postgres](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_POSTGRESQL)})
 
     ### Connection Pool
 
