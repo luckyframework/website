@@ -11,7 +11,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     <<-MD
     > This guide covers the basics of implementing a JSON API. If you have any
     questions about how to use Lucky in more complex ways, hop on our
-    [chatroom](https://gitter.im/luckyframework/Lobby). We'd be happy to help!
+    [chatroom](https://discord.gg/HeqJUcb). We'd be happy to help!
 
     ## Respond with JSON
 
