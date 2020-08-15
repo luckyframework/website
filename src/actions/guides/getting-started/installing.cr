@@ -225,6 +225,25 @@ class Guides::GettingStarted::Installing < GuideAction
 
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
 
+    ### 1b. Password-less logins for local development
+
+    If you wish to use PostgreSQL w/o a password, you'll need to ensure your user is added to the `pg_hba.conf` file.  We recommend
+    adding this entry right after the `postgres` user entry:
+
+    ```plain
+    local   all             postgres                                peer
+
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    host    all             your_username   127.0.0.1/32            trust  # Add this line
+    ```
+
+    > `your_username` is the local user you're logging into the DBMS with.  Change as appropriate.
+
+    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/12/auth-methods.html) to learn more more about
+    available authentication methods and how to configure them for PostgreSQL.
+
+    > Restart the `postgresql` service to activate the configuration changes.
+
     ### 2. Ensure Postgres CLI tools installed
 
     First open a new session to reload your terminal, then:
