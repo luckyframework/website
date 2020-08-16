@@ -106,7 +106,7 @@ class Guides::GettingStarted::Installing < GuideAction
     **Or, install Crystal without a version manager**
 
     If you can't get asdf installed or don't want to use a version manager,
-    you can [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
+    you can [install Crystal without a version manager](https://crystal-lang.org/install/).
 
     ### 2. Check installation
 
