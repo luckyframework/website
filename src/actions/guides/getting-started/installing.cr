@@ -1,6 +1,6 @@
 class Guides::GettingStarted::Installing < GuideAction
   ANCHOR_INSTALL_REQUIRED_DEPENDENCIES = "perma-install-required-dependencies"
-  ANCHOR_POSTGRESQL = "perma-install-postgres"
+  ANCHOR_POSTGRESQL                    = "perma-install-postgres"
   guide_route "/getting-started/installing"
 
   def self.title
