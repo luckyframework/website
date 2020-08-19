@@ -226,10 +226,11 @@ class Guides::GettingStarted::Installing < GuideAction
 
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
 
-    ### 1b. Password-less logins for local development
+    ### 1b. (Linux only) Password-less logins for local development
 
-    If you wish to use PostgreSQL w/o a password, you'll need to ensure your user is added to the `pg_hba.conf` file.  We recommend
-    adding this entry right after the `postgres` user entry:
+    Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins.  But for Linux, if you wish to
+    use PostgreSQL w/o a password, you'll need to ensure your user is added to the `pg_hba.conf` file with `trust` method specified.
+    We recommend adding this entry right after the `postgres` user entry:
 
     ```plain
     local   all             postgres                                peer
