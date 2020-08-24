@@ -208,6 +208,7 @@ class Guides::GettingStarted::Installing < GuideAction
     > You can modify the `Procfile.dev` to start other processes like running
     > background jobs.
 
+    #{permalink(ANCHOR_POSTGRESQL)}
     ## Postgres database
 
     ### 1. Install Postgres
@@ -229,7 +230,7 @@ class Guides::GettingStarted::Installing < GuideAction
     ### 1b. (Linux only) Password-less logins for local development
 
     Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins.  But for Linux, if you wish to
-    use PostgreSQL w/o a password, you'll need to ensure your user is added to the `pg_hba.conf` file with `trust` method specified.
+    use PostgreSQL without a password, you'll need to ensure your user is added to the `pg_hba.conf` file with `trust` method specified.
     We recommend adding this entry right after the `postgres` user entry:
 
     ```plain
