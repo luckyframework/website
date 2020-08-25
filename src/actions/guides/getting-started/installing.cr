@@ -1,5 +1,6 @@
 class Guides::GettingStarted::Installing < GuideAction
   ANCHOR_INSTALL_REQUIRED_DEPENDENCIES = "perma-install-required-dependencies"
+  ANCHOR_POSTGRESQL                    = "perma-install-postgres"
   guide_route "/getting-started/installing"
 
   def self.title
@@ -207,6 +208,7 @@ class Guides::GettingStarted::Installing < GuideAction
     > You can modify the `Procfile.dev` to start other processes like running
     > background jobs.
 
+    #{permalink(ANCHOR_POSTGRESQL)}
     ## Postgres database
 
     ### 1. Install Postgres
@@ -224,6 +226,26 @@ class Guides::GettingStarted::Installing < GuideAction
     ```
 
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
+
+    ### 1b. (Linux only) Password-less logins for local development
+
+    Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins.  But for Linux, if you wish to
+    use PostgreSQL without a password, you'll need to ensure your user is added to the `pg_hba.conf` file with `trust` method specified.
+    We recommend adding this entry right after the `postgres` user entry:
+
+    ```plain
+    local   all             postgres                                peer
+
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    host    all             your_username   127.0.0.1/32            trust  # Add this line
+    ```
+
+    > `your_username` is the local user you're logging into the DBMS with.  Change as appropriate.
+
+    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/12/auth-methods.html) to learn more more about
+    available authentication methods and how to configure them for PostgreSQL.
+
+    > Restart the `postgresql` service to activate the configuration changes.
 
     ### 2. Ensure Postgres CLI tools installed
 
