@@ -55,7 +55,7 @@ class Shared::Header < BaseComponent
   private def nav_links
     nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("Blog", Blog::Index.path)
-    nav_link("Chat", "https://gitter.im/luckyframework/Lobby")
+    nav_link("Chat", "https://discord.gg/HeqJUcb")
     nav_link("GitHub", "https://github.com/luckyframework/lucky")
   end
 
