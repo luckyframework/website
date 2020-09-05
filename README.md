@@ -1,4 +1,4 @@
-# Lucky's New Website
+# Lucky's Website
 
 ### Future guide goals
 
@@ -28,4 +28,4 @@ Guides are located in the `src/actions/guides`. You can edit the markdown in eac
 
 ### Learning Lucky
 
-Lucky uses the [Crystal](https://crystal-lang.org) programming language. You can learn about Lucky from the [Lucky Guides](http://luckyframework.org/guides).
+Lucky uses the [Crystal](https://crystal-lang.org) programming language. You can learn about Lucky from the [Lucky Guides](http://luckyframework.org/guides). Get help on our [Discord](https://discord.gg/HeqJUcb) server.
