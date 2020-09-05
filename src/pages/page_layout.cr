@@ -14,14 +14,14 @@ abstract class PageLayout
     html_doctype
 
     html lang: "en" do
-      m Shared::LayoutHead, seo: SEO.new(page_title), context: @context
+      mount Shared::LayoutHead, seo: SEO.new(page_title), context: @context
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lightest" do
-        m Shared::Header, @context.request
+        mount Shared::Header, @context.request
         div class: "flex flex-col container mx-auto min-h-screen" do
           content
         end
-        m Shared::Footer
+        mount Shared::Footer
       end
     end
   end

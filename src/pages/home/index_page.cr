@@ -9,16 +9,16 @@ class Home::IndexPage
     html_doctype
 
     html lang: "en" do
-      m Shared::LayoutHead, seo: SEO.new(page_title), context: @context
+      mount Shared::LayoutHead, seo: SEO.new(page_title), context: @context
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
-        m Shared::Header, @context.request
+        mount Shared::Header, @context.request
         render_hero_content
         render_feature_grid
         render_freeform_text
       end
 
-      m Shared::Footer
+      mount Shared::Footer
     end
   end
 
@@ -53,7 +53,7 @@ class Home::IndexPage
   private def render_feature_grid
     div class: "mx-auto container" do
       div class: "text-center lg:mx-5 md:text-left px-6 py-5 bg-white md:bg-transparent border-b border-grey-light md:border-none" do
-        m Shared::FlashMessages, @context.flash
+        mount Shared::FlashMessages, @context.flash
         div class: "flex flex-col md:flex-row md:bg-white mx-auto md:rounded-lg md:shadow md:-mt-12 md:px-5 md:py-12" do
           content_block "🚀 Say goodbye to slow", <<-TEXT
           Lucky is extremely fast and uses very little memory. You and
