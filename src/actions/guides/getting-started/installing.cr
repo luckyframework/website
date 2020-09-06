@@ -89,7 +89,7 @@ class Guides::GettingStarted::Installing < GuideAction
     * Install Crystal with `asdf`.
 
     ```plain
-    asdf install crystal latest
+    asdf install crystal #{LuckyCliVersion.compatible_crystal_version}
     ```
 
     * See which version of crystal was installed
