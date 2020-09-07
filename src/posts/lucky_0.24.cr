@@ -71,7 +71,7 @@ class Lucky024Release < BasePost
     ### Disallow external refs in `redirect_back`
 
     In Lucky 0.23.0 we added the `redirect_back` method to redirect a user back to the referer or a specified
-    fallback path. In this version, we've dissallowed redirecting back to external hosts unless you specify.
+    fallback path. In this version, we've disallowed redirecting back to external hosts unless you specify.
 
     ```crystal
     redirect_back fallback: Home::Index, allow_external: true
