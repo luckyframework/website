@@ -68,7 +68,7 @@ class Lucky024Release < BasePost
 
     [View the PR](https://github.com/luckyframework/lucky/pull/1220) for more context.
 
-    ### Dissallow external refs in `redirect_back`
+    ### Disallow external refs in `redirect_back`
 
     In Lucky 0.23.0 we added the `redirect_back` method to redirect a user back to the referer or a specified
     fallback path. In this version, we've dissallowed redirecting back to external hosts unless you specify.
