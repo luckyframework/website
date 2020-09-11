@@ -26,8 +26,12 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: "Install yarn"
+    - name: Install yarn
       run: npm install -g yarn
+    - name: Install CMake
+      run: |
+        apt-get update
+        apt-get -yqq install cmake
     - name: Setup Lucky
       run: script/setup
     - name: Cache Crystal
