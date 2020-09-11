@@ -23,8 +23,8 @@ dependencies:
   dotenv:
     github: gdotdesign/cr-dotenv
     version: 0.7.0
-  markd:
-    github: icyleaf/markd
+  cmark:
+    github: amauryt/cr-cmark-gfm
     branch: master
   cadmium_transliterator:
     github: cadmiumcr/transliterator

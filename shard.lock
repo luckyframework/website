@@ -20,6 +20,10 @@ shards:
     git: https://github.com/luckyframework/carbon.git
     version: 0.1.2
 
+  cmark:
+    git: https://github.com/amauryt/cr-cmark-gfm.git
+    version: 0.1.0+git.commit.b5d73efd841c8d77283786b7a37ea4369ceb3d2c
+
   cry:
     git: https://github.com/luckyframework/cry.git
     version: 0.4.2
@@ -67,10 +71,6 @@ shards:
   lucky_router:
     git: https://github.com/luckyframework/lucky_router.git
     version: 0.3.1
-
-  markd:
-    git: https://github.com/icyleaf/markd.git
-    version: 0.2.1+git.commit.033aeaf067ddae21ac7872af3a935fc17cd01080
 
   myhtml:
     git: https://github.com/kostya/myhtml.git
