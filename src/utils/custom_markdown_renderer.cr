@@ -1,6 +1,6 @@
 require "./html_autolink"
 
-class CustomMarkdownRenderer < Markd::HTMLRenderer
+class CustomMarkdownRenderer
   def self.render_to_html(content)
     html(content).lines.map do |line|
       if line.starts_with?("<h2>")
@@ -28,9 +28,8 @@ class CustomMarkdownRenderer < Markd::HTMLRenderer
   end
 
   def self.html(content)
-    options = Markd::Options.new(smart: true)
-    document = Markd::Parser.parse(content, options)
-    html = new(options).render(document)
+    options = Cmark::Option.flags(ValidateUTF8, Smart)
+    html = Cmark.gfm_to_html(content, options)
     HtmlAutolink.new(html).call
   end
 end
