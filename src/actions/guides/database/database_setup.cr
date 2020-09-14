@@ -53,7 +53,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     ### Using Postgres connection string
 
     Avram also supports using a standard connection string whether you want to use unix sockets or connect with credentials. For this, we can just set
-    an environment variable like `DATABASE_URL` and parse it with `Avram::Credentials.parse`
+    the environment variable `DATABASE_URL` (defined in `config/database.cr`) and parse it with `Avram::Credentials.parse`.
 
     ```crystal
     # This will raise an exception if `DATABASE_URL` is missing, or formatted incorrectly
@@ -62,6 +62,8 @@ class Guides::Database::DatabaseSetup < GuideAction
     # Note the use of "?". This will return nil if `DATABASE_URL` is missing.
     settings.credentials = Avram::Credentials.parse?(ENV["DATABASE_URL"]?)
     ```
+
+    You can set this value in your `.env` file.
 
     ```
     # Define your connection string
@@ -85,8 +87,8 @@ class Guides::Database::DatabaseSetup < GuideAction
     To set the connection pool options, just set the `query` option in your `Avram::Credentials` to a query string.
     (e.g. `query: "initial_pool_size=5&max_pool_size=10"`).
 
-    > If using an environment variable, the query string should come at the end of your connection string.
-    > (e.g. `postg)
+    > If using a connection string, set the query at the end.
+    > (e.g. `postgres://postgres@localhost/my_db?initial_pool_size=5`)
 
     ### Apps not using Avram
 
