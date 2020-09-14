@@ -124,6 +124,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `xml` - return an XML response with `text/xml` Content-Type.
     * `head` - return HTTP HEAD response
     * `file` - return a file for download
+    * `data` - return a String of data
     * `component` - render a [Component](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)}).
 
     ```crystal
@@ -159,6 +160,26 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
       end
     end
     ```
+
+    ### Rendering raw data
+
+    If you need to return a file that already exists, you can use `file`, but in the case that you only have the
+    String data, you can use this `data` method.
+
+    ```crystal
+    class Reports::Show < BrowserAction
+
+      get "/reports/sales" do
+        report_data = "Street,City,State\n123 street, Luckyville, CR\n"
+        data report_data,
+            disposition: "attachment",
+            filename: "report-\#{Time.utc.month}.pdf",
+            content_type: "application/csv"
+      end
+    end
+    ```
+
+    > The default `Content-Type` for `data` is `"application/octet-stream"`
 
     ### Rending components
 
