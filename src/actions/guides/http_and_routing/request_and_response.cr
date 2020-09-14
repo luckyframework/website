@@ -164,7 +164,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ### Rendering raw data
 
     If you need to return a file that already exists, you can use `file`, but in the case that you only have the
-    data to be written to a file, you can use this `data` method.
+    String data, you can use this `data` method.
 
     ```crystal
     class Reports::Show < BrowserAction
