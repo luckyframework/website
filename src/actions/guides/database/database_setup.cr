@@ -90,6 +90,16 @@ class Guides::Database::DatabaseSetup < GuideAction
     > If using a connection string, set the query at the end.
     > (e.g. `postgres://postgres@localhost/my_db?initial_pool_size=5`)
 
+    ### Other Avram Options
+
+    Optionally, the `lazy_load_enabled` is set to `false` for development and test.
+    This causes Lucky to raise an exception if you forget to preload an association,
+    but will not raise an exception in production.
+
+    ```crystal
+    settings.lazy_load_enabled = Lucky::Env.production?
+    ```
+
     ### Apps not using Avram
 
     Avram requires a `credentials` option to be set. If you decide to not use Avram as your ORM,
@@ -106,14 +116,6 @@ class Guides::Database::DatabaseSetup < GuideAction
     Avram.configure do |settings|
       settings.database_to_migrate = AppDatabase
     end
-    ```
-
-    Optionally, the `lazy_load_enabled` is set to `false` for development and test.
-    This causes Lucky to raise an exception if you forget to preload an association,
-    but will not raise an exception in production.
-
-    ```crystal
-    settings.lazy_load_enabled = Lucky::Env.production?
     ```
 
     ## Test Setup
