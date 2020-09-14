@@ -247,7 +247,17 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    The `fallback` argument is required and is used if the HTTP Referer is empty
+    > The `fallback` argument is required and is used if the HTTP Referer is empty.
+
+    For security, Lucky prevents the `redirect_back` from sending the user back to an external host. If you want to allow this, you'll need
+    to set the `allow_external: true` option.
+
+    ```crystal
+    post "/newsletter/signup" do
+      # Referer set to https://external.site/
+      redirect_back fallback: Home::Index, allow_external: true
+    end
+    ```
 
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD
