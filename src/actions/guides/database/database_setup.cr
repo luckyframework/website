@@ -83,7 +83,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     * retry_delay
 
     To set the connection pool options, just set the `query` option in your `Avram::Credentials` to a query string.
-    (e.g. `initial_pool_size=5&max_pool_size=10`).
+    (e.g. `query: "initial_pool_size=5&max_pool_size=10"`).
 
     > If using an environment variable, the query string should come at the end of your connection string.
     > (e.g. `postg)
