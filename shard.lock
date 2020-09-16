@@ -22,7 +22,7 @@ shards:
 
   cmark:
     git: https://github.com/amauryt/cr-cmark-gfm.git
-    version: 0.1.0+git.commit.b5d73efd841c8d77283786b7a37ea4369ceb3d2c
+    version: 0.1.0+git.commit.92c4a6f4a3a5ce2029d0a2216a828d59d2b22dd6
 
   cry:
     git: https://github.com/luckyframework/cry.git
