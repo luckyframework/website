@@ -55,7 +55,7 @@ class Guides::Deploying::Ubuntu < GuideAction
 
     ```bash
     sudo mkdir /srv/<yourapp>
-    chown deploy:deploy /srv/<yourapp>
+    sudo chown deploy:deploy /srv/<yourapp>
     ```
 
     ## Create a PostgreSQL database
