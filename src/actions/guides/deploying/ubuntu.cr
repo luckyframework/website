@@ -167,7 +167,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     User=deploy
     Environment="LUCKY_ENV=production"
     Environment="SECRET_KEY_BASE=<random unique key>"
-    Environment="DATABASE_URL=postgres:///<yourapp>_production"
+    Environment="DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production"
     Environment="HOST=127.0.0.1"
     Environment="PORT=5000"
     Environment="APP_DOMAIN=https://<yourdomain>"
