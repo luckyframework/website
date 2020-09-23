@@ -266,8 +266,7 @@ describe HTML2Lucky::Converter do
       CODE
     end
 
-
-  it "escape text that includes quotes" do
+  it "escapes text that includes quotes" do
     input = "<div>Hello \"world\"</div>"
     expected_output = <<-CODE
     div "Hello \\"world\\""
