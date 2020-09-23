@@ -131,7 +131,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     > crystal like so:
     >
     > ```bash
-    > API_KEY= SUPPORT_EMAIL= DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production crystal run tasks.cr -- db.migrate
+    > API_KEY= SUPPORT_EMAIL= DATABASE_URL=postgres://<username>:<password>@127.0.0.1/<appname>_production crystal run tasks.cr -- db.migrate
     >```
 
     Exit your session as the `deploy` user, either
@@ -168,7 +168,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     Environment="LUCKY_ENV=production"
     Environment="SECRET_KEY_BASE=<random unique key>"
     Environment="SEND_GRID_KEY=<SendGrid key>"
-    Environment="DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production"
+    Environment="DATABASE_URL=postgres://<username>:<password>@127.0.0.1/<appname>_production"
     Environment="HOST=127.0.0.1"
     Environment="PORT=5000"
     Environment="APP_DOMAIN=https://<yourdomain>"
