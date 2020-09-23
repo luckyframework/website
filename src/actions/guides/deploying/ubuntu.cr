@@ -167,6 +167,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     User=deploy
     Environment="LUCKY_ENV=production"
     Environment="SECRET_KEY_BASE=<random unique key>"
+    Environment="SEND_GRID_KEY=<SendGrid key>"
     Environment="DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production"
     Environment="HOST=127.0.0.1"
     Environment="PORT=5000"
@@ -193,6 +194,11 @@ class Guides::Deploying::Ubuntu < GuideAction
       ```bash
       lucky gen.secret_key
       ```
+    * **SEND_GRID_KEY**
+
+    This is your SendGrid key to be able to send emails. Set it to
+    'unused' if not sending emails.
+    
     * **DATABASE_URL**
 
       This tells lucky where to find your database.
