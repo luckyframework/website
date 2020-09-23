@@ -265,6 +265,15 @@ describe HTML2Lucky::Converter do
       div "two"
       CODE
     end
+
+    it "escapes text that includes quotes" do
+      input = "<div>Hello \"world\"</div>"
+      expected_output = <<-CODE
+      div "Hello \\"world\\""
+      CODE
+      output = HTML2Lucky::Converter.new(input).convert
+      output.should eq_html(expected_output.strip)
+    end
   end
 end
 
