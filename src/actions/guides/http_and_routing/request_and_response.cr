@@ -53,9 +53,11 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     In an API action, requests would be handled like this:
 
-    - `https://myapp.com/api/users` with no specific request format => Server responds with JSON (the default format)
-    - `https://myapp.com/api/users` with `Accept: application/json` => Server responds with JSON (the requested, accepted format)
-    - `https://myapp.com/api/users` with `Accept: application/csv` => Server responds with 406 (not acceptable)
+    | URL | Accept Header | Server Response |
+    | ----------- | ----------- | ----------- |
+    | https://myapp.com/api/users | No specific request format | JSON (the default format) |
+    | https://myapp.com/api/users | `Accept: application/json` | JSON (the requested, accepted format) |
+    | https://myapp.com/api/users | `Accept: application/csv` | Response status 406 (not acceptable) |
 
     Browser actions, on the other hand, can support either JSON or HTML, and treat non-specified formats as HTML by default:
 

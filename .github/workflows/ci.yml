@@ -22,36 +22,36 @@ jobs:
       image: crystallang/crystal:0.35.1
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: "Install yarn"
-      run: npm install -g yarn
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-    - name: Set up Yarn cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn--${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn--
-
-    - name: Set up Crystal cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          lib
-          ~/.cache/crystal
-        key: ${{ runner.os }}-crystal-${{ hashFiles('**/shard.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-crystal-
-
-    - name: Setup Lucky
-      run: script/setup
-
-    - name: Run tests
-      run: crystal spec
+      - uses: actions/checkout@v2
+      - name: Install CMake
+        run: |
+          apt-get update
+          apt-get -yqq install cmake
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: "Install yarn"
+        run: npm install -g yarn
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Set up Yarn cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn--${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn--
+      - name: Set up Crystal cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            lib
+            ~/.cache/crystal
+          key: ${{ runner.os }}-crystal-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-crystal-
+      - name: Setup Lucky
+        run: script/setup
+      - name: Run tests
+        run: crystal spec
