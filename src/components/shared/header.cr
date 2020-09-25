@@ -55,8 +55,8 @@ class Shared::Header < BaseComponent
   private def nav_links
     nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("Blog", Blog::Index.path)
-    nav_link("Chat", "https://discord.gg/HeqJUcb")
-    nav_link("GitHub", "https://github.com/luckyframework/lucky")
+    nav_link("Chat", "https://discord.gg/HeqJUcb", target: "_blank")
+    nav_link("GitHub", "https://github.com/luckyframework/lucky", target: "_blank")
   end
 
   private def docsearch_input
@@ -82,9 +82,10 @@ class Shared::Header < BaseComponent
     end
   end
 
-  private def nav_link(title, href, active : Bool = false)
+  private def nav_link(title, href, active : Bool = false, target : String = "_self")
     a title,
       href: href,
+      target: target,
       class: "uppercase block md:inline-block font-bold text-white tracking-wider no-underline md:mr-4 px-8 py-5 md:px-4 md:py-8 text-sm hover:bg-blue-darker hover:text-white"
   end
 end
