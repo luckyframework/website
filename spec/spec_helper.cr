@@ -1,5 +1,5 @@
 ENV["LUCKY_ENV"] = "test"
-ENV["PORT"] = "5001"
+ENV["DEV_PORT"] = "5001"
 require "spec"
 require "../src/app"
 require "./support/**"
@@ -11,5 +11,6 @@ require "./support/**"
 require "./setup/**"
 
 include Carbon::Expectations
+include Lucky::RequestExpectations
 
 Habitat.raise_if_missing_settings!

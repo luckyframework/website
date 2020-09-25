@@ -56,7 +56,7 @@ class Shared::Header < BaseComponent
     nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("API Docs", "https://luckyframework.github.io/lucky/", target: "_blank")
     nav_link("Blog", Blog::Index.path)
-    nav_link("Chat", "https://gitter.im/luckyframework/Lobby", target: "_blank")
+    nav_link("Chat", "https://discord.gg/HeqJUcb", target: "_blank")
     nav_link("GitHub", "https://github.com/luckyframework/lucky", target: "_blank")
   end
 
@@ -87,6 +87,6 @@ class Shared::Header < BaseComponent
     a title,
       href: href,
       target: target,
-      class: "uppercase block md:inline-block font-bold text-white tracking-wide no-underline md:mr-4 px-8 py-5 md:px-4 md:py-8 text-sm hover:bg-blue-darker hover:text-white"
+      class: "uppercase block md:inline-block font-bold text-white tracking-wider no-underline md:mr-4 px-8 py-5 md:px-4 md:py-8 text-sm hover:bg-blue-darker hover:text-white"
   end
 end

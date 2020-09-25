@@ -16,7 +16,7 @@ class Blog::IndexPage < BlogLayout
           end
           input type: "submit",
             value: "Subscribe",
-            class: "py-3 px-5 rounded-r md:rounded-r-lg cursor-pointer text-white text-shadow uppercase tracking-wide font-bold bg-lucky-green-vertical-gradient hover:bg-lucky-green-vertical-gradient-dark text-sm border-b border-teal-darker"
+            class: "py-3 px-5 rounded-r md:rounded-r-lg cursor-pointer text-white text-shadow uppercase tracking-wider font-bold bg-lucky-green-vertical-gradient hover:bg-lucky-green-vertical-gradient-dark text-sm border-b border-teal-darker"
         end
       end
     end
@@ -26,10 +26,10 @@ class Blog::IndexPage < BlogLayout
     div class: "md:mt-6" do
       posts.each do |post|
         div class: "py-8 flex flex-col #{responsive_container_classes}" do
-          m PublishedAt, post
+          mount PublishedAt, post
           link post.title,
             to: Blog::Show.with(post.slug),
-            class: "no-underline mt-2 hover:underline hover:text-teal-darker font-normal text-2xl text-teal-dark tracking-medium"
+            class: "no-underline mt-2 hover:underline hover:text-teal-darker font-normal text-2xl text-teal-dark tracking-wide"
           para class: "my-3 leading-loose" do
             raw post.summary
           end

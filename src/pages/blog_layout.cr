@@ -15,10 +15,10 @@ abstract class BlogLayout
     html_doctype
 
     html lang: "en" do
-      m Shared::LayoutHead, seo: SEO.new(page_title), context: @context
+      mount Shared::LayoutHead, seo: SEO.new(page_title), context: @context
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lightest" do
-        m Shared::Header, @context.request
+        mount Shared::Header, @context.request
         div class: "bg-lucky-teal-blue-gradient" do
           div class: "flex container mx-auto" do
             middle_section
@@ -29,7 +29,7 @@ abstract class BlogLayout
         end
       end
 
-      m Shared::Footer
+      mount Shared::Footer
     end
   end
 end

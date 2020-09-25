@@ -3,7 +3,7 @@ class Blog::PublishedAt < BaseComponent
   needs color : String = "text-grey-dark"
 
   def render
-    span class: "font-normal text-sm #{@color} uppercase tracking-wide mt-1" do
+    span class: "font-normal text-sm #{@color} uppercase tracking-wider mt-1" do
       if @post.unpublished?
         span "unpublished", class: "mr-2 bg-orange text-white rounded px-3 py-2"
       end

@@ -27,17 +27,53 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Users::Show < BrowserAction
-      route do
+      get "/me" do
         if json?
           # The client wants json, so let's return some json
           json(UserSerializer.new(current_user))
         else
           # Just render the page like normal
-          html Users::ShowPage
+          html Users::ShowPage, user: current_user
         end
       end
     end
     ```
+
+    ### Setting accepted request formats
+
+    By default, generated Lucky apps set some helpful boundaries around what formats each action in your application can support.  These can be overriden in specific actions with the `accepted_formats` method.
+
+    For example, API actions only support JSON requests. Because only one format is specified as accepted, it is automatically set as the default format:
+
+    ```crystal
+    abstract class ApiAction < Lucky::Action
+      accepted_formats [:json]
+    end
+    ```
+
+    In an API action, requests would be handled like this:
+
+    | URL | Accept Header | Server Response |
+    | ----------- | ----------- | ----------- |
+    | https://myapp.com/api/users | No specific request format | JSON (the default format) |
+    | https://myapp.com/api/users | `Accept: application/json` | JSON (the requested, accepted format) |
+    | https://myapp.com/api/users | `Accept: application/csv` | Response status 406 (not acceptable) |
+
+    Browser actions, on the other hand, can support either JSON or HTML, and treat non-specified formats as HTML by default:
+
+    ```crystal
+    abstract class BrowserAction < Lucky::Action
+      accepted_formats [:html, :json], default: :html
+    end
+    ```
+
+    In a browser action, requests would be handled like this:
+
+    - `https://myapp.com/users` with no specific request format => Server responds with HTML (the default format)
+    - `https://myapp.com/users` with `Accept: application/json` => Server responds with JSON (the requested, accepted format)
+    - `https://myapp.com/users` with `Accept: application/csv` => Server responds with 406 (not acceptable)
+
+    It's important to note that this only controls which requests are *accepted* for processing, and does not automatically create or handle those responses appropriately. For example, requesting `https://myapp.com/users` with an `Accept: application/xml` header does not mean that valid XML content will be returned automatically, only that Lucky will allow your action to process the request.
 
     ## HTTP Headers
 
@@ -47,7 +83,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Dashboard::Index < BrowserAction
-      route do
+      get "/dashboard" do
         remote_ip = request.headers["X-Forwarded-For"]?
 
         if remote_ip
@@ -67,7 +103,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Admin::Reports::Show < BrowserAction
-      route do
+      get "/admin/reports/:report_id" do
         response.headers["Cache-Control"] = "max-age=150"
         html ShowPage
       end
@@ -90,6 +126,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `xml` - return an XML response with `text/xml` Content-Type.
     * `head` - return HTTP HEAD response
     * `file` - return a file for download
+    * `data` - return a String of data
     * `component` - render a [Component](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)}).
 
     ```crystal
@@ -125,6 +162,26 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
       end
     end
     ```
+
+    ### Rendering raw data
+
+    If you need to return a file that already exists, you can use `file`, but in the case that you only have the
+    String data, you can use this `data` method.
+
+    ```crystal
+    class Reports::Show < BrowserAction
+
+      get "/reports/sales" do
+        report_data = "Street,City,State\n123 street, Luckyville, CR\n"
+        data report_data,
+            disposition: "attachment",
+            filename: "report-\#{Time.utc.month}.pdf",
+            content_type: "application/csv"
+      end
+    end
+    ```
+
+    > The default `Content-Type` for `data` is `"application/octet-stream"`
 
     ### Rending components
 
@@ -169,6 +226,11 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
+    Text responses are compressed automatically based on two `Lucky::Server.settings` entries. If alternate behavior is desired, these settings can be adjusted in your Lucky app in `config/server.cr`
+
+    - `Lucky::Server.settings.gzip_enabled` (enabled in production by default, disabled in development and test. Can be changed in `config/server.cr`)
+    - `Lucky::Server.settings.gzip_content_types`
+
     #{permalink(ANCHOR_REDIRECTING)}
     ## Redirecting
 
@@ -180,7 +242,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     ```crystal
     class Users::Create < BrowserAction
-      route do
+      post "/users" do
         redirect to: Users::Index # Default status is 302
         redirect to: Users::Show.with(user_id: "user_id") # If the action needs params
         redirect to: "/somewhere_else" # Redirect using a string path
@@ -208,7 +270,17 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    The `fallback` argument is required and is used if the HTTP Referer is empty
+    > The `fallback` argument is required and is used if the HTTP Referer is empty.
+
+    For security, Lucky prevents the `redirect_back` from sending the user back to an external host. If you want to allow this, you'll need
+    to set the `allow_external: true` option.
+
+    ```crystal
+    post "/newsletter/signup" do
+      # Referer set to https://external.site/
+      redirect_back fallback: Home::Index, allow_external: true
+    end
+    ```
 
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
     MD

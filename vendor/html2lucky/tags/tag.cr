@@ -77,6 +77,6 @@ abstract class HTML2Lucky::Tag
   end
 
   private def wrap_quotes(string : String) : String
-    QUOTE + string + QUOTE
+    QUOTE + string.gsub("\"", "\\\"") + QUOTE
   end
 end

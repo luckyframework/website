@@ -49,7 +49,7 @@
   }
 
   h2 {
-    @apply font-normal text-2xl text-teal-dark py-2 mb-5 mt-8 tracking-medium;
+    @apply font-normal text-2xl text-teal-dark py-2 mb-5 mt-8 tracking-wide;
   }
 
   h3 {
@@ -186,6 +186,33 @@
     > p {
       padding: 10px;
       margin: 0;
+    }
+  }
+
+  table {
+    background: #ffffff;
+    max-width: 100%;
+    overflow: auto;
+    margin: 30px 0 30px 0;
+    border: 1px solid #cccccc;
+
+    thead {
+      tr {
+        border-bottom: 1px solid #cccccc;
+        th {
+          padding: 10px 10px 10px 16px;
+          text-align: left;
+          vertical-align: bottom;
+        }
+      }
+    }
+    tbody {
+      tr {
+        border-bottom: 1px solid #cccccc;
+        td {
+          padding: 10px 10px 10px 16px;
+        }
+      }
     }
   }
 }

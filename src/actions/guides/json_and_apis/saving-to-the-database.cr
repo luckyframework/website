@@ -49,7 +49,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
 
     ```crystal
     class Api::Articles::Create < ApiAction
-      route do
+      post "/api/articles" do
         article = SaveArticle.create!(params)
         head HTTP::Status::Created
       end

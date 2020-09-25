@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.35.0
+FROM crystallang/crystal:0.35.1
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8

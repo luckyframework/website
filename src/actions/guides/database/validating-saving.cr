@@ -164,7 +164,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ```crystal
     class Users::Create < BrowserAction
-      route do
+      post "/users" do
         # params will have the form params sent from the HTML form
         SaveUser.create(params) do |operation, user|
           if user # if the user was saved
@@ -429,8 +429,8 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ```crystal
     class Posts::Comments::Create < BrowserAction
-      route do
-        post = PostQuery.find(id)
+      post "/posts/:post_id/comments" do
+        post = PostQuery.find(post_id)
         # Params contain the title and body, but not the post_id
         # So we set it ourselves
         SaveComment.create(params, post_id: post.id) do |operation, comment|
@@ -602,7 +602,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ```crystal
     class Searches::Create < BrowserAction
-      route do
+      post "/searches" do
         SearchData.new(params).submit do |operation, results|
           # `valid?` is defined on `operation` for you!
           if operation.valid?

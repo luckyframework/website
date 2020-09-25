@@ -482,7 +482,7 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/actions/sign_ups/create.cr
     class SignUps::Create < BrowserAction
       # ...
-      route do
+      post "/sign_up" do
         SignUpUser.create(params) do |operation, user|
           if user
             flash.success = t("auth.sign_up_success")

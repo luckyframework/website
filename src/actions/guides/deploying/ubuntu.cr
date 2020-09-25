@@ -55,7 +55,7 @@ class Guides::Deploying::Ubuntu < GuideAction
 
     ```bash
     sudo mkdir /srv/<yourapp>
-    chown deploy:deploy /srv/<yourapp>
+    sudo chown deploy:deploy /srv/<yourapp>
     ```
 
     ## Create a PostgreSQL database
@@ -131,7 +131,7 @@ class Guides::Deploying::Ubuntu < GuideAction
     > crystal like so:
     >
     > ```bash
-    > API_KEY= SUPPORT_EMAIL= DATABASE_URL=postgresql://<username>:<password>@127.0.0.1/<appname>_production crystal run tasks.cr -- db.migrate
+    > API_KEY= SUPPORT_EMAIL= DATABASE_URL=postgres://<username>:<password>@127.0.0.1/<appname>_production crystal run tasks.cr -- db.migrate
     >```
 
     Exit your session as the `deploy` user, either
@@ -167,7 +167,8 @@ class Guides::Deploying::Ubuntu < GuideAction
     User=deploy
     Environment="LUCKY_ENV=production"
     Environment="SECRET_KEY_BASE=<random unique key>"
-    Environment="DATABASE_URL=postgres:///<yourapp>_production"
+    Environment="SEND_GRID_KEY=<SendGrid key>"
+    Environment="DATABASE_URL=postgres://<username>:<password>@127.0.0.1/<appname>_production"
     Environment="HOST=127.0.0.1"
     Environment="PORT=5000"
     Environment="APP_DOMAIN=https://<yourdomain>"
@@ -193,6 +194,11 @@ class Guides::Deploying::Ubuntu < GuideAction
       ```bash
       lucky gen.secret_key
       ```
+    * **SEND_GRID_KEY**
+
+    This is your SendGrid key to be able to send emails. Set it to
+    'unused' if not sending emails.
+    
     * **DATABASE_URL**
 
       This tells lucky where to find your database.
