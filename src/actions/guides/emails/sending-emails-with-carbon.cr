@@ -7,10 +7,9 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
 
   def markdown : String
     <<-MD
-    ## Carbon Configuration File
+    ## Configuring Email
 
-    Lucky generates a default email configuration file in `config/email.cr`. In that file you
-    can add SendGrid keys and change adapters.
+    Lucky leverages the [Carbon](https://github.com/luckyframework/carbon) library for writing, sending, and testing emails. Carbon can be configured using the default file generated with a new Lucky application in `config/email.cr`. In that file you can add SendGrid keys and change adapters.
 
     ## Adapters
     
@@ -23,6 +22,7 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
     There are two ways to leverage the `DevAdapter`. The first is by telling the adapter to simply capture all Carbon output without printing or displaying the email content, which is the default:
 
     ```crystal
+    # config/email.cr
     BaseEmail.configure do |settings|
       settings.adapter = Carbon::DevAdapter.new
     end
@@ -31,6 +31,7 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
     If you want to see your email content printed to your development or test server logs, you can use the optional `print_emails` flag:
 
     ```crystal
+    # config/email.cr
     BaseEmail.configure do |settings|
       settings.adapter = Carbon::DevAdapter.new(print_emails: true)
     end
@@ -43,16 +44,11 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
     Initializing the `SendGridAdapter` is as simple as initializing the adapter with your SendGrid API key in `config/email.cr`:
 
     ```crystal
+    # config/email.cr
     BaseEmail.configure do |settings|
       settings.adapter = Carbon::SendGridAdapter.new(api_key: ENV["SEND_GRID_KEY"])
     end
     ```
-
-    ### AWS SES Adapter
-
-    The `AwsSesAdapter` by community member [keizo3](https://github.com/keizo3/carbon_aws_ses_adapter), once configured with your AWS credentials, will send all emails through the [AWS SES](https://aws.amazon.com/ses/) email service.
-
-    See [the GitHub repository](https://github.com/keizo3/carbon_aws_ses_adapter) for additional details.
 
     ## Sending and testing emails
 
