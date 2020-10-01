@@ -153,7 +153,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
       positional_arg :column_types,
                      "The columns for this model in format: col:type",
                      to_end: true,
-                     format: /\\w+:\\w+/
+                     format: /^\\w+:\\w+$/
 
       def call
         # `model_name` will equal "User"
