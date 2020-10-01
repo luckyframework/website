@@ -37,7 +37,7 @@ class Guides::Testing::DebuggingTests < GuideAction
     end
     ```
 
-    If we wanted to see what the state of the interface looks like after the `should_be_signed_in` step, all we need to do is insert a `take_screenshot` method call like so:
+    If we wanted to see what the state of the interface looks like after the `flow.should_be_signed_in` step, all we need to do is insert a `flow.take_screenshot` method call like so:
 
     ```crystal
     require "../spec_helper"
@@ -48,7 +48,10 @@ class Guides::Testing::DebuggingTests < GuideAction
 
         flow.sign_up "password"
         flow.should_be_signed_in
+
+        # Take a picture of the screen, then proceed
         flow.take_screenshot
+
         flow.sign_out
         flow.sign_in "wrong-password"
         flow.should_have_password_error
