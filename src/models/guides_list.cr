@@ -65,6 +65,7 @@ class GuidesList
         Guides::Testing::HtmlAndInteractivity,
         Guides::Testing::CreatingTestData,
         Guides::Testing::TestingActions,
+        Guides::Testing::DebuggingTests,
       ] of GuideAction.class),
     ]
   end
