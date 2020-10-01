@@ -51,7 +51,8 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     A switch is a simple flag to represent a `Bool`. If you pass the flag, then the value is `true`; otherwise it's `false` by default.
 
-    Use the `switch` macro and pass a symbol for the name of the flag. All flag names are passed with 2 dashes `--` and the name of the symbol. (e.g. `--test_mode`).
+    Use the `switch` macro and pass a symbol for the name of the flag. All flag names are passed with 2 dashes `--` and the name of the symbol. (e.g. `--test-mode`).
+    Note that the underscore (`_`) used to define the switch is substituted for a dash (`-`) when using the argument on the comment line.
     In your `call` method, you'll have access to a `test_mode?` method which returns a `Bool`.
 
     ```crystal
@@ -71,7 +72,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     end
 
     # Run this task:
-    # lucky process_orders --test_mode
+    # lucky process_orders --test-mode
     ```
 
     You can also specify a "shortcut" flag which is generally a single dash `-` and a single letter. (e.g. `-t`)
