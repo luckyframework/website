@@ -38,10 +38,10 @@ class Guides::Deploying::Dokku < GuideAction
     dokku postgres:info exampledb
     ```
 
-    Set the `DATABASE_URL` environment variable from the above output.
+    Set the `DB_URL` environment variable from the above output.
 
     ```
-    dokku config:set app.example.com DATABASE_URL=postgres://...
+    dokku config:set app.example.com DB_URL=postgres://...
     ```
 
     Next, Lucky needs a secret key environment variable. In your app directory on your local machine run the following command which will generate a secure key.
