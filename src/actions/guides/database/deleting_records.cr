@@ -37,7 +37,7 @@ class Guides::Database::DeletingRecords < GuideAction
     A "soft delete" is when you want to hide a record as if it were deleted, but you want to keep the actual
     record in your database. This allows you to restore the record without losing any previous data or associations.
 
-    Avram comes with some built-in modules to help working with soft deleted records a lot easier. Let's add it
+    Avram comes with some built-in modules to help make working with soft deleted records a lot easier. Let's add it
     to an existing `Article` model.
 
     * First, we need to add a new `soft_deleted_at : Time?` column to the table that needs soft deletes.
