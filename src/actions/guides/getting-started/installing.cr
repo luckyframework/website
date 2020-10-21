@@ -28,7 +28,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 3. Configure SSL for Crystal
 
-    You'll need to add tell Crystal how to find OpenSSL by adding an `export`
+    You'll need to tell Crystal how to find OpenSSL by adding an `export`
     to your `~/.bash_profile` or `~/.zshrc`.
 
     > You can run `echo $SHELL` in your terminal if you're not sure whether you
