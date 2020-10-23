@@ -27,7 +27,7 @@ jobs:
         run: |
           apt-get update
           apt-get -yqq install cmake
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.2
         with:
           node-version: '12.x'
       - name: "Install yarn"
