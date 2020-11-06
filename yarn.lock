@@ -8,9 +8,9 @@
   dependencies:
     "@babel/highlight" "^7.10.1"
 
-"@babel/compat-data@^7.10.1", "@babel/compat-data@^7.12.1":
-  version "7.12.1"
-  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.12.1.tgz#d7386a689aa0ddf06255005b4b991988021101a0"
+"@babel/compat-data@^7.10.1", "@babel/compat-data@^7.12.5":
+  version "7.12.5"
+  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.12.5.tgz#f56db0c4bb1bbbf221b4e81345aab4141e7cb0e9"
 
 "@babel/core@^7.0.0-beta.49", "@babel/core@^7.2.0":
   version "7.10.2"
