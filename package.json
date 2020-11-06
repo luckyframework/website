@@ -17,7 +17,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.13",
     "compression-webpack-plugin": "^6.0.5",
-    "laravel-mix": "^5.0.7",
+    "laravel-mix": "^5.0.9",
     "resolve-url-loader": "3.1.2",
     "sass": "1.29.0",
     "sass-loader": "10.0.5",
