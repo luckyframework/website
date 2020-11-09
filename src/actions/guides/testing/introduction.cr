@@ -71,7 +71,7 @@ class Guides::Testing::Introduction < GuideAction
     data (e.g. [Boxes](#{Guides::Testing::CreatingTestData.path})), and your Flow objects which are used in your flow specs,
     and whatever else you may need.
 
-    ### support/app_client.cr
+    ### support/api_client.cr
 
     The HTTP client you'll use to make requests to your API actions. See [#{Guides::Testing::TestingActions.title}](#{Guides::Testing::TestingActions.path})
 
