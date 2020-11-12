@@ -1853,9 +1853,9 @@ compressible@~2.0.16:
   dependencies:
     mime-db ">= 1.43.0 < 2"
 
-compression-webpack-plugin@^6.0.5:
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/compression-webpack-plugin/-/compression-webpack-plugin-6.0.5.tgz#3d185efaf4b1f496db4155797cc8e7a5cd917552"
+compression-webpack-plugin@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/compression-webpack-plugin/-/compression-webpack-plugin-6.1.0.tgz#ef88a4c35e240aa14bec6cccc0582ed47e148605"
   dependencies:
     cacache "^15.0.5"
     find-cache-dir "^3.3.1"
