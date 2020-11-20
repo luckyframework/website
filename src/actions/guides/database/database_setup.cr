@@ -146,15 +146,15 @@ class Guides::Database::DatabaseSetup < GuideAction
     Seeding is the process of putting data in to your database. This could be fake placeholder
     data you use in development, or even special data your application expects to exist in production.
 
-    By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::CreateRequiredSeeds`,
-    and `Db::CreateSampleSeeds`. You can use [Boxes](#{Guides::Testing::CreatingTestData.path}) or [Operations](#{Guides::Database::ValidatingSaving.path}) to create the data.
+    By default, Lucky generates two tasks in your app's `tasks/` folder. `Db::Seed::RequiredData`,
+    and `Db::Seed::SampleData`. You can use [Boxes](#{Guides::Testing::CreatingTestData.path}) or [Operations](#{Guides::Database::ValidatingSaving.path}) to create the data.
 
     ### Required Seeds
 
     Let's say you're getting ready to launch your application to production for the very first time.
     You may need an initial Admin user account that will be able to login and create your other Admin accounts.
 
-    This code will go in `tasks/create_required_seeds.cr`.
+    This code will go in `tasks/seed/db/required_data.cr`.
 
     ```crystal
     def call
@@ -166,17 +166,17 @@ class Guides::Database::DatabaseSetup < GuideAction
     end
     ```
 
-    Run this task with `lucky db.create_required_seeds`.
+    Run this task with `lucky db.seed.required_data`.
 
     > This task should be ran after your first deployment, and whenever your seeds change.
-    > Running `./script/setup` will run the `db.create_required_seeds` task for you.
+    > Running `./script/setup` will run the `db.seed.required_data` task for you.
 
     ### Sample Seeds
 
     This data is a great way to fill your development database with fake placeholder data
     to mimic a fully functioning production database without the worry of losing production data.
 
-    This code will go in `tasks/create_sample_seeds.cr`.
+    This code will go in `tasks/db/seed/sample_data.cr`.
 
     ```crystal
     def call
@@ -192,9 +192,9 @@ class Guides::Database::DatabaseSetup < GuideAction
     end
     ```
 
-    Run this task with `lucky db.create_sample_seeds`.
+    Run this task with `lucky db.seed.sample_data`.
 
-    > Running `./script/setup` in development will run the `db.create_sample_seeds` task for you.
+    > Running `./script/setup` in development will run the `db.seed.sample_data` task for you.
     > If you need to re-seed, you can run `lucky db.drop` and then `./script/setup` to re-create
     > and seed your local database.
 
