@@ -11,6 +11,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     Lucky was designed to solve a few core problems that teams often see. Lucky strives to:
 
+    * Encompass a strong welcoming community.
     * Catch bugs at compile time, rather than finding them in production.
     * Spend less time writing tests, because the compiler catches many errors for you.
     * Minimize guesswork by using conventions for the most common tasks.
