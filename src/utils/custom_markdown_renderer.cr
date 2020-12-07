@@ -28,7 +28,7 @@ class CustomMarkdownRenderer
   end
 
   def self.html(content)
-    options = Cmark::Option.flags(ValidateUTF8, Smart)
+    options = Cmark::Option.flags(ValidateUTF8, Smart, Unsafe)
     html = Cmark.gfm_to_html(content, options)
     HtmlAutolink.new(html).call
   end
