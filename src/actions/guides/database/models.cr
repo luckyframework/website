@@ -500,6 +500,23 @@ class Guides::Database::Models < GuideAction
     comment = CommentQuery.first
     comment.commentable! #=> no preloading required here
     ```
+
+    ## Schema Enforcer
+
+    While Crystal can provide a great deal of type-safety, when it comes to your database, there's plenty of room to accidentally set up the integration between the database table and the model incorrectly.
+
+    To help with this, Lucky includes some validations that are run by the Schema Enforcer. It starts by querying the database for all of the tables and columns. It then goes through every model and verifies that they are connected to existing tables and that all of the columns defined in each model exist and have the correct type and nullability.
+
+    These validations are only run in development and test and can be disable if desired.
+    If you'd like to add additional validations or modify the existing ones, you can override the `setup_table_schema_enforcer_validations` macro in any of your models.
+
+    ```crystal
+    macro setup_table_schema_enforcer_validations(type, *args, **named_args)
+      schema_enforcer_validations << EnsureExistingTable.new(model_class: {{ type.id }})
+      schema_enforcer_validations << EnsureMatchingColumns.new(model_class: {{ type.id }})
+      # add additional validations here...
+    end
+    ```
     MD
   end
 end
