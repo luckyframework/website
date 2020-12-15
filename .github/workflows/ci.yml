@@ -13,8 +13,12 @@ jobs:
       image: crystallang/crystal:0.35.1
     steps:
       - uses: actions/checkout@v2.3.4
+      - name: Install shards
+        run: shards install
       - name: Format
         run: crystal tool format --check
+      - name: Lint
+        run: ./bin/ameba
   specs:
     runs-on: ubuntu-latest
 
