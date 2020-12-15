@@ -198,7 +198,7 @@ class Guides::Deploying::Ubuntu < GuideAction
 
     This is your SendGrid key to be able to send emails. Set it to
     'unused' if not sending emails.
-    
+
     * **DATABASE_URL**
 
       This tells lucky where to find your database.

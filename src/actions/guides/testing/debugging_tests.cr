@@ -8,13 +8,13 @@ class Guides::Testing::DebuggingTests < GuideAction
   def markdown : String
     <<-MD
     ## Introduction
-  
+
     Determining why a given test is failing can sometimes be difficult. This guide serves as a jumping-off point for some tips and tricks that you can leverage to resolve these issues more quickly for your Lucky applications.
 
     ## Lucky Flow
 
     ### Taking Screenshots
-    
+
     When you're running an integration spec that tests your application interface using Lucky Flow, sometimes getting a picture of what's going on at a certain point on the screen can be incredibly helpful when diagnosing a failing test.
 
     Say that we have the following spec file:
@@ -60,7 +60,7 @@ class Guides::Testing::DebuggingTests < GuideAction
       end
     end
     ```
-    
+
     The next time this test file runs, a screenshot of the state of the interface at that point in time will be added to the default `./tmp/screenshots` folder. You can open that image in your viewer of choice, diagnose the problem, and get one step closer to a passing test!
 
     If you'd like to output screenshots to a different location from LuckyFlow, you can easily modify the path defined by the `screenshot_directory` setting:

@@ -407,7 +407,7 @@ class Guides::Database::Migrations < GuideAction
     This will generate a column called `author_id` on the `comments` table with a foreign key constraint pointing to an entry in the `users` table. It will also ensure that when a `User` is removed from the database, all associated `Comments` are also removed:
 
     ```
-    comments_author_id_fkey" FOREIGN KEY (author_id) 
+    comments_author_id_fkey" FOREIGN KEY (author_id)
         REFERENCES users(id) ON DELETE CASCADE
     ```
 
