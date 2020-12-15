@@ -13,6 +13,10 @@ jobs:
       image: crystallang/crystal:0.35.1
     steps:
       - uses: actions/checkout@v2.3.4
+      - name: Install CMake
+        run: |
+          apt-get update
+          apt-get -yqq install cmake
       - name: Install shards
         run: shards install
       - name: Format
