@@ -37,3 +37,6 @@ development_dependencies:
   lucky_flow:
     github: luckyframework/lucky_flow
     version: ~> 0.7.1
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.13
