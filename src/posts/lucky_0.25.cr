@@ -263,14 +263,14 @@ class Lucky025Release < BasePost
     end
     ```
 
-    This means you can also now do a has_many though a has_many through 😬
+    Related to this change, we've also fixed bugs that limited the types of associations that could be used for the "through" association 😬
 
     ### Models now support SQL VIEW
 
-    Generally when we think of models, we think of database tables. The models even have a `table()` method to denote this!
+    Generally when we think of models, we think of database tables. The models even have a `table()` method to denote this.
     Well now there's a `view()` method as well!
 
-    > SQL VIEWs are like tables, but generally READ-ONLY, and have no primary key. Their data is usually aggregated from other table sources.
+    > SQL VIEWs are like tables, but generally READ-ONLY, and might not have a primary key. Their data is usually aggregated from other table sources.
 
     ```crystal
     class AdminUser < BaseModel
@@ -281,15 +281,16 @@ class Lucky025Release < BasePost
     end
     ```
 
-    All of the columns for your `view` must be manually defined. These models do not come with any sort of `primary_key`, or `id` methods. This also means that methods like
-    `AdminUserQuery.find()`, and `admin_user.delete` won't work since these all rely on there being an `id` method. You must implement any of these methods yourself that you may
-    need.
+    All of the columns for your `view` must be manually defined. These models do not come with any sort of `primary_key` or `timestamps` by default. If your view has these columns, you will need to explicitly add them.
+    View models will not have a `SaveOperation` defined as they are meant to be read-only, and if no primary key is added, some features will be missing from the model and `BaseQuery`.
+    For example, `AdminUserQuery.find()` and `admin_user.reload` won't work since these rely on an `id` method.
+    You must implement any of these methods yourself if you need them.
 
     ### Routing Changes
 
-    The LuckyRouter got a few new fancy that we're super stoked about! The first one is "glob" routing.
+    The LuckyRouter got some fancy upgrades that we're super stoked about! The first one is "glob" routing.
 
-    Glob routes are basically a route where you know the first part in the path, but the end of the route path is a variable length. For example:
+    Glob routes are a route where the first part in the path is known, but the end of the route path is a variable length. For example:
 
     ```
     myblog.com/posts
@@ -298,7 +299,7 @@ class Lucky025Release < BasePost
     myblog.com/posts/2020/12/25
     ```
 
-    These routes may all just display posts, and you don't want to duplicate routes or pages for the same actions being taken. In this case, we can define a glob route
+    If these routes all display posts, it's not useful to duplicate routes or pages over multiple actions. In this case, we can define a glob route
     to catch all of these in to the same action.
 
     ```crystal
@@ -311,11 +312,10 @@ class Lucky025Release < BasePost
     end
     ```
 
-    Another great update to the router is that we can now catch duplicate routes defined. This helps you to catch mistakes in development when you're working on a larger
-    code base, and accidentally defined two conflicting routes.
+    Another great update to the router is that Lucky can now catch overridden (duplicate) routes. This helps catch mistakes in development, especially in large project where hundreds or more routes are defined.
 
     ```crystal
-    # These will now raise an error
+    # These will now raise an error when starting the app
 
     class Api::Posts::Show < ApiAction
       get "/api/posts/:id" do
@@ -330,9 +330,9 @@ class Lucky025Release < BasePost
     end
     ```
 
-    ### So many more!
+    ### And much more!
 
-    This blog post could go on for days to include all the awesome stuff we've added. Here's a super quick run down of a few more:
+    This blog post could go on for days to include all the awesome stuff we've added. Here's a quick run down of a few more:
 
     * Updates and new features to LuckyFlow like hover over element
     * More bug fixes in associations and file handling
@@ -340,22 +340,22 @@ class Lucky025Release < BasePost
     * Testing CLI Tasks is easier
     * Lots of cleanup, and refactors
 
-    Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see what else!
+    Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see it all!
 
     ## Parting words
 
     This is another step towards 1.0, and we're super stoked. We can't do this without continued support from our community.
-    The more hands and eyes on the project, the more fine tuned we can make this project!
+    The more hands and eyes on the project, the more fine tuned Lucky can be!
 
     Please give it a spin and help us find bugs so our next release is even more solid.
-    If you find any issues, don't hesitate to [report the issue](https://github.com/luckyframework/lucky/issues).
+    If you find any issues, don't hesitate to [report them](https://github.com/luckyframework/lucky/issues).
     If you're unsure, just hop on [Discord chat](https://discord.gg/HeqJUcb) so we can help you out.
 
     Thanks so much for the support!
 
     ### Follow and spread the word
 
-    If you haven't already, give us a [star on github](https://github.com/luckyframework/lucky),
+    If you haven't already, give us a [star on GitHub](https://github.com/luckyframework/lucky),
     and be sure to follow us on [Twitter](https://twitter.com/luckyframework/).
 
     For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
