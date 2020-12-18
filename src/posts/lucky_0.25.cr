@@ -28,17 +28,17 @@ class Lucky025Release < BasePost
     ## Here's what's new
 
     Since the last release we've welcomed two more developer to the core team, [Matthew](https://github.com/matthewmcgarvey) and [Stephen](https://github.com/stephendolan).
-    These two have both been huge contributors in the commuinity, and since bringing them on, the movement towards 1.0 has more than doubled in speed!
+    They have been huge contributors in the community, and since bringing them on, the movement towards 1.0 has more than doubled in speed!
 
-    Over the course of the last few months, we've made a ton of changes for this release, so let's break down a couple of the more notible changes:
+    Over the last few months, we've made a ton of changes, so let's break down a couple of the more notable ones:
 
     ### `Avram::Operation` got a facelift
 
-    When you need to handle some logic that may not be tied directly to a single model, you can create an `Avram::Operation` to handle this. You've probably seen
-    examples in your app like the `RequestPasswordReset` and `SignInUser` that come with an Auth app.
+    When you need to handle some logic that isn't tied directly to a single model, you can create an `Avram::Operation` to handle this. You've probably seen
+    examples in your app like the `RequestPasswordReset` and `SignInUser` that come with an app generated with authentication.
 
     Prior to this update, it was sort of "wild west", and completely up to you on how to implement these. For consistency sake, we recommended defining a `submit`
-    method, and then returning `yield self, value`. These operations were also limited with no way to use callbacks, file attributes, or define errors not tied to
+    method, and then returning `yield self, value`. These operations were also limited as they couldn't use callbacks, file attributes, or define errors not tied to
     an attribute.
 
     In this release, we've created a whole new interface!
@@ -107,7 +107,7 @@ class Lucky025Release < BasePost
     end
     ```
 
-    We have also added the ability to do these callbacks conditionally. This allows you to specify if the callbacks should actually run or not.
+    We've also added the ability to conditionally trigger these callbacks based on a method.
 
     ```crystal
     class SaveUser < User::SaveOperation
@@ -134,7 +134,7 @@ class Lucky025Release < BasePost
     Lastly, there were some instances where you may be updating a record, and expecting a callback when everything was done. However, in the case of
     a record that doesn't need to update anything, you'd never have any callbacks that fired. (i.e. kick off background job, or email, etc...)
 
-    To help with this, we've added 1 additional callback called `after_completed`. This callback is always called when the `save_status` is set to `:saved`.
+    We've added one additional callback called `after_completed`. This callback is always called when the operation is successful (the internal `save_status` attribute is set to `:saved`).
     This means that even if the record never touches the database, the `after_completed` callback will still run.
 
     ```crystal
@@ -161,13 +161,10 @@ class Lucky025Release < BasePost
     ### Changes to the Query objects
 
     The `Query` objects also got a few new changes. The main one being that queries no longer mutate the object. Prior to this release, appending any
-    query method would mutate the original object. This made building queries really nice and easy, but presented a problem that many faced. For example:
+    query method would mutate the original object. This made building queries nice and easy, but presented a problem that many faced. For example:
 
     ```crystal
     q = UserQuery.new
-    if current_user.admin?
-      q.admin(true)
-    end
 
     # this would fail because we've already mutated the query
     # on the count, and can no longer query with the username ordering
@@ -175,14 +172,10 @@ class Lucky025Release < BasePost
     users = q.username.asc_order
     ```
 
-    In that case, you had to make sure you cloned the query, and they were in the correct order. Now we no longer mutate the query, but this requires changing your
-    code just slightly.
+    In that case, you had to make sure you cloned the query, and the chained methods were called in the correct order. We no longer mutate the query, but this requires a code change.
 
     ```crystal
     q = UserQuery.new
-    if current_user.admin?
-      q = q.admin(true)
-    end
 
     user_total_count = q.select_count
     users = q.username.asc_order
@@ -191,7 +184,7 @@ class Lucky025Release < BasePost
     With this change, this also means that defining default queries in your query class `initialize` need to change. To set a default, you'll now use the `defaults` method.
 
     ```crystal
-    class UserQuery < User::BaseQuery
+    class AdminQuery < User::BaseQuery
       def initialize
         defaults &.admin(true)
       end
@@ -200,14 +193,14 @@ class Lucky025Release < BasePost
 
     ### Type-safe WHERE "OR"
 
-    This was one of the most requested methods we got! We held off since adding this in makes SQL queries quite a bit more complex, but we finally got it! (**sort of... see note below)
+    This was one of our most common requests! We held off since adding this in makes SQL queries quite a bit more complex, but we finally got it! (**sort of... see note below)
 
     ```crystal
     # WHERE users.name = 'Billy' OR users.name = 'Kelly'
     UserQuery.new.name("Billy").or(&.name("Kelly"))
     ```
 
-    As you can see, you call the `or` method which passes in the instance of the query object allowing you to chain additional WHERE clauses.
+    Calling the `or` method which passes in the instance of the query object allowing you to chain additional WHERE clauses.
 
     **NOTE: The above example works great, and will cover plenty of the queries that you may have, but we currently make no assumptions on where to place parenthesis for scoping
     order of operations. Take this for example:
@@ -221,11 +214,11 @@ class Lucky025Release < BasePost
 
     ### Model Association updates
 
-    When you're using a RDBMS like postgres, table associations become very important for properly structuring your data. There were several bugs fixed when it comes to
-    associations giving us a lot more power and control over our data.
+    When you're using an RDBMS like PostgreSQL, table associations become very important for properly structuring your data. There were several bugs fixed when it comes to
+    associations giving you a lot more power and control over your data.
 
-    To start, we will look at the `belongs_to` association method. It's pretty common to name your method the same as the model it's referencing, but in some cases,
-    you may want your association method to be named slightly different like this:
+    To start, let's look at the `belongs_to` association method. It's pretty common for the method name to be the same as the model it's referencing, but in some cases,
+    you may want your association method to be named something different:
 
     ```crystal
     class Employee < BaseModel
@@ -235,16 +228,17 @@ class Lucky025Release < BasePost
     end
     ```
 
-    But this would throw an error due to how the query methods were generated. We would be expecting to generate a method named `where_managers`, but that doesn't exist here.
+    But this would throw an error due to how the query methods were generated.
+    In some places we were using the table name to generate code, and in others we were using the association name.
 
-    With this release, we no longer make the assumption on what you're naming your associations. This also means that a small convention must be followed where your `where_` query
+    With this release, we no longer make the assumption on what you're naming your associations. But it's also worth pointing out that `where_` query
     methods will append the name of the association.
 
     ```crystal
     EmployeeQuery.new.where_boss(ManagerQuery.new)
     ```
 
-    To go along with the `belongs_to`, we've also fixed some bugs related to using `has_many through`. This update will require a slightly different syntax.
+    We've also fixed some bugs related to using `has_many through`. This update will require a slightly different syntax.
 
     ```crystal
     # Before update
