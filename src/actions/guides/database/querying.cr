@@ -523,14 +523,35 @@ class Guides::Database::Querying < GuideAction
     This is also how you would do nested preloads:
 
     ```crystal
-    # Preload the users's tasks, and the tasks's author
+    # Preload the user's tasks, and the task's author
     UserQuery.new.preload_tasks(TaskQuery.new.preload_author)
     ```
 
     > Note that you can only pass query objects to `preload` if the association is defined, otherwise you will
     > get a type error.
 
-    ### without preloading
+    ### With existing records
+
+    There are situations where you have an existing record and it does not have the associations preloaded that are needed.
+    Instead of loading the association separately, you can add an association after the fact, instead.
+
+    ```crystal
+    user = UserQuery.find(user_id)
+
+    # Preload the user's tasks
+    user_with_tasks = UserQuery.preload_tasks(user)
+    ```
+
+    It can even be used to load associations on a collection of records.
+
+    ```crystal
+    users = UserQuery.new.age(30)
+
+    # Preload the users' tasks
+    users_with_tasks = UserQuery.preload_tasks(users)
+    ```
+
+    ### Without preloading
 
     Sometimes you have a single model and don’t need to preload items. Or maybe you *can’t* preload because the
     model record is already loaded. In those cases you can use the association name with `!`:
