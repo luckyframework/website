@@ -131,9 +131,6 @@ class Lucky025Release < BasePost
     end
     ```
 
-    Lastly, there were some instances where you may be updating a record, and expecting a callback when everything was done. However, in the case of
-    a record that doesn't need to update anything, you'd never have any callbacks that fired. (i.e. kick off background job, or email, etc...)
-
     We've added one additional callback called `after_completed`. This callback is always called when the operation is successful (the internal `save_status` attribute is set to `:saved`).
     This means that even if the record never touches the database, the `after_completed` callback will still run.
 
