@@ -6,7 +6,7 @@ module LuckyCliVersion
   end
 
   def current_version : String
-    "0.24.0"
+    "0.25.0"
   end
 
   def compatible_crystal_version : String
