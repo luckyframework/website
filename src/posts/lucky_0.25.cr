@@ -3,7 +3,7 @@ class Lucky025Release < BasePost
   slug "lucky-0_25-release"
 
   def published_at : Time
-    Time.utc(year: 2020, month: 12, day: 19)
+    Time.utc(year: 2020, month: 12, day: 18)
   end
 
   def summary : String
