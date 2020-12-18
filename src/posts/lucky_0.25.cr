@@ -302,7 +302,11 @@ class Lucky025Release < BasePost
     ```crystal
     class Posts::Index < BrowserAction
       get "/posts/*:date" do
-        year, month, day = date.split('/')
+        date_parts = date.try(&.split('/')) || [] of Int32
+
+        year = date_parts[0]?
+        month = date_parts[1]?
+        day = date_parts[2]?
 
         html IndexPage, posts: PostQuery.new.by_date(year, month, day)
       end
