@@ -673,6 +673,24 @@ class Guides::Database::Querying < GuideAction
     end
     ```
 
+    ### Queries with defaults
+
+    You can also set defaults for your query objects which could be an ordering, named scope, or whatever you may need.
+
+    ```crystal
+    class AdminQuery < User::BaseQuery
+
+      def initialize
+        defaults &.admin(true).name.asc_order
+      end
+    end
+
+    # Will always query WHERE admin = true ORDER BY name ASC
+    AdminQuery.new
+    ```
+
+    > The `defaults` method is private scoped. It's only meant to be used in the `initialize` method of your class.
+
     ## Complex Queries
 
     If you need more complex queries that Avram may not support, you can run
