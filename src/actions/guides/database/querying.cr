@@ -691,14 +691,6 @@ class Guides::Database::Querying < GuideAction
 
     > The `defaults` method is private scoped. It's only meant to be used in the `initialize` method of your class.
 
-    ## Complex Queries
-
-    If you need more complex queries that Avram may not support, you can run
-    [raw SQL](#{Guides::Database::RawSql.path}).
-
-    > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
-    > or raw SQL.
-
     ## Resetting Queries
 
     If you need to remove parts of the SQL query after the query has been built, Avram gives you
@@ -744,6 +736,14 @@ class Guides::Database::Querying < GuideAction
     # This will remove the `OFFSET 25`
     user_query.reset_offset
     ```
+
+    ## Complex Queries
+
+    If you need more complex queries that Avram may not support, you can run
+    [raw SQL](#{Guides::Database::RawSql.path}).
+
+    > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
+    > or raw SQL.
 
     ## Debugging Queries
 
