@@ -236,6 +236,22 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.is_not_nil
     ```
 
+    ### LOWER/UPPER A = B
+
+    Find rows where (casting `A` to LOWER/UPPER) is equal to `B`
+
+    `SELECT COLUMNS FROM users WHERE LOWER(users.name) = 'gar'`
+
+    ```crystal
+    UserQuery.new.name.lower.eq("gar")
+    ```
+
+    `SELECT COLUMNS FROM users WHERE UPPER(users.name) = 'GAR'`
+
+    ```crystal
+    UserQuery.new.name.upper.eq("GAR")
+    ```
+
     ### A gt/lt B
 
     * gt: >
