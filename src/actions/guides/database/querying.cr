@@ -203,7 +203,7 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name("Alfred").or(&.name("Bruce"))
     ```
 
-    > Doing `OR` queries can become quite complex. Avram currently makes no assumption on
+    > `OR` queries can become quite complex. Avram currently makes no assumption on
     > where to place parenthesis `()` for conditional grouping. [See #488](https://github.com/luckyframework/avram/issues/488)
 
     ### A != B
