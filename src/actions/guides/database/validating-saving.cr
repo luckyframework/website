@@ -552,7 +552,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ## Basic Operations
 
     Just like `attribute`, there may also be a time where you have an operation **not** tied to the database.
-    Maybe a search operation, or a contact operation that just sends an email.
+    Maybe a search operation, signing in a user, or even requesting a password reset.
 
     For these, you can use `Avram::Operation`:
 
@@ -562,16 +562,24 @@ class Guides::Database::ValidatingSaving < GuideAction
       attribute query : String = ""
       attribute active : Bool = true
 
-      def submit
+      def run
         validate_required query
 
-        yield self, UserQuery.new.name.ilike(query.value).active(active.value)
+        UserQuery.new.name.ilike(query.value).active(active.value)
       end
     end
     ```
 
-    > Note: The convention is to define a `submit` method that yields the operation, and your result;
-    > however, you can name this method whatever you want with any signature.
+    Just define your `run` method, and have it return some value, and you're set!
+
+    These operations work similar to `SaveOperation`. You can use `attribute`, and `needs`, plus any of the validations that you need.
+    There are a few differences though.
+
+    ### Operation Callbacks
+
+    You will use `before_run` and `after_run` for the callbacks. These work the same as `before_save` and `after_save` on `SaveOperation`.
+
+    ### Using with HTML Forms
 
     Using operations in HTML works exactly the same as the rest:
 
@@ -603,7 +611,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ```crystal
     class Searches::Create < BrowserAction
       post "/searches" do
-        SearchData.new(params).submit do |operation, results|
+        SearchData.run(params) do |operation, results|
           # `valid?` is defined on `operation` for you!
           if operation.valid?
             html SearchResults::IndexPage, users: results
