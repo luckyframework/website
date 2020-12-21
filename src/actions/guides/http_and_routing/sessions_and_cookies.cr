@@ -54,6 +54,16 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     cookies.clear
     ```
 
+    Cookies that have been set with a specific path or domain cannot be deleted unless you pass in the original values.
+    To clear these out, you can pass a block to the `delete()` method. [See RFC-2109](https://www.ietf.org/rfc/rfc2109.txt).
+
+    ```crystal
+    cookies.delete(:remember_me) do |cookie|
+      cookie.domain("mysite.co")
+      cookie.path(Home::Index.path)
+    end
+    ```
+
     ## Configuring Cookies
 
     If you need to customize specific [cookie options](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie), each cookie is an instance of [HTTP::Cookie](https://crystal-lang.org/api/HTTP/Cookie.html), which gives you access to several helpful methods.
