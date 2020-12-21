@@ -37,7 +37,7 @@ class Guides::Testing::DebuggingTests < GuideAction
     end
     ```
 
-    If we wanted to see what the state of the interface looks like after the `flow.should_be_signed_in` step, all we need to do is insert a `flow.take_screenshot` method call like so:
+    If we wanted to see what the state of the interface looks like after the `flow.should_be_signed_in` step, all we need to do is insert a `flow.open_screenshot` method call like so:
 
     ```crystal
     require "../spec_helper"
@@ -49,8 +49,8 @@ class Guides::Testing::DebuggingTests < GuideAction
         flow.sign_up "password"
         flow.should_be_signed_in
 
-        # Take a picture of the screen, then proceed
-        flow.take_screenshot
+        # Take a picture of the screen, then open the file up
+        flow.open_screenshot
 
         flow.sign_out
         flow.sign_in "wrong-password"
@@ -61,7 +61,8 @@ class Guides::Testing::DebuggingTests < GuideAction
     end
     ```
 
-    The next time this test file runs, a screenshot of the state of the interface at that point in time will be added to the default `./tmp/screenshots` folder. You can open that image in your viewer of choice, diagnose the problem, and get one step closer to a passing test!
+    The next time this test file runs, a screenshot of the state of the interface at that point in time will be opened in your default image viewer
+    allowing you to diagnose the problem, and get one step closer to a passing test!
 
     If you'd like to output screenshots to a different location from LuckyFlow, you can easily modify the path defined by the `screenshot_directory` setting:
 
@@ -70,6 +71,9 @@ class Guides::Testing::DebuggingTests < GuideAction
       settings.screenshot_directory = "./tmp/my_custom_folder"
     end
     ```
+
+    > If `open_screenshot` fails, or you don't want the image to auto-open, you can use `flow.take_screenshot`.
+    > Look for the image in the `./tmp/screenshots` folder to open the image manually.
     MD
   end
 end
