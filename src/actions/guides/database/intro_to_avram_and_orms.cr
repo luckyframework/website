@@ -107,7 +107,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     * Be sure to include the adapter in your `shard.yml` file
     * Still place your models in the `src/models` directory
     * `src/app_database.cr` can be deleted to avoid confusion
-    * Avram must still be configured, but can be set as "unused"
+    * Avram must still be configured, but can be set as "unused" (see below)
     * Update your `config/database.cr` file with the new adapter's configuration settings
 
     ```crystal
@@ -116,7 +116,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     end
 
     UnusedDB.configure do |settings|
-      settings.url = "unused"
+      settings.credentials = Avram::Credentials.void
     end
 
     Avram.configure do |settings|
@@ -125,6 +125,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
 
     # Configure your actual settings here
     MyOtherAdapter.configure do |settings|
+      # Refer to that adapter's configuration guide
       settings.url = "my_other_adapter_url"
     end
     ```
@@ -132,8 +133,8 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     * Place migrations (if necessary) in `db/migrations/`.
     * Boxes, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::ValidatingSaving.path}).
 
-    > If your app doesn't need a database, you should still set the `AppDatabase` configure setting to
-    > some non-empty string. Avram Operations can still be quite useful for things like contact forms,
+    > If your app doesn't need a database, you should still set the `AppDatabase` credentials setting to
+    > `Avram::Credentials.void`. Avram Operations can still be quite useful for things like contact forms,
     > or email subscribe forms. See [this website](https://github.com/luckyframework/website/blob/master/config/database.cr)
     > for an example.
     MD
