@@ -193,6 +193,19 @@ class Guides::Database::Querying < GuideAction
 
     > All query methods are chainable!
 
+    ### WHERE with OR (A = B OR A = C)
+
+    Find rows where `A` is equal to `B` or `A` is equal to `C`.
+
+    `SELECT COLUMNS FROM users WHERE users.name = 'Alfred' OR users.name = 'Bruce'`
+
+    ```crystal
+    UserQuery.new.name("Alfred").or(&.name("Bruce"))
+    ```
+
+    > `OR` queries can become quite complex. Avram currently makes no assumption on
+    > where to place parenthesis `()` for conditional grouping. [See #488](https://github.com/luckyframework/avram/issues/488)
+
     ### A != B
 
     Find rows where `A` is not equal to `B`.
