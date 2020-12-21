@@ -552,7 +552,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ## Basic Operations
 
     Just like `attribute`, there may also be a time where you have an operation **not** tied to the database.
-    Maybe a search operation, sign in a user, or even requesting a password reset.
+    Maybe a search operation, signing in a user, or even requesting a password reset.
 
     For these, you can use `Avram::Operation`:
 
