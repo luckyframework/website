@@ -448,7 +448,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # => true
     ```
 
-    ## Formatting helpers
+    ## Formatting and Page helpers
 
     Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
 
@@ -578,6 +578,25 @@ class Guides::Frontend::RenderingHtml < GuideAction
     time_ago_in_words(Time.utc(2019, 8, 30))
     # => "about a month"
     ```
+
+    ### Cycle values
+
+    The most common case is alternating an HTML class name between rows of data. Lucky comes with a `cycle` method that makes this much
+    easier to do.
+
+    ```crystal
+    posts.each do |post|
+      tr class: cycle(["bg-gray-600", ""], "") do
+        td post.title
+      end
+    end
+    ```
+
+    In this example, the first row, and all even rows, will be `<tr class="bg-gray-600">`, but the next row, and all odd rows, will be
+    `<tr class="">`. You can pass as many values as you'd like to cycle through on each iteration.
+
+    The second argument to the `cycle` method is the default value you would like to start with. If no value is given, the string `"default"`
+    is assumed.
 
     ## Layouts
 
