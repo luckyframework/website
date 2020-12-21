@@ -263,15 +263,6 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Should return `psql (PostgreSQL) 10.x` or higher.
 
-    ## Chromedriver (optional)
-
-    > You can skip this if you only plan to only build APIs.
-
-    If you want to test your frontend using
-    [LuckyFlow](#{Guides::Testing::HtmlAndInteractivity.path}) you will need
-    Chromedriver, see the [Testing HTML and
-    Interactivity](#{Guides::Testing::HtmlAndInteractivity.path}) guide for details and installation.
-
     ## Node and Yarn (optional)
 
     > You can skip this if you only plan to only build APIs.
