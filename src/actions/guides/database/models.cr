@@ -344,6 +344,15 @@ class Guides::Database::Models < GuideAction
 
     > When you create the migration, be sure you've set [add_belongs_to](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}).
 
+    If you need to set the foreign key to a different value, you can pass the `foreign_key` option.
+
+    ```crystal
+    table do
+      # gives you the `business_id`, and `company` methods`
+      belongs_to company : Company, foreign_key: :business_id
+    end
+    ```
+
     You can preload these associations in your queries, and return the associated model.
 
     ```crystal
@@ -364,18 +373,24 @@ class Guides::Database::Models < GuideAction
     ## Has one (one to one)
 
     ```crystal
-    table do
-      has_one supervisor : Supervisor
+    class User < BaseModel
+      table do
+        has_one supervisor : Supervisor
+      end
     end
     ```
 
     This would match up with the `Supervisor` having `belongs_to`.
 
     ```crystal
-    table do
-      belongs_to user : User
+    class Supervisor < BaseModel
+      table do
+        belongs_to user : User
+      end
     end
     ```
+
+    > The `has_one` macro also supports a `foreign_key` option like `belongs_to`.
 
     ## Has many (one to many)
 
@@ -387,6 +402,8 @@ class Guides::Database::Models < GuideAction
 
     > The name of the association should be the plural version of the model's name, and the type
     > is the model. (e.g. `Task` model, `tasks` association)
+
+    > The `has_many` macro also supports a `foreign_key` option like `belongs_to`.
 
     ## Has many through (many to many)
 
@@ -415,10 +432,13 @@ class Guides::Database::Models < GuideAction
       table do
         column title : String
         has_many taggings : Tagging
-        has_many tags : Tag, through: :taggings
+        has_many tags : Tag, through: [:taggings, :tag]
       end
     end
     ```
+
+    The `through` is always set to an array like in the example `[:taggings, :tag]`. The first item `:taggings` is a Symbol name
+    for the collection we query through, and the second item `:tag` is that collection's association method.
 
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
