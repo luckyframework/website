@@ -673,13 +673,23 @@ class Guides::Database::Querying < GuideAction
     end
     ```
 
-    ## Complex Queries
+    ### Queries with defaults
 
-    If you need more complex queries that Avram may not support, you can run
-    [raw SQL](#{Guides::Database::RawSql.path}).
+    You can also set defaults for your query objects which could be an ordering, named scope, or whatever you may need.
 
-    > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
-    > or raw SQL.
+    ```crystal
+    class AdminQuery < User::BaseQuery
+
+      def initialize
+        defaults &.admin(true).name.asc_order
+      end
+    end
+
+    # Will always query WHERE admin = true ORDER BY name ASC
+    AdminQuery.new
+    ```
+
+    > The `defaults` method is private scoped. It's only meant to be used in the `initialize` method of your class.
 
     ## Resetting Queries
 
@@ -726,6 +736,14 @@ class Guides::Database::Querying < GuideAction
     # This will remove the `OFFSET 25`
     user_query.reset_offset
     ```
+
+    ## Complex Queries
+
+    If you need more complex queries that Avram may not support, you can run
+    [raw SQL](#{Guides::Database::RawSql.path}).
+
+    > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
+    > or raw SQL.
 
     ## Debugging Queries
 
