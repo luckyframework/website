@@ -424,7 +424,7 @@ class Guides::Database::Models < GuideAction
       table do
         column name : String
         has_many taggings : Tagging
-        has_many posts : Post, through: :taggings
+        has_many posts : Post, through: [:taggings, :post]
       end
     end
 
