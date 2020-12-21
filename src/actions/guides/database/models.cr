@@ -344,6 +344,15 @@ class Guides::Database::Models < GuideAction
 
     > When you create the migration, be sure you've set [add_belongs_to](#{Guides::Database::Migrations.path(anchor: Guides::Database::Migrations::ANCHOR_ASSOCIATIONS)}).
 
+    If you need to set the foreign key to a different value, you can pass the `foreign_key` option.
+
+    ```crystal
+    table do
+      # gives you the `business_id`, and `company` methods`
+      belongs_to company : Company, foreign_key: :business_id
+    end
+    ```
+
     You can preload these associations in your queries, and return the associated model.
 
     ```crystal
@@ -364,18 +373,24 @@ class Guides::Database::Models < GuideAction
     ## Has one (one to one)
 
     ```crystal
-    table do
-      has_one supervisor : Supervisor
+    class User < BaseModel
+      table do
+        has_one supervisor : Supervisor
+      end
     end
     ```
 
     This would match up with the `Supervisor` having `belongs_to`.
 
     ```crystal
-    table do
-      belongs_to user : User
+    class Supervisor < BaseModel
+      table do
+        belongs_to user : User
+      end
     end
     ```
+
+    > The `has_one` macro also supports a `foreign_key` option like `belongs_to`.
 
     ## Has many (one to many)
 
@@ -387,6 +402,8 @@ class Guides::Database::Models < GuideAction
 
     > The name of the association should be the plural version of the model's name, and the type
     > is the model. (e.g. `Task` model, `tasks` association)
+
+    > The `has_many` macro also supports a `foreign_key` option like `belongs_to`.
 
     ## Has many through (many to many)
 
@@ -407,7 +424,13 @@ class Guides::Database::Models < GuideAction
       table do
         column name : String
         has_many taggings : Tagging
-        has_many posts : Post, through: :taggings
+
+        # In the has_many :through example below, the `:taggings`
+        # in the array [:taggings, :post] refers to the
+        # `has_many taggings` above and the
+        # `:post` refers to the `belongs_to post` of the
+        # Tagging's schema.
+        has_many posts : Post, through: [:taggings, :post]
       end
     end
 
@@ -415,10 +438,15 @@ class Guides::Database::Models < GuideAction
       table do
         column title : String
         has_many taggings : Tagging
-        has_many tags : Tag, through: :taggings
+        has_many tags : Tag, through: [:taggings, :tag]
       end
     end
     ```
+
+    In the example above, we have defined a has_many :through association named :tags.
+    A :through association always expects an array and the first element of the array must be a previously
+    defined association in the current model. For example, :tags first points to :taggings
+    in the same model (Post), which then points to :tag in the next schema, Tagging.
 
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
