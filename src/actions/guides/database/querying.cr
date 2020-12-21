@@ -238,7 +238,7 @@ class Guides::Database::Querying < GuideAction
 
     ### LOWER/UPPER A = B
 
-    Find rows (casting `A` to LOWER/UPPER) is equal to `B`
+    Find rows where (casting `A` to LOWER/UPPER) is equal to `B`
 
     `SELECT COLUMNS FROM users WHERE LOWER(users.name) = 'gar'`
 
