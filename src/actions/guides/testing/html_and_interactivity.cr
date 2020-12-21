@@ -7,21 +7,38 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
   def markdown : String
     <<-MD
+    ## About Flow
+
+    LuckyFlow is a shard that allows you to programmatically control a browser. This is best used
+    to test your front-end and how users directly interact with your website in a browser.
+
+    The name "flow" comes from the idea that a user will follow a "flow" from some starting point
+    to some ending point. (e.g. Clicking login, entering login details, and being redirected to a dashboard)
+
+    LuckyFlow is automatically installed and configured with Lucky full (or web) projects.
+    API based projects don't need it since there's no HTML, CSS, or JavaScript.
+
     ## Setup
 
-    LuckyFlow is automatically installed and configured with Lucky projects
-    (excluding projects generated with the `—api` option)
+    LuckyFlow uses [chromedriver](https://chromedriver.chromium.org/) to control Selenium under the hood.
+    All you need is to have Chrome installed and LuckyFlow will handle everything else for you.
 
-    For tests to run you will need to install Chrome and Chromedriver:
+    The LuckyFlow configuration settings are located in `spec/setup/configure_lucky_flow.cr`.
 
-    ### On macOS
+    ```crystal
+    # spec/setup/configure_lucky_flow.cr
+    LuckyFlow.configure do |settings|
+      settings.stop_retrying_after = 200.milliseconds
+      settings.base_uri = Lucky::RouteHelper.settings.base_uri
+      settings.retry_delay = 10.milliseconds
 
-    `brew cask install chromedriver`
+      # Change where screenshots are stored
+      settings.screenshot_directory = "./tmp/screenshots"
 
-    ### On Linux
-
-    `sudo apt-get install chromium-chromedriver` or
-    https://makandracards.com/makandra/29465-install-chromedriver-on-linux
+      # Point to a different Chrome browser than the default
+      settings.browser_binary = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    end
+    ```
 
     ## A quick overview of flows
 
