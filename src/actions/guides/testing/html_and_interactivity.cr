@@ -195,6 +195,31 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     click "a.post-title"
     ```
 
+    ### Hover over an element
+
+    ```crystal
+    el("@file-upload-box").hover
+    ```
+
+    ### Checking visiblity of an element
+
+    ```html
+    <style>
+    .alert-box { display: none; }
+    .upload-zone:hover + .alert-box { display: block; }
+    </style>
+    <div class="upload-zone" flow-id="file-upload-box">Drop Files Here</div>
+    <div class="alert-box">Ready for upload!</div>
+    ```
+
+    ```crystal
+    el(".alert-box").displayed? #=> false
+
+    el("@file-upload-box").hover
+
+    el(".alert-box").displayed? #=> true
+    ```
+
     ### Filling and submitting forms
 
     Fill forms rendered by Lucky:
@@ -217,13 +242,103 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     el("#title-field").fill("My Post")
     ```
 
-    ## Asserting elements are on the page
+    ### Filling select fields
+
+    To fill the value of a `<select>` tag, use the `flow.select()` method.
+
+    ```html
+    <select name="cars" flow_id="car-list">
+      <option value="ford">Ford</option>
+      <option value="honda">Honda</option>
+      <option value="tesla">Tesla</option>
+    </select>
+    ```
+
+    ```crystal
+    flow.select("cars", value: "honda")
+    flow.el("@car-list").value.should eq "honda"
+    ```
+
+    If you need to fill multiple values for a `<select multiple>` tag, you can pass an array.
+
+    ```crystal
+    flow.select("cars", value: ["honda", "toyota"])
+    ```
+
+    Check if a specific value is selected using the `selected?` method.
+
+    ```crystal
+    flow.el("option[value='tesla']").selected? #=> false
+    flow.el("option[value='toyota']").selected? #=> true
+    ```
+
+    ## Interacting with JavaScript
+
+    ### Dismissing alerts
+
+    If your page as a `confirm()` modal, you can `accept` or `dismiss` with the `accept_alert` or `dismiss_alert` methods.
+
+    ```crystal
+    flow.click("@delete-comment-button")
+    flow.accept_alert
+
+    flow.click("@back-button")
+    flow.dismiss_alert
+    ```
+
+    > For javascript `alert()` modals, the `accept_alert` and `dismiss_alert` do the same thing.
+
+    ## Spec Assertions
+
+    LuckyFlow comes with a few methods for asserting elements exist
+
+    ### Asserting elements are on the page
 
     You can use `el` combined with the `be_on_page` matcher to assert that an
     element is on the page:
 
     ```crystal
     el("@post-title", text: "My post").should be_on_page
+    ```
+
+    ### Asserting the current URL path
+
+    You can use `have_current_path` to check that the page you are on matches the path you expect
+
+    ```crystal
+    flow = BaseFlow.new
+    flow.visit Authenticated::Endpoint::Index
+    flow.should have_current_path(SignIn::New)
+    ```
+
+    ### Asserting an element's text
+
+    The `have_text` will test that an element contains a piece of text.
+
+    ```html
+    <ul flow_id="user-list">
+      <li>Natasha</li>
+      <li>Steve</li>
+      <li>Tony</li>
+      <li>Bruce</li>
+    </ul>
+    ```
+
+    ```crystal
+    el("@user-list").should have_text("Tony")
+    ```
+
+    ## Managing Cookies
+
+    You can access cookies using the flow's `session.cookie_manager`.
+
+    ```crystal
+    flow = SomeFlow.new
+
+    flow.visit SomePage::Index
+
+    flow.session.cookie_manager.add_cookie("hello", "world")
+    flow.session.cookie_manager.get_cookie("hello") #=> "world"
     ```
     MD
   end
