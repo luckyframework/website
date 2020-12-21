@@ -47,6 +47,16 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
+    ### Multipart forms
+
+    When doing file-uploads, you'll need to set the `multipart` option to `true`. This will add `enctype="multipart/form-data"` to your form.
+
+    ```crystal
+    form_for(Users::Update.with(id: current_user.id), multipart: true) do
+      file_input(operation.avatar)
+    end
+    ```
+
     ### Custom forms
 
     If you need more control over how your form is displayed, you can always use the `form`
@@ -139,6 +149,8 @@ class Guides::Frontend::HtmlForms < GuideAction
            class="custom-input"
            required />
     ```
+
+    > Be sure to set `multipart: true` on your `form_for`
 
     ### color input
 
