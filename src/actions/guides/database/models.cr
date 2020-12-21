@@ -424,6 +424,12 @@ class Guides::Database::Models < GuideAction
       table do
         column name : String
         has_many taggings : Tagging
+
+        # In the has_many :through example below, the `:taggings`
+        # in the array [:taggings, :post] refers to the
+        # `has_many taggings` above and the
+        # `:post` refers to the `belongs_to post` of the
+        # Tagging's schema.
         has_many posts : Post, through: [:taggings, :post]
       end
     end
@@ -437,8 +443,10 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    The `through` is always set to an array like in the example `[:taggings, :tag]`. The first item `:taggings` is a Symbol name
-    for the collection we query through, and the second item `:tag` is that collection's association method.
+    In the example above, we have defined a has_many :through association named :tags.
+    A :through association always expects an array and the first element of the array must be a previously
+    defined association in the current model. For example, :tags first points to :taggings
+    in the same model (Post), which then points to :tag in the next schema, Tagging.
 
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
