@@ -586,17 +586,14 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     ```crystal
     posts.each do |post|
-      tr class: cycle(["bg-gray-600", ""], "") do
+      tr class: cycle(["bg-gray-600", ""]) do
         td post.title
       end
     end
     ```
 
-    In this example, the first row, and all even rows, will be `<tr class="bg-gray-600">`, but the next row, and all odd rows, will be
+    In this example, the first row, and all odd rows, will be `<tr class="bg-gray-600">`, but the next row, and all even rows, will be
     `<tr class="">`. You can pass as many values as you'd like to cycle through on each iteration.
-
-    The second argument to the `cycle` method is the default value you would like to start with. If no value is given, the string `"default"`
-    is assumed.
 
     ## Layouts
 
