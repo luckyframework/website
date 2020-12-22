@@ -52,6 +52,9 @@ class GuidesList
         Guides::CommandLineTasks::BuiltIn,
         Guides::CommandLineTasks::CustomTasks,
       ] of GuideAction.class),
+      GuideCategory.new("Handling Files", [
+        Guides::HandlingFiles::FileUploads,
+      ] of GuideAction.class),
       GuideCategory.new("Emails", [
         Guides::Emails::SendingEmailsWithCarbon,
       ] of GuideAction.class),
