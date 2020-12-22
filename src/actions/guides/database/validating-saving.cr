@@ -216,7 +216,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     | Validator                   | Description                                            | Example                                                          |
     |-----------------------------|--------------------------------------------------------|------------------------------------------------------------------|
-    | validate_required           | ensures that a field is not `nil` or blank (e.g. `""`) | `validate_required email`                                         |
+    | validate_required           | ensures that a field is not `nil` or blank (e.g. `""`) | `validate_required email`                                        |
     | validate_confirmation_of    | ensures that 2 fields have the same values             | `validate_confirmation_of password, with: password_confirmation` |
     | validate_acceptance_of      | ensure that a bool value is true                       | `validate_acceptance_of terms_of_service`                        |
     | validate_inclusion_of       | check that value is in a list of accepted values       | `validate_inclusion_of membership, in: ["active", "pending"]`    |
