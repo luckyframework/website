@@ -214,6 +214,8 @@ class Guides::GettingStarted::Installing < GuideAction
     > You can modify the `Procfile.dev` to start other processes like running
     > background jobs.
 
+    > For WSL users on Windows, Overmind is not recommended due to [compatibility issues](https://github.com/DarthSim/overmind/issues/88).
+
     #{permalink(ANCHOR_POSTGRESQL)}
     ## Postgres database
 
