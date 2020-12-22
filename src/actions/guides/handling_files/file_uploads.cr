@@ -58,7 +58,7 @@ class Guides::HandlingFiles::FileUploads < GuideAction
 
       private def upload_pic(pic)
         result = Shrine.upload(File.read(pic.tempfile.path), "store", metadata: { "filename" => pic.filename })
-        profile_picture_path.value = result.url
+        profile_picture_path.value = result.id
       end
     end
     ```
