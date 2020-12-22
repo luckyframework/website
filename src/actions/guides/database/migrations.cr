@@ -107,7 +107,9 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    ## Create table
+    ## Create table or view
+
+    ### Creating a table
 
     Use the `create` method for creating a table. You will place all of the table definitions
     inside of the `create` block.
@@ -120,7 +122,29 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    Use this in conjunction with the `table` macro for your models. See [setting up a model](#{Guides::Database::Models.path})
+    for more information.
+
     > You can also use a symbol for a table name. For example `create :users`.
+
+    ### Create a view
+
+    A SQL VIEW is simlar to a table, except read-only, and doesn't normally include any sort of primary key. These are great
+    for pulling data from a larger table in to a smaller set for quicker access, or if you need to combine data from multiple
+    tables.
+
+    It will be up to you to decide where the data will come from.
+
+    ```crystal
+    def migrate
+      execute <<-SQL
+      CREATE VIEW admin_users AS
+        SELECT users.*
+        FROM users
+        JOIN admins on admins.name = users.name;
+      SQL
+    end
+    ```
 
     #{permalink(ANCHOR_PRIMARY_KEYS)}
     ## Primary keys
@@ -227,7 +251,7 @@ class Guides::Database::Migrations < GuideAction
     ```
 
 
-    ## Drop table
+    ## Drop table or view
 
     To drop a table, use the `drop` method.
 
@@ -241,6 +265,14 @@ class Guides::Database::Migrations < GuideAction
     method should run `drop`.
 
     > You can also use a symbol for a table name. For example `create :users`.
+
+    To drop a view, use `execute` with a `DROP VIEW` SQL call.
+
+    ```crystal
+    def rollback
+      execute "DROP VIEW admin_users;"
+    end
+    ```
 
     ## Alter table
 

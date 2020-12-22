@@ -90,6 +90,19 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
+    ### Mapping a model to a view
+
+    Models are normally associated to a SQL `TABLE`, but you can also use them with a SQL `VIEW`.
+    Just like the `table` macro, the name will be assumed based on the name of model; however, you
+    can pass in a custom name if you'd like.
+
+    ```crystal
+    class GeoReport < BaseModel
+      view do
+      end
+    end
+    ```
+
     ## Defining a column
 
     ### Default columns
@@ -99,6 +112,9 @@ class Guides::Database::Models < GuideAction
     * `id` - Your primary key column. Default `Int64`
     * `created_at` - default `Time` type.
     * `updated_at` - default `Time` type.
+
+    > These columns are only added to `table` models. If your model uses `view`, and you need
+    > any of these, you'll need to add them manually
 
     ### Customizing the default columns
 
