@@ -303,19 +303,15 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ## Callbacks
 
-    > Callbacks often get a bad rep because they can quickly lead to hard to
-    maintain code. One reason for this is situations arrive when you want callbacks
-    to run only in certain conditions. In Lucky this situation is quickly solved
-    by adding a new operation. For example you might have a `SignUpUser` for a `User`
-    that encrypts the users password and sends a welcome email after saving. Or you
-    might have an `SaveAdminUser` that saves a user and sends an admin specific
-    email.
+    Callbacks are a way to hook in to the flow of the save operation allowing you to run custom code during
+    a specific stage of the operation.
 
     ### Callbacks for running before and after save
 
     * `before_save` - Ran before the record is saved.
     * `after_save` - Ran after the record is saved.
     * `after_commit` - Ran after `after_save`, and the database transaction has committed.
+    * `after_completed` - Ran after all code has completed, and the save operation was successful.
 
     Create a method you'd like to run and then pass the method name to the
     callback macro. Note that the methods used by the `after_*` callbacks needs
@@ -326,6 +322,7 @@ class Guides::Database::ValidatingSaving < GuideAction
       before_save run_this_before_save
       after_save run_this_after_save
       after_commit run_this_after_commit
+      after_completed run_this_at_the_very_end
 
       def run_this_before_save
         # do something
@@ -338,10 +335,14 @@ class Guides::Database::ValidatingSaving < GuideAction
       def run_this_after_commit(newly_created_post : Post)
         # do something
       end
+
+      def run_this_at_the_very_end(newly_created_post : Post)
+        # do something
+      end
     end
     ```
 
-    ### When to use `after_save` vs. `after_commit`
+    ### When to use `after_save` vs. `after_commit` vs. `after_completed`
 
     The `after_save` callback is a great place to do other database saves because if something goes
     wrong the whole transaction would be rolled back.
@@ -369,6 +370,65 @@ class Guides::Database::ValidatingSaving < GuideAction
       end
     end
     ```
+
+    When updating a record, if there are no changes to be commited to the database, the
+    `after_save` and `after_commit` callbacks are never run. This is not true of the `after_completed`
+    callback which will always run when the save operation is completed successfully.
+
+    Use the `after_completed` for things like logging since it will run when the save operation is successful.
+
+    ```crystal
+    class SaveComment < Comment::SaveOperation
+      after_completed log_new_comment
+
+      def log_new_comment(new_comment : Comment)
+        Log.dexter.info { "new comment  added" }
+      end
+    end
+    ```
+
+    > A successful completion is when everything is valid, and the operation is marked as "saved".
+
+    ### Conditional callbacks
+
+    Callbacks by default will always run, but in some cases, you may need a specific callback to run based on
+    some condition. The recommended way would be to think about splitting your operations in to separate classes.
+    For example, saving a coupon for a new user, but only if that user is a friend.
+
+    ```crystal
+    class SaveStandardUser < User::SaveOperation
+      include ThingsNeededToSaveUser
+    end
+
+    class SaveFriendUser < User::SaveOperation
+      include ThingsNeededToSaveUser
+
+      before_save do
+        # save coupon
+      end
+    end
+    ```
+
+    As an alternative method to breaking out operations, we've also added the `if` and `unless` conditions to
+    `before_save`, `after_save`, and `after_commit`.
+
+    ```crystal
+    class SaveUser < User::SaveOperation
+      before_save :save_coupon, if: :user_is_a_friend?
+      # or use `unless`
+      # before_save :save_coupon, unless: :user_is_standard?
+
+      private def save_coupon
+        # save coupon
+      end
+
+      private def user_is_a_friend?
+        # returns true if user is a friend
+      end
+    end
+    ```
+
+    The `Symbol` passed to `if` and `unless` should be the name of a method that returns a `Bool`.
 
     #{permalink(ANCHOR_CHANGE_TRACKING)}
     ## Tracking changed attributes
