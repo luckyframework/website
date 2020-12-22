@@ -68,6 +68,8 @@ class Guides::Database::Querying < GuideAction
     all_users = UserQuery.new
     ```
 
+    > The `find` method requires a `primary_key`. `view` models that need this method will need to implement it.
+
     ### Lazy loading
 
     The query does not actually hit the database until a method is called to fetch a result
@@ -619,6 +621,8 @@ class Guides::Database::Querying < GuideAction
     # The original value is still in place
     author.hide_avatar #=> true
     ```
+
+    > The `reload` method requires a `primary_key`. `view` models that need this method will need to implement it.
 
     ### Adding preloads when reloading
 
