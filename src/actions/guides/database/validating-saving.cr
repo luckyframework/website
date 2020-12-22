@@ -214,16 +214,21 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     Lucky comes with a few built in validations:
 
-    * `validate_required` - ensures that a field is not `nil` or blank (e.g. `""`).
-    * `validate_confirmation_of` - ensures that fields have the same values.
-    * `validate_acceptance_of` - great for checking if someone accepts terms of service.
-    * `validate_inclusion_of` - check that value is in a list of accepted values.
-    * `validate_size_of` - check the size of a number.
-    * `validate_uniqueness_of` - to only allow one record with a field's value
+    | Validator                   | Description                                            | Example                                                          |
+    |-----------------------------|--------------------------------------------------------|------------------------------------------------------------------|
+    | validate_required           | ensures that a field is not `nil` or blank (e.g. `""`) | `validate_required email`                                         |
+    | validate_confirmation_of    | ensures that 2 fields have the same values             | `validate_confirmation_of password, with: password_confirmation` |
+    | validate_acceptance_of      | ensure that a bool value is true                       | `validate_acceptance_of terms_of_service`                        |
+    | validate_inclusion_of       | check that value is in a list of accepted values       | `validate_inclusion_of membership, in: ["active", "pending"]`    |
+    | validate_size_of            | ensure a string is an exact length                     | `validate_size_of token, is: 16`                                 |
+    | validate_size_of            | ensure a string is within a length range               | `validate_size_of username, min: 3, max: 11`                     |
+    | validate_uniqueness_of      | ensure a value doesn't exist in the database already   | `validate_uniqueness_of email, query: UserQuery.new.email`       |
+    | validate_at_most_one_filled | check that only 1 of the attributes has a value        | `validate_at_most_one_filled choice1, choice2, choice3`          |
+    | validate_exactly_one_filled | ensure exactly 1 attribute has a value                 | `validate_exactly_one_filled photo_id, video_id`                 |
 
-    > Note: non-nilable (required) fields automatically use
-    `validate_required`. They will run after all other `before_save` callbacks have run. This way data
-    with missing fields will never be sent to the database.
+    > Note: non-nilable (required) fields automatically use `validate_required`.
+    > They will run after all other `before_save` callbacks have run. This way data
+    > with missing fields will never be sent to the database.
 
     ### Using validations
 
