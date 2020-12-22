@@ -623,6 +623,52 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
+    ### Handling errors
+
+    Each `attribute` in your operation has an `add_error` method. This lets you specify errors directly on the attribute
+    which can be used in forms to highlight specific fields.
+
+    ```crystal
+    class SignInUser < Avram::Operation
+      attribute username : String
+      attribute password : String
+
+      def run
+        user = UserQuery.new.username(username).first?
+
+        unless Authentic.correct_password?(user, password.value.to_s)
+          # Add an error to the `password` attribute.
+          password.add_error "is wrong"
+          return nil
+        end
+
+        user
+      end
+    end
+    ```
+
+    Then to get the errors, you can call `operation.errors`.
+
+    ```crystal
+    SignInUser.run(params) do |operation, user|
+      operation.errors #=> {"password" => ["password is wrong"]}
+    end
+    ```
+
+    If you need to set custom errors that are not on any attributes, you can use the `add_error` method.
+
+    ```crystal
+    def run
+      user = UserQuery.new.username(username).first?
+
+      if user.try(&.banned)
+        add_error(:user_banned, "Sorry, you've been banned.")
+      end
+    end
+    ```
+
+    Now your `operation.errors` will include `{"user_banned" => ["Sorry, you've been banned"]}`.
+
     ## Saving without a params object
 
     This can be helpful if you’re saving something that doesn’t need an HTML form,
