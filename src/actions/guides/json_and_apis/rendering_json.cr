@@ -110,7 +110,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
       def render
         {
           title: @article.title,
-          comments: CommentSerializer.for_collection(@articles.comments)
+          comments: CommentSerializer.for_collection(@article.comments)
         }
       end
     end
