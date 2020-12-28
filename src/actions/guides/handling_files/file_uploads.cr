@@ -65,7 +65,6 @@ class Guides::HandlingFiles::FileUploads < GuideAction
         if (old_profile_picture = profile_picture_path.value)
           delete_old_profile_picture(old_profile_picture)
         end
-    
         profile_picture_path.value = result.id
       end
     
