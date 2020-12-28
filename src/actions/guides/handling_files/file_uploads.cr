@@ -67,7 +67,6 @@ class Guides::HandlingFiles::FileUploads < GuideAction
         end
         profile_picture_path.value = result.id
       end
-    
       private def delete_old_profile_picture(image_id)
         Shrine::UploadedFile.new(id: image_id, storage_key: "store").delete
       end
