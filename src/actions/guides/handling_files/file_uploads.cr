@@ -58,7 +58,6 @@ class Guides::HandlingFiles::FileUploads < GuideAction
 
       private def upload_pic(pic)
         result = Shrine.upload(File.new(pic.tempfile.path), "store", metadata: { "filename" => pic.filename })
-    
         # If the new file is uploaded, no reason to keep the old one!
         # If multiple models can share an image, run a query before deleting
         # to ensure you're not breaking any references.
