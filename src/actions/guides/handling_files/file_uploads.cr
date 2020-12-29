@@ -38,8 +38,8 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     ```crystal
     # config/shrine.cr
     Shrine.configure do |config|
-      config.storages["cache"] = Storage::FileSystem.new("uploads", prefix: "cache")
-      config.storages["store"] = Storage::FileSystem.new("uploads")
+      config.storages["cache"] = Shrine::Storage::FileSystem.new("uploads", prefix: "cache")
+      config.storages["store"] = Shrine::Storage::FileSystem.new("uploads")
     end
     ```
 
