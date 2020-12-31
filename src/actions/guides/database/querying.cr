@@ -85,15 +85,26 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     # The query is not yet run
-    query = UserQuery.new
-    query.name("Sally")
-    query.age(30)
+    query = UserQuery.new.name("Sally").age(30)
 
     # The query will run once `each` is called
     # Results are not cached so a request will be made every time you call `each`
     query.each do |user|
       pp user.name
     end
+    ```
+
+    ### Immutability
+
+    Queries are immutable. Whenever a method is called on a query, it returns a new copy
+    of itself with the condition added. The query the method was called on will not be changed.
+
+    ```crystal
+    query = UserQuery.new.name("Wendy")
+    new_query = query.age(40)
+
+    query.to_sql     #=> SELECT COLUMNS FROM users WHERE users.name = 'Wendy';
+    new_query.to_sql #=> SELECT COLUMNS FROM users WHERE users.name = 'Wendy' AND users.age = 40;
     ```
 
     ## Simple Selects
