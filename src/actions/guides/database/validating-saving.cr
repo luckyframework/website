@@ -309,8 +309,8 @@ class Guides::Database::ValidatingSaving < GuideAction
     ### Callbacks for running before and after save
 
     * `before_save` - Ran before the record is saved.
-    * `after_save` - Ran after the record is saved.
-    * `after_commit` - Ran after `after_save`, and the database transaction has committed.
+    * `after_save` - Ran after the record is saved. Skipped if no changes are comitted to the database.
+    * `after_commit` - Ran after `after_save`, and the database transaction has committed. Skipped if no changes are committed to the database.
     * `after_completed` - Ran after all code has completed, and the save operation was successful.
 
     Create a method you'd like to run and then pass the method name to the
