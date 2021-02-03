@@ -6,7 +6,7 @@
     "normalize-scss": "^7.0.1",
     "rails-ujs": "^5.2.4",
     "turbolinks": "^5.2.0",
-    "@babel/compat-data": "^7.12.7"
+    "@babel/compat-data": "^7.12.13"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
