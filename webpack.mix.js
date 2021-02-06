@@ -41,13 +41,15 @@ if (mix.inProduction()) {
 }
 
 mix
+  // Set public path so manifest gets output here
+  .setPublicPath("public")
   // JS entry file. Supports Vue, and uses Babel
   //
   // More info and options (like React support) here:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/mixjs.md
-  .js("src/js/app.js", "public/js")
+  .js("src/js/app.js", "js")
   // SASS entry file. Uses autoprefixer automatically.
-  .sass("src/css/app.scss", "public/css")
+  .sass("src/css/app.scss", "css")
   // Customize postCSS:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/css-preprocessors.md#postcss-plugins
   .options({
@@ -60,14 +62,15 @@ mix
     processCssUrls: false,
     postCss: [tailwindcss('./tailwind.config.js')],
   })
-  // Set public path so manifest gets output here
-  .setPublicPath("public")
   // Add assets to the manifest
   .version(["public/assets"])
   // Reduce noise in Webpack output
   .webpackConfig({
     stats: "errors-only",
-    plugins: plugins
+    plugins: plugins,
+    watchOptions: {
+      ignored: /node_modules/
+    }
   })
   // Disable default Mix notifications because we're using our own notifier
   .disableNotifications()
