@@ -1,6 +1,6 @@
 class Lucky026Release < BasePost
   title "Lucky v0.26 Released and ready to go!"
-  slug "lucky-0_25-release"
+  slug "lucky-0_26-release"
 
   def published_at : Time
     Time.utc(year: 2021, month: 2, day: 8)
@@ -8,8 +8,8 @@ class Lucky026Release < BasePost
 
   def summary : String
     <<-TEXT
-    Lucky v0.26 is the latest and just another
-    step closer to our 1.0 goal!
+    Lucky v0.26 is the latest release, and loaded
+    with some fun goodies!
     TEXT
   end
 
@@ -27,6 +27,13 @@ class Lucky026Release < BasePost
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
 
     ## Here's what's new
+
+    ### Learn Lucky with LuckyCasts
+
+    Our core-team member [Stephen Dolan](https://github.com/stephendolan/) has been cranking out some amazing videos you've probably watched
+    on [YouTube](https://www.youtube.com/channel/UCZzMjXqNc4Z2Yv9C4Hw2veg). The website has been updated, and looks all fresh and clean now!
+
+    Head on over to the all new [LuckyCasts](https://luckycasts.com/) site to start your Lucky learning experience.
 
     ### `Box` is now `Factory`
 
@@ -57,7 +64,7 @@ class Lucky026Release < BasePost
 
     ### Reverted the `after_completed` callback
 
-    In the [0.25.0 Release](#{Lucky025Release.slug}) we added the `after_completed` callback to `Avram::SaveOperation` in order to handle a specific edge case.
+    In the [0.25.0 Release](#{Blog::Show.with(Lucky025Release.new.slug)}) we added the `after_completed` callback to `Avram::SaveOperation` in order to handle a specific edge case.
     This case was when calling `SaveSomeObject.update(...)`, if there were no changes to that object, then you had no callbacks that would run. The `after_completed`
     callback fixed this issue.
 
@@ -75,7 +82,49 @@ class Lucky026Release < BasePost
 
     ### Delete Operations
 
-    https://github.com/luckyframework/avram/pull/573
+    You've heard of SaveOperations, well now welcome DeleteOperations to the family!
+
+    Deleting records from the database are generally straight forward, but in some cases, you may need a little more complex logic. Maybe an object can only be
+    deleted if the `current_user` has certain permissions. Maybe the object being deleted must also run some special tasks after being delete (i.e. clearing cache, etc...).
+    Or in many cases, it's becoming more common practice to require a user to type something to "confirm" they really do want to delete this.
+    For these use cases, we now have the DeleteOperations.
+
+    Every model has a DeleteOperation that you can inherit from the same as the SaveOperation. Here's an example:
+
+    ```crystal
+    # src/operations/delete_repo.cr
+    class DeleteRepo < Repo::DeleteOperation
+      attribute confirm_delete : String
+
+      before_delete do
+        if confirm_delete.value != "luckyframework/\#{git_name.value}"
+          confirm_delete.add_error("You must confirm the delete")
+        end
+      end
+
+      after_delete do |deleted_repo|
+        CacheSweeper.run!("luckyframework/\#{deleted_repo.git_name}")
+      end
+    end
+
+    # src/actions/repos/delete.cr
+    class Repos::Delete < BrowserAction
+      delete "/repos/:repo_id" do
+        repo = RepoQuery.find(repo_id)
+
+        DeleteRepo.destroy(repo) do |operation, deleted_repo|
+          if operation.deleted?
+            flash.success = "The repo \#{deleted_repo.git_name} has been deleted"
+            redirect to: Home::Index
+          else
+            TimeBomb.start_countdown(10.seconds)
+          end
+        end
+      end
+    end
+    ```
+
+    [Read more](https://github.com/luckyframework/avram/pull/573) on this feature.
 
     ### CIText Support
 
@@ -130,7 +179,7 @@ class Lucky026Release < BasePost
     * Use `has_one` in your `SaveOperation`
     * Support for `Array(UUID)` column types
     * New `validate_numeric` validation
-    * A new Heroku buildpack for (slightly) faster deploys with
+    * A new [Heroku buildpack](https://github.com/luckyframework/heroku-buildpack-lucky) for (slightly) faster deploys
 
     Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see it all!
 
@@ -148,6 +197,8 @@ class Lucky026Release < BasePost
 
     If you haven't already, give us a [star on GitHub](https://github.com/luckyframework/lucky),
     and be sure to follow us on [Twitter](https://twitter.com/luckyframework/).
+
+    Learn more about Lucky with the all new [LuckyCasts](https://luckycasts.com/)!
 
     For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
     MD
