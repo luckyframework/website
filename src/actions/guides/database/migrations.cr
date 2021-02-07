@@ -201,6 +201,22 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    ### Case-Insensitive (citext)
+
+    Avram supports the postgres [citext](https://www.postgresql.org/docs/10/citext.html)
+    column type. To use this, you'll need to enable to `citext` extension first.
+    Then specify the column as a `String` type, and use the option `case_sensitive: false`.
+
+
+    ```crystal
+    # Be sure to add this line!
+    enable_extension "citext"
+
+    alter table_for(User) do
+      add email : String, case_sensitive: false
+    end
+    ```
+
     ### Making columns required or optional
 
     By default columns are **required** (`NOT NULL` in SQL terms). You can
