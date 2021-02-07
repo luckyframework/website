@@ -33,7 +33,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     Every ORM will have a different pattern, and different set of tools included. With Avram, we took a
     pattern breaking out where business logic is stored vs. where database queries are handled. This pattern
     helps to keep code organized by it's purpose within your application. This includes `Models`, `Queries`,
-    `Operations`, `Migrations`, and `Boxes`.
+    `Operations`, `Migrations`, and `Factories`.
 
     ## Models
 
@@ -83,17 +83,17 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
 
     [Learn more about migrations](#{Guides::Database::Migrations.path})
 
-    ## Boxes
+    ## Factories
 
-    Avram boxes are classes that you can use for generating data quick. The most common use cases are
+    Avram factories are classes that you can use for generating data quick. The most common use cases are
     when writing tests for your application, and when seeding your database with some default or placeholder
     data.
 
-    Boxes inherit from `Avram::Box` and follow the naming convention using the name of the model they
-    reference followed by "Box". (e.g. `User` model, `UserBox` box) You'll find these located in your app's
-    `spec/support/boxes/` folder.
+    Factories inherit from `Avram::Factory` and follow the naming convention using the name of the model they
+    reference followed by "Factory". (e.g. `User` model, `UserFactory` factory) You'll find these located in your app's
+    `spec/support/factories/` folder.
 
-    [Learn more about boxes](#{Guides::Testing::CreatingTestData.path})
+    [Learn more about factories](#{Guides::Testing::CreatingTestData.path})
 
     ## Alternate ORMs
 
@@ -131,7 +131,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     ```
 
     * Place migrations (if necessary) in `db/migrations/`.
-    * Boxes, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::ValidatingSaving.path}).
+    * Factories, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::ValidatingSaving.path}).
 
     > If your app doesn't need a database, you should still set the `AppDatabase` credentials setting to
     > `Avram::Credentials.void`. Avram Operations can still be quite useful for things like contact forms,
