@@ -309,9 +309,8 @@ class Guides::Database::ValidatingSaving < GuideAction
     ### Callbacks for running before and after save
 
     * `before_save` - Ran before the record is saved.
-    * `after_save` - Ran after the record is saved. Skipped if no changes are comitted to the database.
-    * `after_commit` - Ran after `after_save`, and the database transaction has committed. Skipped if no changes are committed to the database.
-    * `after_completed` - Ran after all code has completed, and the save operation was successful.
+    * `after_save` - Ran after the record is saved.
+    * `after_commit` - Ran after `after_save`, and the database transaction has committed.
 
     Create a method you'd like to run and then pass the method name to the
     callback macro. Note that the methods used by the `after_*` callbacks needs
@@ -322,7 +321,6 @@ class Guides::Database::ValidatingSaving < GuideAction
       before_save run_this_before_save
       after_save run_this_after_save
       after_commit run_this_after_commit
-      after_completed run_this_at_the_very_end
 
       def run_this_before_save
         # do something
@@ -335,14 +333,10 @@ class Guides::Database::ValidatingSaving < GuideAction
       def run_this_after_commit(newly_created_post : Post)
         # do something
       end
-
-      def run_this_at_the_very_end(newly_created_post : Post)
-        # do something
-      end
     end
     ```
 
-    ### When to use `after_save` vs. `after_commit` vs. `after_completed`
+    ### When to use `after_save` vs. `after_commit`
 
     The `after_save` callback is a great place to do other database saves because if something goes
     wrong the whole transaction would be rolled back.
@@ -370,24 +364,6 @@ class Guides::Database::ValidatingSaving < GuideAction
       end
     end
     ```
-
-    When updating a record, if there are no changes to be commited to the database, the
-    `after_save` and `after_commit` callbacks are never run. This is not true of the `after_completed`
-    callback which will always run when the save operation is completed successfully.
-
-    Use the `after_completed` for things like logging since it will run when the save operation is successful.
-
-    ```crystal
-    class SaveComment < Comment::SaveOperation
-      after_completed log_new_comment
-
-      def log_new_comment(new_comment : Comment)
-        Log.dexter.info { "new comment  added" }
-      end
-    end
-    ```
-
-    > A successful completion is when everything is valid, and the operation is marked as "saved".
 
     ### Conditional callbacks
 
