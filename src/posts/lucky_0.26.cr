@@ -74,7 +74,7 @@ class Lucky026Release < BasePost
 
     ### New CLI tasks
 
-    We LOVE using the CLI tasks because they make so many things so much easier! Lucky 0.26.0 adds in two new tasks
+    Lucky 0.26.0 adds in two new tasks
 
     * `lucky gen.task SomeTask` - Now a task to generate a new task! [read the PR](https://github.com/luckyframework/lucky/pull/1322)
     * `lucky db.console` - A task to enter the `psql` console without having to type your credentials [read the PR](https://github.com/luckyframework/avram/pull/592)
@@ -85,7 +85,7 @@ class Lucky026Release < BasePost
 
     Deleting records from the database is generally straight forward, but in some cases you may need a little more complex logic. Maybe an object can only be
     deleted if the `current_user` has certain permissions. Maybe special tasks need to happen after the object is deleted (i.e. clearing cache, etc...).
-    Or in many cases, it's becoming more common practice to require a user to type something to "confirm" they really do want to delete something.
+    Or in many cases, it's becoming more common practice to require a user to "confirm" by typing that they really do want to delete.
     For these use cases, we now have the DeleteOperation.
 
     Every model has a DeleteOperation that you can inherit from the same as the SaveOperation. Here's an example:
@@ -147,9 +147,9 @@ class Lucky026Release < BasePost
 
     ### Composite Keys
 
-    Speaking of migrations... We're slowly working on adding in "composite-primary keys". This is the concept of having 2 (or more) columns that are combined for primary key
-    lookups in your database. Generally you'll just use a single `id` column, but with a composite primary key, you could have "id1" and "id2", and a record is looked up
-    using both of those fields.
+    Speaking of migrations... We're slowly working on adding in "composite-primary keys". This means having 2 (or more) columns that are combined for primary key
+    lookups in your database. Generally you'll just use a single `id` column, but with a composite primary key, you could have `id1` and `id2`. When a record is looked up
+    it will be found using both of those fields.
 
     For now, we've only enabled this on the migration side. [See the PR](https://github.com/luckyframework/avram/pull/616).
 
