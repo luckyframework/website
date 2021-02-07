@@ -38,9 +38,8 @@ class Lucky026Release < BasePost
     ### `Box` is now `Factory`
 
     In [#614 of Avram](https://github.com/luckyframework/avram/pull/614) we renamed `Avram::Box` to `Avram::Factory`.
-    Even though this doesn't really change how the code works, it's still a pretty big change due to being a breaking-change,
-    as well as that's a lot of filenames and places to change code. You can read [the discussion](https://github.com/luckyframework/lucky/discussions/1282)
-    on this decision, but basically, the term "Factory" is more common for newcomers, and apparently Crystal already has a [Box class](https://crystal-lang.org/api/0.35.1/Box.html).
+    Even though this doesn't change how they work, it's still a breaking-change,
+    and can require changes to a lot of code. We believe the term "Factory" will be more familiar to newcomers, and Crystal already has a [Box class](https://crystal-lang.org/api/0.35.1/Box.html). You can find the discussion about this [here](https://github.com/luckyframework/lucky/discussions/1282).
 
     Here's just a quick example of the change:
 
@@ -65,10 +64,10 @@ class Lucky026Release < BasePost
     ### Reverted the `after_completed` callback
 
     In the [0.25.0 Release](#{Blog::Show.with(Lucky025Release.new.slug)}) we added the `after_completed` callback to `Avram::SaveOperation` in order to handle a specific edge case.
-    This case was when calling `SaveSomeObject.update(...)`, if there were no changes to that object, then you had no callbacks that would run. The `after_completed`
+    When calling `SaveSomeObject.update(...)`, if there were no changes to that object, then no callbacks would run. The `after_completed`
     callback fixed this issue.
 
-    For this release, we've made the decision to just always run `after_save` and `after_commit` whether your object has changes to commit to the database or not.
+    For this release, we've made the decision to always run `after_save` and `after_commit` whether your object has changes to commit to the database or not.
     The benefit of code running how you'd expect outweighed any performance benefit we gained from not running them.
 
     [Read more](https://github.com/luckyframework/avram/pull/612) on this change.
@@ -84,10 +83,10 @@ class Lucky026Release < BasePost
 
     You've heard of SaveOperations, well now welcome DeleteOperations to the family!
 
-    Deleting records from the database are generally straight forward, but in some cases, you may need a little more complex logic. Maybe an object can only be
-    deleted if the `current_user` has certain permissions. Maybe the object being deleted must also run some special tasks after being delete (i.e. clearing cache, etc...).
-    Or in many cases, it's becoming more common practice to require a user to type something to "confirm" they really do want to delete this.
-    For these use cases, we now have the DeleteOperations.
+    Deleting records from the database is generally straight forward, but in some cases you may need a little more complex logic. Maybe an object can only be
+    deleted if the `current_user` has certain permissions. Maybe special tasks need to happen after the object is deleted (i.e. clearing cache, etc...).
+    Or in many cases, it's becoming more common practice to require a user to type something to "confirm" they really do want to delete something.
+    For these use cases, we now have the DeleteOperation.
 
     Every model has a DeleteOperation that you can inherit from the same as the SaveOperation. Here's an example:
 
@@ -128,7 +127,7 @@ class Lucky026Release < BasePost
 
     ### CIText Support
 
-    This was new to some of us that had never even heard of "citext" before this. The "citext" column in postgres is "Case-Insensitive Text". This allows you to
+    This was new to some of us that had never even heard of "citext" before. The "citext" column in postgres is "Case-Insensitive Text". This allows you to
     store a string in your database, and do lookups against it without the need to do something like `"WHERE LOWER(email) = ?", email.downcase`. Instead, your
     users could spell their email like "LucKyDawG@gmAIl.com" and still log in with "luckydawg@gmail.com".
 
@@ -160,8 +159,8 @@ class Lucky026Release < BasePost
     This is nice because `Users::Index` magically becomes `get "/users"`, and `Users::Comments::Index` is turned in to `get "/users/:user_id/comments"`. It cleans
     up your code a little, and makes things consistent.
 
-    Now the downside to this is, what does `Admin::Report::Spending` become? Or how about `Git::Push`? The `route` and `nested_route` macros work great when you're
-    building simple REST related resources, but in more complex cases, you end up writing your routes our manually. This means your actions are no longer written consistently.
+    The downside to this is, what does `Admin::Report::Spending` become, or how about `Git::Push`? The `route` and `nested_route` macros work great when you're
+    building simple REST related resources, but in more complex cases, you end up writing your routes out manually. This means your actions are no longer written consistently.
     Also, newcomers that aren't familiar with what "REST" is may not understand the "magic" that is happening.
 
     For this reason, we've decided to start deprecating these two. They aren't officially deprecated, so you have plenty of time to still use them, but plan on migrating
