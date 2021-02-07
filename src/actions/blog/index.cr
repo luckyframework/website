@@ -1,5 +1,5 @@
 class Blog::Index < BrowserAction
-  route do
+  get "/blog" do
     html IndexPage, title: "Blog", posts: PostQuery.new.all
   end
 end
