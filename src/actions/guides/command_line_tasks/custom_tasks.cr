@@ -175,7 +175,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     Once you've created your custom task, you can run `lucky -h` to see it listed along with all the built-in tasks.
 
-    ```plaintext
+    ```plain
     $ lucky --help
 
     Usage: lucky name.of.task [options]

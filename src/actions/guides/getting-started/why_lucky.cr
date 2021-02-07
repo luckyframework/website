@@ -84,7 +84,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     Lucky will catch it for you at compile time. It checks a list of all available
     assets and will even suggest the right one if you have a typo.
 
-    ```plaintext
+    ```plain
     "images/logo.jpeg" does not exist in the manifest
     Did you mean "images/logo.jpg"?
     ```
@@ -106,7 +106,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     # LuckyWeb::Session::Store has marked "secret" as required
     ```
 
-    ```plaintext
+    ```plain
     LuckyWeb::Session::Store.settings.secret was nil, but the setting is required. Please set it.
 
     Example:
