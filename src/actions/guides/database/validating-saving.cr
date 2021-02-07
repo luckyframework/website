@@ -225,6 +225,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     | validate_uniqueness_of      | ensure a value doesn't exist in the database already   | `validate_uniqueness_of email, query: UserQuery.new.email`       |
     | validate_at_most_one_filled | check that only 1 of the attributes has a value        | `validate_at_most_one_filled choice1, choice2, choice3`          |
     | validate_exactly_one_filled | ensure exactly 1 attribute has a value                 | `validate_exactly_one_filled photo_id, video_id`                 |
+    | validate_numeric            | ensure a number is within the range specified          | `validate_numeric age, greater_than: 20, less_than: 30`          |
 
     > Note: non-nilable (required) fields automatically use `validate_required`.
     > They will run after all other `before_save` callbacks have run. This way data
