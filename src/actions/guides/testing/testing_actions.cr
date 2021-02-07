@@ -98,7 +98,7 @@ class Guides::Testing::TestingActions < GuideAction
     to set the proper header.
 
     ```crystal
-    user = UserBox.create
+    user = UserFactory.create
 
     ApiClient.auth(user).exec(Api::Records::Index)
     ```
@@ -125,7 +125,7 @@ class Guides::Testing::TestingActions < GuideAction
 
     describe Api::Rockets::Show do
       it "returns a 200 response with the rocket name" do
-        rocket = RocketBox.create &.name("Dragon 1")
+        rocket = RocketFactory.create &.name("Dragon 1")
         response = ApiClient.auth(current_user).exec(Api::Rockets::Show.with(rocket.id))
 
         # The JSON response should have the key `name` with a value `"Dragon 1"`.
@@ -140,7 +140,7 @@ class Guides::Testing::TestingActions < GuideAction
     end
 
     private def current_user : User
-      UserBox.create &.email("me@lucky.org")
+      UserFactory.create &.email("me@lucky.org")
     end
     ```
 

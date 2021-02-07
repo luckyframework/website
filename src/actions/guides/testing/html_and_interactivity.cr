@@ -121,7 +121,7 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     visit Home::Index
 
     # Visit a route that takes params
-    post = PostBox.create
+    post = PostFactory.create
     visit Posts::Show.with(post.id)
     ```
 
@@ -130,8 +130,8 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     Lucky comes built-in with a backdoor in tests so that you don’t need to go through the full process of loading the sign in page and filling out the form. Instead you can use the `as` option to visit the page and sign the user in automatically:
 
     ```crystal
-    user = UserBox.create
-    post = PostBox.create
+    user = UserFactory.create
+    post = PostFactory.create
     visit Posts::Show.with(post.id), as: user
     ```
 

@@ -68,7 +68,7 @@ class Guides::Testing::Introduction < GuideAction
     ## Support
 
     Files in `spec/support/` contain code to make testing easier. This includes mock objects, objects for creating test
-    data (e.g. [Boxes](#{Guides::Testing::CreatingTestData.path})), and your Flow objects which are used in your flow specs,
+    data (e.g. [Factories](#{Guides::Testing::CreatingTestData.path})), and your Flow objects which are used in your flow specs,
     and whatever else you may need.
 
     ### support/api_client.cr
@@ -79,9 +79,9 @@ class Guides::Testing::Introduction < GuideAction
 
     The LuckyFlow objects used for testing your frontend. See [#{Guides::Testing::HtmlAndInteractivity.title}](#{Guides::Testing::HtmlAndInteractivity.path})
 
-    ### support/boxes/
+    ### support/factories/
 
-    The Boxes used for generating test data in your database. These are based off your models. See [#{Guides::Testing::CreatingTestData.title}](#{Guides::Testing::CreatingTestData.path})
+    The Factories used for generating test data in your database. These are based off your models. See [#{Guides::Testing::CreatingTestData.title}](#{Guides::Testing::CreatingTestData.path})
 
     MD
   end
