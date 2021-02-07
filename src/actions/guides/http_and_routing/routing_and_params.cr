@@ -1,6 +1,6 @@
 class Guides::HttpAndRouting::RoutingAndParams < GuideAction
-  ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES = "perma-automatically-generate-restful-routes"
-  ANCHOR_FALLBACK_ROUTING                      = "perma-fallback-routing"
+  ANCHOR_RESTFUL_ROUTES   = "perma-restful-routes"
+  ANCHOR_FALLBACK_ROUTING = "perma-fallback-routing"
   guide_route "/http-and-routing/routing-and-params"
 
   def self.title
@@ -19,10 +19,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Instead of having separate definition files for routes and controllers, Lucky combines them in action classes.
     This allows for solid error detection, as well as method and helper creation.
 
-    To save some typing, Lucky can automatically infer a default route path from the name of the action class,
-    if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
+    Most Lucky actions use a "REST" style convention. If you're unfamiliar with REST, you can read
+    our [RESTful action guide](##{ANCHOR_RESTFUL_ROUTES}).
 
-    ### Example without route inference
+    ### Example route
 
     To see what a simple action looks like, let's generate an index action for showing users with
     `lucky gen.action.browser Users::Index`.
@@ -30,7 +30,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```crystal
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
-      get "/users/:user_id" do
+      get "/users" do
         # `plain_text` sends plain/text to the client
         plain_text "Rendering something in Users::Index"
       end
@@ -136,11 +136,11 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    In the above example, we require that the `Post` index route has both a `:year` and `:month` provided,
+    In the above example, we require that the `Posts::Index` route has both a `:year` and `:month` provided,
     but allow users to optionally route to a specific `:day` as well.
 
-    #{permalink(ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES)}
-    ## Automatically generate RESTful routes
+    #{permalink(ANCHOR_RESTFUL_ROUTES)}
+    ## Understanding RESTful routes
 
     REST is a way to make access to resources more uniform. It consists of the following actions:
 
@@ -152,97 +152,37 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     * `Update` - update an existing resource
     * `Delete` - delete the resource
 
-    Use the `route` and `nested_route` macros to generate RESTful routes
-    automatically based on the class name.
+    > The word "resource" generally just refers to some model (i.e. User, or BlogPost, etc...)
 
-    ### `route`
+    ### Examples of restful routes
 
-    [The macros `route` and `nested_route` do still exist, and automatically imply the default route paths,
-    however, their deprecation is [discussed](https://github.com/luckyframework/lucky/issues/789). Moving
-    the automatic path inference to the generators will make the actions more concrete and directly readable.]
+    For standard resources:
 
-    The `route` macro uses the first part of the class name as the resource name,
-    and the second part as one of the resourceful actions listed above.
+    | Action Class                  | Route                                    |
+    |-------------------------------|------------------------------------------|
+    | `Users::Index`                | `get "/users"`                           |
+    | `Users::Show`                 | `get "/users/:user_id"`                  |
+    | `Users::New`                  | `get "/users/new"`                       |
+    | `Users::Create`               | `post "/users"`                          |
+    | `Users::Edit`                 | `get "/users/:user_id/edit"`             |
+    | `Users::Update`               | `put "/users/:user_id"`                  |
+    | `Users::Delete`               | `delete "/users/:user_id"`               |
+    | `Api::V1::Users::Show`        | `get "/api/v1/users/:user_id"`           |
+    | `MyAdminSection::Users::Show` | `get "/my_admin_section/users/:user_id"` |
 
-    ```crystal
-     class Users::Show < BrowserAction
-     # From the name,
-     #   "Users" is the resource, and
-     #   "Show" is the RESTful action.
+    For nested resources:
 
-      route do   # The inferred route is:  get "/users/:user_id"
-        plain_text "A request was made for the user_id: \#{user_id}"
-      end
-    end
-    ```
-
-    > Routes that require an "id" param will be prefixed with the resource name like `user_id`. (e.g. `Users::Show` generates `user_id`, and `Projects::Show` generates `project_id`)
-
-    ### `nested_route`
-
-    For a nested resource it will use the third to last part as the
-    nested resource name, the second to last part of the class name as the resource
-    name,  and the last part as one of the resourceful actions listed above.
-
-    ```crystal
-    class Projects::Users::Index < BrowserAction
-      # From the name,
-      #   "Projects" is the parent resource
-      #   "Users" is the nested resource
-      #   "Index" is the RESTful action
-
-      nested_route do  # The inferred route is: get "/projects/:project_id/users"
-        plain_text "Render list of users in project \#{project_id}"
-      end
-    end
-    ```
-
-    > Likewise, defining `Projects::Users::Show` would generate both `project_id` and `user_id`.
-
-
-    ### Namespaces are handled automatically
-
-    You can namespace your routes by prefixing the class name, e.g. with `Admin::`.
-
-    ```crystal
-    # in src/actions/admin/projects/index.cr
-    class Admin::Projects::Index < BrowserAction
-      # From the name,
-      # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
-
-      route do   # The inferred route is: get "/admin/projects"
-        plain_text "Render list of projects"
-      end
-    end
-    ```
-
-    > Note the use of `route` here and not `nested_route`. These change how the routes are generated.
-
-    ### Examples of automatically generated routes
-
-    For the `route` macro:
-
-    *  `Users::Index`  -> `get "/users"`
-    *  `Users::Show`  -> `get "/users/:user_id"`
-    *  `Users::New`  -> `get "/users/new"`
-    *  `Users::Create`  -> `post "/users"`
-    *  `Users::Edit`  -> `get "/users/:user_id/edit"`
-    *  `Users::Update`  -> `put "/users/:user_id"`
-    *  `Users::Delete`  -> `delete "/users/:user_id"`
-    * Multiple namespaces: `Api::V1::Users::Show`  -> `get "/api/v1/users/:user_id"`
-    * Multi-word namespace: `MyAdminSection::Users::Show`  -> `get "/my_admin_section/users/:user_id"`
-
-    For the `nested_route` macro:
-
-    *  `Projects::Users::Index`  -> `get "/projects/:project_id/users"`
-    *  `Projects::Users::Show`  -> `get "/projects/:project_id/users/:user_id"`
-    *  `Projects::Users::New`  -> `get "/projects/:project_id/users/new"`
-    *  `Projects::Users::Create`  -> `post "/projects/:project_id/users"`
-    *  `Projects::Users::Edit`  -> `get "/projects/:project_id/users/:user_id/edit"`
-    *  `Projects::Users::Update`  -> `put "/projects/:project_id/users/:user_id"`
-    *  `Projects::Users::Delete`  -> `delete "/projects/:project_id/users/:user_id"`
-    * Multiple namespaces: `Api::V1::Projects::Users::Show`  -> `get "/api/v1/projects/:project_id/users/:user_id"`
-    * Multi-word namespace: `MyAdminSection::Projects::Users::Show`  -> `get "/my_admin_section/projects/:project_id/users/:user_id"`
+    | Action Class                            | Route                                                         |
+    |-----------------------------------------|---------------------------------------------------------------|
+    | `Projects::Users::Index`                | `get "/projects/:project_id/users"`                           |
+    | `Projects::Users::Show`                 | `get "/projects/:project_id/users/:user_id"`                  |
+    | `Projects::Users::New`                  | `get "/projects/:project_id/users/new"`                       |
+    | `Projects::Users::Create`               | `post "/projects/:project_id/users"`                          |
+    | `Projects::Users::Edit`                 | `get "/projects/:project_id/users/:user_id/edit"`             |
+    | `Projects::Users::Update`               | `put "/projects/:project_id/users/:user_id"`                  |
+    | `Projects::Users::Delete`               | `delete "/projects/:project_id/users/:user_id"`               |
+    | `Api::V1::Projects::Users::Show`        | `get "/api/v1/projects/:project_id/users/:user_id"`           |
+    | `MyAdminSection::Projects::Users::Show` | `get "/my_admin_section/projects/:project_id/users/:user_id"` |
 
     #{permalink(ANCHOR_FALLBACK_ROUTING)}
     ## Fallback routing
