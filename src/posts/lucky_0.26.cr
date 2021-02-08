@@ -146,13 +146,46 @@ class Lucky026Release < BasePost
 
     [Read more](https://github.com/luckyframework/avram/pull/608) on this feature.
 
-    ### Composite Keys
+    ### More updates to LuckyFlow
 
-    Speaking of migrations... We're slowly working on adding in "composite-primary keys". This is the concept of having 2 (or more) columns that are combined for primary key
-    lookups in your database. Generally you'll just use a single `id` column, but with a composite primary key, you could have "id1" and "id2", and a record is looked up
-    using both of those fields.
+    With the release of LuckyFlow 0.7.2, [matthewmcgarvey](https://github.com/matthewmcgarvey) has
+    worked his magic to bring us the ability to watch our Flow specs in real time!
 
-    For now, we've only enabled this on the migration side. [See the PR](https://github.com/luckyframework/avram/pull/616).
+    Generally, you would run your specs in "headless" mode, meaning you'd never see the browser
+    interaction. Before this release, the only way to know what your specs were doing was to take a
+    screenshot at some point in your flow. Now, you can run it headfully. This means when you start
+    your specs, you'll see a browser window open and interact in real time.
+
+    To set this up, you'll update `spec/setup/configure_lucky_flow.cr`
+
+    ```crystal
+    # spec/setup/configure_lucky_flow.cr
+    LuckyFlow.configure do |settings|
+      settings.stop_retrying_after = 200.milliseconds
+      settings.base_uri = Lucky::RouteHelper.settings.base_uri
+
+      # Add this setting
+      settings.driver = LuckyFlow::Drivers::Chrome
+    end
+    Spec.before_each { LuckyFlow::Server::INSTANCE.reset }
+    ```
+
+    LuckyFlow also now comes with the ability to `pause` your specs. This will temporarily halt
+    the browser test while you take your time to inspect and debug. Then you can easily continue
+    by pressing your enter/return key from the console.
+
+    ```crystal
+    flow = PublishPostFlow.new
+
+    flow.start_draft
+    flow.create_draft
+
+    flow.pause # Head back to your terminal to resume
+
+    flow.open_draft
+    flow.publish_post
+    flow.post_should_be_published
+    ```
 
     ### Ditching `route` and `nested_route`
 
@@ -162,24 +195,41 @@ class Lucky026Release < BasePost
 
     Now the downside to this is, what does `Admin::Report::Spending` become? Or how about `Git::Push`? The `route` and `nested_route` macros work great when you're
     building simple REST related resources, but in more complex cases, you end up writing your routes our manually. This means your actions are no longer written consistently.
-    Also, newcomers that aren't familiar with what "REST" is may not understand the "magic" that is happening.
 
-    For this reason, we've decided to start deprecating these two. They aren't officially deprecated, so you have plenty of time to still use them, but plan on migrating
-    over to hand written routes in your actions.
+    Updating your actions should be pretty straight forward.
+
+    * Run the `lucky routes` task to get a list of the full generated routes.
+    * Replace `route` and `nested_route` with the generated routes shown in the `lucky routes` output.
+
+    ```crystal
+    # Before Update
+    class Users::Index < BrowserAction
+      route do
+        # ...
+      end
+    end
+
+    # After Update
+    class Users::Index < BrowserAction
+      get "/users" do
+        # ...
+      end
+    end
+    ```
 
     Read this [PR](https://github.com/luckyframework/lucky/pull/1378) and this [PR](https://github.com/luckyframework/lucky_cli/pull/594). Also expect the docs related to
     these to be dropped soon.
 
-    ### And much more!
+    ### So much more!
 
     Here's a few goodies we don't have time to cover:
 
-    * Ability to `pause` running Flow specs
     * Test if an email was sent with `have_delivered_emails` expectation
     * Use `has_one` in your `SaveOperation`
     * Support for `Array(UUID)` column types
     * New `validate_numeric` validation
     * A new [Heroku buildpack](https://github.com/luckyframework/heroku-buildpack-lucky) for (slightly) faster deploys
+    * Starting work to support composite primary keys
 
     Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see it all!
 
