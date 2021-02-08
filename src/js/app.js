@@ -32,9 +32,6 @@ hljs.registerLanguage('sql', sql);
 import erb from 'highlight.js/lib/languages/erb';
 hljs.registerLanguage('erb', erb);
 
-import xml from 'highlight.js/lib/languages/xml';
-hljs.registerLanguage('xml', xml);
-
 import html from 'highlight.js/lib/languages/xml';
 hljs.registerLanguage('html', html);
 
