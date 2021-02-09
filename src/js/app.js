@@ -35,6 +35,9 @@ hljs.registerLanguage('erb', erb);
 import html from 'highlight.js/lib/languages/xml';
 hljs.registerLanguage('html', html);
 
+import yaml from 'highlight.js/lib/languages/yaml';
+hljs.registerLanguage('yaml', yaml);
+
 document.addEventListener("turbolinks:load", function () {
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);
