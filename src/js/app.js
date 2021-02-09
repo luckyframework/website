@@ -32,6 +32,9 @@ hljs.registerLanguage('sql', sql);
 import erb from 'highlight.js/lib/languages/erb';
 hljs.registerLanguage('erb', erb);
 
+import html from 'highlight.js/lib/languages/xml';
+hljs.registerLanguage('html', html);
+
 document.addEventListener("turbolinks:load", function () {
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);
