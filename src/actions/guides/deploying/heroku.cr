@@ -35,7 +35,7 @@ class Guides::Deploying::Heroku < GuideAction
     heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
 
     # Then add this for all Lucky apps
-    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
+    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-lucky
     ```
 
     Set `LUCKY_ENV` to `production`:
@@ -137,12 +137,12 @@ class Guides::Deploying::Heroku < GuideAction
     (yet).
     Fortunately for us,
     Lucky has
-    [such a buildpack](https://github.com/luckyframework/heroku-buildpack-crystal)!
+    [such a buildpack](https://github.com/luckyframework/heroku-buildpack-lucky)!
     We'll add it so Heroku can download
     and install the dependencies for Lucky:
 
     ```bash
-    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
+    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-lucky
     ```
 
     ## Adding environment variables
