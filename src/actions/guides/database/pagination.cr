@@ -49,7 +49,7 @@ class Guides::Database::Pagination < GuideAction
     class Users::Index < BrowserAction
       get "/users" do
         pages, users = paginate(UserQuery.new)
-        html IndexPages, users: users, pages: pages
+        html IndexPage, users: users, pages: pages
       end
     end
     ```
@@ -135,7 +135,7 @@ class Guides::Database::Pagination < GuideAction
       needs users : UserQuery
       needs pages : Lucky::Paginator # Add this to use the paginator
 
-      def render
+      def content
         # Mount one of the built-in components
         mount Lucky::Paginator::SimpleNav, pages
       end
@@ -160,7 +160,7 @@ class Guides::Database::Pagination < GuideAction
     1. Find the component you want to customize from the [Lucky repo's components directory](https://github.com/luckyframework/lucky/tree/master/src/lucky/paginator/components)
     1. Copy the contents of the component into your newly generated component
 
-    And that's it! You can mount it like any other component `m
+    And that's it! You can mount it like any other component `mount
     PaginationsLinks, page` and customize the HTML and classes as much as
     you'd like.
 
@@ -246,7 +246,7 @@ class Guides::Database::Pagination < GuideAction
     ```crystal
       array = [1, 2, 3, 5, 6, 7]
       pages, numbers = paginate_array(array)
-      html IndexPages, numbers: numbers, pages: pages
+      html IndexPage, numbers: numbers, pages: pages
     ```
 
     The array can contain all different types, like `Int32`, `String`, or your
