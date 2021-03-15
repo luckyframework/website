@@ -25,6 +25,9 @@ class Guides::Deploying::Dokku < GuideAction
 
     ```
     dokku apps:create app.example.com
+    # install the postgres plugin
+    # plugin installation requires root, hence the user change
+    sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git
     dokku postgres:create exampledb
     dokku postgres:link exampledb app.example.com
     dokku config:set app.example.com LUCKY_ENV=production
