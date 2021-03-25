@@ -183,7 +183,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     > The default `Content-Type` for `data` is `"application/octet-stream"`
 
-    ### Rending components
+    ### Rendering components
 
     The `component` method allows you to return the HTML generated from a specific component. This can be used in place
     of rendering an entire HTML page which can be useful for loading dynamic HTML on your front-end.
