@@ -1,5 +1,7 @@
 # Require your shards here
-require "dotenv"
+require "lucky_env"
+LuckyEnv.load(".env")
+
 require "avram"
 require "lucky"
 require "carbon"

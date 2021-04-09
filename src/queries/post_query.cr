@@ -10,7 +10,7 @@ class PostQuery
   end
 
   def all_posts_newest_first
-    POSTS.sort_by(&.published_at).reverse
+    POSTS.sort_by(&.published_at).reverse!
   end
 
   def only_published_today_or_earlier
