@@ -1,6 +1,8 @@
 # Require your shards here
 require "lucky_env"
-LuckyEnv.load(".env")
+
+# TODO: https://github.com/luckyframework/lucky_env/issues/5
+# LuckyEnv.load(".env")
 
 require "avram"
 require "lucky"
