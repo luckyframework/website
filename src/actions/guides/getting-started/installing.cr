@@ -70,7 +70,9 @@ class Guides::GettingStarted::Installing < GuideAction
     dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
     ```
 
-    ## Crystal v#{LuckyCliVersion.compatible_crystal_version}
+    ## Crystal Version
+
+    Lucky supports Crystal `>= #{LuckyCliVersion.min_compatible_crystal_version}`, `<= #{LuckyCliVersion.max_compatible_crystal_version}`
 
     ### 1. Install Crystal
 
@@ -95,7 +97,7 @@ class Guides::GettingStarted::Installing < GuideAction
     * Install Crystal with `asdf`.
 
     ```plain
-    asdf install crystal #{LuckyCliVersion.compatible_crystal_version}
+    asdf install crystal #{LuckyCliVersion.min_compatible_crystal_version}
     ```
 
     * See which version of crystal was installed
@@ -104,10 +106,10 @@ class Guides::GettingStarted::Installing < GuideAction
     asdf list crystal
     ```
 
-    * Set global version of crystal to that version (#{LuckyCliVersion.compatible_crystal_version} is used as an example)
+    * Set global version of crystal to that version (#{LuckyCliVersion.min_compatible_crystal_version} is used as an example)
 
     ```plain
-    asdf global crystal #{LuckyCliVersion.compatible_crystal_version}
+    asdf global crystal #{LuckyCliVersion.min_compatible_crystal_version}
     ```
 
     **Or, install Crystal without a version manager**
@@ -121,7 +123,7 @@ class Guides::GettingStarted::Installing < GuideAction
     crystal -v
     ```
 
-    Should return at least `#{LuckyCliVersion.compatible_crystal_version}`
+    Should return at least `#{LuckyCliVersion.min_compatible_crystal_version}`
 
     ## Install Lucky CLI on macOS
 
