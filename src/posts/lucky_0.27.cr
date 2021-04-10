@@ -80,7 +80,7 @@ class Lucky027Release < BasePost
     The bulk of the updates have been mostly internal. Removing deprecated methods,
     code organization, fixing some bugs, and making some compile-time errors a bit
     more user friendly.
-    
+
     ## Parting words
 
     As more people use Lucky, we are able to solidify what a Lucky 1.0 will look like.
