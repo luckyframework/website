@@ -5,7 +5,7 @@ class HTML2Lucky::MultiLineTag < HTML2Lucky::Tag
   def print_io(io) : IO
     io << padding
     io << method_name
-    if attr_parameters.any?
+    if !attr_parameters.empty?
       io << method_joiner
       io << attr_text
     end

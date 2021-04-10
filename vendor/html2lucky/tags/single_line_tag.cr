@@ -4,7 +4,7 @@ class HTML2Lucky::SingleLineTag < HTML2Lucky::Tag
     io << padding
     io << method_name
     io << method_joiner
-    io << [content, attr_text].reject { |x| x.empty? }.join(", ")
+    io << [content, attr_text].reject(&.empty?).join(", ")
     io << "\n"
   end
 end

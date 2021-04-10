@@ -132,7 +132,7 @@ class Home::IndexPage
     ```crystal
     # Set up the model
     class User < BaseModel
-      table :users do
+      table do
         column last_active_at : Time
         column last_name : String
       end
@@ -168,7 +168,7 @@ class Home::IndexPage
 
       def content
         ul class: "users-list" do
-          @users.each do |user|
+          users.each do |user|
             li { link user.name, to: Users::Show.with(user) }
           end
         end
@@ -188,7 +188,7 @@ class Home::IndexPage
         tag("MyApp", title: "MyApp is the best")
 
         # Optionally render regular HTML for non-interactive elements
-        footer "Copyright MyApp 2019"
+        footer "Copyright MyApp #{Time.utc.year}"
       end
     end
     ```
