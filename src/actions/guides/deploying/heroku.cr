@@ -32,10 +32,10 @@ class Guides::Deploying::Heroku < GuideAction
 
     ```plain
     # Skip this buildpack for API only app. Add this for HTML and Assets
-    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
+    heroku buildpacks:add heroku/nodejs
 
     # Then add this for all Lucky apps
-    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-lucky
+    heroku buildpacks:add lucky-framework/lucky
     ```
 
     Set `LUCKY_ENV` to `production`:
@@ -129,7 +129,7 @@ class Guides::Deploying::Heroku < GuideAction
     to our app:
 
     ```bash
-    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
+    heroku buildpacks:add heroku/nodejs
     ```
 
     While Heroku has a buildpack for Node.js apps,
@@ -142,7 +142,7 @@ class Guides::Deploying::Heroku < GuideAction
     and install the dependencies for Lucky:
 
     ```bash
-    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-lucky
+    heroku buildpacks:add lucky-framework/lucky
     ```
 
     ## Adding environment variables
