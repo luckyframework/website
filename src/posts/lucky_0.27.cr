@@ -37,7 +37,7 @@ class Lucky027Release < BasePost
     ### Crystal 1.0 Support
 
     For the most part, Crystal 1.0 worked with Lucky 0.26 with the exception of cookies.
-    For the Crystal 1.0 release, there was a few changes around cookies:
+    For the Crystal 1.0 release, there were a few changes around cookies:
     * [remove implicit path `/`](https://github.com/crystal-lang/crystal/pull/10491)
     * [remove implicit en-/decoding of cookie values](https://github.com/crystal-lang/crystal/pull/10485)
     * [remove cookie name decoding](https://github.com/crystal-lang/crystal/pull/10442)
