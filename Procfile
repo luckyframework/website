@@ -1,1 +1,1 @@
-web: ./app
+web: bin/website_v2
