@@ -54,7 +54,7 @@ shards:
 
   lucky:
     git: https://github.com/luckyframework/lucky.git
-    version: 0.27.0
+    version: 0.27.1
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git
