@@ -1,3 +1,4 @@
+# NOTICE: This lockfile contains some overrides from shard.override.yml
 version: 2.0
 shards:
   ameba:
@@ -52,9 +53,9 @@ shards:
     git: https://github.com/luckyframework/habitat.git
     version: 0.4.7
 
-  lucky:
+  lucky: # Overridden
     git: https://github.com/luckyframework/lucky.git
-    version: 0.27.1
+    version: 0.27.1+git.commit.ba145df1d7de19e9b45c01cb273fd12f9f85612e
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git

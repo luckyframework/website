@@ -1,0 +1,4 @@
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    branch: jaw/debugging_cookie_issues
