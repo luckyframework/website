@@ -77,16 +77,17 @@ class Guides::HandlingFiles::FileUploads < GuideAction
         # If multiple models can share an image, run a query before deleting
         # to ensure you're not breaking any references.
         if old_image = profile_image_id.original_value
-          storage = Shrine.find_storage("store")
-          if storage.exists?(old_image)
-            storage.delete(old_image)
-          end
+          delete_old_profile_image(old_image)
         end
 
         profile_image_id.value = result.id
       end
-      private def delete_old_profile_picture(image_id)
-        Shrine::UploadedFile.new(id: image_id, storage_key: "store").delete
+
+      private def delete_old_profile_image(old_image)
+        storage = Shrine.find_storage("store")
+        if storage.exists?(old_image)
+          storage.delete(old_image)
+        end
       end
     end
     ```
