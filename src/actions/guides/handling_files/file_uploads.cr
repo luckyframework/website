@@ -43,11 +43,25 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     end
     ```
 
+    ## Model setup
+
+    We need to store a reference ID to the image in our database.
+
+    ```crystal
+    # src/models/user.cr
+    class User < BaseModel
+      table do
+        column profile_image_id : String
+      end
+    end
+    ```
+
     ## SaveOperation setup
 
     The `file_attribute` is used in your save operation to specify the name of the param attribute that will contain the file.
 
     ```crystal
+    # src/operations/save_user.cr
     class SaveUser < User::SaveOperation
       permit_columns name
       file_attribute :profile_picture
@@ -58,13 +72,18 @@ class Guides::HandlingFiles::FileUploads < GuideAction
 
       private def upload_pic(pic)
         result = Shrine.upload(File.new(pic.tempfile.path), "store", metadata: { "filename" => pic.filename })
+
         # If the new file is uploaded, no reason to keep the old one!
         # If multiple models can share an image, run a query before deleting
         # to ensure you're not breaking any references.
-        if (old_profile_picture = profile_picture_path.value)
-          delete_old_profile_picture(old_profile_picture)
+        if old_image = profile_image_id.original_value
+          storage = Shrine.find_storage("store")
+          if storage.exists?(old_image)
+            storage.delete(old_image)
+          end
         end
-        profile_picture_path.value = result.id
+
+        profile_image_id.value = result.id
       end
       private def delete_old_profile_picture(image_id)
         Shrine::UploadedFile.new(id: image_id, storage_key: "store").delete
@@ -77,6 +96,7 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     Your action code will look standard with no additional code needed.
 
     ```crystal
+    # src/actions/users/create.cr
     class Users::Create < BrowserAction
       post "/users" do
         SaveUser.create(params) do |op, user|
@@ -96,6 +116,7 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     and the use of the `file_input`.
 
     ```crystal
+    # src/pages/users/new_page.cr
     class Users::NewPage < MainLayout
       needs op : SaveUser
 
@@ -108,6 +129,24 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     end
     ```
 
+    ## Rendering images
+
+    When you're ready to render the uploaded image
+
+    ```crystal
+    # src/pages/users/show_page.cr
+    class Users::ShowPage < MainLayout
+      needs user : User
+
+      def content
+        img src: profile_url(user)
+      end
+
+      private def profile_url(user) : String
+        Shrine.find_storage("store").url(user.profile_image_id)
+      end
+    end
+    ```
     MD
   end
 end
