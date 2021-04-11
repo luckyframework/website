@@ -55,7 +55,7 @@ shards:
 
   lucky: # Overridden
     git: https://github.com/luckyframework/lucky.git
-    version: 0.27.1+git.commit.8537dde56e7ff94495abeb0291de756fe09ede06
+    version: 0.27.1+git.commit.484755497315c9c6f0d2136160c8da46d1900efb
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git
