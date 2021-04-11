@@ -16,10 +16,14 @@ class Lucky027Release < BasePost
   def content : String
     <<-MD
     We want to first congratulate the Crystal team for their long awaited release of
-    1.0! This is a huge milestone for not only the language, but the whole community.
+    1.0! 🎉 This is a huge milestone for not only the language, but the whole community.
+    [Read the release post here](https://crystal-lang.org/2021/03/22/crystal-1.0-what-to-expect.html). 
 
     We're sure the next question on your mind is "When will Lucky hit 1.0?". Don't fret!
     We're working towards that, and with each release we get closer and closer.
+    To set some expectation, the actual answer is "When it's ready", but to give a little direction,
+    the next release (or two) for sure won't be 1.0 for us. We want to ensure we have a solid 1.0 release,
+    and we feel it's better to take our time, and do it right 💪
 
     [Lucky v0.27](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md)
     is officially out. It's a smaller release, but brings some pretty big steps. We hope
@@ -73,7 +77,7 @@ class Lucky027Release < BasePost
     By abstracting this out to a separate shard, we gain about ~17% (or more) speed in compilation
     time. This is mainly on cold cache, but it means your apps won't sit in the CI as long as they were!
 
-    Who doesn't love some performance boost?
+    Who doesn't love a little speed up? 😄
 
     ### And more
 
