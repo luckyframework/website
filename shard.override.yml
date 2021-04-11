@@ -1,4 +1,4 @@
 dependencies:
   lucky:
-    github: luckyframework/lucky
-    branch: jaw/debugging_cookie_issues
+    github: matthewmcgarvey/lucky
+    branch: mm/handle-invalid-sessions
