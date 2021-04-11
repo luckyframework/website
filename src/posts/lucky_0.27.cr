@@ -17,7 +17,7 @@ class Lucky027Release < BasePost
     <<-MD
     We want to first congratulate the Crystal team for their long awaited release of
     1.0! 🎉 This is a huge milestone for not only the language, but the whole community.
-    [Read the release post here](https://crystal-lang.org/2021/03/22/crystal-1.0-what-to-expect.html). 
+    [Read the release post here](https://crystal-lang.org/2021/03/22/crystal-1.0-what-to-expect.html).
 
     We're sure the next question on your mind is "When will Lucky hit 1.0?". Don't fret!
     We're working towards that, and with each release we get closer and closer.
