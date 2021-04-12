@@ -1,4 +1,0 @@
-dependencies:
-  lucky:
-    github: matthewmcgarvey/lucky
-    branch: mm/handle-invalid-sessions
