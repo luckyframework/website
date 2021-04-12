@@ -1,4 +1,6 @@
 abstract class BasePost
+  include Lucky::AssetHelpers
+
   macro inherited
     PostQuery::POSTS << self.new
   end
