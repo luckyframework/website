@@ -74,6 +74,44 @@ class Guides::Testing::DebuggingTests < GuideAction
 
     > If `open_screenshot` fails, or you don't want the image to auto-open, you can use `flow.take_screenshot`.
     > Look for the image in the `./tmp/screenshots` folder to open the image manually.
+
+    ### Showing the browser
+
+    In your `spec/setup/configure_lucky_flow.cr` file, you can update the `driver` setting to
+    `LuckyFlow::Drivers::Chrome`. By updating this, when you run your specs, you will see the
+    browser open up and watch it run through each flow.
+
+    ```crystal
+    # spec/setup/configure_lucky_flow.cr
+    LuckyFlow.configure do |settings|
+
+      # Update this setting
+      settings.driver = LuckyFlow::Drivers::Chrome
+
+      # Set back to `LuckyFlow::Drivers::HeadlessChrome` or
+      # just remove the setting when you're done.
+    end
+    ```
+
+    ### Pausing the flow
+
+    Within your flow object, you can call the `pause` method which will temporarily pause your
+    flow on whichever page it's on.
+
+    ```crystal
+    # spec/support/flows/publish_post_flow.cr
+    def start_draft
+      visit Articles::Index
+
+      pause
+
+      click "@new-post"
+    end
+    ```
+
+    Once you're satisifed, go back to your terminal and hit the "enter" key to resume your flow.
+
+    > This is best used in conjunction with the non-headless driver option.
     MD
   end
 end

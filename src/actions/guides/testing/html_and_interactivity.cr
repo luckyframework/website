@@ -21,7 +21,8 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     ## Setup
 
     LuckyFlow uses [chromedriver](https://chromedriver.chromium.org/) to control Selenium under the hood.
-    All you need is to have Chrome installed and LuckyFlow will handle everything else for you.
+    You don't need anything installed as LuckyFlow will automatically install the chromedriver for you
+    when it runs the first time.
 
     The LuckyFlow configuration settings are located in `spec/setup/configure_lucky_flow.cr`.
 
@@ -37,6 +38,12 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
       # Point to a different Chrome browser than the default
       settings.browser_binary = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+      # Specify a custom location to the driver
+      settings.driver_path = "/path/to/driver"
+
+      # Change which driver is loaded. (`LuckyFlow::Drivers::HeadlessChrome` is default)
+      settings.driver = LuckyFlow::Drivers::Chrome
     end
     ```
 
@@ -127,7 +134,9 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
     ### Using `as` to sign users in
 
-    Lucky comes built-in with a backdoor in tests so that you don’t need to go through the full process of loading the sign in page and filling out the form. Instead you can use the `as` option to visit the page and sign the user in automatically:
+    Lucky comes built-in with a backdoor in tests so that you don’t need to go through the full process of
+    loading the sign in page and filling out the form. Instead you can use the `as` option to visit the page
+    and sign the user in automatically:
 
     ```crystal
     user = UserFactory.create
@@ -135,7 +144,7 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     visit Posts::Show.with(post.id), as: user
     ```
 
-    > Check out the `Auth::SignInThroughBackdoor`  mixin to see how the backdoor works.
+    > Check out the `Auth::SignInThroughBackdoor` mixin to see how the backdoor works.
 
     ### Using strings paths
 
@@ -153,7 +162,7 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     find the element until you try to interact with it or check if it is in the
     page.
 
-    ### Using `@`  to find by Flow ID
+    ### Using `@` to find by Flow ID
 
     If you are familiar with other libraries for interacting with pages, you
     likely have found elements using CSS or by the text inside of elements. This
@@ -357,6 +366,10 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     flow.session.cookie_manager.add_cookie("hello", "world")
     flow.session.cookie_manager.get_cookie("hello") #=> "world"
     ```
+
+    ## Debugging
+
+    For debugging tips with LuckyFlow, read our [Debugging Tests](#{Guides::Testing::DebuggingTests.path}) guide.
     MD
   end
 end
