@@ -12,6 +12,14 @@ shards:
     git: https://github.com/luckyframework/avram.git
     version: 0.20.0
 
+  awscr-s3:
+    git: https://github.com/taylorfinnell/awscr-s3.git
+    version: 0.8.2
+
+  awscr-signer:
+    git: https://github.com/taylorfinnell/awscr-signer.git
+    version: 0.8.2
+
   cadmium_transliterator:
     git: https://github.com/cadmiumcr/transliterator.git
     version: 0.1.0+git.commit.46c4c14594057dbcfaf27e7e7c8c164d3f0ce3f1
@@ -22,7 +30,7 @@ shards:
 
   cmark:
     git: https://github.com/amauryt/cr-cmark-gfm.git
-    version: 0.1.0+git.commit.3d941a0cbae64acbc0d9085e0182e89af7221bf5
+    version: 0.1.0+git.commit.4dd681983e6fe10c5e44ef7f38ed94e8a7a9b147
 
   cry:
     git: https://github.com/luckyframework/cry.git
@@ -91,6 +99,10 @@ shards:
   shell-table:
     git: https://github.com/luckyframework/shell-table.cr.git
     version: 0.9.2+git.commit.ad72379f241ba28698ca2873d9b43785324a7932
+
+  sitemapper:
+    git: https://github.com/jwoertink/sitemapper.git
+    version: 0.7.1
 
   teeplate:
     git: https://github.com/luckyframework/teeplate.git
