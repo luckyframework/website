@@ -9,9 +9,13 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     <<-MD
     ## Overview
 
-    Tasks are used to run some code that sits outside of your main application. When you need to add a task, you'll place it in the `tasks` folder. To see a list of the available tasks in your application, use `lucky --help`.
+    Lucky comes bundled with [LuckyTask](https://github.com/luckyframework/lucky_task) for creating tasks.
 
-    You can think of a Luck Task just like a [Rake task](https://github.com/ruby/rake) in Ruby, [npm script](https://docs.npmjs.com/misc/scripts) for Node, or [Mix Task](https://hexdocs.pm/mix/Mix.Task.html) for Elixir.
+    Tasks are used to run some code that sits outside of your main application. When you need to add a task, you'll place it in the `tasks` folder.
+    To see a list of the available tasks in your application, use `lucky --help`.
+
+    You can think of a Luck Task just like a [Rake task](https://github.com/ruby/rake) in Ruby, [npm script](https://docs.npmjs.com/misc/scripts) for Node,
+    or [Mix Task](https://hexdocs.pm/mix/Mix.Task.html) for Elixir.
 
     To run a task, you just run
     ```plain
