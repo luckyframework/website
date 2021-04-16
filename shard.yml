@@ -32,6 +32,9 @@ dependencies:
   myhtml:
     github: kostya/myhtml
     version: 1.5.4
+  sitemapper:
+    github: jwoertink/sitemapper
+    version: ~> 0.7.1
 
 development_dependencies:
   lucky_flow:

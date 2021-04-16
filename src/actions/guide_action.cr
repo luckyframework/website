@@ -24,6 +24,10 @@ abstract class GuideAction < BrowserAction
   end
 
   macro inherited
+    def self.guide_file_path
+      __FILE__
+    end
+
     private def guide_file_path
       __FILE__
     end
