@@ -11,13 +11,13 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
 
     Place custom tasks in the `tasks` folder of your application.
     Your custom task must:
-    * Inherit from `LuckyCli::Task`
+    * Inherit from `LuckyTask::Task`
     * Implement a `call` method
     * Include a `summary`
 
     ```crystal
     # tasks/generate_sitemaps.cr
-    class GenerateSitemaps < LuckyCli::Task
+    class GenerateSitemaps < LuckyTask::Task
       summary "Generate the sitemap.xml for this site"
 
       def call
@@ -26,12 +26,13 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     end
     ```
 
-    Lucky will infer the name of the task by using the name of your class. This includes using namespaces. (e.g. `Db::Migrate` becomes `lucky db.migrate`, and `GenerateSitemaps` becomes `lucky generate_sitemaps`).
+    Lucky will infer the name of the task by using the name of your class. This includes using namespaces.
+    (e.g. `Db::Migrate` becomes `lucky db.migrate`, and `GenerateSitemaps` becomes `lucky generate_sitemaps`).
 
     Optionally, if you want to customize the name of your task, you can use the `name` macro.
 
     ```crystal
-    class GenerateSitemaps < LuckyCli::Task
+    class GenerateSitemaps < LuckyTask::Task
       summary "Generate the sitemap.xml for this site"
       name "custom.task"
 
@@ -56,7 +57,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     In your `call` method, you'll have access to a `test_mode?` method which returns a `Bool`.
 
     ```crystal
-    class ProcessOrders < LuckyCli::Task
+    class ProcessOrders < LuckyTask::Task
       summary "Charge cards, and prep orders for shipping"
 
       # The second argument is the description of what this flag does.
@@ -78,7 +79,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     You can also specify a "shortcut" flag which is generally a single dash `-` and a single letter. (e.g. `-t`)
 
     ```crystal
-    class ProcessOrders < LuckyCli::Task
+    class ProcessOrders < LuckyTask::Task
       summary "Charge cards, and prep orders for shipping"
 
       # The second argument is the description of what this flag does.
@@ -107,7 +108,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     * `format` - This is a `Regex` you can use to validate the value of this flag to ensure the data is formatted correctly.
 
     ```crystal
-    class Search::Reindex < LuckyCli::Task
+    class Search::Reindex < LuckyTask::Task
       summary "Reindex search data"
 
       arg :model, "Only reindex this model",
@@ -147,7 +148,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     option to just capture all of the remaining args as an `Array(String)`.
 
     ```crystal
-    class Gen::Model < LuckyCli::Task
+    class Gen::Model < LuckyTask::Task
       summary "Generate a new model"
 
       positional_arg :model_name, "The name of the model", format: /^[A-Z]/
@@ -207,7 +208,7 @@ class Guides::CommandLineTasks::CustomTasks < GuideAction
     this help message by defining a `help_message` method in your task.
 
     ```crystal
-    class GenerateSitemaps < LuckyCli::Task
+    class GenerateSitemaps < LuckyTask::Task
       summary "Generate the sitemap.xml for this site"
       name "custom.task"
 
