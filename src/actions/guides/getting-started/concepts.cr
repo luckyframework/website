@@ -65,7 +65,9 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     ### `public` folder
 
-    Place any files you wish to be public in here. For compiled assets, the asset compiler will move the files in to here for you.
+    Place any files you wish to be public in here. Files placed in here will be publicly accessible from the root path of your app. (e.g. `/robots.txt`)
+
+    > For compiled assets, the asset compiler will move the files in to here for you.
 
     ### `script` folder
 
