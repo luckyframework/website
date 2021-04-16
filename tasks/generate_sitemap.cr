@@ -1,7 +1,7 @@
 require "sitemapper"
 
 Sitemapper.configure do |c|
-  c.host = Lucky::RouteHelper.settings.base_uri
+  c.host = "https://luckyframework.org"
   c.use_index = false
   c.compress = false
 end
