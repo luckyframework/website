@@ -1,17 +1,44 @@
-class Guides::Testing::DebuggingTests < GuideAction
+class Guides::Testing::Debugging < GuideAction
+  ANCHOR_LUCKY_FLOW = "perma-lucky-flow"
   guide_route "/testing/debugging"
 
   def self.title
-    "Debugging Tests"
+    "Debugging Your Code"
   end
 
   def markdown : String
     <<-MD
     ## Introduction
 
-    Determining why a given test is failing can sometimes be difficult. This guide serves as a jumping-off point for some tips and tricks that you can leverage to resolve these issues more quickly for your Lucky applications.
+    Determining why a given test or part of your application is failing can sometimes be difficult. This guide serves as a jumping-off point for some tips and tricks that you
+    can use to resolve these issues quicker while developing your Lucky applications.
 
-    ## Lucky Flow
+    ## REPL Alternatives
+
+    If your background comes from a framework like [Ruby on Rails](https://rubyonrails.org/), you may be familiar with the `rails console` which allows you to run arbitrary
+    code related to your app. This is especially convienent when you need to run a quick query, or check that code behaves the way you expect it to.
+
+    Crystal doesn't have any built-in REPL capabilities, and with the nature of how Crystal works, making an interactive REPL can be difficult. Lucky for you (get it? 😜),
+    we have a few options that can help you as alternatives.
+
+    ### Lucky exec
+
+    Lucky apps come with a built-in task called `lucky exec`. When you run this command from your terminal, an editor will open up to a file that will require your app.
+    You can write any code related to your application within this file. When you save and exit the file, Crystal will compile the file, then execute the code within.
+    After the code is executed, you can either press the "enter" key to edit your script, or type `q` to quit.
+
+    ### Crystal play
+
+    Crystal comes with "playground" app that allows you to run Crystal code, and see the output from your browser. Run `crystal play` from the root of your Lucky app,
+    and you'll see a mini-server boot on port 8080. Open up your browser to `localhost:8080` to use. As you type, the playground will start to compile, and execute the code
+    for you.
+
+    To access your app's code, just add `require "./src/app"` to the top of the input, and your code snippets below.
+
+    > You can also visit https://play.crystal-lang.org for testing bits of code. Note that you don't have access to your application from this option.
+
+    #{permalink(ANCHOR_LUCKY_FLOW)}
+    ## Debugging Lucky Flow
 
     ### Taking Screenshots
 

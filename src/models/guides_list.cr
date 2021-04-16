@@ -63,12 +63,12 @@ class GuidesList
         Guides::Deploying::Ubuntu,
         Guides::Deploying::Dokku,
       ] of GuideAction.class),
-      GuideCategory.new("Testing", [
+      GuideCategory.new("Testing and Debugging", [
         Guides::Testing::Introduction,
         Guides::Testing::HtmlAndInteractivity,
         Guides::Testing::CreatingTestData,
         Guides::Testing::TestingActions,
-        Guides::Testing::DebuggingTests,
+        Guides::Testing::Debugging,
       ] of GuideAction.class),
     ]
   end
