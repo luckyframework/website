@@ -18,16 +18,16 @@ class GenerateSitemap < LuckyTask::Task
       GuidesList.guides.each do |guide|
         modification_time = get_modification_time_of_file(guide.guide_file_path)
         add(guide.path,
-            lastmod: modification_time,
-            changefreq: "monthly",
-            priority: 0.7)
+          lastmod: modification_time,
+          changefreq: "monthly",
+          priority: 0.7)
       end
 
       PostQuery.new.all_posts_newest_first.each do |post|
         add(Blog::Show.with(post.slug).path,
-            lastmod: post.published_at,
-            changefreq: "yearly",
-            priority: 0.7)
+          lastmod: post.published_at,
+          changefreq: "yearly",
+          priority: 0.7)
       end
     end
 
