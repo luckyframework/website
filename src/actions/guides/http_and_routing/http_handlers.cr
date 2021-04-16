@@ -43,14 +43,14 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
 
     ### RemoteIpHandler
 
-    The remote IP, or remote address, is the IP address of the user on your site. Getting this value can be helpful for things like banning spammers, or finding password sharing
-    with user accounts, and many other options.
+    The remote IP, or remote address, is the IP address of the user on your site. Getting this value can be helpful for things like banning spammers, tracking password sharing
+    with user accounts, geo locating based on IP, and many other options.
 
     This handler sets the `HTTP::Request#remote_address` value to the value of the first IP in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
     header, or fallback to the default `remote_address`.
 
     The `remote_address` method can be accessed in your actions from `context.request.remote_address`. Since this method returns `Socket::IPAddress?`, you may need to use the Crystal `try`
-    method for accessing the IP address string value.
+    method for accessing the client IP address string value.
 
     ```crystal
     # src/actions/home/index.cr
