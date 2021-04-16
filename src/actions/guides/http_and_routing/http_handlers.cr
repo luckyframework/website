@@ -41,6 +41,28 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     In the `Lucky::RouteHandler` it will look for a `Lucky::Action` that matches the request, run any pipes, then run the action. If no action is found,
     we check to see if there's a static file in `Lucky::StaticFileHandler`. Finally, if no route or file matches the request, we run the `Lucky::RouteNotFoundHandler`.
 
+    ### RemoteIpHandler
+
+    The remote IP, or remote address, is the IP address of the user on your site. Getting this value can be helpful for things like banning spammers, or finding password sharing
+    with user accounts, and many other options.
+
+    This handler sets the `HTTP::Request#remote_address` value to the value of the first IP in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
+    header, or fallback to the default `remote_address`.
+
+    The `remote_address` method can be accessed in your actions from `context.request.remote_address`. Since this method returns `Socket::IPAddress?`, you may need to use the Crystal `try`
+    method for accessing the IP address string value.
+
+    ```crystal
+    # src/actions/home/index.cr
+    class Home::Index < BrowserAction
+      get "/" do
+        ip_address = context.request.remote_address.try(&.address) || "N/A"
+
+        html IndexPage, ip_address: ip_address
+      end
+    end
+    ```
+
     ## Creating custom handlers
 
     Your application may have special requirements like routing legacy URLs, sending bug reporting, CORS, or even doing [HTTP Basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication) while your app is in beta.
