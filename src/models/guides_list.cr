@@ -69,6 +69,7 @@ class GuidesList
         Guides::Testing::CreatingTestData,
         Guides::Testing::TestingActions,
         Guides::Testing::DebuggingTests,
+        Guides::Testing::ContinuousIntegration,
       ] of GuideAction.class),
     ]
   end
