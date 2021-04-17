@@ -44,14 +44,14 @@ class Guides::JsonAndApis::ParsingJsonRequests < GuideAction
     To simplify the code a bit, we can create separate JSON serializable objects.
 
     ```crystal
-    class InvoiceSerializer
+    class SerializedInvoice
       include JSON::Serializable
       property pay_date : Time
       property issue_date : Time
-      property lines : Array(InvoiceLineSerializer)
+      property lines : Array(SerializedInvoiceLine)
     end
 
-    class InvoiceLineSerializer
+    class SerializedInvoiceLine
       include JSON::Serializable
       property text : String
       property unit : String
@@ -65,9 +65,9 @@ class Guides::JsonAndApis::ParsingJsonRequests < GuideAction
     ```crystal
     class Api::Invoices::Create < ApiAction
       post "/api/customers/:customer_id/invoices" do
-        invoice_serializer = InvoiceSerializer.from_json(params.body)
+        serialized_invoice = SerializedInvoice.from_json(params.body)
 
-        SaveInvoice.create(invoice_serializer: invoice_serializer) do |op, invoice|
+        SaveInvoice.create(serialized_invoice: serialized_invoice) do |op, invoice|
           # ...
         end
       end
