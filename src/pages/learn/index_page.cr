@@ -178,12 +178,4 @@ class Learn::IndexPage < PageLayout
       end
     end
   end
-
-  private def content_block(title : String, link_location : String, body : String)
-    div class: "p-4" do
-      a title, href: link_location, class: "font-normal text-2xl text-teal-dark block mb-5"
-      para body
-      a "View", href: link_location, class: "btn btn--blue w-full sm:w-auto sm:mr-5"
-    end
-  end
 end
