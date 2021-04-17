@@ -28,6 +28,4 @@ class Learn::Ecosystem::IndexPage < PageLayout
       end
     end
   end
-
-
 end

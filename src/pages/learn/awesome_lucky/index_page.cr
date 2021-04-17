@@ -27,5 +27,4 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
       end
     end
   end
-
 end

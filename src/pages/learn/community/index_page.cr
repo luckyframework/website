@@ -27,5 +27,4 @@ class Learn::Community::IndexPage < PageLayout
       end
     end
   end
-
 end
