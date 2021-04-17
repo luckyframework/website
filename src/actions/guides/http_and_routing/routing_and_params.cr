@@ -435,6 +435,23 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
     files["avatar"]                    # Lucky::UploadedFile
+
+    params.get_file(:avatar)    # Lucky::UploadedFile
+    params.get_file?("missing") # nil
+    ```
+
+    ### Arrays in params
+
+    When it comes to a collection of values in params, there's no official standard for how this should be formatted. For this reason,
+    each framework must choose on their own how to handle it. For Lucky, we've gone with the square bracket notation `key[]=value1&key[]=value2`.
+
+    To access these values as an `Array(String)`, you can use the `get_all(:key)`, or `get_all?(:key)` methods.
+
+    ```crystal
+    # key[]=value1&key[]=value2
+    params.get_all(:key)  # ["value1", "value2"]
+
+    params.get_all?("missing") # nil
     ```
 
     ### Nested params
@@ -478,6 +495,28 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > The `many_nested` method will raise an error if the key does not exist.
     > Use `many_nested?(:key)` to return `nil` in that case.
+
+    ### Nested files
+
+    For files associated with models, the param will be nested. (e.g. `post:banned_photo`)
+    To access the file from the nested params, use the `nested_file` or `nested_file?` methods.
+
+    ```crystal
+    params.nested_file(:post)       # Lucky::UploadedFile
+    params.nested_file?("missing")  # nil
+    ```
+
+    ## Debugging Params
+
+    If you need to get the raw params, you can call `params.body` which will take the request, and give you a String
+    of what params were sent.
+
+    ```crystal
+    Lucky::Log.dexter.info { {raw_params: params.body} }
+
+    # Convert params to a Hash(String, String | Hash(String, String))
+    params.to_h
+    ```
 
     ## Where to put actions
 
