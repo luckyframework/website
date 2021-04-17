@@ -1,4 +1,5 @@
 module.exports = {
+  mode: "jit",
   purge: ["./src/**/*.cr", "./src/**/*.scss"],
   theme: {
     extend: {
@@ -44,16 +45,16 @@ module.exports = {
         "blue-lightest": "#eff8ff",
 
         "lucky-blue": "#021e37",
-        "lucky-teal-blue": "#1c92b3"
+        "lucky-teal-blue": "#1c92b3",
       },
       width: {
-        sidebar: "335px"
-      }
-    }
+        sidebar: "335px",
+      },
+    },
   },
   variants: {
     width: ["responsive", "focus"],
-    textColor: ["responsive", "hover", "focus", "group-hover"]
+    textColor: ["responsive", "hover", "focus", "group-hover"],
   },
-  plugins: []
+  plugins: [],
 };
