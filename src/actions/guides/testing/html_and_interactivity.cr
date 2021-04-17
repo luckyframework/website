@@ -369,7 +369,7 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
     ## Debugging
 
-    For debugging tips with LuckyFlow, read our [Debugging Tests](#{Guides::Testing::DebuggingTests.path}) guide.
+    For debugging tips with LuckyFlow, read our [Debugging Tests](#{Guides::Testing::Debugging.path(anchor: Guides::Testing::Debugging::ANCHOR_LUCKY_FLOW)}) guide.
     MD
   end
 end
