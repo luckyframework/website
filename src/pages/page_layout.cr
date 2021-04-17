@@ -18,6 +18,11 @@ abstract class PageLayout
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lightest" do
         mount Shared::Header, @context.request
+        if responds_to?(:hero_content)
+          div class: "hero_content" do
+            render_if_defined :hero_content
+          end
+        end
         div class: "flex flex-col container mx-auto min-h-screen" do
           content
         end
