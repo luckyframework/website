@@ -98,7 +98,7 @@ class Learn::IndexPage < PageLayout
             end
           end
           para class: "mt-2 text-sm text-gray-500" do
-            text "Awesome Lists are lists of very helpful resources within a particular community. This is our list for Awesome Lucky originally provided by the Awesome @andrewmcodes."
+            text "Awesome Lists are lists of helpful resources within a particular community. This is our list for Awesome Lucky originally provided by the Awesome @andrewmcodes."
           end
         end
         span aria_hidden: "true", class: "pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" do
