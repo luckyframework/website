@@ -5,8 +5,10 @@ class Learn::Community::IndexPage < PageLayout
 
   def content
     # Discord chat, twitter, maybe mention the t-shirt giveaway...
-    div class: "py-4 container text-center" do
-      text "Coming soon..."
+    div class: "py-16 container text-center" do
+      h2 class: "text-xl font-semibold leading-7 text-gray-900 sm:text-2xl sm:truncate" do
+        text "Coming soon..."
+      end
     end
   end
 

@@ -6,8 +6,10 @@ class Learn::Ecosystem::IndexPage < PageLayout
   def content
     # List all of the Lucky shards
     # Link to repos and API References. e.g. https://luckyframework.github.io/lucky/
-    div class: "py-4 container text-center" do
-      text "Coming soon..."
+    div class: "py-16 container text-center" do
+      h2 class: "text-xl font-semibold leading-7 text-gray-900 sm:text-2xl sm:truncate" do
+        text "Coming soon..."
+      end
     end
   end
 
