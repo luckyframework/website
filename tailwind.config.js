@@ -1,12 +1,11 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  mode: "jit",
   purge: ["./src/**/*.cr", "./src/**/*.scss"],
   theme: {
     extend: {
       colors: {
-        'light-blue': colors.lightBlue,
+        "light-blue": colors.lightBlue,
         rose: colors.rose,
 
         // Pre-2.0 colors for backwards compatibility

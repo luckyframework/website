@@ -9,7 +9,7 @@
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
-    "dev": "TAILWIND_MODE=build mix",
+    "dev": "mix",
     "watch": "mix watch",
     "prod": "mix --production"
   },
