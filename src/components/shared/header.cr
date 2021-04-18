@@ -53,6 +53,7 @@ class Shared::Header < BaseComponent
   end
 
   private def nav_links
+    nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("Learn", Learn::Index.path)
     nav_link("Blog", Blog::Index.path)
     nav_link("Chat", "https://discord.gg/HeqJUcb", target: "_blank")
