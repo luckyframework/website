@@ -1,9 +1,14 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
-  mode: "jit",
   purge: ["./src/**/*.cr", "./src/**/*.scss"],
   theme: {
     extend: {
       colors: {
+        "light-blue": colors.lightBlue,
+        rose: colors.rose,
+
+        // Pre-2.0 colors for backwards compatibility
         "grey-darkest": "#3d4852",
         "grey-darker": "#606f7b",
         "grey-dark": "#8795a1",
@@ -19,14 +24,6 @@ module.exports = {
         "orange-light": "#faad63",
         "orange-lighter": "#fcd9b6",
         "orange-lightest": "#fff5eb",
-
-        "green-darkest": "#0f2f21",
-        "green-darker": "#1a4731",
-        "green-dark": "#1f9d55",
-        green: "#38c172",
-        "green-light": "#51d88a",
-        "green-lighter": "#a2f5bf",
-        "green-lightest": "#e3fcec",
 
         "teal-darkest": "#0d3331",
         "teal-darker": "#20504f",
