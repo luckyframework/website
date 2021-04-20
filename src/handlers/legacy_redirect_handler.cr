@@ -11,7 +11,7 @@ class LegacyRedirectHandler
     "/guides/rendering-html"                      => Guides::Frontend::RenderingHtml.url,
     "/guides/querying-the-database"               => Guides::Database::Querying.url,
     "/guides/custom-queries"                      => Guides::Database::RawSql.url,
-    "/guides/saving-with-forms"                   => Guides::Database::ValidatingSaving.url,
+    "/guides/saving-with-forms"                   => Guides::Database::SavingRecords.url,
     "/guides/asset-handling"                      => Guides::Frontend::AssetHandling.url,
     "/guides/tasks"                               => Guides::CommandLineTasks::BuiltIn.url,
     "/guides/logging-and-error-handling"          => Guides::GettingStarted::Logging.url,
@@ -24,9 +24,10 @@ class LegacyRedirectHandler
     "/guides/sending-emails"                      => Guides::Emails::SendingEmailsWithCarbon.url,
     "/guides/authentication"                      => Guides::Authentication::Intro.url,
     "/guides/deploying-heroku"                    => Guides::Deploying::Heroku.url,
-    "/guides/database/validating-saving-deleting" => Guides::Database::ValidatingSaving.url,
+    "/guides/database/validating-saving-deleting" => Guides::Database::SavingRecords.url,
     "/guides/database/querying"                   => Guides::Database::Querying.url,
     "/guides/database/querying-deleting"          => Guides::Database::Querying.url,
+    "/guides/database/validating-saving"          => Guides::Database::SavingRecords.url,
   }
 
   def call(context)

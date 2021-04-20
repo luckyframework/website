@@ -92,7 +92,7 @@ class Guides::Testing::CreatingTestData < GuideAction
     ## Saving records
 
     As shown previously, a Factory has a `create` method which saves the record to your database. A Factory is
-    essentially a fancy wrapper around [SaveOperation](#{Guides::Database::ValidatingSaving.path}).
+    essentially a fancy wrapper around [SaveOperation](#{Guides::Database::SavingRecords.path}).
 
     Factories give you access to two helpful class methods `create` and `create_pair`.
 

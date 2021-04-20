@@ -307,7 +307,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     See the [rendering HTML forms](#{Guides::Frontend::HtmlForms.path}) guide to learn more.
 
     For info on interacting with databases, see the [saving
-    data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
+    data with operations](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
     #{permalink(ANCHOR_EMPTY_TAG)}
     ### Empty tag

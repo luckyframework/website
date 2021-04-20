@@ -71,7 +71,7 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     All of the input helper methods take an `Avram::PermittedAttribute`. These are created
     from declaring an `attribute` or `permit_columns` in your `Avram::Operation`.
-    See the [Operations Guide](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PERMITTING_COLUMNS)}) for more info.
+    See the [Operations Guide](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_PERMITTING_COLUMNS)}) for more info.
 
     > For these examples, `op` will refer to an instance of an `Avram::Operation` (e.g. `SaveUser`).
 
@@ -481,10 +481,10 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Saving Data
 
-    HTML Forms in Lucky are based around the concept of [Operations](#{Guides::Database::ValidatingSaving.path}). We use these for securing param values from form inputs, and doing validations.
+    HTML Forms in Lucky are based around the concept of [Operations](#{Guides::Database::SavingRecords.path}). We use these for securing param values from form inputs, and doing validations.
 
     For info on interacting with databases, see the [saving
-    data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
+    data with operations](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
     ## Displaying Errors
 

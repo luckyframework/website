@@ -70,7 +70,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     The naming convention for operations is to use an action of what this object does like save a user record.
     (e.g. `User` model, `SaveUser` operation).
 
-    [Learn more about operations](#{Guides::Database::ValidatingSaving.path})
+    [Learn more about operations](#{Guides::Database::SavingRecords.path})
 
     ## Migrations
 
@@ -131,7 +131,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
     ```
 
     * Place migrations (if necessary) in `db/migrations/`.
-    * Factories, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::ValidatingSaving.path}).
+    * Factories, and Queries are specific to Avram Models, but you can still use [Basic Operations](#{Guides::Database::SavingRecords.path}).
 
     > If your app doesn't need a database, you should still set the `AppDatabase` credentials setting to
     > `Avram::Credentials.void`. Avram Operations can still be quite useful for things like contact forms,

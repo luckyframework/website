@@ -33,7 +33,7 @@ class Guides::GettingStarted::Concepts < GuideAction
       * In Lucky, [an Action defines what HTTP method and path it handles](#{Guides::HttpAndRouting::RoutingAndParams.path}).
     3. Action processes the request. For example:
       * [Query the database with Avram](#{Guides::Database::Querying.path}).
-      * [Create or update db records with Avram](#{Guides::Database::ValidatingSaving.path}).
+      * [Create or update db records with Avram](#{Guides::Database::SavingRecords.path}).
       * [Send an email with Carbon](#{Guides::Emails::SendingEmailsWithCarbon.path}).
     4. The Action generates a response for the browser or client. For example:
       * [Generate an HTML page](#{Guides::Frontend::RenderingHtml.path}).

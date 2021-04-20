@@ -43,8 +43,8 @@ class Guides::Testing::TestingActions < GuideAction
     ### Setting body params
 
     The second argument to the `exec` method will take a `NamedTuple` of params you want to send.
-    In most cases, these params will be sent to an [Operation](#{Guides::Database::ValidatingSaving.path}),
-    so these params will need to be nested with the proper [param_key](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PARAM_KEY)}).
+    In most cases, these params will be sent to an [Operation](#{Guides::Database::SavingRecords.path}),
+    so these params will need to be nested with the proper [param_key](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_PARAM_KEY)}).
 
     ```crystal
     ApiClient.exec(Posts::Create, post: {title: "My next Taco Dish", posted_at: 1.day.ago})
