@@ -6,9 +6,68 @@ class Learn::Ecosystem::IndexPage < PageLayout
   def content
     # List all of the Lucky shards
     # Link to repos and API References. e.g. https://luckyframework.github.io/lucky/
-    div class: "py-16 container text-center" do
-      h2 class: "text-xl font-semibold leading-7 text-gray-900 sm:text-2xl sm:truncate" do
-        text "Coming soon..."
+    div class: "py-16 container" do
+      ul class: "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" do
+        mount ProjectCard,
+          name: "Lucky",
+          description: "The main shard for the Lucky framework.",
+          slug: "lucky"
+        mount ProjectCard,
+          name: "Lucky Cli",
+          description: "CLI for generating a new Lucky applications.",
+          slug: "lucky_cli"
+        mount ProjectCard,
+          name: "Avram",
+          description: "Lucky's ORM named after Henriette Avram.",
+          slug: "avram"
+        mount ProjectCard,
+          name: "Authentic",
+          description: "User authentication with Avram.",
+          slug: "authentic"
+        mount ProjectCard,
+          name: "Avram Slugify",
+          description: "Parameterize your Avram models.",
+          slug: "avram_slugify"
+        mount ProjectCard,
+          name: "Carbon",
+          description: "Create and Send emails. Many adapters supported.",
+          slug: "carbon"
+        mount ProjectCard,
+          name: "Habitat",
+          description: "Make any object configurable.",
+          slug: "habitat"
+        mount ProjectCard,
+          name: "Breeze",
+          description: "Development dashboard.",
+          slug: "breeze"
+        mount ProjectCard,
+          name: "Dexter",
+          description: "A Log utility and formatter.",
+          slug: "dexter"
+        mount ProjectCard,
+          name: "LuckyTask",
+          description: "Library for creating command line tasks.",
+          slug: "lucky_task"
+        mount ProjectCard,
+          name: "Wordsmith",
+          description: "Handles pluralization, ordinalizing words, etc.",
+          slug: "wordsmith"
+        mount ProjectCard,
+          name: "Pulsar",
+          description: "Publish and Subscribe to events.",
+          slug: "pulsar"
+        mount ProjectCard,
+          name: "Lucky Router",
+          description: "HTTP Path routing.",
+          slug: "lucky_router"
+        mount ProjectCard,
+          name: "Lucky Flow",
+          description: "Automated browser tests and control.",
+          slug: "lucky_flow"
+        mount ProjectCard,
+          name: "Lucky Env",
+          description: "Environment variable parser.",
+          slug: "lucky_env"
       end
     end
   end
