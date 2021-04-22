@@ -129,7 +129,7 @@ class Lucky017Release < BasePost
     since you used them to interact with HTML forms. Now named `SaveOperation`, these give a bit
     more clarity. We also renamed `VirtualForm` to just `Operation`.
 
-    [Learn more about operations](#{Guides::Database::ValidatingSaving.path})
+    [Learn more about operations](#{Guides::Database::SavingRecords.path})
 
     ### Parting words
 

@@ -20,7 +20,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     We need to remember to add columns `permit_columns {{column name}}` or
     the attribute will be ignored. In this case, add `permit_columns title` to
     the `SaveArticle` to allow the `title` field to be saved. Learn more
-    about [permitting columns to be saved with params](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PERMITTING_COLUMNS)}).
+    about [permitting columns to be saved with params](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_PERMITTING_COLUMNS)}).
 
     ```crystal
     class SaveArticle < Article::SaveOperation
@@ -29,7 +29,7 @@ class Guides::JsonAndApis::SavingToTheDatabase < GuideAction
     ```
 
     > By default Avram will look for the params under the `article` key. You
-    > can [change the param key](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PARAM_KEY)})
+    > can [change the param key](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_PARAM_KEY)})
     > to anything you want though.
 
     Then submit these params:

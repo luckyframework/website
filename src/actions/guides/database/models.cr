@@ -35,7 +35,7 @@ class Guides::Database::Models < GuideAction
     `User` model, you would run `lucky gen.model User`. Running this will generate a few files for you.
 
     * [User model](##{ANCHOR_SETTING_UP_A_MODEL}) - Located in `./src/models/user.cr`
-    * [SaveUser Operation](#{Guides::Database::ValidatingSaving.path}) - Located in `./src/operations/save_user.cr`
+    * [SaveUser Operation](#{Guides::Database::SavingRecords.path}) - Located in `./src/operations/save_user.cr`
     * [User query](#{Guides::Database::Querying.path}) - Located in `./src/queries/user_query.cr`
     * [User migration](#{Guides::Database::Migrations.path}) - Location in `./db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_users.cr`
 
@@ -323,7 +323,7 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    To learn more about using enums, read up on [saving with enums](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_SAVING_ENUMS)})
+    To learn more about using enums, read up on [saving with enums](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_SAVING_ENUMS)})
     and [querying with enums](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_QUERYING_ENUMS)}).
 
     #{permalink(ANCHOR_MODEL_ASSOCIATIONS)}
