@@ -8,6 +8,13 @@ class GuidesList
         Guides::GettingStarted::Concepts,
         Guides::GettingStarted::Configuration,
       ] of GuideAction.class),
+      GuideCategory.new("Beginners Tutorial", [
+        Guides::Tutorial::Overview,
+        Guides::Tutorial::NewResource,
+        Guides::Tutorial::Design,
+        Guides::Tutorial::UsingComponents,
+        Guides::Tutorial::Queries,
+      ] of GuideAction.class),
       GuideCategory.new("HTTP and Routing", [
         Guides::HttpAndRouting::RoutingAndParams,
         Guides::HttpAndRouting::RequestAndResponse,
