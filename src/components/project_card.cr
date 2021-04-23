@@ -10,7 +10,7 @@ class ProjectCard < BaseComponent
           div class: "flex items-center space-x-3" do
             h3 name, class: "text-gray-900 text-sm font-medium truncate"
             # Optional tags
-            #span "Required", class: "flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
+            # span "Required", class: "flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
           end
           para description, class: "mt-1 text-gray-500 text-sm truncate"
         end
