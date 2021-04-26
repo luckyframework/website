@@ -10,14 +10,14 @@ class Guides::Tutorial::Overview < GuideAction
     ## Our First Lucky Application
 
     We will be building a "Micro-Blogging" type application. We will call our app *Clover*. This app allows a user to create
-    and account, then log in and post "Fortunes" which will be small snippets of text. For example, words of wisdom, pop
+    an account, then log in and post "Fortunes" which will be small snippets of text. For example, words of wisdom, pop
     culture references, or good luck wishes!
 
-    A user will be able to view other fortunes written by other users, and thank them for their fortune. (This is akin to a "like" on social platforms)
+    A user will be able to view fortunes written by other users, and thank them for their fortune. (This is akin to a "like" on social platforms)
 
-    This tutorial will cover the follow items:
+    This tutorial will cover the following items:
 
-    * Generate a new Lucky application
+    * Generating a new Lucky application
     * Creating Models and assigning relationships between them
     * Updating HTML and adding a CSS framework for a bit of design
     * Working with different parts of Lucky
