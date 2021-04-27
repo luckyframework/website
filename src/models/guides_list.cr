@@ -11,8 +11,10 @@ class GuidesList
       GuideCategory.new("Beginners Tutorial", [
         Guides::Tutorial::Overview,
         Guides::Tutorial::NewResource,
+        Guides::Tutorial::Assocations,
         Guides::Tutorial::Design,
         Guides::Tutorial::UsingComponents,
+        Guides::Tutorial::OperationsFactories,
         Guides::Tutorial::Queries,
       ] of GuideAction.class),
       GuideCategory.new("HTTP and Routing", [
