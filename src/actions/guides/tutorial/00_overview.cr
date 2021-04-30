@@ -13,16 +13,16 @@ class Guides::Tutorial::Overview < GuideAction
     an account, then log in and post "Fortunes" which will be small snippets of text. For example, words of wisdom, pop
     culture references, or good luck wishes!
 
-    A user will be able to view fortunes written by other users, and thank them for their fortune. (This is akin to a "like" on social platforms)
+    A user will be able to view fortunes written by other users.
 
     This tutorial will cover the following items:
 
     * Generating a new Lucky application
     * Creating Models and assigning relationships between them
+    * Handling database migrations
     * Updating HTML and adding a CSS framework for a bit of design
     * Working with different parts of Lucky
     * Database Queries
-    * Adding a little JavaScript on top
 
     ### Installing
 
