@@ -2,6 +2,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
   ANCHOR_RENDERING_TEMPLATES = "perma-rendering-templates"
   ANCHOR_COMPONENTS          = "perma-components"
   ANCHOR_EMPTY_TAG           = "perma-empty-tag"
+  ANCHOR_SPECIAL_TAGS        = "perma-special-tags"
   guide_route "/frontend/rendering-html"
 
   def self.title
@@ -222,6 +223,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     > become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs,
     > crystal allows you to use quotes like in `:"v-on:click"`
 
+    #{permalink(ANCHOR_SPECIAL_TAGS)}
     ## Special tags (link, form helpers, etc.)
 
     There are a few specials helpers that make it easier. For creating links with an

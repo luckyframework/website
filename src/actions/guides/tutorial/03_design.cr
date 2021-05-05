@@ -12,7 +12,7 @@ class Guides::Tutorial::Design < GuideAction
     It's nice that we can boot our application and see a home page, but we know that page won't stick around.
     We will swap it out for our own Home page to make this site a little more ours.
 
-    First, we should create a new `Page`. We will use the `gen.page` task. Enter `lucky gen.page Home::IndexPage`.
+    First, we should create a new `Page`. We will use the `gen.page` cli task. Enter `lucky gen.page Home::IndexPage`.
 
     ```bash
     lucky gen.page Home::IndexPage
@@ -28,9 +28,8 @@ class Guides::Tutorial::Design < GuideAction
     ```
 
     The `MainLayout` is currently setup to be our site layout for users that are logged in to the app.
-    The `AuthLayout` is used for pages like the login/signup pages, and now our Home Page.
-
-    > Eventually you'll be creating your own layouts to better suit your needs.
+    The `AuthLayout` is used for pages like the login/signup pages, and now our Home Page. Eventually you'll
+    be creating your own layouts to better suit your needs.
 
     Next, we need to tell our root action to render our new page instead of the default Lucky page. Open up your
     `Home::Index` action in `src/actions/home/index.cr`. Update this code:
@@ -38,10 +37,12 @@ class Guides::Tutorial::Design < GuideAction
     ```diff
     # src/actions/home/index.cr
     - html Lucky::WelcomePage
-    + html IndexPage
+    + html Home::IndexPage
     ```
 
-    > We generated the page in the same namespace as our action `Home` which allows us to not specify the namespace.
+    The `html` macro here will take the page class we want to render, and mix the `content` with our layout.
+
+    > For more information on rendering HTML, read the [Rendering HTML](#{Guides::Frontend::RenderingHtml.path}) guide.
 
     ## Updating the Layout
 
@@ -49,17 +50,19 @@ class Guides::Tutorial::Design < GuideAction
     when users are logged out `AuthLayout`. These files live in the root of your `src/pages/` directory. We will update our `AuthLayout`
     to start so we can get a feel for writing HTML in Lucky.
 
-    When it comes to writing HTML in Lucky, we use plain Crystal methods that generate HTML for us! [Read the HTML guide]() for more details.
+    When it comes to writing HTML in Lucky, we use plain Crystal methods that generate HTML for us!
+    [Read the HTML guide](#{Guides::Frontend::RenderingHtml.path}) for more details.
 
     ### Anatomy of the layout
 
     Open up the `AuthLayout` in `src/pages/auth_layout.cr`. This file has a `render` method which contains the start to our HTML. Within this method
     are several other Crystal methods like `html_doctype`, `html`, and `body` which should be pretty recognizable. Any HTML tag has an associated method
-    you can call from here. In addition, there's a few helper methods which are explained more in the [HTML guide]().
+    you can call from here. In addition, there's a few helper methods which are explained more in the [HTML guide](#{Guides::Frontend::RenderingHtml.path}).
 
-    Two methods that may look unfamiliar are `mount`, and the `content` method you see inside of the `body` block. The `mount` is related to [Components]()
-    which we will cover later. The `content` method is used to render the page content from pages that inherit from this layout. For example, our `Home::IndexPage`
-    inherits from `AuthLayout`, so the `Home::IndexPage` has a `content` method where all of the Home page HTML will go.
+    Two methods that may look unfamiliar are `mount`, and the `content` method you see inside of the `body` block.
+    The `mount` is related to [Components](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)})
+    which we will cover later. The `content` method is used to render the page content from pages that inherit from this layout.
+    For example, our `Home::IndexPage` inherits from `AuthLayout`, so the `Home::IndexPage` has a `content` method where all of the Home page HTML will go.
 
     ### Adding a wrapper
 
@@ -96,20 +99,17 @@ class Guides::Tutorial::Design < GuideAction
     to use any (or no) CSS framework you wish. There's no limitations since Lucky includes [LaravelMix](https://laravel-mix.com/)
     which just wraps Webpack. We will stick with Bootstrap just for the purposes of this Tutorial.
 
-    > NOTE: As of this writing, Bootstrap is about to release v5.0.0. Let us know if Bootstrap becomes so far out of date that
-    > this tutorial is broken.
-
     ### Installing a CSS framework
 
     Lucky uses `yarn` by default, so this tutorial will as well; however, if you prefer a different installation, you may use that.
 
-    Before we install Bootstrap, we should shut down our server. (`ctrl-C`) Then from the terminal, we can run `yarn add bootstrap@next`.
+    Before we install Bootstrap, we should shut down our server. (`ctrl-C`) Then from the terminal, we can run `yarn add bootstrap`.
 
     ```bash
-    yarn add bootstrap@next
+    yarn add bootstrap
     ```
 
-    Now we just add it to our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
+    Next we will import it in our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
     a CSS framework, all of these can go away! Replace everything with this code:
 
     ```scss
@@ -117,9 +117,11 @@ class Guides::Tutorial::Design < GuideAction
     @import "bootstrap";
     ```
 
+    > For more information on handling assets, read the [Asset Handling](#{Guides::Frontend::AssetHandling.path}) guide.
+
     ## Updating the Home Page
 
-    Now that we have some layout, we can update our Home page to start matching some of our styles.
+    Now that we have a layout, we can update our Home page to start matching our new styles.
 
     Open up the `Home::IndexPage` file in `src/pages/home/index_page.cr`. In here, we will see the `content` method defined.
     This is the method that's called in the `AuthLayout` class. In this `content` method, we can see the `h1` method. Let's update
@@ -150,9 +152,12 @@ class Guides::Tutorial::Design < GuideAction
 
     The other new tag here is `para`. This replaces the `<p></p>` tag due to Crystal already having a `p()` method used for printing to STDOUT.
 
+    > For more information on special tags, read the [Special Tags](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_SPECIAL_TAGS)})
+    > guide in Rendering HTML.
+
     ## Your Turn
 
-    Now it's your turn to play with some HTML.
+    We've created a layout and a new home page. Now it's your turn to play with some HTML.
 
     Try this...
 
@@ -160,6 +165,8 @@ class Guides::Tutorial::Design < GuideAction
     * Create a custom CSS style using normal raw CSS in your `src/css/app.scss`.
     * Apply that custom style to a tag on your Home Page.
     * Update the styles for your Login / Signup pages
+
+    > If you have existing HTML you want to convert, try the [HTML to Lucky Converter](#{HtmlConversions::New.path}) utility.
 
     MD
   end

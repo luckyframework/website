@@ -30,8 +30,8 @@ class Guides::Tutorial::Overview < GuideAction
 
     ### Assumptions
 
-    Before we begin, a few assumptions will be made about you. If at any point you feel confused or lost,
-    please [chat with us](https://discord.gg/HeqJUcb) so we can clear things up, and get you squared away.
+    Before we begin, a few assumptions will be made about you, and your skill level. If at any point you feel confused or lost,
+    or just need clarification, please [chat with us](https://discord.gg/HeqJUcb) so we can clear things up. We love to help!
 
     We assume you have...
 
@@ -76,9 +76,11 @@ class Guides::Tutorial::Overview < GuideAction
     Once that's done, Lucky will give you a few instructions on what to do next. We will follow those instructions
     in the next step.
 
-    ## Booting
+    > For more information on the wizard, read the [Starting a Lucky Project](#{Guides::GettingStarted::StartingProject.path}) guide.
 
-    Before we boot our application, we still need to complete the setup. This portion is specific to the
+    ## Booting Our Application
+
+    Before we boot our application, we still need to complete the setup process. This portion is specific to the
     individual as only you will know your own databasae settings.
 
     Let's start by changing the directory in to the project. Enter `cd clover`
@@ -93,9 +95,9 @@ class Guides::Tutorial::Overview < GuideAction
     The default postgres connection uses the username `postgres`, and the password `postgres` along with the hostname `localhost`.
     Look over these settings, and update them to match your own personal setup.
 
-    Done?
+    Done? Did you remember to save the file? 😄
 
-    > Did you remember to save the file? 😄
+    > For more information on setting up your database, read the [Database Setup](#{Guides::Database::DatabaseSetup.path}) guide.
 
     ### Setup Script
 
@@ -106,7 +108,7 @@ class Guides::Tutorial::Overview < GuideAction
     * Install Crystal shard dependencies. (e.g. Lucky, Avram, etc...)
     * Create our database. In this case, a database named `clover_developement`
     * Verify that we can connect to this new database
-    * Run SQL code (migration) to create our users table. (Setup by saying `y` to generate Authentication).
+    * Run SQL code (migration) to create our users table. (Added by saying `y` to generate Authentication).
     * Import sample data in to our database. On first run, there's no sample data.
 
     Run the setup script. Enter `./script/setup`
@@ -128,6 +130,8 @@ class Guides::Tutorial::Overview < GuideAction
     lucky dev
     ```
 
+    At any point you'd like to stop the server, use the `ctrl-C` keyboard command.
+
     > There's two separate processes that boot; `assets` and `web`. We must wait for both to finish.
 
     ## Browsing your Application
@@ -139,11 +143,20 @@ class Guides::Tutorial::Overview < GuideAction
 
     After you've signed up, you are taken to your "Profile" page.
 
+    > For more information on the application file structure, read the [Philosophy and Concepts](#{Guides::GettingStarted::Concepts.path}) guide.
+
+    ## Your Turn
+
+    Now that you've generated a real working Lucky app, play around with it! In the next steps,
+    we will start building out more of the application.
+
     Try this...
 
     * Sign out of your account
     * Sign back in to your account
     * View your terminal to see how each request is logged to the output
+
+    > When you're done, stop your server with `ctrl-C` before moving on to the next section.
 
     MD
   end

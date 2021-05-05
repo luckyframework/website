@@ -15,7 +15,7 @@ class Guides::Tutorial::Assocations < GuideAction
 
     ### Generating a new migration
 
-    We will use the `gen.migration` task to create a new migration file that will add a reference to User from the
+    We will use the `gen.migration` cli task to create a new migration file that will add a reference to User from the
     "fortunes" table. Enter `lucky gen.migration AddBelongsToUserForFortune`.
 
     ```
@@ -30,9 +30,11 @@ class Guides::Tutorial::Assocations < GuideAction
     The `rollback` method is used to write the opposite of what `migrate` does. So if `migrate` creates a new table, then `rollback` should drop that table. You
     would use this to undo the last ran migration allowing you to fix, or revert your database schema.
 
-    In our case, we want to alter the "fortunes" table so we can add our user reference to it. Add this code
+    In our case, we want to alter the "fortunes" table so we can add our user reference to it. Add this code:
 
     ```crystal
+    # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_belongs_to_user_for_fortune.cr
+
     def migrate
       alter table_for(Fortune) do
         add_belongs_to user : User, on_delete: :cascade, fill_existing_with: :nothing
@@ -48,6 +50,8 @@ class Guides::Tutorial::Assocations < GuideAction
 
     Save that file, and we can run our migration.
 
+    > For more information on migrations, read the [Migrations](#{Guides::Database::Migrations.path}) guide.
+
     ### Running our migration
 
     Each time we generate a new migration, we must run it so it will update our database.
@@ -58,10 +62,12 @@ class Guides::Tutorial::Assocations < GuideAction
 
     > This error will only happen if you have fortune records. To see the error, run `lucky db.migrate`.
 
+    ### Yak shaving
+
     Since we don't need any fortunes we created when playing with our app, we can just delete all of them to start
     fresh. This gives us a chance to see how we can run "one-off" queries similar to other frameworks that use REPL consoles.
 
-    We will use the `exec` task which will open a code editor allowing us to write arbitrary Crystal code, including some Avram
+    We will use the `exec` cli task which will open a code editor allowing us to write arbitrary Crystal code, including some Avram
     queries. Enter `lucky exec`.
 
     ```bash
@@ -71,9 +77,12 @@ class Guides::Tutorial::Assocations < GuideAction
     Once your code editor opens, you can write your query code below all of the comments. We will use the `FortuneQuery` object
     which is defined in `src/queries/fortune_query.cr`.
 
-    Add this code.
+    Add this code:
 
     ```crystal
+    require "../../src/app.cr"
+    # ... some comments
+
     puts "Truncating the Fortunes table"
 
     FortuneQuery.truncate
@@ -103,6 +112,8 @@ class Guides::Tutorial::Assocations < GuideAction
     At the bottom of the `table` block, we will add this new code:
 
     ```crystal
+    # src/models/user.cr
+
     table do
       column email : String
       column encrypted_password : String
@@ -114,6 +125,8 @@ class Guides::Tutorial::Assocations < GuideAction
     Next we will update our `Fortune` model in `src/models/fortune.cr` with this code:
 
     ```crystal
+    # src/models/fortune.cr
+
     table do
       column text : String
 
@@ -121,7 +134,9 @@ class Guides::Tutorial::Assocations < GuideAction
     end
     ```
 
-    ## Last Steps
+    > For more information on models, read the [Database Models](#{Guides::Database::Models.path}) guide.
+
+    ## Your Turn
 
     At this point, our models are associated, but the application no longer works how we expect.
     To create a new fortune, we have to save it with the current user, but this will require some refactoring.
@@ -135,6 +150,8 @@ class Guides::Tutorial::Assocations < GuideAction
     * View your logs to see "Failed to save SaveFortune".
     * Use `lucky exec` to truncate all `User` records.
     * Then use your app to make a new user record, because we still need one 😄
+
+    We will update the forms later in the tutorial.
 
     MD
   end

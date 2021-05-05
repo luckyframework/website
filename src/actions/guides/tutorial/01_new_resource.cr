@@ -13,7 +13,10 @@ class Guides::Tutorial::NewResource < GuideAction
     From your terminal, type `lucky -h`. Give it a moment to compile, then see a list of the commands you can use.
 
     For our next section, we will be generating a new "resource"; the "Fortune". In this context, a resource is a Model,
-    Action, Page, Component, Query, and Operation.
+    Action, Page, Component, Query, and Operation. Lucky breaks a resource down in to smaller class components which we
+    will discuss over the tutorial.
+
+    > For more information on Lucky CLI commands, read the [Built In Tasks](#{Guides::CommandLineTasks::BuiltIn.path}) guide.
 
     ### Planning the model
 
@@ -29,7 +32,7 @@ class Guides::Tutorial::NewResource < GuideAction
     * The `lucky` CLI command
     * `gen.resource.browser` is the name of the command to run
     * `Fortune` is the name of our model
-    * `text:String` is the name of the column and its type separated with a colon. You can add as many as you need here
+    * `text:String` is the name of the column and its type separated with a colon. You can add as many as you need here, just separate them by a space.
 
     > Some shells may require the last portion to be wrapped in quotes. (i.e. `"text:String"`)
 
@@ -39,19 +42,25 @@ class Guides::Tutorial::NewResource < GuideAction
     lucky gen.resource.browser Fortune text:String
     ```
 
+    This command will create several files for us.
+
     ## Running the Migration
 
     Lucky generated a migration file for us located in `db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_fortunes.cr`.
     This migration file will generate a SQL statement for us that will create our "fortunes" table and add the columns our
     table needs like `text`, as well as a few other columns Avram gives to us for free; `id`, `created_at`, and `updated_at`.
 
-    To execute this code, we will run the `db.migrate` task. Enter `lucky db.migrate`.
+    To execute this code, we will run the `db.migrate` cli task. Enter `lucky db.migrate`.
 
     ```bash
     lucky db.migrate
     ```
 
-    > If you don't see output that says "Migrated", be sure to check spelling, and typos.
+    If you don't see output that says "Migrated", be sure to check spelling, and typos.
+
+    > For more information on migrations, read the [Migrations](#{Guides::Database::Migrations.path}) guide.
+
+    ## Your Turn
 
     Now that we've updated our database, we can boot our app to test a few things.
 
@@ -63,6 +72,7 @@ class Guides::Tutorial::NewResource < GuideAction
     * Sign out of your account, then try to visit `/fortunes`. Notice how it asks you to sign in first?
     * Sign up a new account.
     * View the foruntes page, and notice you can edit the other users fortunes. Oops!
+    * Leave at least 1 fortune record.
 
     We will fix the association issue in the next section.
     MD
