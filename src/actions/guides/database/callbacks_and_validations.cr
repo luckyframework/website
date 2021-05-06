@@ -1,4 +1,5 @@
 class Guides::Database::CallbacksAndValidations < GuideAction
+  ANCHOR_ATTRIBUTES = "perma-attributes"
   guide_route "/database/callbacks-and-validations"
 
   def self.title
@@ -208,6 +209,7 @@ class Guides::Database::CallbacksAndValidations < GuideAction
     end
     ```
 
+    #{permalink(ANCHOR_ATTRIBUTES)}
     ## What are attributes?
 
     Attributes defined in the operation do not return the value of the attribute. They return an `Avram::Attribute`

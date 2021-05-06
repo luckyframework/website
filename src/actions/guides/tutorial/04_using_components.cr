@@ -13,13 +13,12 @@ class Guides::Tutorial::UsingComponents < GuideAction
     We create a separate class for these, and they go in your `src/components/` directory. We've already
     seen two of them in use in our `AuthLayout`. The `Shared::LayoutHead`, and `Shared::FlashMessages`.
 
-    Let's take a look at the `Shared::LayoutHead` in `src/components/shared/layout_head.cr`. In this file,
+    Let's take a look at the `Shared::LayoutHead` component in `src/components/shared/layout_head.cr`. In this file,
     we can see all of the markup that would go in our website's `<head>` tags are here. They are in the `render`
-    method which is required for all components.
+    method (required for all components).
 
-    At the top of this file are two `needs` lines. The `needs page_title` and `needs context`. These help keep
-    the type-safety in your application by requiring that you pass these bits of data in to the component, and
-    ensure they are the correct type.
+    At the top of this file are two `needs` lines. The `needs page_title : String` and `needs context : HTTP::Server::Context`.
+    You will find `needs` in several different classes in Lucky. It's used for type-safety when a class requires specific data.
 
     ## Reusing Components
 
@@ -31,7 +30,19 @@ class Guides::Tutorial::UsingComponents < GuideAction
     ```
 
     Next, we need to open up our `AuthLayout` in `src/pages/auth_layout.cr`, and move our `footer` block in to the `render` method of
-    our newly generate component `Shared::Footer`.
+    our newly generated `Shared::Footer` component.
+
+    ```diff
+      # src/pages/auth_layout.cr
+    - footer class: "footer mt-auto py-3 bg-light" do
+    -   div class: "container" do
+    -     span "CloverApp", class: "text-muted"
+    -   end
+    - end
+    + mount Shared::Footer
+    ```
+
+    Then in our `Shared::Footer`, we will paste our code in the `render` method.
 
     ```crystal
     # src/components/shared/footer.cr
@@ -44,15 +55,15 @@ class Guides::Tutorial::UsingComponents < GuideAction
     end
     ```
 
-    Then in our `AuthLayout`, we will need to `mount` our new component. Replace the old footer markup with the `mount`
+    The `mount` method takes the component class, and will handle setting it up and calling render.
+    As an added benefit, if you inspect your page's markup, you'll see HTML comments wrapped around each
+    component. This allows you to see which component is responsible for the markup being rendered.
 
-    ```diff
-      # src/pages/auth_layout.cr
-    - footer class: "footer mt-auto py-3 bg-light" do
-    - #...
-    - end
-    + mount Shared::Footer
-    ```
+    When creating your own components that require specific data (i.e. HTTP context), you will add your `needs`
+    for that data, then in your `mount`, you'll pass each as a named argument. (e.g. `moung Shared::Footer, copyright_year: 3099`)
+
+    > For more information on components, read the [Components](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)})
+    > guide in Rendering HTML.
 
     ## Your Turn
 

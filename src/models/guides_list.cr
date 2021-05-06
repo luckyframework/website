@@ -16,6 +16,7 @@ class GuidesList
         Guides::Tutorial::UsingComponents,
         Guides::Tutorial::OperationsFactories,
         Guides::Tutorial::Queries,
+        Guides::Tutorial::BeyondBasics,
       ] of GuideAction.class),
       GuideCategory.new("HTTP and Routing", [
         Guides::HttpAndRouting::RoutingAndParams,

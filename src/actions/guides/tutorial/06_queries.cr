@@ -21,9 +21,9 @@ class Guides::Tutorial::Queries < GuideAction
 
     The query objects are considered "lazy" which means that just instantiating the class doesn't execute the query. To
     run the query, you'll either iterate the collection using a method like `each` or `map`, or you will ask for a single
-    record like calling `find` or first.
+    record like calling `find` or `first`.
 
-    Here are a few simple queries.
+    Here are a few simple examples.
 
     ```crystal
     # SELECT * FROM users;
@@ -47,12 +47,14 @@ class Guides::Tutorial::Queries < GuideAction
     As you can see, the methods are chainable. If the type is `Bool`, then you must pass a boolean value. Passing in a `nil` value
     when the type isn't nilable will cause a compile-time error.
 
+    > For more information on querying records, read the [Querying Records](#{Guides::Database::Querying.path}) guide.
+
     ## Adding a Query
 
     It would be nice to show the last 10 fortunes on our home page. We already have a spot on the page, we just need to add the
-    code to our query, and then display the results on the page.
+    code to our `Home::Index` action, and then display the results on the `Home::IndexPage` page.
 
-    Let's open up our `Home::Index` action in `src/actions/home/index.cr`. Inside of the `else` block, we will add our query.
+    Let's open up our `Home::Index` action in `src/actions/home/index.cr`. Inside of the `else` branch, we will add our query.
 
     ```crystal
     # src/actions/home/index.cr
@@ -69,8 +71,9 @@ class Guides::Tutorial::Queries < GuideAction
     end
     ```
 
-    Since we need to pass the data to our page, we must update the `Home::IndexPage` so it knows that it `needs` this data.
-    Open up the `Home::IndexPage` in `src/pages/home/index_page.cr`. At the top of the class, we can add our `needs` line.
+    Since we need to pass data from our action to our page, we must update the `Home::IndexPage`
+    so it knows that it `needs` this data. Open up the `Home::IndexPage` in `src/pages/home/index_page.cr`.
+    At the top of the class, we can add our `needs` line.
 
     ```crystal
     # src/pages/home/index_page.cr
@@ -113,29 +116,21 @@ class Guides::Tutorial::Queries < GuideAction
     end
     ```
 
-    At this point, we should make sure things are still working. Boot your app to make sure everything compiles.
+    At this point, we should make sure things are still working. Boot your app (`lucky dev`) to make sure everything compiles.
     Then view the beautiful new list. Everything work? Great!
-
-    ## Pro Tips
-
-    This tutorial is only a basic walk through to "dip your toes" in to the Lucky waters, but there's so much information
-    to cover. Here's a few "Pro Tips" to help clarify a few bits.
-
-    * You may want to show this list group on several different pages. It should be moved to a component. (e.g. `mount Fortunes::List, fortunes: fortunes`)
-    * Each fortune itself could be moved to a separate component as well. (e.g. `mount Fortunes::ListItem, fortune: fortune`)
-    * We used the `time_ago_in_words` helper method. There's many other helpful methods for display help like `truncate` for messages that are too long.
 
     ## Your Turn
 
-    Now that you've had a small taste of each bit of Lucky, can you fix the following bugs in Clover?
+    We've started really filling in our app, but we can always do better. Give a little refactor a shot!
 
     Try this...
 
-    * Any user can edit any other users fortune. Use the `current_user` method to block that.
-    * Once the user is logged in, there's no link to see the fortunes.
-    * You don't know who wrote the fortune. Use a migration to add a `name` column to users.
-      Display the user's name on the fortunes they wrote
-
+    * Create a new `latest` method in your `FortuneQuery` class.
+    * Update your `Home::Index` action to use the new `latest` method.
+    * Add a new `name : String` column to your `User` model. (hint: generate a new migration)
+    * Update your `UserFactory` to generate a random `name`.
+    * Update existing user records with a random name. (hint: the guides mention "bulk updating")
+    * Update the fortunes to display the user's name that wrote it.
 
     MD
   end
