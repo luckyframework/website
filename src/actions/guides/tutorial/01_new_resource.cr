@@ -27,22 +27,22 @@ class Guides::Tutorial::NewResource < GuideAction
 
     ### Generating the model
 
-    Let's run our generator command. The command breaks down like this:
-
-    * The `lucky` CLI command
-    * `gen.resource.browser` is the name of the command to run
-    * `Fortune` is the name of our model
-    * `text:String` is the name of the column and its type separated with a colon. You can add as many as you need here, just separate them by a space.
-
-    > Some shells may require the last portion to be wrapped in quotes. (i.e. `"text:String"`)
-
-    The final command will look like this. Enter `lucky gen.resource.browser Fortune text:String`
+    Let's run our generator cli task. Enter this command in your terminal:
 
     ```bash
     lucky gen.resource.browser Fortune text:String
     ```
 
-    This command will create several files for us.
+    The command breaks down like this:
+
+    * The `lucky` CLI command. All Lucky tasks are executed from this
+    * `gen.resource.browser` is the name of the command to run
+    * `Fortune` is the name of our model
+    * `text:String` is the name of the column and its type separated with a colon. You can add as many as you need here, just separate them by a space.
+
+    You can learn more about each CLI command by passing the `-h` or `--help` flag. (e.g. `lucky gen.resource.browser -h`)
+
+    > Some shells may require the last portion to be wrapped in quotes. (i.e. `"text:String"`)
 
     ## Running the Migration
 

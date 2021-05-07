@@ -36,6 +36,7 @@ class Guides::Tutorial::Assocations < GuideAction
     # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_belongs_to_user_for_fortune.cr
 
     def migrate
+      # FYI: We will run in to an error. Be sure to keep reading before running any code
       alter table_for(Fortune) do
         add_belongs_to user : User, on_delete: :cascade, fill_existing_with: :nothing
       end
@@ -109,26 +110,26 @@ class Guides::Tutorial::Assocations < GuideAction
 
     At the bottom of the `table` block, we will add this new code:
 
-    ```crystal
+    ```diff
     # src/models/user.cr
 
     table do
       column email : String
       column encrypted_password : String
 
-      has_many fortunes : Fortune
+    + has_many fortunes : Fortune
     end
     ```
 
     Next we will update our `Fortune` model in `src/models/fortune.cr` with this code:
 
-    ```crystal
+    ```diff
     # src/models/fortune.cr
 
     table do
       column text : String
 
-      belongs_to user : User
+    + belongs_to user : User
     end
     ```
 
