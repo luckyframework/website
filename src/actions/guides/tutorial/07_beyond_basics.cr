@@ -180,7 +180,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     you may have missed something the first time around! Maybe the second time will allow you to get
     a little more adventurous with your code.
 
-    As always, if you run in to any issues, please join us in the [Discord Chat](https://discord.gg/HeqJUcb)
+    As always, if you run in to any issues, please join us in the [Discord Chat](#{Links.chat_url})
     and someone will be around more than willing to help you out.
 
     > If you find any issues in this tutorial, please [Open an issue](https://github.com/luckyframework/website/issues) on
