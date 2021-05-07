@@ -15,7 +15,7 @@ class Guides::Tutorial::Queries < GuideAction
 
     ### Simple queries
 
-    The most basic query you can run is `SELECT * FROM table_name`. 
+    The most basic query you can run is `SELECT * FROM table_name`.
     To query all of the users (`SELECT * FROM users`) it's as simple as `UserQuery.new`. If you need a specific record,
     we can use the `find` method and pass in the primary key value for the record we are looking for. (e.g. `UserQuery.find(4)`)
 

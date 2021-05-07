@@ -51,7 +51,7 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     ```
 
     Once done, save and exit the file. It will compile and print out a `Hash(String, Array(String))` object, and `nil`.
-    Our SaveOperation has a `create` method which takes named args of what the operation requires from us. It 
+    Our SaveOperation has a `create` method which takes named args of what the operation requires from us. It
     also takes a block that will pass the operation instance and the saved user (if one exists). The `operation` has
     an `errors` method allowing us to inspect what errors we get back and why we don't have a `saved_user` object.
 
