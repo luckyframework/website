@@ -81,9 +81,9 @@ class Guides::Tutorial::Overview < GuideAction
     ## Booting Our Application
 
     Before we boot our application, we still need to complete the setup process. This portion is specific to the
-    individual as only you will know your own databasae settings.
+    individual as only you will know your own database settings.
 
-    Let's start by changing the directory in to the project. Enter `cd clover`
+    Let's start by changing the directory into the project. Enter `cd clover`
 
     ```bash
     cd clover
@@ -109,7 +109,7 @@ class Guides::Tutorial::Overview < GuideAction
     * Create our database. In this case, a database named `clover_developement`
     * Verify that we can connect to this new database
     * Run SQL code (migration) to create our users table. (Added by saying `y` to generate Authentication).
-    * Import sample data in to our database. On first run, there's no sample data.
+    * Import sample data in to our database. On the first run, there's no sample data.
 
     Run the setup script. Enter `./script/setup`
 
@@ -132,7 +132,7 @@ class Guides::Tutorial::Overview < GuideAction
 
     At any point you'd like to stop the server, use the `ctrl-C` keyboard command.
 
-    > There's two separate processes that boot; `assets` and `web`. We must wait for both to finish.
+    > There are two separate processes that boot; `assets` and `web`. We must wait for both to finish.
 
     ## Browsing your Application
 

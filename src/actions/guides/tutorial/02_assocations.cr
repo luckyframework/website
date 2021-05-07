@@ -26,7 +26,7 @@ class Guides::Tutorial::Assocations < GuideAction
 
     ### Writing a migration
 
-    In this file, you will see two methods; `migrate` and `rollback`. The `migrate` method is ran when we move our migration forward. (e.g. creating a new table).
+    In this file, you will see two methods; `migrate` and `rollback`. The `migrate` method is run when we move our migration forward. (e.g. creating a new table).
     The `rollback` method is used to write the opposite of what `migrate` does. So if `migrate` creates a new table, then `rollback` should drop that table. You
     would use this to undo the last ran migration allowing you to fix, or revert your database schema.
 
@@ -55,7 +55,7 @@ class Guides::Tutorial::Assocations < GuideAction
     ### Running our migration
 
     Each time we generate a new migration, we must run it so it will update our database.
-    However, if we ran our migration right now, we would see an error. Lucky ensures type-safety by
+    However, if we run our migration right now, we would see an error. Lucky ensures type-safety by
     adding the foreign key constraints and references. By specifying `user : User` for the type, we tell
     Lucky that this association is required. We could make it optional by using Crystal Nil Union `user : User?`,
     but this is an easy fix, so we will keep the code as is.
@@ -90,11 +90,11 @@ class Guides::Tutorial::Assocations < GuideAction
     puts "done!"
     ```
 
-    Once added, save and exit the file. This will tell Lucky to compile the code, and execute it which will run a `TRUNCATE` on
+    Once added, save and exit the file. This will tell Lucky to compile the code, and execute it, which will run a `TRUNCATE` on
     the "fortunes" table. When it's complete, you'll see a message that tells you to hit `enter` to run more commands, or `q` to quit.
     We are done here, so type `q`, then hit enter to quit.
 
-    With the old data cleared out, postgres should allow us to add our foreign key constratin. We can now safely run our migration.
+    With the old data cleared out, postgres should allow us to add our foreign key constraint. We can now safely run our migration.
     Enter `lucky db.migrate`.
 
     ```bash
@@ -103,7 +103,7 @@ class Guides::Tutorial::Assocations < GuideAction
 
     ## Updating the Models
 
-    Assocations work in two parts; the database, and the model. We update the database by writing our migration, so now we just need
+    Associations work in two parts; the database, and the model. We update the database by writing our migration, so now we just need
     to update the models.
 
     Open up the file `src/models/user.cr`. This `User` model was generated when we ran our setup wizard. Remember it asking us if

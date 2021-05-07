@@ -57,14 +57,14 @@ class Guides::Tutorial::OperationsFactories < GuideAction
 
     > Since we're not using a form here, we can [save without params](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_SAVING_WITHOUT_PARAMS)}).
 
-    Now hit `enter` to go back and edit the code. Fix the `password_confirmation` so they match, and save & exit. This time we see an empty hash `{}`,
+    Now hit `enter` to go back and edit the code. Fix the `password_confirmation` so they match, save & exit. This time we see an empty hash `{}`,
     and our new `User` instance.
 
     > For more information on saving records, read the [Saving and Updating Records](#{Guides::Database::SavingRecords.path}) guide.
 
     ## Creating Sample Data
 
-    In development, we may need our database to be a little more filled with data to really interact with it. For this case, we can create some sample data.
+    During development, we may need our database to be a little more filled with data to really interact with it. For this case, we can create some sample data.
     Lucky gives you two different "seed" tasks. One used for filling your database with required data `db.seed.required_data`, and one used for
     filling your database with some sample data `db.seed.sample_data`. You can find these two tasks in your `tasks/db/seed/` directory.
 

@@ -71,7 +71,7 @@ class Guides::Tutorial::NewResource < GuideAction
     * Add a few fortunes, then edit one, and delete one.
     * Sign out of your account, then try to visit `/fortunes`. Notice how it asks you to sign in first?
     * Sign up a new account.
-    * View the foruntes page, and notice you can edit the other users fortunes. Oops!
+    * View the fortunes page, and notice you can edit the other users fortunes. Oops!
     * Leave at least 1 fortune record.
 
     We will fix the association issue in the next section.

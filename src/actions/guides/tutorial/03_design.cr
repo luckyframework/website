@@ -27,8 +27,8 @@ class Guides::Tutorial::Design < GuideAction
     + class Home::IndexPage < AuthLayout
     ```
 
-    The `MainLayout` is currently setup to be our site layout for users that are logged in to the app.
-    The `AuthLayout` is used for pages like the login/signup pages, and now our Home Page. Eventually you'll
+    The `MainLayout` is currently setup to be our site layout for users logged in to the app.
+    The `AuthLayout` is used for pages like the login/signup pages, and now our Home Page. Eventually, you'll
     be creating your own layouts to better suit your needs.
 
     Next, we need to tell our root action to render our new page instead of the default Lucky page. Open up your
@@ -96,7 +96,7 @@ class Guides::Tutorial::Design < GuideAction
     ## Adding a CSS framework
 
     If you haven't guessed by now, we've started adding [Bootstrap](https://getbootstrap.com/) classes to our HTML. You're free
-    to use any (or no) CSS framework you wish. There's no limitations since Lucky includes [LaravelMix](https://laravel-mix.com/)
+    to use any (or no) CSS framework you wish. There are no limitations since Lucky includes [LaravelMix](https://laravel-mix.com/)
     which just wraps Webpack. We will stick with Bootstrap just for the purposes of this Tutorial.
 
     ### Installing a CSS framework
@@ -121,7 +121,7 @@ class Guides::Tutorial::Design < GuideAction
 
     ## Updating the Home Page
 
-    Now that we have a layout, we can update our Home page to start matching our new styles.
+    Now that we have a layout, we can update our Home page to match our new styles.
 
     Open up the `Home::IndexPage` file in `src/pages/home/index_page.cr`. In here, we will see the `content` method defined.
     This is the method that's called in the `AuthLayout` class. In this `content` method, we can see the `h1` method. Let's update
@@ -161,7 +161,7 @@ class Guides::Tutorial::Design < GuideAction
 
     Try this...
 
-    * Add a copyright to your footer that always displays the current year.
+    * Add a copyright note to your footer that always displays the current year.
     * Create a custom CSS style using normal raw CSS in your `src/css/app.scss`.
     * Apply that custom style to a tag on your Home Page.
     * Update the styles for your Login / Signup pages

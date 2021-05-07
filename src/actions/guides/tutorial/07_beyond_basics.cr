@@ -10,10 +10,10 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ## Fixing Fortune Forms
 
     Right now, if we try to create a new fortune through our app, we will get an error because
-    no `user_id` is set. We can get this value from our `current_user` method as this is avilable
+    no `user_id` is set. We can get this value from our `current_user` method as this is available
     once we've logged in.
 
-    We will need to update many of Fortune actions, as welll as our `SaveFortune` operation to include
+    We will need to update many of Fortune actions, as well as our `SaveFortune` operation to include
     this.
 
     ### Updating the operation
@@ -81,10 +81,10 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ## Authenticating Actions
 
     Since each fortune is specific to a user, no other user should be allowed to edit or delete another user's
-    fortune. We must detect that a fortune doesn't belong to use, and handle this appropriately.
+    fortune. We must detect that a fortune doesn't belong to a user, and handle this appropriately.
 
     We will need to update several actions, `Fortunes::Edit`, `Fortunes::Update`, and `Fortunes::Delete` to
-    ensure we're protecting against unauthorized updated. This is a good time to try a mixin.
+    ensure we're protecting against unauthorized updates. This is a good time to try a mixin.
 
     ### Adding an action mixin
 
@@ -140,7 +140,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
 
     Save your files, boot your app, and give it a shot. Try editing a fortune that doesn't belong to you; you
     should see the [exception page](https://github.com/crystal-loot/exception_page) with a code snippet, and
-    stack trace. This page is helpful in debugging, but only shows up in development. To see what your users
+    stack trace. This page is helpful when debugging, but only shows up in development. To see what your users
     will see, open up `config/error_handler.cr`, and set the `show_debug_output` setting to `false`.
 
     Once your app recompiles, try the action again, and you'll now see the default Lucky error page with
@@ -174,11 +174,11 @@ class Guides::Tutorial::BeyondBasics < GuideAction
 
     This tutorial is only meant to give you a quick overview and taste of how a Lucky app is
     structured. When it comes to developing applications, you will have your own preferences
-    as to where you want code to go, what you want to name things, and how logic should be structured.
+    regarding where you want code to go, what you want to name things, and how logic should be structured.
 
     We recommend deleting your app, and giving this tutorial a shot again. Think of it like a movie,
     you may have missed something the first time around! Maybe the second time will allow you to get
-    a little more adventerous with your code.
+    a little more adventurous with your code.
 
     As always, if you run in to any issues, please join us in the [Discord Chat](https://discord.gg/HeqJUcb)
     and someone will be around more than willing to help you out.
