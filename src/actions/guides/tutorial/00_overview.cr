@@ -47,27 +47,27 @@ class Guides::Tutorial::Overview < GuideAction
 
     ## The Wizard
 
-    From your terminal, we will start the Lucky wizard to generate our application. Run the `lucky init` command.
+    From your terminal, we will start the Lucky wizard to generate our application. Run the `lucky init` command:
 
     ```bash
     lucky init
     ```
 
-    This will ask us what "Project name" we would like to use. We will call it "clover" in all lowercase. Enter `clover`
+    This will ask us what "Project name" we would like to use. We will call it "clover" in all lowercase. Enter `clover`:
 
     ```
     Project name?: clover
     ```
 
     Next, the wizard will ask us which format of application we would like to build. We are building a "full" app
-    which will allow us to use CSS, JavaScript, and have HTML views. Enter `full`
+    which will allow us to use CSS, JavaScript, and have HTML views. Enter `full`:
 
     ```
     API only or full support for HTML and Webpack? (api/full): full
     ```
 
     Lastly, the wizard would like to know if we want to generate authentication. We do! This will give us the ability
-    to create user accounts and login/out of our accounts. Enter `y`
+    to create user accounts and login/out of our accounts. Enter `y`:
 
     ```
     Generate authentication? (y/n): y
@@ -108,10 +108,10 @@ class Guides::Tutorial::Overview < GuideAction
     * Install Crystal shard dependencies. (e.g. Lucky, Avram, etc...)
     * Create our database. In this case, a database named `clover_developement`
     * Verify that we can connect to this new database
-    * Run SQL code (migration) to create our users table. (Added by saying `y` to generate Authentication).
+    * Run SQL code (migration) to create our users table.
     * Import sample data in to our database. On the first run, there's no sample data.
 
-    Run the setup script. Enter `./script/setup`
+    Run the setup script. Enter `./script/setup`:
 
     ```bash
     ./script/setup
@@ -124,13 +124,13 @@ class Guides::Tutorial::Overview < GuideAction
     If you see the output `Run 'lucky dev' to start the app`, then
     you've officially started your first Lucky project! Now you can run the app, and play with it.
 
-    Start the Lucky app. Enter `lucky dev`.
+    Start the Lucky app. Enter `lucky dev`:
 
     ```bash
     lucky dev
     ```
 
-    At any point you'd like to stop the server, use the `ctrl-C` keyboard command.
+    Use `ctrl-c` at any time to stop the server.
 
     > There are two separate processes that boot; `assets` and `web`. We must wait for both to finish.
 
@@ -150,7 +150,7 @@ class Guides::Tutorial::Overview < GuideAction
     Now that you've generated a real working Lucky app, play around with it! In the next steps,
     we will start building out more of the application.
 
-    Try this...
+    Try this:
 
     * Sign out of your account
     * Sign back in to your account

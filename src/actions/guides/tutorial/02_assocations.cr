@@ -16,7 +16,7 @@ class Guides::Tutorial::Assocations < GuideAction
     ### Generating a new migration
 
     We will use the `gen.migration` cli task to create a new migration file that will add a reference to User from the
-    "fortunes" table. Enter `lucky gen.migration AddBelongsToUserForFortune`.
+    "fortunes" table. Generate the migration like this:
 
     ```
     lucky gen.migration AddBelongsToUserForFortune
@@ -81,7 +81,6 @@ class Guides::Tutorial::Assocations < GuideAction
 
     ```crystal
     require "../../src/app.cr"
-    # ... some comments
 
     puts "Truncating the Fortunes table"
 
@@ -106,8 +105,7 @@ class Guides::Tutorial::Assocations < GuideAction
     Associations work in two parts; the database, and the model. We update the database by writing our migration, so now we just need
     to update the models.
 
-    Open up the file `src/models/user.cr`. This `User` model was generated when we ran our setup wizard. Remember it asking us if
-    we wanted to use authentication? By saying "yes", it created this model with everything we needed.
+    Open up the file `src/models/user.cr`. This `User` model was generated when we ran our setup wizard.
 
     At the bottom of the `table` block, we will add this new code:
 
@@ -143,7 +141,7 @@ class Guides::Tutorial::Assocations < GuideAction
 
     For now, let's ensure our application boots up. If it fails, we can use this time to correct any issues.
 
-    Try this...
+    Try this:
 
     * Boot your application. (`lucky dev`)
     * Sign in, and try to create a fortune. Notice it fails

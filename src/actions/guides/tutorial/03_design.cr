@@ -101,9 +101,9 @@ class Guides::Tutorial::Design < GuideAction
 
     ### Installing a CSS framework
 
-    Lucky uses `yarn` by default, so this tutorial will as well; however, if you prefer a different installation, you may use that.
+    Lucky uses `yarn` by default, so this tutorial will as well. If you prefer a different installation you may use that.
 
-    Before we install Bootstrap, we should shut down our server. (`ctrl-C`) Then from the terminal, we can run `yarn add bootstrap`.
+    Before we install Bootstrap, we should shut down our server. (`ctrl-c`) Then from the terminal, we can run:
 
     ```bash
     yarn add bootstrap
@@ -124,7 +124,7 @@ class Guides::Tutorial::Design < GuideAction
     Now that we have a layout, we can update our Home page to match our new styles.
 
     Open up the `Home::IndexPage` file in `src/pages/home/index_page.cr`. In here, we will see the `content` method defined.
-    This is the method that's called in the `AuthLayout` class. In this `content` method, we can see the `h1` method. Let's update
+    This is the method that's called in the `AuthLayout` class. In this `content` method we can see the `h1` method. Let's update
     that with this code:
 
     ```crystal
@@ -146,9 +146,9 @@ class Guides::Tutorial::Design < GuideAction
     end
     ```
 
-    Notice that we're using the `link()` method. Your first thought might be "Why would we use the `<link>` tag here?".
-    This is one of the few exceptions to the "every tag has an associated method" rule. In this case, `link` creates an anchor tag `<a></a>`.
-    The `to:` argument takes a Lucky Action class allowing the links to be type-safe, and more future proof.
+    Notice that we're using the `link` method. Your first thought might be "Why would we use the `<link>` tag here?".
+    This is one of the few exceptions to the "every tag has an associated method" rule. In this case `link` creates an anchor tag `<a></a>`.
+    The `to:` argument takes a Lucky Action class allowing the links to be type-safe and more future proof.
 
     The other new tag here is `para`. This replaces the `<p></p>` tag due to Crystal already having a `p()` method used for printing to STDOUT.
 
@@ -159,14 +159,14 @@ class Guides::Tutorial::Design < GuideAction
 
     We've created a layout and a new home page. Now it's your turn to play with some HTML.
 
-    Try this...
+    Try this:
 
     * Add a copyright note to your footer that always displays the current year.
     * Create a custom CSS style using normal raw CSS in your `src/css/app.scss`.
     * Apply that custom style to a tag on your Home Page.
     * Update the styles for your Login / Signup pages
 
-    > If you have existing HTML you want to convert, try the [HTML to Lucky Converter](#{HtmlConversions::New.path}) utility.
+    > If you have existing HTML you want to convert try the [HTML to Lucky Converter](#{HtmlConversions::New.path}) utility.
 
     MD
   end

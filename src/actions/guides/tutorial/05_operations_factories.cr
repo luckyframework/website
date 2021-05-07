@@ -11,37 +11,37 @@ class Guides::Tutorial::OperationsFactories < GuideAction
 
     Unlike other frameworks that use the model to save to the database, Lucky uses separate
     class objects called [SaveOperations](#{Guides::Database::SavingRecords.path}).
-    These classes handle doing things like validations, ensuring parameter safety, and other
-    complex business logic you may encounter.
+    These classes handle: validations, ensuring parameter safety, and other
+    complex business logic you may need to implement.
 
-    The SaveOperations go in your `src/operations/` directory, and will usually be named according to
-    the action they are performing. (e.g. Saving a post would be `SavePost`)
+    SaveOperations go in your `src/operations/` directory and should be named according to
+    the action they are performing (e.g. Saving a post would be `SavePost`).
 
-    If you look in that directory now, you should see the `SignUpUser` class in `src/operations/sign_up_user.cr`.
+    If you look in that directory now you will see the `SignUpUser` class in `src/operations/sign_up_user.cr`.
     Open this file to take a look at the structure.
 
     ### SaveOperation breakdown
 
-    In this file, we will see a few items. Here's what each part means:
+    In this file, we see a few items. Here's what each part means:
 
     * `param_key :user` - Values from form fields passed in to this class must be prefixed with the `user` key.
-    * `include PasswordValidations` - SaveOperations are plain Crystal classes which allows you to include modules when you need
-    * `permit_columns email` - Only permit `email` to be passed in from params. (`user:email=my@email.com`)
-    * `attribute password : String` - A virtual attribute that can be passed in, but not related to a database column
+    * `include PasswordValidations` - SaveOperations are plain Crystal classes which allows you to include modules when you need.
+    * `permit_columns email` - Only permit `email` to be passed from params to the database (`user:email=my@email.com`).
+    * `attribute password : String` - A virtual attribute that can be passed in, but not related to a database column.
     * `before_save` - A callback to run a block of code before we save this record.
-    * `validate_uniqueness_of email` - A built-in validation to check uniqueness of the `email` column
-    * `Authentic.copy_and_encrypt password, to: encrypted_password` - Used to turn a plain "password" in to an encrypted string
+    * `validate_uniqueness_of email` - A built-in validation to check uniqueness of the `email` column.
+    * `Authentic.copy_and_encrypt password, to: encrypted_password` - Used to turn a plain "password" in to an encrypted string.
 
     ### Playing with SaveOperation
 
-    We can get a quick feel for these by using the `exec` cli task in our terminal. Enter `lucky exec`.
+    We can get a quick feel for these by using the `exec` cli task in our terminal:
 
     ```bash
     lucky exec
     ```
 
-    You should now have the code editor open, which may still show code from the last time we ran this.
-    We can delete the old code we wrote (or comment it out), and just focus on writing some new code. Add this:
+    You should now have a code editor open which may still show code from the last time we ran this.
+    Comment out any existing code and add this:
 
     ```crystal
     SignUpUser.create(email: "mytest@test.com", password: "notsecret", password_confirmation: "not_secret") do |operation, saved_user|
@@ -50,17 +50,17 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     end
     ```
 
-    Once done, save and exit the file. It will compile, then it will print out a `Hash(String, Array(String))` object, and `nil`. From this we
-    can see that our SaveOperation has a `create` method that will take named args of what the operation requires from us. Then it takes a block
-    that will pass the operation instance, and the saved user (if one exists). The `operation` has an `errors` method allowing us to inspect what
-    errors we get back, and why we don't have a `saved_user` object.
+    Once done, save and exit the file. It will compile and print out a `Hash(String, Array(String))` object, and `nil`.
+    Our SaveOperation has a `create` method which takes named args of what the operation requires from us. It 
+    also takes a block that will pass the operation instance and the saved user (if one exists). The `operation` has
+    an `errors` method allowing us to inspect what errors we get back and why we don't have a `saved_user` object.
 
-    > Since we're not using a form here, we can [save without params](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_SAVING_WITHOUT_PARAMS)}).
+    > Since we're not using a form here we can [save without params](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_SAVING_WITHOUT_PARAMS)}).
 
     Now hit `enter` to go back and edit the code. Fix the `password_confirmation` so they match, save & exit. This time we see an empty hash `{}`,
     and our new `User` instance.
 
-    > For more information on saving records, read the [Saving and Updating Records](#{Guides::Database::SavingRecords.path}) guide.
+    > For more information on saving records read the [Saving and Updating Records](#{Guides::Database::SavingRecords.path}) guide.
 
     ## Creating Sample Data
 
@@ -94,8 +94,8 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     end
     ```
 
-    We must add a value for every required column. The autogenerated columns `id`, `created_at`, and `updated_at` are automatically
-    assigned a value, so no need to add those.
+    We must add a value for every required column. The auto-generated columns `id`, `created_at`, and `updated_at` are automatically
+    assigned a value.
 
     > It's important that the name of this class matches the name of the model (`Fortune`), and then ends in `Factory` (`FortuneFactory`).
 
@@ -121,16 +121,16 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     end
     ```
 
-    With that file updated, we can now run our `db.seed.sample_data` cli task to execute this code. Enter `lucky db.seed.sample_data`
+    With that file updated we can now run our `db.seed.sample_data` cli task to execute this code:
 
     ```bash
     lucky db.seed.sample_data
     ```
 
-    You will see the "Done adding sample data" when it's complete. In the next steps, we will go over writing queries to view these
+    You will see "Done adding sample data" when it's complete. In the next steps we will go over writing queries to view these
     new records.
 
-    > For more information on creating sample data, read the [Creating Test Data](#{Guides::Testing::CreatingTestData.path}) guide.
+    > For more information on creating sample data read the [Creating Test Data](#{Guides::Testing::CreatingTestData.path}) guide.
 
     ## Your Turn
 

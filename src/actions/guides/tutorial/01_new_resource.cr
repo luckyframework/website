@@ -48,15 +48,15 @@ class Guides::Tutorial::NewResource < GuideAction
 
     Lucky generated a migration file for us located in `db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_create_fortunes.cr`.
     This migration file will generate a SQL statement for us that will create our "fortunes" table and add the columns our
-    table needs like `text`, as well as a few other columns Avram gives to us for free; `id`, `created_at`, and `updated_at`.
+    table needs like `text`, as well as a few other columns Avram gives to us for free: `id`, `created_at`, and `updated_at`.
 
-    To execute this code, we will run the `db.migrate` cli task. Enter `lucky db.migrate`.
+    To execute this code, we will run the `db.migrate` cli task. Enter `lucky db.migrate`:
 
     ```bash
     lucky db.migrate
     ```
 
-    If you don't see output that says "Migrated", be sure to check spelling, and typos.
+    You should see a response that says "Migrated".
 
     > For more information on migrations, read the [Migrations](#{Guides::Database::Migrations.path}) guide.
 
@@ -64,7 +64,7 @@ class Guides::Tutorial::NewResource < GuideAction
 
     Now that we've updated our database, we can boot our app to test a few things.
 
-    Try this...
+    Try this:
 
     * Boot your application. (`lucky dev`)
     * Sign in, then visit `/fortunes` in your browser.

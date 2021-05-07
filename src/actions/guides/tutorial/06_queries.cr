@@ -15,7 +15,7 @@ class Guides::Tutorial::Queries < GuideAction
 
     ### Simple queries
 
-    The most basic query you can run is `SELECT * FROM table_name`. In Lucky, you just need to instantiate a query object.
+    The most basic query you can run is `SELECT * FROM table_name`. 
     To query all of the users (`SELECT * FROM users`) it's as simple as `UserQuery.new`. If you need a specific record,
     we can use the `find` method and pass in the primary key value for the record we are looking for. (e.g. `UserQuery.find(4)`)
 
@@ -23,7 +23,7 @@ class Guides::Tutorial::Queries < GuideAction
     run the query, you'll either iterate the collection using a method like `each` or `map`, or you will ask for a single
     record like calling `find` or `first`.
 
-    Here are a few simple examples.
+    Here are a few simple examples:
 
     ```crystal
     # SELECT * FROM users;
@@ -33,7 +33,7 @@ class Guides::Tutorial::Queries < GuideAction
     UserQuery.find(4)
     ```
 
-    When you need to get more granular with your query, you will want to run a `WHERE` query. In Lucky, each of the columns
+    When you need to get more granular with your query, you will want to run a `WHERE` query. In Lucky each of the columns
     on a model have an associated query method that requires the proper type to be passed. This keeps your queries type-safe.
 
     ```crystal
@@ -44,10 +44,10 @@ class Guides::Tutorial::Queries < GuideAction
     MealQuery.new.favorite(true).name("tacos")
     ```
 
-    As you can see, the methods are chainable. If the type is `Bool`, then you must pass a boolean value. Passing in a `nil` value
+    As you can see, the methods are chainable. If the type is `Bool` then you must pass a boolean value. Passing in a `nil` value
     when the type isn't nilable will cause a compile-time error.
 
-    > For more information on querying records, read the [Querying Records](#{Guides::Database::Querying.path}) guide.
+    > For more information on querying records read the [Querying Records](#{Guides::Database::Querying.path}) guide.
 
     ## Adding a Query
 
@@ -73,7 +73,7 @@ class Guides::Tutorial::Queries < GuideAction
 
     Since we need to pass data from our action to our page, we must update the `Home::IndexPage`
     so it knows that it `needs` this data. Open up the `Home::IndexPage` in `src/pages/home/index_page.cr`.
-    At the top of the class, we can add our `needs` line.
+    At the top of the class we can add our `needs` line:
 
     ```crystal
     # src/pages/home/index_page.cr
@@ -91,7 +91,7 @@ class Guides::Tutorial::Queries < GuideAction
     or select a single record.
 
     Our `needs` on the page gives us a method by the same name `fortunes` which we can use to iterate over. Let's add
-    some code inside of that "container" div we added.
+    some code inside of that "container" div we added:
 
     ```crystal
     # src/pages/home/index_page.cr
@@ -116,7 +116,7 @@ class Guides::Tutorial::Queries < GuideAction
     end
     ```
 
-    At this point, we should make sure things are still working. Boot your app (`lucky dev`) to make sure everything compiles.
+    At this point we should make sure things are still working. Boot your app (`lucky dev`) to make sure everything compiles.
     Then view the beautiful new list. Everything work? Great!
 
     ## Your Turn

@@ -34,15 +34,15 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ```
 
     We are telling this operation that it must include the `current_user` object. Then before we save
-    the fortune record, we assign a value to `user_id` attribute.
+    the fortune record we assign a value to `user_id` attribute.
 
-    > For more information on attributes, read the [What are attributes](#{Guides::Database::CallbacksAndValidations.path(anchor: Guides::Database::CallbacksAndValidations::ANCHOR_ATTRIBUTES)})
+    > For more information on attributes read the [What are attributes](#{Guides::Database::CallbacksAndValidations.path(anchor: Guides::Database::CallbacksAndValidations::ANCHOR_ATTRIBUTES)})
     > guide in Callbacks and Validations.
 
     ### Passing data to the operation
 
-    With the addition of the `needs`, any time we instantiate the `SaveFortune`, we must pass in the `current_user` object.
-    For now, this is in the following fortune actions: `Fortunes::New`, `Fortunes::Create`, `Fortunes::Edit`, and `Fortunes::Update`.
+    With the addition of the `needs` any time we instantiate the `SaveFortune`, we must pass in the `current_user` object.
+    For now this is in the following fortune actions: `Fortunes::New`, `Fortunes::Create`, `Fortunes::Edit`, and `Fortunes::Update`.
 
     We will start the `Fortunes::New` action in `src/actions/fortunes/new.cr`. Update with this code:
 
@@ -75,15 +75,15 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ```
 
     We've updated a lot of code. Now is a good time to boot your app and make sure everything compiles as it should.
-    Once booted, you can sign in to your account, and visit the `/fortunes/new` page. See that creating a new fortune
+    Once booted you can sign in to your account and visit the `/fortunes/new` page. See that creating a new fortune
     will assign it to your account.
 
     ## Authenticating Actions
 
-    Since each fortune is specific to a user, no other user should be allowed to edit or delete another user's
+    Since each fortune is specific to a user no other user should be allowed to edit or delete another user's
     fortune. We must detect that a fortune doesn't belong to a user, and handle this appropriately.
 
-    We will need to update several actions, `Fortunes::Edit`, `Fortunes::Update`, and `Fortunes::Delete` to
+    We will need to update several actions: `Fortunes::Edit`, `Fortunes::Update`, and `Fortunes::Delete` to
     ensure we're protecting against unauthorized updates. This is a good time to try a mixin.
 
     ### Adding an action mixin

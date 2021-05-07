@@ -10,7 +10,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
     ## What are Components?
 
     In Lucky, Components are small, reusable bits of HTML that relate to some smaller portion of a site.
-    We create a separate class for these, and they go in your `src/components/` directory. We've already
+    We create a separate class for these and they go in your `src/components/` directory. We've already
     seen two of them in use in our `AuthLayout`. The `Shared::LayoutHead`, and `Shared::FlashMessages`.
 
     Let's take a look at the `Shared::LayoutHead` component in `src/components/shared/layout_head.cr`. In this file,
@@ -23,13 +23,12 @@ class Guides::Tutorial::UsingComponents < GuideAction
     ## Reusing Components
 
     We currently have two separate layouts, but our custom footer is only in the `AuthLayout`. Let's create a
-    new component that will allow us to render our footer in both layouts. From your terminal, enter `lucky gen.component Shared::Footer`
-
+    new component that will allow us to render our footer in both layouts:
     ```bash
     lucky gen.component Shared::Footer
     ```
 
-    Next, we need to open up our `AuthLayout` in `src/pages/auth_layout.cr`, and move our `footer` block in to the `render` method of
+    Next we need to open up our `AuthLayout` in `src/pages/auth_layout.cr` and move our `footer` block in to the `render` method of
     our newly generated `Shared::Footer` component.
 
     ```diff
@@ -42,7 +41,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
     + mount Shared::Footer
     ```
 
-    Then in our `Shared::Footer`, we will paste our code in the `render` method.
+    Then in our `Shared::Footer`, paste our code in the `render` method:
 
     ```crystal
     # src/components/shared/footer.cr
@@ -55,7 +54,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
     end
     ```
 
-    The `mount` method takes the component class, and will handle setting it up and calling render.
+    The `mount` method takes the component class and handles setting it up and calling render.
     As an added benefit, if you inspect your page's markup, you'll see HTML comments wrapped around each
     component. This allows you to see which component is responsible for the markup being rendered.
 
@@ -67,8 +66,8 @@ class Guides::Tutorial::UsingComponents < GuideAction
 
     ## Your Turn
 
-    Getting the hang of Components can really help to clean up your code, as well as make
-    testing your views a lot easier. Now it's your turn to play with them a bit.
+    Getting the hang of Components can really help to clean up your code and using them well can make
+    testing your views easier. Now it's your turn to play with them a bit.
 
     Try this...
 
