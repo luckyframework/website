@@ -38,6 +38,9 @@ hljs.registerLanguage('html', html);
 import yaml from 'highlight.js/lib/languages/yaml';
 hljs.registerLanguage('yaml', yaml);
 
+import diff from 'highlight.js/lib/languages/diff';
+hljs.registerLanguage('diff', diff);
+
 document.addEventListener("turbolinks:load", function () {
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);

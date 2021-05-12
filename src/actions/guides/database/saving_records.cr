@@ -3,6 +3,7 @@ class Guides::Database::SavingRecords < GuideAction
   ANCHOR_PARAM_KEY             = "perma-param-key"
   ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
   ANCHOR_CHANGE_TRACKING       = "perma-change-tracking"
+  ANCHOR_SAVING_WITHOUT_PARAMS = "perma-saving-without-params"
   ANCHOR_SAVING_ENUMS          = "perma-saving-enums"
   guide_route "/database/saving-records"
 
@@ -531,6 +532,7 @@ class Guides::Database::SavingRecords < GuideAction
 
     Now your `operation.errors` will include `{"user_banned" => ["Sorry, you've been banned"]}`.
 
+    #{permalink(ANCHOR_SAVING_WITHOUT_PARAMS)}
     ## Saving without a params object
 
     This can be helpful if you’re saving something that doesn’t need an HTML form,

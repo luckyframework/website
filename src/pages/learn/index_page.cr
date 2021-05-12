@@ -66,7 +66,7 @@ class Learn::IndexPage < PageLayout
 
       div class: "mt-8" do
         h3 class: "text-lg font-medium" do
-          a class: "focus:outline-none", href: Learn::Tutorial::Overview.path do
+          a class: "focus:outline-none", href: Guides::Tutorial::Overview.path do
             span aria_hidden: "true", class: "absolute inset-0"
             text "Tutorial"
           end

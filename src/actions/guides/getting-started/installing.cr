@@ -1,6 +1,8 @@
 class Guides::GettingStarted::Installing < GuideAction
   ANCHOR_INSTALL_REQUIRED_DEPENDENCIES = "perma-install-required-dependencies"
   ANCHOR_POSTGRESQL                    = "perma-install-postgres"
+  ANCHOR_PROC_MANAGER                  = "perma-install-process-manager"
+  ANCHOR_NODE                          = "perma-install-node"
   guide_route "/getting-started/installing"
 
   def self.title
@@ -203,6 +205,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     This should return `#{LuckyCliVersion.current_version}`
 
+    #{permalink(ANCHOR_PROC_MANAGER)}
     ## Process manager
 
     Lucky uses a process manager to watch assets and start the server in development.
@@ -267,6 +270,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Should return `psql (PostgreSQL) 10.x` or higher.
 
+    #{permalink(ANCHOR_NODE)}
     ## Node and Yarn (optional)
 
     > You can skip this if you only plan to only build APIs.
