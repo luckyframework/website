@@ -14,6 +14,10 @@ class GenerateSitemap < LuckyTask::Task
       add(Home::Index.path, changefreq: "yearly", priority: 0.9)
       add(HtmlConversions::New.path, changefreq: "yearly", priority: 0.2)
       add(Blog::Index.path, changefreq: "monthly", priority: 0.6)
+      add(Learn::Index.path, changefreq: "yearly", priority: 0.4)
+      add(Learn::AwesomeLucky::Index.path, changefreq: "monthly", priority: 0.5)
+      add(Learn::Community::Index.path, changefreq: "monthly", priority: 0.5)
+      add(Learn::Ecosystem::Index.path, changefreq: "monthly", priority: 0.5)
 
       GuidesList.guides.each do |guide|
         modification_time = get_modification_time_of_file(guide.guide_file_path)
