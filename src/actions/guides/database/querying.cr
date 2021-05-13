@@ -415,7 +415,7 @@ class Guides::Database::Querying < GuideAction
     `SELECT COUNT(*) FROM users`
 
     ```crystal
-    # This will return a Int64.
+    # This will return an Int64.
     # The value will be 0 if there are no records.
     UserQuery.new.select_count
     ```
