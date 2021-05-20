@@ -216,8 +216,19 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name("Alfred").or(&.name("Bruce"))
     ```
 
-    > `OR` queries can become quite complex. Avram currently makes no assumption on
-    > where to place parenthesis `()` for conditional grouping. [See #488](https://github.com/luckyframework/avram/issues/488)
+    `OR` queries can become quite complex. If you need to wrap conditions, you can use
+    the `where(&)` method. This will take a block, and wrap any query chain inside with
+    parenthesis `()`.
+
+    `SELECT COLUMNS FROM users WHERE users.likes_bats = true OR (users.first_name = 'Kate' AND users.last_name = 'Kane')`
+
+    ```crystal
+    UserQuery.new.likes_bats(true).or do |or|
+      or.where do |where|
+        where.first_name("Kate").last_name("Kane"))
+      end
+    end
+    ```
 
     ### A != B
 
