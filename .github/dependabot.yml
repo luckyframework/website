@@ -5,7 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: main
+    target-branch: master
     reviewers:
       - stephendolan
 
@@ -13,7 +13,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: main
+    target-branch: master
     versioning-strategy: increase
     reviewers:
       - stephendolan
