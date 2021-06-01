@@ -824,9 +824,9 @@ class Guides::Database::Querying < GuideAction
       .to_prepared_sql
     #=> "SELECT COLUMNS FROM users INNER JOIN posts ON users.id = posts.user_id WHERE posts.tags = '{"crystal", "lucky"}' LIMIT 10"
     ```
-    
+
     If you'd prefer to see every query that is being run in your server logs, you can configure Avram's log level like this:
-    
+
     ```crystal
     # This is often set in `config/database.cr`
     Avram::QueryLog.dexter.configure(:info)
