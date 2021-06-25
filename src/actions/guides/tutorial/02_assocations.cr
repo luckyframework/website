@@ -2,7 +2,7 @@ class Guides::Tutorial::Assocations < GuideAction
   guide_route "/tutorial/assocations"
 
   def self.title
-    "Assocating Models"
+    "Associating Models"
   end
 
   def markdown : String
@@ -26,7 +26,7 @@ class Guides::Tutorial::Assocations < GuideAction
 
     ### Writing a migration
 
-    In this file, you will see two methods; `migrate` and `rollback`. The `migrate` method is run when we move our migration forward. (e.g. creating a new table).
+    In this file, you will see two methods; `migrate` and `rollback`. The `migrate` method is run when we move our migration forward (e.g. creating a new table).
     The `rollback` method is used to write the opposite of what `migrate` does. So if `migrate` creates a new table, then `rollback` should drop that table. You
     would use this to undo the last ran migration allowing you to fix, or revert your database schema.
 
