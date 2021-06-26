@@ -11,7 +11,7 @@ class GuidesList
       GuideCategory.new("Beginners Tutorial", [
         Guides::Tutorial::Overview,
         Guides::Tutorial::NewResource,
-        Guides::Tutorial::Assocations,
+        Guides::Tutorial::Associations,
         Guides::Tutorial::Design,
         Guides::Tutorial::UsingComponents,
         Guides::Tutorial::OperationsFactories,

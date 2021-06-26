@@ -1,5 +1,5 @@
-class Guides::Tutorial::Assocations < GuideAction
-  guide_route "/tutorial/assocations"
+class Guides::Tutorial::Associations < GuideAction
+  guide_route "/tutorial/associations"
 
   def self.title
     "Associating Models"
