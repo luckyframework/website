@@ -133,7 +133,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     ## Step 4 - Add 'lang' to users table
 
-    This setup will assocatiate a language key with each user this language key is used when displaying information.
+    This setup will associate a language key with each user this language key is used when displaying information.
 
     Generate a migration using:
 
