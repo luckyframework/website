@@ -28,7 +28,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Setting up a custom DeleteOperation
 
-    You can customize a DeleteOperations with callbacks and validations.  These
+    You can customize DeleteOperations with callbacks and validations.  These
     classes go in your `src/operations/` directory, and will inherit from
     `{ModelName}::DeleteOperation`.
 
