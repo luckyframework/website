@@ -83,7 +83,7 @@ class Guides::GettingStarted::Installing < GuideAction
     We recommend using a version manager to make sure the correct version of
     Crystal is used with Lucky.
 
-    * [Install asdf](https://asdf-vm.com/#/core-manage-asdf-vm)
+    * [Install asdf](https://asdf-vm.com/#/core-manage-asdf)
     * Install the [asdf-crystal](https://github.com/marciogm/asdf-crystal) plugin:
 
     ```plain
