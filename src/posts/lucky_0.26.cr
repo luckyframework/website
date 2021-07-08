@@ -238,7 +238,7 @@ class Lucky026Release < BasePost
     Build anything, and let us know your thoughts. What do you like, what would you like to see improved?
 
     If you find any issues, don't hesitate to [report them](https://github.com/luckyframework/lucky/issues).
-    If you're unsure, just hop on [Discord chat](https://discord.gg/HeqJUcb) so we can help you out.
+    If you're unsure, just hop on [Discord chat](#{Chat::Index.path}) so we can help you out.
 
     Thanks so much for the support!
 
@@ -249,7 +249,7 @@ class Lucky026Release < BasePost
 
     Learn more about Lucky with the all new [LuckyCasts](https://luckycasts.com/)!
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

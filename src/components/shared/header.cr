@@ -56,7 +56,7 @@ class Shared::Header < BaseComponent
     nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("Learn", Learn::Index.path)
     nav_link("Blog", Blog::Index.path)
-    nav_link("Chat", "https://discord.gg/HeqJUcb", target: "_blank")
+    nav_link("Chat", Chat::Index.path, target: "_blank")
     nav_link("GitHub", "https://github.com/luckyframework/lucky", target: "_blank")
   end
 

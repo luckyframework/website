@@ -2,12 +2,12 @@
 
 ### Future guide goals
 
-* Add screencasts
-* *Versioned*. Look at old ones, or even look at what's on master
-* Link to relevant screencasts
-* Helpful or not button
-  * If not, direct to Discord to get help
-* Check code snippets in real projects. More confidence code samples work.
+- Add screencasts
+- _Versioned_. Look at old ones, or even look at what's on master
+- Link to relevant screencasts
+- Helpful or not button
+  - If not, direct to Discord to get help
+- Check code snippets in real projects. More confidence code samples work.
 
 ## Setting up the project
 
@@ -28,4 +28,4 @@ Guides are located in the `src/actions/guides`. You can edit the markdown in eac
 
 ### Learning Lucky
 
-Lucky uses the [Crystal](https://crystal-lang.org) programming language. You can learn about Lucky from the [Lucky Guides](http://luckyframework.org/guides). Get help on our [Discord](https://discord.gg/HeqJUcb) server.
+Lucky uses the [Crystal](https://crystal-lang.org) programming language. You can learn about Lucky from the [Lucky Guides](http://luckyframework.org/guides). Get help on our [Discord](https://luckyframework.org/chat) server.
