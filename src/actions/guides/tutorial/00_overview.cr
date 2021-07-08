@@ -31,7 +31,7 @@ class Guides::Tutorial::Overview < GuideAction
     ### Assumptions
 
     Before we begin, a few assumptions will be made about you, and your skill level. If at any point you feel confused or lost,
-    or just need clarification, please [chat with us](#{Links.chat_url}) so we can clear things up. We love to help!
+    or just need clarification, please [chat with us](#{Chat::Index.path}) so we can clear things up. We love to help!
 
     We assume you have...
 

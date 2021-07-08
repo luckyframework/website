@@ -102,7 +102,7 @@ class Lucky027Release < BasePost
 
     Learn tips and tricks with [LuckyCasts](https://luckycasts.com/).
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

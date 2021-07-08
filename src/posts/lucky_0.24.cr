@@ -159,7 +159,7 @@ class Lucky024Release < BasePost
 
     Please give it a spin and help us find bugs so our next release is even more solid.
     If you find any issues, don't hesitate to [report the issue](https://github.com/luckyframework/lucky/issues).
-    If you're unsure, just hop on [Discord chat](https://discord.gg/HeqJUcb) so we can help you out.
+    If you're unsure, just hop on [Discord chat](#{Chat::Index.path}) so we can help you out.
 
     Thanks so much for the support!
 
@@ -168,7 +168,7 @@ class Lucky024Release < BasePost
     If you haven't already, give us a [star on github](https://github.com/luckyframework/lucky),
     and be sure to follow us on [Twitter](https://twitter.com/luckyframework/).
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

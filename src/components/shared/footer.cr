@@ -10,7 +10,7 @@ class Shared::Footer < BaseComponent
           div class: "flex flex-wrap md:flex-no-wrap justify-between items-center py-4 md:py-0 md:px-6" do
             footer_icon("https://github.com/luckyframework/lucky", asset("icons/github.svg"), "Github")
             footer_icon("https://twitter.com/luckyframework", asset("icons/twitter.svg"), "Twitter")
-            footer_icon("https://discord.gg/HeqJUcb", asset("icons/discord.svg"), "Discord")
+            footer_icon(Chat::Index.path, asset("icons/discord.svg"), "Discord")
           end
         end
       end
