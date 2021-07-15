@@ -1,10 +1,10 @@
 class HTML2Lucky::TagFactory
-  TEXT_TAG_NAME    = "-text"
-  COMMENT_TAG_NAME = "_comment"
+  TEXT_TAG_NAME    = "_text"
+  COMMENT_TAG_NAME = "_em_comment"
 
   getter depth, tag
 
-  def initialize(@tag : Myhtml::Node, @depth : Int32)
+  def initialize(@tag : Lexbor::Node, @depth : Int32)
   end
 
   def build : Tag

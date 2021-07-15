@@ -6,7 +6,7 @@ abstract class HTML2Lucky::Tag
 
   getter depth, tag
 
-  def initialize(@tag : Myhtml::Node, @depth : Int32)
+  def initialize(@tag : Lexbor::Node, @depth : Int32)
   end
 
   abstract def print_io(io : IO) : IO
