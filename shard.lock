@@ -60,6 +60,10 @@ shards:
     git: https://github.com/luckyframework/habitat.git
     version: 0.4.7
 
+  lexbor:
+    git: https://github.com/kostya/lexbor.git
+    version: 2.6.10
+
   lucky:
     git: https://github.com/luckyframework/lucky.git
     version: 0.27.2
@@ -79,10 +83,6 @@ shards:
   lucky_task:
     git: https://github.com/luckyframework/lucky_task.git
     version: 0.1.0
-
-  myhtml:
-    git: https://github.com/kostya/myhtml.git
-    version: 1.5.4
 
   pg:
     git: https://github.com/will/crystal-pg.git

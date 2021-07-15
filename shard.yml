@@ -29,9 +29,9 @@ dependencies:
   cadmium_transliterator:
     github: cadmiumcr/transliterator
     branch: master
-  myhtml:
-    github: kostya/myhtml
-    version: 1.5.4
+  lexbor:
+    github: kostya/lexbor
+    version: ~> 2.6.10
   sitemapper:
     github: jwoertink/sitemapper
     version: ~> 0.7.1
