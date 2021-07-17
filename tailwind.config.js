@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "light-blue": colors.lightBlue,
+        sky: colors.sky,
         rose: colors.rose,
 
         // Pre-2.0 colors for backwards compatibility
