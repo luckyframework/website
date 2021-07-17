@@ -34,7 +34,7 @@ jobs:
       - name: Install CMake
         run: |
           apt-get update
-          apt-get -yqq install cmake
+          apt-get -yqq install build-essential cmake
       - uses: actions/setup-node@v2.2.0
         with:
           node-version: '12.x'
