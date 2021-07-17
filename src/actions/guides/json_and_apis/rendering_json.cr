@@ -29,7 +29,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     ```
 
     > Here is a [list of all statuses Lucky
-    supports](https://github.com/luckyframework/lucky/blob/9e390e12c9f517517f6526d26fde372dfd02585c/src/lucky/action.cr#L20-L80)
+    supports](https://crystal-lang.org/api/1.0.0/HTTP/Status.html#enum-members)
 
     #{permalink(ANCHOR_SERIALIZERS)}
     ## Create a serializer
