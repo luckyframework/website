@@ -10,7 +10,7 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal:0.36.1
+      image: crystallang/crystal:1.1.0
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Install CMake
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: crystallang/crystal:0.36.1
+      image: crystallang/crystal:1.1.0
 
     steps:
       - uses: actions/checkout@v2.3.4
