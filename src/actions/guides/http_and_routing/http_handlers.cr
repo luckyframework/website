@@ -87,7 +87,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
         #
         # To make sure that `middleware` still returns only `HTTP::Handler`s,
         # we `select(HTTP::Handler)` when returning from this method.
-        Lucky::Env.production? ? nil : Lucky::StaticFileHandler.new("./tmp", fallthrough: false, directory_listing: false),
+        LuckyEnv.production? ? nil : Lucky::StaticFileHandler.new("./tmp", fallthrough: false, directory_listing: false),
 
         Lucky::RouteNotFoundHandler.new,
       ].select(HTTP::Handler)
