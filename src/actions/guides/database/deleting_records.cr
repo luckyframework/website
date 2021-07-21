@@ -38,7 +38,7 @@ class Guides::Database::DeletingRecords < GuideAction
           if operation.deleted?
             redirect to: Servers::Index
           else
-            flash.danger = "Could not delete"
+            flash.failure = "Could not delete"
             html Servers::EditPage, server: deleted_server
           end
         end
@@ -53,7 +53,7 @@ class Guides::Database::DeletingRecords < GuideAction
       if operation.deleted?
         redirect to: Servers::Index
       else
-        flash.danger = "Could not delete"
+        flash.failure = "Could not delete"
         html Servers::EditPage, server: deleted_server
       end
     end
