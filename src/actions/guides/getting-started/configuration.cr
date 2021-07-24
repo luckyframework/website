@@ -34,7 +34,7 @@ class Guides::GettingStarted::Configuration < GuideAction
     If you need a custom environment like `staging`, for example, you can add this option in `config/env.cr`.
     This will give you the helper method `LuckyEnv.staging?` for use in your app.
 
-    ```
+    ```crystal
     LuckyEnv.add_env :staging
     ```
 
