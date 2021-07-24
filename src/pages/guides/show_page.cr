@@ -14,7 +14,7 @@ class Guides::ShowPage
     html_doctype
 
     html lang: "en" do
-      mount Shared::LayoutHead, seo: SEO.new(page_title), context: @context
+      mount Shared::LayoutHead, seo: SEO.new(page_title)
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
         mount Shared::Header, @context.request

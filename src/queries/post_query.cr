@@ -2,7 +2,7 @@ class PostQuery
   POSTS = [] of BasePost
 
   def all
-    if Lucky::Env.development?
+    if LuckyEnv.development?
       all_posts_newest_first
     else
       only_published_today_or_earlier
