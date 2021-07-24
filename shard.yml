@@ -8,21 +8,24 @@ targets:
   website_v2:
     main: src/website_v2.cr
 
-crystal: 0.36.1
+crystal: 1.1.0
 
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: ~> 0.27.0
+    version: ~> 0.28.0
   authentic:
     github: luckyframework/authentic
-    version: ~> 0.7.3
+    version: ~> 0.8.0
   carbon:
     github: luckyframework/carbon
-    version: ~> 0.1
+    version: ~> 0.2
+  carbon_sendgrid_adapter:
+    github: luckyframework/carbon_sendgrid_adapter
+    version: ~> 0.1.0
   lucky_env:
     github: luckyframework/lucky_env
-    version: ~> 0.1.0
+    version: ~> 0.1.3
   cmark:
     github: amauryt/cr-cmark-gfm
     branch: master
@@ -34,7 +37,7 @@ dependencies:
     version: ~> 2.6.10
   sitemapper:
     github: jwoertink/sitemapper
-    version: ~> 0.7.1
+    version: ~> 0.7.2
 
 development_dependencies:
   lucky_flow:

@@ -1,6 +1,5 @@
 class Shared::LayoutHead < BaseComponent
   needs seo : SEO
-  needs context : HTTP::Server::Context
 
   def render
     head do
