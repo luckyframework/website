@@ -26,11 +26,11 @@ class Lucky028Release < BasePost
     We even had [Stephen Dolan](https://github.com/stephendolan/) and [Jeremy Woertink](https://github.com/jwoertink/)
     from our Lucky core team give some incredible talks. Big shout-out to all that gave talks, attended
     the conference, and especially those that helped put it together like [Lorenzo Barasti](https://twitter.com/lbarasti)
-    , and [Martin Pettinati](https://manas.tech/staff/mpettinati/)
+    , and [Martin Pettinati](https://manas.tech/staff/mpettinati/).
 
     The conference was great, and it was so amazing to see how Crystal is being used in different
     ways by everyone. On top of putting on a great conference, the Crystal team also managed to
-    release Crystal 1.1.0! We've released Lucky 0.28 which has compatibility with the latest Crystal.
+    [release Crystal 1.1.0](https://crystal-lang.org/2021/07/16/1.1.0-released.html)! We've released Lucky 0.28 which has compatibility with the latest Crystal.
 
     [Lucky v0.28](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md)
     is officially out. This ended up being a bit larger than we anticipated, but
@@ -195,7 +195,7 @@ class Lucky028Release < BasePost
 
     Actions got a few small updates starting with a new `multipart?` helper
     method that returns `true` when the request is multipart (i.e. uploading a file).
-This method accompanies the already existing `ajax?`, `xml?`, and `plain_text?` methods.
+    This method accompanies the already existing `ajax?`, `xml?`, and `plain_text?` methods.
 
     Along with the new helper methods, this version introduces two new response methods, `raw_json`,
     and `html_with_status`.
@@ -215,7 +215,7 @@ This method accompanies the already existing `ajax?`, `xml?`, and `plain_text?` 
     ```crystal
     get "/tea_party" do
       # render the IndexPage with status 418
-      html_with_status IndexPage, 418
+      html_with_status IndexPage, HTTP::Status::IM_A_TEAPOT.value
     end
     ```
 
@@ -262,15 +262,16 @@ This method accompanies the already existing `ajax?`, `xml?`, and `plain_text?` 
     an existing record, or create a new one if none exist.
 
     ```crystal
-    class UpsertUserOperation < User::SaveOperation
-      # Use the name and nickname columns to check
+    class PartyOperation < User::SaveOperation
+      # Use the name column to check
       # for existing records
       upsert_lookup_columns :name
     end
 
     # If a User record exists with the name "Jude", then we will
     # update that record with the "attending" column set to false.
-    # If Jude is not in the DB, then we add him in with attending set to false
+    # If Jude is not in the DB, then we create a new record with
+    # the name "Jude", and attending false.
     PartyOperation.upsert!(name: "Jude", attending: false)
     ```
 
