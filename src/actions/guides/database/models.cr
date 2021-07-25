@@ -271,19 +271,19 @@ class Guides::Database::Models < GuideAction
     numbers better, but people handle words better. This is a happy medium between the two. For example, a user status may be "active", but we
     store it as the number 1.
 
-    Avram comes with an `avram_enum` macro to help using Crystal Enum while maintaining Lucky's type-safety with the database.
+    Read more on [Crystal enums](https://crystal-lang.org/api/latest/Enum.html).
 
     ```crystal
     class User < BaseModel
 
-      avram_enum Status do
+      enum Status
         # Default value starts at 0
         Guest   # 0
         Active  # 1
         Expired # 2
       end
 
-      avram_enum Role do
+      enum Role
         # Assign custom values
         Member = 1
         Admin = 2
@@ -297,12 +297,12 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
-    The column will return an instance of your `avram_enum`. (e.g. `User::Role.new(:admin)`). This gives
+    The column will return an instance of your `enum`. (e.g. `User::Role::Admin`). This gives
     you access to a few helper methods for handling the enum.
 
     ```crystal
-    User::Status.new(:active).value #=> 1
-    User::Role.new(:superadmin).value #=> 3
+    User::Status::Active.value #=> 1
+    User::Role::Superadmin.value #=> 3
 
     user = UserQuery.new.first
     user.status.value #=> 1
