@@ -25,7 +25,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Using in actions
 
-    The interface should feel pretty familiar. The object being deleted is passed in to the `destroy` method, and a block will
+    The interface should feel pretty familiar. The object being deleted is passed in to the `delete` method, and a block will
     return the operation instance, and the object being deleted.
 
     ```crystal
@@ -34,7 +34,7 @@ class Guides::Database::DeletingRecords < GuideAction
       delete "/servers/:server_id" do
         server = ServerQuery.find(server_id)
 
-        DeleteServer.destroy(server) do |operation, deleted_server|
+        DeleteServer.delete(server) do |operation, deleted_server|
           if operation.deleted?
             redirect to: Servers::Index
           else
@@ -49,7 +49,7 @@ class Guides::Database::DeletingRecords < GuideAction
     You can also pass in params or named args for use with attributes, or `needs`.
 
     ```crystal
-    DeleteServer.destroy(server, params, secret_codes: [23_u16, 94_u16]) do |operation, deleted_server|
+    DeleteServer.delete(server, params, secret_codes: [23_u16, 94_u16]) do |operation, deleted_server|
       if operation.deleted?
         redirect to: Servers::Index
       else
@@ -181,7 +181,7 @@ class Guides::Database::DeletingRecords < GuideAction
       delete "/articles/:article_id" do
         article = ArticleQuery.find(article_id)
 
-        deleted_article = DeleteArticle.destroy!(article)
+        deleted_article = DeleteArticle.delete!(article)
 
         # This returns `true`
         deleted_article.soft_deleted?
