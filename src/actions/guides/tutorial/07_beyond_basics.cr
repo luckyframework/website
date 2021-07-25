@@ -123,18 +123,25 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     end
     ```
 
-    Before we give this a shot, we just need to add the code to use our new `ensure_owned_by_current_user!` method.
-    We will try this in our `Fortunes::Edit` action first. Open the `src/actions/fortunes/edit.cr` file, and update this code:
+    The next step is to include our new mixin to the actions we want to apply it to.
+    We will try this in our `Fortunes::Edit` action first. Open the `src/actions/fortunes/edit.cr`
+    file, and update this code:
 
     ```crystal
     # src/actions/fortunes/edit.cr
-    get "/fortunes/:fortune_id/edit" do
-      fortune = FortuneQuery.find(fortune_id)
-      ensure_owned_by_current_user!(fortune)
+    class Fortunes::Edit < BrowserAction
+      # include our module mixin here
+      include OnlyAllowCurrentUser
 
-      html EditPage,
-        operation: SaveFortune.new(fortune, current_user: current_user),
-        fortune: fortune
+      get "/fortunes/:fortune_id/edit" do
+        fortune = FortuneQuery.find(fortune_id)
+        # Then use the method defined in that module
+        ensure_owned_by_current_user!(fortune)
+
+        html EditPage,
+          operation: SaveFortune.new(fortune, current_user: current_user),
+          fortune: fortune
+      end
     end
     ```
 

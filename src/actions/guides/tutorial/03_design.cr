@@ -71,7 +71,7 @@ class Guides::Tutorial::Design < GuideAction
     ```crystal
     # src/pages/auth_layout.cr
     html class: "h-100", lang: "en" do
-      mount Shared::LayoutHead, page_title: page_title, context: context
+      mount Shared::LayoutHead, page_title: page_title
 
       body class: "d-flex flex-column h-100" do
         mount Shared::FlashMessages, context.flash
@@ -91,7 +91,7 @@ class Guides::Tutorial::Design < GuideAction
     As you can see, we can write methods that match up with HTML tags like `span`, `div`, `main`, and `footer`. We can
     even add our own custom CSS classes by using the `class: ""` argument of each tag method.
 
-    Boot up your app, and give it a shot! See that you now have "CloverApp" displaying below the content of your Home page.
+    Boot up your app (`lucky dev`), and give it a shot! See that you now have "CloverApp" displaying below the content of your Home page.
 
     ## Adding a CSS framework
 
