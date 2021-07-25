@@ -60,14 +60,14 @@ class Lucky028Release < BasePost
     * Fixing compile-time error messages
     * File structure organization
     * Smaller and easier to understand CI configs
-    * Small Performance gains in things like HTML tag rendering and param parsing
+    * Small performance gains in things like HTML tag rendering and param parsing
     * so many more...
 
     ### No more avram_enum
 
     When enums were first added to Avram, they were a bit tricky to implement. The
     native Crystal enums didn't work without lots of refactoring. Since the time it
-    was first introduced, there's been enough refactoring to make adding native enums
+    was first introduced, there's been enough progress to make adding native enums
     a reality. Thanks to [Matthew McGarvey](https://github.com/matthewmcgarvey/), we
     can delete a ton of code in our apps, and gain a lot flexibility!
 
@@ -136,7 +136,7 @@ class Lucky028Release < BasePost
     ```
 
     Thankfully the [Crystal PG](https://github.com/will/crystal-pg/pull/232) shard now
-    has the ability to not parse the jsonb field from postgres immediately. This allowed
+    has more flexibility when parsing jsonb fields from postgres. This allowed
     us to introduce serializable objects as columns! Now we can do this:
 
     ```crystal
@@ -150,15 +150,13 @@ class Lucky028Release < BasePost
     end
     ```
 
-    Our jsonb columns now have more type-safety!
-
-    [read more](https://github.com/luckyframework/avram/pull/695) in the PR.
+    Finally, our jsonb columns now have more type-safety! Read more in [the PR](https://github.com/luckyframework/avram/pull/695).
 
     ### Support for subdomains
 
-    In your application, you may have sections of your site that require a subdomain
-    to access. For example, a separate API with `api.yoursite.com`, or maybe logging
-    in to the site sends you to a `dashboard.yoursite.com`.
+    Some applications use multiple subdomains.
+    For example, a separate API with `api.yoursite.com`, or maybe logging
+    in to the site sends users to `dashboard.yoursite.com`.
 
     Before this update, you had to use `request.hostname.as(String).split('.').first`
     to get the subdomain value, then use a before pipe to direct your traffic to the
@@ -188,27 +186,26 @@ class Lucky028Release < BasePost
     end
     ```
 
-    This can have so many uses, like only access these actions under the "qa" subdomain,
+    This has many uses, like only access these actions under the "qa" subdomain,
     or a multitenant application, or even just a staging environment.
 
-    [read more](https://github.com/luckyframework/lucky/pull/1537) in the PR.
+    Read more in [the PR](https://github.com/luckyframework/lucky/pull/1537).
 
     ### Action updates
 
     Actions got a few small updates starting with a new `multipart?` helper
     method that returns `true` when the request is multipart (i.e. uploading a file).
-    This method accompanies the already existing methods `ajax?`, `xml?`, `plain_text?` and
-    a few others.
+This method accompanies the already existing `ajax?`, `xml?`, and `plain_text?` methods.
 
-    Along with the new helper methods, there's also two new response methods, `raw_json`,
+    Along with the new helper methods, this version introduces two new response methods, `raw_json`,
     and `html_with_status`.
 
     The current `json()` response method is used to take a serializable object, and convert
-    that to a JSON response. In some cases, for example GraphQL, you may have a raw JSON string.
-    You couldn't use `json()` because this would convert your string in to an escaped json string.
+    that to a JSON response. In some cases, for example GraphQL, your payload may be a raw JSON string.
+    You couldn't use `json()` because this would convert your string in to an escaped JSON string.
     Now you don't have to build out the response manually. Just use `raw_json()` instead.
 
-    Lastly is the `html_with_status`. More often than not, if you're rending an HTML page, it's
+    Finally, there's the `html_with_status` helper. More often than not, if you're rending an HTML page, it's
     going to be a 200 response from the server. Lucky handles the error responses like 404, 422, and
     500 for you in a separate action, so there's usually no reason to change this.
 
@@ -224,7 +221,7 @@ class Lucky028Release < BasePost
 
     ### Disable FLoC
 
-    Google now has the [Federated Learning of Cohorts](https://github.com/WICG/floc) or "FLoC" for short,
+    Google introduced the [Federated Learning of Cohorts](https://github.com/WICG/floc) or "FLoC" for short,
     which is used for advertisers to track browsers that focus on privacy.
 
     Here's a quote taken from that Github Repo:
@@ -236,7 +233,7 @@ class Lucky028Release < BasePost
 
     By enabling FLoC, you're allowing the browser to track your users in these cohorts. Lucky
     has decided to disable this feature for all new applications. If you would like your
-    application to use FLoC, it's super easy to re-enable, just remove the module include!
+    application to use FLoC, it's super easy to re-enable. Just remove the module include!
 
     ```crystal
     class BrowserAction < Lucky::Action
@@ -248,13 +245,13 @@ class Lucky028Release < BasePost
     ### LuckyEnv
 
     With [LuckyEnv](https://github.com/luckyframework/lucky_env) joining the Lucky ecosystem,
-    we now have our own shard to handle your environment variables a little nicer. The old
+    we now have our own shard to handle your environment variables. The old
     `Lucky::Env` module has now been moved in to the `LuckyEnv` shard. Existing apps will
     need to make a few updates, but new apps will use this by default.
 
     This change brings us a step closer to better environment variable management which
     will also lead to some cool updates down the road like type-safe ENV vars, or encrypted
-    values, and so forth.
+    values.
 
     ### Upserts
 
@@ -279,7 +276,7 @@ class Lucky028Release < BasePost
 
     The feature has been requested for a while, and we're stoked to have it in.
 
-    [read more](https://github.com/luckyframework/avram/pull/334) on the PR.
+     Read more in [the PR](https://github.com/luckyframework/avram/pull/334).
 
     ### Tons more
 
@@ -300,16 +297,16 @@ class Lucky028Release < BasePost
     ## Parting words
 
     This release gave us a lot of clarity as to what we need before getting to Lucky 1.0.
-    Our current plan is that we will be doing a 0.29 release next which will include more
+    Our current plan is that the 0.29 release will include more
     QoL improvements, and some features we still need to see before 1.0, as well as fleshing
     out issues with recently added features like the JSON serializable columns.
 
     After the next 0.29 release, we should be in a solid spot for 1.0.0.rc1. We want to ensure
     that the transition between the final pre 1.0 release and the official 1.0 release is buttery
-    smooth. We need more people using Lucky and giving us feedback to better guides us with
+    smooth. We need more people using Lucky and giving us feedback to better guide us with
     what works, and what needs some extra attention.
 
-    If you haven't had a chance to try building an app, now's the perfect time to do so!
+    If you haven't had a chance to try out Lucky, now's the perfect time!
 
     As always, we appreciate the support everyone has given us!
 
@@ -320,7 +317,7 @@ class Lucky028Release < BasePost
 
     Learn tips and tricks with [LuckyCasts](https://luckycasts.com/).
 
-    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
+    If you have any questions, or just want to chat,  please join us on [Discord](#{Chat::Index.path}).
     MD
   end
 end
