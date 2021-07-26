@@ -22,6 +22,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `html?` - true if the client accepts HTML
     * `xml?` - true if the client accepts is "application/xml" or "application/xhtml+xml"
     * `plain?` - true if the client accepts is "text/plain"
+    * `multipart?` - true if the client accepts starts with "multipart/form-data"
 
     You can use these methods to direct the request or return different responses.
 
@@ -123,6 +124,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     * `redirect` - redirect the request to another location
     * `plain_text` - respond with plain text with `text/plain` Content-Type.
     * `json` - return a JSON response with `application/json` Content-Type.
+    * `raw_json` - similar to `json`. See [Rendering JSON](#{Guides::JsonAndApis::RenderingJson.path}) for comparisons.
     * `xml` - return an XML response with `text/xml` Content-Type.
     * `head` - return HTTP HEAD response
     * `file` - return a file for download
@@ -145,6 +147,22 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ```
 
     > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html).
+
+    ### HTML with non-200 status
+
+    The `html()` macro will render your Page object with a 200 status.
+    Error status codes like 404, 422, and 500, are handled separately
+    by your `Errors::Show` action. Read the [Error Handling](#{Guides::HttpAndRouting::ErrorHandling.path})
+    guide for more info.
+
+    In cases where you want to render an HTML page, but with a custom
+    status, Lucky provides a separate `html_with_status` macro.
+
+    ```crystal
+    get "/teaparty" do
+      html_with_status IndexPage, 418
+    end
+    ```
 
     ### Rendering a file
 
