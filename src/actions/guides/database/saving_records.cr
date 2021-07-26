@@ -548,10 +548,10 @@ class Guides::Database::SavingRecords < GuideAction
     #{permalink(ANCHOR_SAVING_ENUMS)}
     ### Saving an enum value
 
-    You can pass an instance of your `avram_enum` to the column you wish to update.
+    You can pass an instance of your `enum` to the column you wish to update.
 
     ```crystal
-    SaveUser.create!(name: "Paul", role: User::Role.new(:superadmin))
+    SaveUser.create!(name: "Paul", role: User::Role::Superadmin)
     ```
 
     ## Ideas for naming

@@ -364,7 +364,7 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     class User < BaseModel
-      avram_enum Role do
+      enum Role
         Basic
         Admin
       end
@@ -374,9 +374,7 @@ class Guides::Database::Querying < GuideAction
     ```
 
     ```crystal
-    # `admin_value` is equal to 1 here.
-    admin_value = User::Role.new(:admin).value
-    admin_users = UserQuery.new.role(admin_value)
+    UserQuery.new.role(User::Role::Admin)
     ```
 
     ## Order By
