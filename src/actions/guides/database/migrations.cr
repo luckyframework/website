@@ -308,15 +308,21 @@ class Guides::Database::Migrations < GuideAction
     ## Using fill_existing_with and default values
 
     When using the `add` method inside an `alter` block, there's an additional option `fill_existing_with`.
-    This is useful when a default value is NOT desired, but the existing data should be backfilled anyway.
 
-    If your column is required, you will need to set a **default** value or use `fill_existing_with`
-    otherwise you'll have errors.  **NOTE:** You must use either `default` or  `fill_existing_with`.
-    They can't be used together since they both solve similar problems.
+    * `fill_existing_with` will backfill existing records with this value; however,
+      new records will not have any values by default.
+    * `default` will set the column's default value, and postgres will automatically backfill
+      existing records with this default.
+
+    Since these options solve similar problems, they can't both be used at the same time.
 
     ```crystal
     alter table_for(User) do
+      # set all existing, and future users `active` to `true`
       add active : Bool, default: true
+
+      # set all existing users `otp_code` to `"fake-otp-code-123".
+      # New users will require a value to be set.
       add otp_code : String, fill_existing_with: "fake-otp-code-123"
     end
     ```
