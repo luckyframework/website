@@ -1,24 +1,18 @@
 # Lucky's Website
 
-### Future guide goals
-
-- Add screencasts
-- _Versioned_. Look at old ones, or even look at what's on master
-- Link to relevant screencasts
-- Helpful or not button
-  - If not, direct to Discord to get help
-- Check code snippets in real projects. More confidence code samples work.
+This is the repository for Lucky's official website https://luckyframework.org/
 
 ## Setting up the project
 
 1. [Install required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies)
+1. Ensure you have `cmake` and `libxml2` installed for your system. These are required for some shard dependencies of this project
 1. Run `script/setup`
 1. Run `lucky dev` to start the app
 1. Visit `http://localhost:5000`
 
 ## Editing guides
 
-Guides are located in the `src/actions/guides`. You can edit the markdown in each action file and view changes by running the Lucky app with `lucky dev`
+Guides are located in the `src/actions/guides` directory. You can edit the markdown in each action file and view changes by running the Lucky app with `lucky dev`.
 
 ## Adding a new guide
 
