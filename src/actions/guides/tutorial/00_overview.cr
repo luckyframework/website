@@ -41,8 +41,8 @@ class Guides::Tutorial::Overview < GuideAction
     * followed the [Installing guide](#{Guides::GettingStarted::Installing.path}).
     * installed Crystal. `crystal -v` should be at least #{LuckyCliVersion.min_compatible_crystal_version} or higher
     * installed Lucky. `lucky -v` should be #{LuckyCliVersion.current_tag}.
-    * installed [Postgres](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_POSTGRESQL)}). `psql --version` should be at least 10.x or higher
-    * installed [Node](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_NODE)}). (used for building css and javascript)
+    * installed [Postgres](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_POSTGRESQL)}). `psql --version` should be `>= #{LuckyDependencyVersions.min_compatible_postgres_version}`
+    * installed [Node](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_NODE)}). `node -v` should be `>= v#{LuckyDependencyVersions.min_compatible_node_version}` (used for building css and javascript)
     * installed a [Process Manager](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_PROC_MANAGER)}). (used for booting Webpack and Lucky at the same time)
 
     ## The Wizard
