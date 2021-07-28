@@ -39,7 +39,7 @@ class Lucky028Release < BasePost
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-025-to-026).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-027-to-028).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.27.2&to=0.28.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
