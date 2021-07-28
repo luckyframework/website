@@ -57,13 +57,13 @@ class Guides::GettingStarted::Installing < GuideAction
     ### Debian
 
     ```plain
-    apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev
+    apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl-dev libyaml-dev zlib1g-dev
     ```
 
     ### Ubuntu
 
     ```plain
-    apt-get install libc6-dev libevent-dev libpcre2-dev libpcre3-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev
+    apt-get install libc6-dev libevent-dev libpcre2-dev libpcre3-dev libpng-dev libssl-dev libyaml-dev zlib1g-dev
     ```
 
     ### Fedora (28)
