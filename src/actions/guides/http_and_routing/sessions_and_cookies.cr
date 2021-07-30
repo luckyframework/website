@@ -132,6 +132,17 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     end
     ```
 
+    You will also need to disable cookies for your errors to avoid sending this data
+    when an error is raised in your API.
+
+    ```crystal
+    # src/actions/errors/show.cr
+    class Errors::Show < Lucky::ErrorAction
+      disable_cookies
+      # ...
+    end
+    ```
+
     This will disable writing all cookies, session, and flash messages for this action.
     If you need to do this for all of your actions, you can add the `disable_cookies` macro to
     the action you inherit from (For example the `ApiAction`).
