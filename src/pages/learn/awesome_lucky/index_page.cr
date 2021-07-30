@@ -4,11 +4,48 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
   end
 
   def content
-    # https://github.com/andrewmcodes/awesome-lucky
-    div class: "py-16 container text-center" do
-      h2 class: "text-xl font-semibold leading-7 text-gray-900 sm:text-2xl sm:truncate" do
-        text "Coming soon..."
-      end
+    div class: "flex flex-col flex-1 justify-start mt-5" do
+      render_blog_posts_list
+      render_tools_list
+      render_shards_list
+    end
+  end
+
+  # A list of awesome blog posts about using Lucky
+  private def render_blog_posts_list
+    mount AwesomeListGroup, group_title: "Blog Posts" do
+      mount AwesomeLink,
+        text: "Lucky, an experimental new web framework by thoughtbot",
+        url: "https://thoughtbot.com/blog/lucky-an-experimental-new-web-framework-by-thoughtbot"
+      mount AwesomeLink,
+        text: "Ruby on Rails to Lucky on Crystal: Blazing fast, fewer bugs, and even more fun.",
+        url: "https://hackernoon.com/ruby-on-rails-to-lucky-on-crystal-blazing-fast-fewer-bugs-and-even-more-fun-104010913fec"
+      mount AwesomeLink,
+        text: "Blogs on Dev.to",
+        url: "https://dev.to/t/lucky"
+    end
+  end
+
+  # A list of awesome tools to make developing Lucky applications easier
+  private def render_tools_list
+    mount AwesomeListGroup, group_title: "Tools" do
+      mount AwesomeLink,
+        text: "LuckyDiff",
+        url: "https://luckydiff.com",
+        description: "Compare generated apps between Lucky versions."
+    end
+  end
+
+  # A list of Lucky specific shards to enhance your application
+  private def render_shards_list
+    mount AwesomeListGroup, group_title: "Shards" do
+      mount AwesomeLink,
+        text: "Lucky Basic Auth",
+        url: "https://github.com/jwoertink/lucky-basic-auth"
+      mount AwesomeLink,
+        text: "Lucky Cluster",
+        url: "https://github.com/jwoertink/lucky-cluster",
+        description: "Enable multi-process with reuseport for your Lucky application"
     end
   end
 
@@ -24,6 +61,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
             text <<-TEXT
             A categorized community-driven collection of awesome Lucky libraries, tools, resources.
             TEXT
+            br
+            text "Originally provided by the Awesome"
+            nbsp
+            a "@andrewmcodes", href: "https://github.com/andrewmcodes", target: "_blank"
           end
         end
       end
