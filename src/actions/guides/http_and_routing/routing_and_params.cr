@@ -256,11 +256,11 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ```crystal
     # src/actions/users/show.cr
-    class Users::Show < BrowserAction
+    class Guides::GettingStarted < BrowserAction
       include Lucky::SkipRouteStyleCheck
 
-      get "/users/user-:some_user_id" do
-        plain_text "Requested user id: \#{some_user_id}"
+      get "/guides/getting-started" do
+        plain_text "Get started"
       end
     end
     ```
