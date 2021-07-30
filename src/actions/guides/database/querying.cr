@@ -377,6 +377,24 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.role(User::Role::Admin)
     ```
 
+    ### Any? / None?
+
+    When you only need to know if there's any records that match your query
+    you can use the `any?` method.
+
+    ```crystal
+    # returns `true` if there's at least 1 record
+    UserQuery.new.any?
+    ```
+
+    The opposite is `none?` which will return `true` if there's no records that
+    match your query.
+
+    ```crystal
+    # returns `true` if there's no records
+    UserQuery.new.none?
+    ```
+
     ## Order By
 
     Return rows ordered by the `age` column in descending (or ascending) order.
