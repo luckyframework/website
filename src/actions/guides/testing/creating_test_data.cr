@@ -89,6 +89,35 @@ class Guides::Testing::CreatingTestData < GuideAction
     > Creating a Factory returns an instance of that model, which means you have access to all of the model
     > methods.
 
+    ## Factory callbacks
+
+    Similar to [SaveOperation](#{Guides::Database::SavingRecords.path}), Factories also have `before_save`,
+    and `after_save` callbacks. However, these methods are meant to be used within your factory's `initialize`
+    method.
+
+    These can be great for dynamically setting an association.
+
+    ```crystal
+    class PostFactory < Avram::Factory
+      def initialize
+        title sequence("post-title")
+        body "blah"
+
+        before_save do
+          if operation.user_id.value.nil?
+            user_id UserFactory.create.id
+          end
+        end
+
+        after_save do |new_post|
+          10.times do
+            CommentFactory.create &.post_id(new_post.id).text(sequence("blah"))
+          end
+        end
+      end
+    end
+    ```
+
     ## Saving records
 
     As shown previously, a Factory has a `create` method which saves the record to your database. A Factory is
