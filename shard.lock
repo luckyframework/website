@@ -21,7 +21,7 @@ shards:
     version: 0.8.2
 
   backtracer:
-    git: https://github.com/sija/backtracer.cr.git
+    git: https://github.com/Sija/backtracer.cr.git
     version: 1.2.1
 
   cadmium_transliterator:

@@ -42,7 +42,7 @@ class Learn::IndexPage < PageLayout
 
       div class: "mt-8" do
         h3 class: "text-lg font-medium" do
-          a class: "focus:outline-none", href: Guides::GettingStarted::Installing.path do
+          link class: "focus:outline-none", to: Guides::GettingStarted::Installing do
             span aria_hidden: "true", class: "absolute inset-0"
             text "Guides"
           end
@@ -66,7 +66,7 @@ class Learn::IndexPage < PageLayout
 
       div class: "mt-8" do
         h3 class: "text-lg font-medium" do
-          a class: "focus:outline-none", href: Guides::Tutorial::Overview.path do
+          link class: "focus:outline-none", to: Guides::Tutorial::Overview do
             span aria_hidden: "true", class: "absolute inset-0"
             text "Tutorial"
           end
@@ -114,13 +114,13 @@ class Learn::IndexPage < PageLayout
 
       div class: "mt-8" do
         h3 class: "text-lg font-medium" do
-          a class: "focus:outline-none", href: "https://github.com/andrewmcodes/awesome-lucky#readme", target: "_blank" do
+          link class: "focus:outline-none", to: Learn::AwesomeLucky::Index do
             span aria_hidden: "true", class: "absolute inset-0"
             text "Awesome Lucky"
           end
         end
         para class: "mt-2 text-sm text-gray-500" do
-          text "Awesome Lists are lists of helpful resources within a particular community. This is our list for Awesome Lucky originally provided by the Awesome @andrewmcodes."
+          text "Awesome Lists are lists of helpful resources within a particular community. This is our currated list of links including helpful tools, shards, and more."
         end
       end
 
@@ -138,7 +138,7 @@ class Learn::IndexPage < PageLayout
 
       div class: "mt-8" do
         h3 class: "text-lg font-medium" do
-          a class: "focus:outline-none", href: Learn::Ecosystem::Index.path do
+          link class: "focus:outline-none", to: Learn::Ecosystem::Index do
             span aria_hidden: "true", class: "absolute inset-0"
             text "Ecosystem"
           end
@@ -162,7 +162,7 @@ class Learn::IndexPage < PageLayout
 
       div class: "mt-8" do
         h3 class: "text-lg font-medium" do
-          a class: "focus:outline-none", href: Learn::Community::Index.path do
+          link class: "focus:outline-none", to: Learn::Community::Index do
             span aria_hidden: "true", class: "absolute inset-0"
             text "Community"
           end
