@@ -206,7 +206,8 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
             br
             text "Originally provided by the Awesome"
             nbsp
-            a "@andrewmcodes", href: "https://github.com/andrewmcodes", target: "_blank"
+            a "@andrewmcodes", class: "hover:text-white", href: "https://github.com/andrewmcodes", target: "_blank"
+            text "."
           end
         end
       end
