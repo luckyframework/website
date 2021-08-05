@@ -111,11 +111,15 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
       mount AwesomeLink,
         text: "Avram Slugify",
         url: "https://github.com/luckyframework/avram_slugify",
-        description: "Turn a column in to a parameterized slug for URLs"
+        description: "Turn a column into a parameterized slug for URLs"
       mount AwesomeLink,
         text: "Lucky SVG builder",
-        url: "https://github.com/tilitribe/lucky_svg_sprite.cr",
-        description: "Turn your SVG markup in to reusable Lucky components"
+        url: "https://github.com/wout/lucky_svg_sprite",
+        description: "Turn your SVG markup into reusable Lucky components"
+      mount AwesomeLink,
+        text: "Lucky Favicon",
+        url: "https://github.com/wout/lucky_favicon",
+        description: "Add favicons from the Real Favicon Generator to your Lucky project"
       mount AwesomeLink,
         text: "Breeze",
         url: "https://github.com/luckyframework/breeze",
