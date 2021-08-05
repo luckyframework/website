@@ -14,7 +14,7 @@
     "prod": "mix --production"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.14.9",
+    "@babel/compat-data": "^7.15.0",
     "browser-sync": "^2.27.5",
     "compression-webpack-plugin": "^8.0.1",
     "laravel-mix": "^6.0.27",
