@@ -119,13 +119,13 @@ class Guides::Tutorial::Design < GuideAction
     @import "bootstrap";
     ```
 
-    Now, import Bootstrap into `src/js/app.js` to ensure the Bootstrap components that require Javascript function correctly. 
+    Now, import Bootstrap into `src/js/app.js` to ensure the Bootstrap components that require Javascript function correctly.
     Open that file and add this code:
 
     ```diff
     // src/js/app.js
     require("turbolinks").start();
-    
+
     + import "bootstrap";
     ```
 
