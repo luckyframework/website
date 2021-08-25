@@ -106,16 +106,30 @@ class Guides::Tutorial::Design < GuideAction
     Before we install Bootstrap, we should shut down our server. (`ctrl-c`) Then from the terminal, we can run:
 
     ```bash
-    yarn add bootstrap
+    yarn add bootstrap @popperjs/core
     ```
 
-    Next we will import it in our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
+    > PopperJS is required for some of the Bootstrap components such as dropdowns and popovers to function correctly.
+
+    Next we will import Bootstrap in our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
     a CSS framework, all of these can go away! Replace everything with this code:
 
     ```scss
     // src/css/app.scss
     @import "bootstrap";
     ```
+
+    Now, import Bootstrap into `src/js/app.js` to ensure the Bootstrap components that require Javascript function correctly.
+    Open that file and add this code:
+
+    ```diff
+    // src/js/app.js
+    require("turbolinks").start();
+
+    + import "bootstrap";
+    ```
+
+    Finally, restart the dev server from the terminal `lucky dev`.
 
     > For more information on handling assets, read the [Asset Handling](#{Guides::Frontend::AssetHandling.path}) guide.
 
