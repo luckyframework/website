@@ -10,7 +10,7 @@ class Guides::Tutorial::Queries < GuideAction
     ## Querying Records
 
     At this point, we've stored records in the database by using the `SaveOperation` and `Avram::Factory` classes.
-    To pull the data back out, will use the Query classes. These query objects are located in your `src/queries/` directory.
+    To pull the data back out, we will use the Query classes. These query objects are located in your `src/queries/` directory.
     We can see there are already two files in here; `fortune_query.cr` and `user_query.cr`.
 
     ### Simple queries

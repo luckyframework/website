@@ -112,7 +112,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     the `Errors::Show` action. This allows you to keep error handling in a single location, as well as customize
     how the errors are displayed. You can even send errors off to a 3rd party reporting service in here.
 
-    Open up the `src/actions/errors/show.cr` action. You'll be adding an extra `render` method in her, but keep in
+    Open up the `src/actions/errors/show.cr` action. You'll be adding an extra `render` method in here, but keep in
     mind that the order of these matters in Crystal. We will add our code after the `Avram::InvalidOperationError` overload.
 
     ```crystal
@@ -159,7 +159,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ## Updating Pages
 
     We've blocked the fortune actions for fortunes we don't own, but the action links still exist. We can now
-    update the `Fortunes::ShowPage` to only display action links when we own fortune. Open the `Fortunes::ShowPage`
+    update the `Fortunes::ShowPage` to only display action links when we own a fortune. Open the `Fortunes::ShowPage`
     in `src/pages/fortunes/show_page.cr`, and update with this code:
 
     ```crystal
