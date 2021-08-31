@@ -17,7 +17,7 @@
     "@babel/compat-data": "^7.15.0",
     "browser-sync": "^2.27.5",
     "compression-webpack-plugin": "^8.0.1",
-    "laravel-mix": "^6.0.28",
+    "laravel-mix": "^6.0.29",
     "postcss": "^8.3.6",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.38.2",
