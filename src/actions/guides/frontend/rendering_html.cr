@@ -366,7 +366,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    ### Render unescaped text
+    ### Render unescaped (raw) text
 
     ```crystal
     div "email" do
