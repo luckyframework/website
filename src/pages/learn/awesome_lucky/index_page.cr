@@ -192,6 +192,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "LuckySvelt",
         url: "https://github.com/lucky-svelte/lucky_svelte",
         description: "View helpers for rendering Svelt JS components in Lucky"
+      mount AwesomeLink,
+        text: "Rosetta",
+        url: "https://github.com/wout/rosetta",
+        description: "A blazing fast internationalization library with compile-time key lookup"
     end
   end
 
