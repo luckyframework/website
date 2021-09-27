@@ -18,7 +18,7 @@
     "browser-sync": "^2.27.5",
     "compression-webpack-plugin": "^9.0.0",
     "laravel-mix": "^6.0.31",
-    "postcss": "^8.3.7",
+    "postcss": "^8.3.8",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.42.1",
     "sass-loader": "^12.1.0",
