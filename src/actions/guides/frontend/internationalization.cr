@@ -71,7 +71,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     **1. An initializer at `config/rosetta.cr` with the following content:**
 
-    ```cr
+    ```crystal
     Rosetta::DEFAULT_LOCALE = :en
     Rosetta::AVAILABLE_LOCALES = %i[en]
     Rosetta::Backend.load("config/rosetta")
@@ -79,9 +79,10 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Rosetta includes an integration macro for Lucky to include the
     `Rosetta::Translatable` module everywhere translations are needed. Add the
-    following line to the initializer and you're good to go:
+    following line at the bottom of `config/rosetta.cr` and you're good to go:
 
-    ```cr
+    ```crystal
+    # ...
     Rosetta::Lucky.integrate
     ```
 
@@ -198,7 +199,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    ## Step 5 - Add a before pipe to you actions
+    ## Step 5 - Add a before pipe to your actions
 
     Create a new file at `actions/mixins/set_language.cr` with the following
     content:
@@ -234,7 +235,7 @@ class Guides::Frontend::Internationalization < GuideAction
     This module tries to set `current_user`'s language. If there isn't a
     signed-in user, it tries to find a `language` query parameter. If both
     aren't present, the `Rosetta::DEFAULT_LOCALE` will be used, as configured in
-    Rosetta's initializer.
+    Rosetta's initializer (`config/rosetta.cr`).
 
     ## Step 6 - Update Operations
 
