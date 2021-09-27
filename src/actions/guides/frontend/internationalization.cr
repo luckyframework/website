@@ -257,7 +257,7 @@ class Guides::Frontend::Internationalization < GuideAction
     end
     ```
 
-    Make the error messages translatable in the `SigInUser` operation:
+    Make the error messages translatable in the `SignInUser` operation:
 
     ```crystal
     # src/operations/sign_in_user.cr
