@@ -289,6 +289,18 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Node should return greater than v11. Yarn should return greater than 1.x.
 
+    ## Chrome Browser (optional)
+
+    > You can skip this if you only plan to only build APIs.
+
+    Lucky uses Chromedriver for [Testing HTML](#{Guides::Testing::HtmlAndInteractivity.path}).
+    The Chromedriver utility will be installed for you once you start running your tests; however,
+    it requires the Chrome browser to be installed on your machine. If you don't already have it
+    installed, you can install it directly from [Google](https://www.google.com/chrome/).
+
+    > You can also use an alternative chrome-like browser (e.g. Brave, Edge, etc...). See the
+    > [Flow](#{Guides::Testing::HtmlAndInteractivity.path}) guides for customization options.
+
     MD
   end
 end
