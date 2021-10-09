@@ -561,6 +561,29 @@ class Guides::Database::Models < GuideAction
       # add additional validations here...
     end
     ```
+
+    ### Skipping the Schema Enforcer
+
+    You can add the `skip_schema_enforcer` macro to any of your models that you would like
+    to skip the Schema Enforcer on. This is helpful when you need a custom setup, or maybe
+    a temporary model.
+
+    ```crystal
+    class TempOTPUser < Avram::Model
+      skip_default_columns
+      # Add this line to skip checking this model
+      skip_schema_enforcer
+
+      def self.database : Avram::Database.class
+        AppDatabase
+      end
+
+      table :users do
+        primary_key id : UUID # or whatever your PKEY type is...
+        column otp_code : String?
+      end
+    end
+    ```
     MD
   end
 end
