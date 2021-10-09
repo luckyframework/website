@@ -7,7 +7,7 @@ class AwesomeLink < BaseComponent
     li do
       a class: "block hover:bg-gray-50", href: url, target: "_blank" do
         div class: "p-4 flex justify-between items-center" do
-          div class: "truncate" do
+          section class: "truncate" do
             span text, class: "text-lucky-teal-blue text-lg font-medium"
             if description
               para description.to_s, class: "text-gray-400 truncate"
