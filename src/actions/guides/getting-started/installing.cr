@@ -242,21 +242,22 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 1b. (Linux only) Password-less logins for local development
 
-    Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins.  But for Linux, if you wish to
-    use PostgreSQL without a password, you'll need to ensure your user is added to the `pg_hba.conf` file with `trust` method specified.
+    Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins. But for Linux, if you wish to
+    use PostgreSQL without a password, you'll need to ensure your `pg_hba.conf` file is updated.
     We recommend adding this entry right after the `postgres` user entry:
 
     ```plain
-    local   all             postgres                                peer
-
     # TYPE  DATABASE        USER            ADDRESS                 METHOD
-    host    all             your_username   127.0.0.1/32            trust  # Add this line
+    # "local" is for Unix domain socket connections only
+    local   all             all                                     trust
+    # IPv4 local connections:
+    host    all             all             127.0.0.1/32            trust
+    # IPv6 local connections:
+    host    all             all             ::1/128                 trust
     ```
 
-    > `your_username` is the local user you're logging into the DBMS with.  Change as appropriate.
-
-    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/12/auth-methods.html) to learn more more about
-    available authentication methods and how to configure them for PostgreSQL.
+    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/12/auth-methods.html) to learn
+    more more about available authentication methods and how to configure them for PostgreSQL.
 
     > Restart the `postgresql` service to activate the configuration changes.
 
