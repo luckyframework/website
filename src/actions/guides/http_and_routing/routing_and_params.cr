@@ -454,10 +454,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Params from multipart
 
-    Returns multipart params and files.
+    Returns multipart params and files in a `Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))`.
 
     ```crystal
-    form_params = params.from_multipart.last # Hash(String, String)
+    form_params = params.from_multipart.first # Hash(String, String)
     form_params["name"]                      # "Kyle"
 
     files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
