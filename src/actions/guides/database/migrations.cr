@@ -332,24 +332,66 @@ class Guides::Database::Migrations < GuideAction
     If a static value will not work, try this:
 
     * If you have not yet released the app, consider using `fill_existing_with: :nothing`
-      and dropping the database with `lucky db.drop` and recreating it with `lucky db.create && lucky db.migrate`.
+      and resetting the database with `lucky db.reset`.
     * Consider making the type nilable (example: `add otp_code : String?`), then fill the values with whatever value you need.
       Then make it required with `make_required :users, :otp_code`. See the example below:
 
+    ### Filling a newly generated column with custom data
+
+    This will require 2 separate migrations. The first migration will run and create the
+    new column as a "NULLABLE" column. The second migration will set the value on that
+    column, then ensure the column is not NULLABLE.
+
+    * Run `lucky gen.migration AddOtpCodeToUsers`
+
     ``` crystal
+    # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_otp_code_to_users.cr
     def migrate
       alter table_for(User) do
         # Add nullable column first
         add otp_code : String?
       end
+    end
 
-      # Then add values to it
-      UserQuery.new.each do |user|
-        SaveUser.update!(user, otp_code: CodeGenerator.generate)
+    def rollback
+      alter table_for(User) do
+        remove :otp_code
+      end
+    end
+    ```
+
+    * Run `lucky gen.migration FillOtpCodeAndMakeRequired`
+
+    For this migration, we will create a custom model that is used
+    to both query, and update the table. This pattern allows us to
+    keep this migration "future-proof" from potential model changes.
+
+    ```crystal
+    # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_fill_otp_code_and_make_required.cr
+    class TempOTPUser < Avram::Model
+      skip_default_columns
+      skip_schema_enforcer
+
+      def self.database : Avram::Database.class
+        AppDatabase
       end
 
-      # Then make it non-nullable
+      table :users do
+        primary_key id : UUID # or whatever your PKEY type is...
+        column otp_code : String?
+      end
+    end
+
+    def migrate
+      TempOTPUser::BaseQuery.new.each do |user|
+        TempOTPUser::SaveOperation.update!(user, otp_code: Random::Secure.urlsafe_base64)
+      end
+
       make_required table_for(User), :otp_code
+    end
+
+    def rollback
+      make_optional table_for(User), :otp_code
     end
     ```
 
