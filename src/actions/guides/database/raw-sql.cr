@@ -15,9 +15,7 @@ class Guides::Database::RawSql < GuideAction
     which we will later map to classes that can be easily used in our app.
 
     ```crystal
-    posts_result_set = AppDatabase.run do |db|
-      db.query_all "SELECT * FROM posts;"
-    end
+    posts_result_set = AppDatabase.query_all("SELECT * FROM posts", as: Post)
     ```
 
     ## Custom Queries
@@ -74,13 +72,11 @@ class Guides::Database::RawSql < GuideAction
     Now we can make our query and instantiate `ComplexPosts` from the result easily using the `as` method.
 
     ```crystal
-    complex_posts = AppDatabase.run do |db|
-      db.query_all sql, as: ComplexPost
-    end
+    complex_posts = AppDatabase.query_all(sql, as: ComplexPost)
     ```
 
     Believe it or not, that's all it takes! `complex_posts` is now of the type `Array(ComplexPost)`
-    and ready to be used in your templates or returned by your JSON api.
+    and ready to be used in your pages or returned by your JSON API.
 
     ## SQL with dynamic args
 
@@ -107,15 +103,51 @@ class Guides::Database::RawSql < GuideAction
     WHERE posts.published_at BETWEEN ($1 AND $2);
     SQL
 
-    complex_posts = AppDatabase.run do |db|
-      db.query_all sql, args: [4.hours.ago, 1.hour.ago], as: ComplexPost
-    end
+    complex_posts = AppDatabase.query_all(
+      sql,
+      # 4.hours.ago maps to the $1 placeholder, and 1.hour.ago maps to the $2 placeholder
+      args: [4.hours.ago, 1.hour.ago],
+      as: ComplexPost
+    )
     ```
 
     This returns `Array(ComplexPost)` where the posts were published_at between 4 hours ago, and 1 hour ago.
 
     > The `args` argument is always an Array, even for a single argument.
 
+    ## Additional Supported Methods
+
+    The `query_all` method is the most common since it returns an Array of rows. However,
+    crystal-db supports many other methods you can use. Each of these are class methods
+    called on your database class. (e.g. `AppDatabase`)
+
+    * exec - Used to execute SQL. Best used with Inserts, Deletes, Updates, or queries like refreshing views.
+    * scalar - Returns a single value like a select count, or other aggregate value
+    * query_all - Returns an Array of records.
+    * query_one - Returns a single records, or raises an exception if no record is found.
+    * query_one? - Same as `query_one`, but will return `nil` instead of raising an exception.
+
+    > Each of these methods use the same signature for convienience.
+
+    ```crystal
+    AppDatabase.exec "REFRESH MATERIALIZED VIEW reports"
+    AppDatabase.scalar "SELECT SUM(amount) FROM payments WHERE user_id = $1", args: [user.id]
+    # The `queryable` arg is used for logging within Breeze
+    AppDatabase.query_all large_sql, queryable: "PostQuery", as: ComplexPost
+    AppDatabase.query_one "SELECT * FROM users WHERE id = -1" # raises an exception
+    AppDatabase.query_one? "SELECT * FROM users WHERE id = -1" # returns nil
+    ```
+
+    ### Escape hatch
+
+    In addition to these methods, you can also drop down to crystal-db directly by using the `run` method
+    which returns the `db` instance to the block.
+
+    ```crystal
+    AppDatabase.run do |crystal_db|
+      # call any `DB::QueryMethods` from here as needed
+    end
+    ```
     MD
   end
 end
