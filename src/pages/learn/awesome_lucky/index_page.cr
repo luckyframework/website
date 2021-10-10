@@ -90,6 +90,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Ask CR",
         url: "https://askcr.io/",
         description: "Stackoverflow-like site geared toward the Crystal programming language"
+      mount AwesomeLink,
+        text: "Scribe",
+        url: "https://scribe.rip/",
+        description: "Alternative frontend to Medium.com"
     end
   end
 
