@@ -12,11 +12,8 @@ crystal: ">= 1.1.0"
 
 dependencies:
   lucky:
-    github: luckyframework/lucky
-    version: ~> 0.29.0
-  authentic:
-    github: luckyframework/authentic
-    version: ~> 0.8.1
+    github: matthewmcgarvey/lucky
+    branch: extract-lucky_avram
   carbon:
     github: luckyframework/carbon
     version: ~> 0.2
