@@ -545,6 +545,32 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     params.to_h
     ```
 
+    ## Subdomains
+
+    Sometimes you want to require that an endpoint is called with a subdomain. For example, you might have endpoints
+    you only expose in the test environment which is called with a subdomain.
+    That would allow `test.example.com/some-route` to work but `example.com/some-route` would raise a `Lucky::InvalidSubdomainError`.
+    To specifiy and require subdomains, you use `require_subdomain` in your action. There are different ways of calling it that
+    specify different requirements.
+
+    ```crystal
+    # subdomain required but can be anything
+    require_subdomain
+
+    # subdomain required and must equal "admin"
+    require_subdomain "admin"
+
+    # subdomain required and must match regex
+    require_subdomain /(dev|qa|prod)/
+
+    # subdomain required and must match one of the items in the array
+    require_subdomain ["tenant1", "tenant2", /tenantd/]
+    ```
+
+    When that is used, you can then access the subdomain by calling `subdomain` in your route handler.
+    Even if you don't require a subdomain, you can still call `subdomain?` to check if one was provided, but
+    keep in mind that it will be nilable.
+
     ## Where to put actions
 
     Actions go in `src/actions` and follow the structure of the class.
