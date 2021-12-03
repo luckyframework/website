@@ -286,6 +286,18 @@ class Guides::Database::Pagination < GuideAction
 
     Returns `true` if the requested page is past the last page.
 
+    ### `next_page`
+
+    Returns the `page` number for the next page.
+
+    Returns `nil` if there is no next page.
+
+    ### `previous_page`
+
+    Returns the `page` number for the previous page.
+
+    Returns `nil` if there is no previous page.
+
     ### `path_to_next`
 
     Returns the path with a 'page' query param for the next page.
