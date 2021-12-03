@@ -26,9 +26,11 @@ Lucky::RequestIdHandler.configure do |settings|
   # To enable the request ID, uncomment the lines below.
   # You can set your own custom String, or use a random UUID.
   #
-  # settings.set_request_id = ->(context : HTTP::Server::Context) {
-  #   UUID.random.to_s
-  # }
+  if LuckyEnv.development?
+    settings.set_request_id = ->(_context : HTTP::Server::Context) {
+      UUID.random.to_s
+    }
+  end
 end
 
 private def secret_key_from_env
