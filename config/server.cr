@@ -21,6 +21,18 @@ Lucky::ForceSSLHandler.configure do |settings|
   settings.strict_transport_security = {max_age: 1.year, include_subdomains: true}
 end
 
+# Set a uniuqe ID for each HTTP request.
+Lucky::RequestIdHandler.configure do |settings|
+  # To enable the request ID, uncomment the lines below.
+  # You can set your own custom String, or use a random UUID.
+  #
+  if LuckyEnv.development?
+    settings.set_request_id = ->(_context : HTTP::Server::Context) {
+      UUID.random.to_s
+    }
+  end
+end
+
 private def secret_key_from_env
   ENV["SECRET_KEY_BASE"]? || raise_missing_secret_key_in_production
 end
