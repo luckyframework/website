@@ -1,8 +1,10 @@
 require "./shards"
 
-# Load the asset manifest in public/mix-manifest.json
-Lucky::AssetHelpers.load_manifest
+# Load the asset manifest
+Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
 
+require "../config/server"
+require "../config/**"
 require "./app_database"
 require "./models/mixins/**"
 require "./models/**"
@@ -20,8 +22,6 @@ require "./actions/**"
 require "./components/base_component"
 require "./components/**"
 require "./pages/**"
-require "../config/env"
-require "../config/**"
 require "../db/migrations/**"
 require "./utils/**"
 require "./handlers/**"

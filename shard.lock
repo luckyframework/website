@@ -6,11 +6,11 @@ shards:
 
   authentic:
     git: https://github.com/luckyframework/authentic.git
-    version: 0.8.0
+    version: 0.8.1
 
   avram:
     git: https://github.com/luckyframework/avram.git
-    version: 0.21.1
+    version: 0.22.0
 
   awscr-s3:
     git: https://github.com/taylorfinnell/awscr-s3.git
@@ -34,11 +34,11 @@ shards:
 
   carbon_sendgrid_adapter:
     git: https://github.com/luckyframework/carbon_sendgrid_adapter.git
-    version: 0.1.0
+    version: 0.2.0
 
   cmark:
     git: https://github.com/amauryt/cr-cmark-gfm.git
-    version: 0.1.0+git.commit.09fe300cd040be2d2a72f0f7e0489663ea92440b
+    version: 0.1.0+git.commit.7fbe7718ae6fa1ccd09b83dd203de9da8cc39b70
 
   cry:
     git: https://github.com/luckyframework/cry.git
@@ -58,11 +58,7 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.2.0
-
-  future:
-    git: https://github.com/crystal-community/future.cr.git
-    version: 1.0.0
+    version: 0.2.1
 
   habitat:
     git: https://github.com/luckyframework/habitat.git
@@ -70,11 +66,15 @@ shards:
 
   lexbor:
     git: https://github.com/kostya/lexbor.git
-    version: 2.6.10
+    version: 3.0.2
 
   lucky:
     git: https://github.com/luckyframework/lucky.git
-    version: 0.28.0
+    version: 0.29.0
+
+  lucky_cache:
+    git: https://github.com/luckyframework/lucky_cache.git
+    version: 0.1.0
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git
@@ -90,7 +90,7 @@ shards:
 
   lucky_task:
     git: https://github.com/luckyframework/lucky_task.git
-    version: 0.1.0
+    version: 0.1.1
 
   pg:
     git: https://github.com/will/crystal-pg.git
@@ -106,15 +106,19 @@ shards:
 
   shell-table:
     git: https://github.com/luckyframework/shell-table.cr.git
-    version: 0.9.3+git.commit.fefbc8b19d18630660b2653de755217597808b1b
+    version: 0.9.3
 
   sitemapper:
     git: https://github.com/jwoertink/sitemapper.git
     version: 0.7.2
 
+  splay_tree_map:
+    git: https://github.com/wyhaines/splay_tree_map.cr.git
+    version: 0.1.3
+
   teeplate:
     git: https://github.com/luckyframework/teeplate.git
-    version: 0.8.4
+    version: 0.8.5
 
   webdrivers:
     git: https://github.com/matthewmcgarvey/webdrivers.cr.git
