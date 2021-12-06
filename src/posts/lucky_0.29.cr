@@ -8,10 +8,8 @@ class Lucky029Release < BasePost
 
   def summary : String
     <<-TEXT
-    The Lucky 0.29 release brings us many more
-    quality of life updates, bug fixes, and a
-    few new features to really make your app
-    solid.
+    The Lucky 0.29 release brings us many more quality of life updates, bug fixes, and a
+    few new features to really make your app solid.
     TEXT
   end
 
