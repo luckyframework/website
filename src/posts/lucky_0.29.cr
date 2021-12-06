@@ -128,7 +128,7 @@ class Lucky029Release < BasePost
     end
 
     default_validations do
-      validat_required code
+      validate_required code
     end
     ```
 
