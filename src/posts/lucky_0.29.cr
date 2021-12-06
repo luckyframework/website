@@ -1,4 +1,4 @@
-class Lucky028Release < BasePost
+class Lucky029Release < BasePost
   title "Happy Holidays and welcome Lucky 0.29"
   slug "lucky-0_29-release"
 
