@@ -17,8 +17,8 @@ class Lucky029Release < BasePost
 
   def content : String
     <<-MD
-    We've done it again! Lucky 0.29.0 is now out, and a few apps
-    in the wild have already upgraded.
+    Lucky 0.29.0 is now out, and a few apps
+    in the wild have already upgraded!
 
     This release mainly focused on quality of life. Lots of bugs have
     been fixed, and many UI/UX updates to round out and polish the overall
@@ -47,7 +47,7 @@ class Lucky029Release < BasePost
     * Migrations are sorted in the correct order when using Breeze.
     * `lucky dev` no longer clashes with Elixir development via the `mix` command.
 
-    ### Better development
+    ### Improved developer experience
 
     Lucky tries to focus on the development experience by catching bugs and issues
     while you're developing your application. Here's a few items to make that nicer.
@@ -140,6 +140,7 @@ class Lucky029Release < BasePost
     class SaveCode < Code::SaveOperation
       skip_default_validations
 
+      # ...
     end
     ```
 
@@ -167,11 +168,11 @@ class Lucky029Release < BasePost
 
     ## Parting words
 
-    We want to acknowledge and thank the community members for sticking with the Lucky framework.
+    We want to acknowledge and thank the community members for sticking with the Lucky Framework.
     Lucky has set a goal to be a solid and stable choice for a Crystal based web-framework and in
     most cases, we feel we have hit the mark.
 
-    At this point we had hoped to be closer to the 1.0 release, but due to life outside of OpenSource,
+    At this point we had hoped to be closer to the 1.0 release, but due to life outside of open source,
     that has been pushed back. The core team wants to be open and transparent about the state of things
     and keep everyone in the loop.
 
