@@ -83,7 +83,7 @@ class Guides::Deploying::Dokku < GuideAction
     # ...
     ```
 
-    And add the `CHECKS` file with the following contents at the root of your project, to speed up post-deploy check:
+    And add the `CHECKS` file with the following contents at the root of your project, to speed up post-deploy checks:
 
     ```
     WAIT=5
