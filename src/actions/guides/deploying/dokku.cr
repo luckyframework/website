@@ -76,6 +76,19 @@ class Guides::Deploying::Dokku < GuideAction
     https://github.com/luckyframework/heroku-buildpack-crystal
     ```
 
+    Make sure the `web` service in the `Procfile` is correctly configured:
+
+    ```
+    web: ./app
+    # ...
+    ```
+
+    And add the `CHECKS` file with the following contents at the root of your project, to speed up post-deploy checks:
+
+    ```
+    WAIT=5
+    ```
+
     ## First deployment
 
     Make a new commit. Finally you're ready to deploy. Run the following commands locally. The first will add your server as a remote origin for your git repo. The second will push the code to the server.
