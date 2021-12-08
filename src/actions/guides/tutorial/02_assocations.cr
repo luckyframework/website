@@ -90,7 +90,7 @@ class Guides::Tutorial::Associations < GuideAction
     puts "done!"
     ```
 
-    Once added, save and exit the file. This will tell Lucky to compile the code, and execute it, which will run a [`TRUNCATE`](/guides/database/deleting-records#truncate-table) on
+    Once added, save and exit the file. This will tell Lucky to compile the code, and execute it, which will run a [`TRUNCATE`](#{Guides::Database::DeletingRecords.path}) on
     the "fortunes" table. When it's complete, you'll see a message that tells you to hit `enter` to run more commands, or `q` to quit.
     We are done here, so type `q`, then hit enter to quit.
 
