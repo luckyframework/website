@@ -275,6 +275,17 @@ class Guides::Database::DeletingRecords < GuideAction
     UserQuery.truncate
     ```
 
+    > Running the `truncate` method may raise an error similar to the following:
+    >
+    > `Error message cannot truncate a table referenced in a foreign key constraint.`
+    >
+    > If that's the case, call the same method with the `cascade` option set to `true`:
+    >
+    > `UserQuery.truncate(cascade: true)`
+    >
+    > This will automatically delete or update matching records in a child table where a foreign key relationship is in place.
+
+
     ### Truncate database
 
     You can also truncate your entire database by calling `truncate` on your database class.
