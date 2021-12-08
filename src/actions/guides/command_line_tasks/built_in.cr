@@ -28,7 +28,6 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
 
     ```plain
     # Generated with lucky --help
-    ▸ build.release          Compile app for production
     ▸ db.console             Access PostgreSQL console
     ▸ db.create              Create the database
     ▸ db.drop                Drop the database
@@ -51,7 +50,7 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     ▸ gen.action.browser     Generate a new browser action
     ▸ gen.component          Generate a new HTML component
     ▸ gen.migration          Generate a new migration
-    ▸ gen.model              Generate a model, query, and save operation
+    ▸ gen.model              Generate a model, query, and operations (save and delete)
     ▸ gen.page               Generate a new HTML page
     ▸ gen.resource.browser   Generate a resource (model, operation, query, actions, and pages)
     ▸ gen.secret_key         Generate a new secret key
