@@ -1,14 +1,21 @@
 class AwesomeLink < BaseComponent
+  enum Tags
+    Crypto
+    Adult # this link may contain content not suitable for persons under 18 years old
+  end
+
   needs text : String
   needs url : String
   needs description : String?
+  needs tags : Array(Tags)?
 
   def render
     li do
-      a class: "block hover:bg-gray-50", href: url, target: "_blank" do
+      a class: "block hover:bg-gray-50", href: url, target: "_blank", data_confirm: confirmation_text do
         div class: "p-4 flex justify-between items-center" do
           section class: "truncate" do
             span text, class: "text-lucky-teal-blue text-lg font-medium"
+            render_tags
             if description
               para description.to_s, class: "text-gray-400 truncate"
             end
@@ -20,6 +27,27 @@ class AwesomeLink < BaseComponent
           end
         end
       end
+    end
+  end
+
+  private def render_tags
+    (tags || [] of Tags).each do |tag|
+      if tag.adult?
+        span "18+",
+          class: "bg-red-500 text-white py-1 px-3 rounded text-xs ml-2",
+          title: "This link may contain content not suitable for persons under 18 years of age"
+      else
+        span tag.to_s,
+          class: "bg-lucky-dark-green text-white py-1 px-3 rounded text-xs ml-2"
+      end
+    end
+  end
+
+  private def confirmation_text
+    if tags.try(&.includes?(Tags::Adult))
+      "Are you sure you want to visit #{text}? Discretion is advised"
+    else
+      ""
     end
   end
 end

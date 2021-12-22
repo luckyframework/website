@@ -94,6 +94,16 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Scribe",
         url: "https://scribe.rip/",
         description: "Alternative frontend to Medium.com"
+      mount AwesomeLink,
+        text: "DendroRithms",
+        url: "https://dendrorithms.com/",
+        description: "DendroRithms is a generative art installation inspired by tree growth rings",
+        tags: [AwesomeLink::Tags::Crypto]
+      mount AwesomeLink,
+        text: "JoystickTV",
+        url: "https://joystick.tv/",
+        description: "Twitch-like live streaming platform for content creators with more freedom",
+        tags: [AwesomeLink::Tags::Adult]
     end
   end
 
@@ -200,6 +210,14 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Rosetta",
         url: "https://github.com/wout/rosetta",
         description: "A blazing fast internationalization library with compile-time key lookup"
+      mount AwesomeLink,
+        text: "Lucille",
+        url: "https://github.com/GrottoPress/lucille",
+        description: "Lucille is a collection of utilities for Lucky framework"
+      mount AwesomeLink,
+        text: "Bill",
+        url: "https://github.com/GrottoPress/bill",
+        description: "Bill is an Accounts Receivable automation system for Lucky framework"
     end
   end
 
