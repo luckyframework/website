@@ -274,7 +274,7 @@ class Guides::GettingStarted::Installing < GuideAction
     #{permalink(ANCHOR_NODE)}
     ## Node and Yarn (optional)
 
-    > You can skip this if you only plan to only build APIs.
+    > You can skip this if you only plan to build APIs.
 
     ### 1. Install
 
