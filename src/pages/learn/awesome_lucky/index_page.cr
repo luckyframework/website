@@ -14,7 +14,7 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
 
   # A list of awesome blog posts about using Lucky
   private def render_blog_posts_list
-    mount AwesomeListGroup, group_title: "Blog Posts" do
+    mount AwesomeListGroup, group_title: "Blog Posts / Podcasts / Videos" do
       mount AwesomeLink,
         text: "Lucky, an experimental new web framework by thoughtbot",
         url: "https://thoughtbot.com/blog/lucky-an-experimental-new-web-framework-by-thoughtbot"
@@ -27,6 +27,21 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
       mount AwesomeLink,
         text: "Designing Lucky: Rock Solid Actions & Routing ",
         url: "https://thoughtbot.com/blog/designing-lucky-actions-routing"
+      mount AwesomeLink,
+        text: "SER: Paul Smith on The Crystal Programming Language and the Lucky Web Framework",
+        url: "https://www.se-radio.net/2020/09/episode-425-paul-smith-on-the-crystal-programming-language-and-the-lucky-web-framework/"
+      mount AwesomeLink,
+        text: "Bikeshed: Less Charted Territory with Paul Smith",
+        url: "https://www.bikeshed.fm/170"
+      mount AwesomeLink,
+        text: "Stephen Dolan: Learn to Love HTML and Embrace the Lucky Way | Crystal 1.0 Conference",
+        url: "https://www.youtube.com/watch?v=_gt5khId1AA&list=PLe1-A91ZPTpBBrrIV-N_fMmCWbFM4Uj4v&index=5"
+      mount AwesomeLink,
+        text: "Bruce Perens: Building a 'billion dollar' startup with Crystal and Lucky | Crystal 1.0 Conference",
+        url: "https://www.youtube.com/watch?v=XRl-it1-ruI&list=PLe1-A91ZPTpBBrrIV-N_fMmCWbFM4Uj4v&index=10"
+      mount AwesomeLink,
+        text: "Jeremy Woertink: How I got Lucky | Raw Crystal 2020",
+        url: "https://www.youtube.com/watch?v=rnu4g-vCZ70&list=PLfpFq_WLOW__RIIyWvTgYV4bw2cpav2mJ&index=7"
     end
   end
 
