@@ -1,7 +1,7 @@
 class AwesomeLink < BaseComponent
   enum Tags
     Crypto
-    Adult # this link may contain content not suitable for persons under 18 years old
+    Adult # this link may contain content that is age restricted
   end
 
   needs text : String
@@ -33,9 +33,9 @@ class AwesomeLink < BaseComponent
   private def render_tags
     (tags || [] of Tags).each do |tag|
       if tag.adult?
-        span "18+",
+        span "Adult",
           class: "bg-red-500 text-white py-1 px-3 rounded text-xs ml-2",
-          title: "This link may contain content not suitable for persons under 18 years of age"
+          title: "This site may contain sensitive or age restricted content. Discretion is advised."
       else
         span tag.to_s,
           class: "bg-lucky-dark-green text-white py-1 px-3 rounded text-xs ml-2"

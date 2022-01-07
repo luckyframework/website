@@ -95,10 +95,13 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://scribe.rip/",
         description: "Alternative frontend to Medium.com"
       mount AwesomeLink,
+        text: "Review My Email",
+        url: "https://reviewmy.email/",
+        description: "ReviewMy helps you submit quick snippets for review for emails, text messages, portions of larger documents"
+      mount AwesomeLink,
         text: "DendroRithms",
         url: "https://dendrorithms.com/",
-        description: "DendroRithms is a generative art installation inspired by tree growth rings",
-        tags: [AwesomeLink::Tags::Crypto]
+        description: "DendroRithms is a one-of-a-kind NFT generative art installation inspired by tree growth rings"
       mount AwesomeLink,
         text: "JoystickTV",
         url: "https://joystick.tv/",
