@@ -975,7 +975,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
         github: luckyframework/lucky_cache
     ```
 
-    Then run `shards install` to update your dependencies. Next, you'll need to add and configure `lucky_cache` in your application, such as in `src/app.cr`.
+    Then run `shards install` to update your dependencies.
+
+    Next, you'll need to require `lucky_cache` in your application in `src/shards.cr`. Lastly, create a config file in `config/lucky_cache.cr` where you will configure the cache options.
     ```
     require "lucky_cache"
 
