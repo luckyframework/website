@@ -48,7 +48,6 @@ document.addEventListener("turbolinks:load", function () {
 });
 
 import docsearch from '@docsearch/js';
-import '@docsearch/css';
 
 docsearch({
   container: '#docsearch',
