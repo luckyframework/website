@@ -45,4 +45,14 @@ document.addEventListener("turbolinks:load", function () {
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);
   });
-})
+});
+
+import docsearch from '@docsearch/js';
+
+docsearch({
+  container: '#docsearch',
+  appId: 'P30IY9NAHF',
+  indexName: 'luckyframework',
+  apiKey: '5d744498cfdcf4d4340dc3751c5bfd5f',
+});
+

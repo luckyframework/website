@@ -2,6 +2,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@docsearch/js": "^3.0.0-alpha.42",
     "highlight.js": "^11.4.0",
     "modern-normalize": "^1.1.0",
     "rails-ujs": "^5.2.6",
