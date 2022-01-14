@@ -966,10 +966,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
     #{permalink(ANCHOR_RENDERING_TEMPLATES)}
     ## Caching HTML Content
 
-    Lucky applications can leverage [lucky_cache](https://github.com/luckyframework/lucky_cache) to cache HTML content within pages. By caching parts of your application, Lucky can serve already rendered and processed pages resulting in faster page loads for you application.
+    Lucky applications can leverage [lucky_cache](https://github.com/luckyframework/lucky_cache) to cache HTML content within pages. By caching parts of your application, Lucky can serve already rendered and processed pages resulting in faster page loads for your application.
 
     To begin utilizing `lucky_cache`, add it as a dependency to your `shards.yml` file.
-    ```
+    ```yaml
     dependencies:
       lucky_cache:
         github: luckyframework/lucky_cache
@@ -977,8 +977,10 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
     Then run `shards install` to update your dependencies.
 
-    Next, you'll need to require `lucky_cache` in your application in `src/shards.cr`. Lastly, create a config file in `config/lucky_cache.cr` where you will configure the cache options.
-    ```
+    Next, you'll need to require `lucky_cache` in your application. Create a config file in `config/lucky_cache.cr` where you can configure the cache options.
+    ```crystal
+    # config/lucky_cache.cr
+
     require "lucky_cache"
 
     LuckyCache.configure do |settings|
@@ -990,7 +992,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     With `lucky_cache` now included in your Lucky application, you have access to the `LuckyCache::HtmlHelpers` module that can be included in your pages. This module exposes a `cache` method to be used to cache your HTML content.
 
     You'll need to provide a unique key to the `cache` method that Lucky can use to reference the unique content within the cache. A common pattern is to use any unique identifier, such as model id or page slug, to ensure no conflicts with cached data. The `cache` also provides an optional second argument that you can use to specify the duration until the cached data expired. If this argument is not provided, `lucky_cache` will default to the duration configured in the base application configuration.
-    ```
+    ```crystal
     class Posts::ShowPage < MainLayout
       include LuckyCache::HtmlHelpers
       needs post : Post
