@@ -86,8 +86,7 @@ class Guides::JsonAndApis::ParsingJsonRequests < GuideAction
         # ...
       end
     end
-    ```
-    
+    ```    
     MD
   end
 end
