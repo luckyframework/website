@@ -73,13 +73,13 @@ class Guides::JsonAndApis::ParsingJsonRequests < GuideAction
       end
     end
     ```
-    
+
     We will have to tell the `SaveInvoice` operation how to handle the serialized object.
-    
+
     ```crystal
     class SaveInvoice < Invoice::SaveOperation
       needs serialized_invoice : SerializedInvoice
-    
+
       before_save do
         pay_date.value = serialized_invoice.pay_date
         issue_date.value = serialized_invoice.issue_date
