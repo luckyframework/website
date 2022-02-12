@@ -15,11 +15,11 @@ class Lucky020Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.20](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-020)
+    [Lucky v0.20](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-020)
     is out now and works with the newest version of Crystal (v0.34.0)
 
     Be sure to upgrade your version of Crystal, and take a look at our
-    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-019-to-020)
+    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-019-to-020)
     for help with migrating your app.
 
     > Note: this release has some warnings from Crystal 0.34. Don't worry,
@@ -29,7 +29,7 @@ class Lucky020Release < BasePost
     ## What's new?
 
     This release has tons of big new features, improvements, and bug fixes.
-    You can see a detailed list on our [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-020).
+    You can see a detailed list on our [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-020).
 
     ### Built-in pagination
 
@@ -48,7 +48,7 @@ class Lucky020Release < BasePost
     end
     ```
 
-    Then use one of our [built-in HTML components](https://github.com/luckyframework/lucky/tree/master/src/lucky/paginator/components):
+    Then use one of our [built-in HTML components](https://github.com/luckyframework/lucky/tree/main/src/lucky/paginator/components):
 
     ```crystal
     # Built-in components for Bulma, Bootstrap, and raw HTML
@@ -56,7 +56,7 @@ class Lucky020Release < BasePost
     ```
 
     > Don't worry, you can copy one of the
-    > [built-in components](https://github.com/luckyframework/lucky/tree/master/src/lucky/paginator/components)
+    > [built-in components](https://github.com/luckyframework/lucky/tree/main/src/lucky/paginator/components)
     > into your app and customize as much as you want!
 
     Or add metadata to API responses:

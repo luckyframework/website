@@ -26,10 +26,10 @@ class Guides::Testing::ContinuousIntegration < GuideAction
 
     Here's a few links to get you started:
 
-    - [LuckyCli](https://github.com/luckyframework/lucky_cli/blob/master/.github/workflows/ci.yml)
-    - [Lucky](https://github.com/luckyframework/lucky/blob/master/.github/workflows/ci.yml)
-    - [Avram](https://github.com/luckyframework/avram/blob/master/.github/workflows/ci.yml)
-    - [Carbon](https://github.com/luckyframework/carbon/blob/master/.github/workflows/ci.yml)
+    - [LuckyCli](https://github.com/luckyframework/lucky_cli/blob/main/.github/workflows/ci.yml)
+    - [Lucky](https://github.com/luckyframework/lucky/blob/main/.github/workflows/ci.yml)
+    - [Avram](https://github.com/luckyframework/avram/blob/main/.github/workflows/ci.yml)
+    - [Carbon](https://github.com/luckyframework/carbon/blob/main/.github/workflows/ci.yml)
     MD
   end
 end

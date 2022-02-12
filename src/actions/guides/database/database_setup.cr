@@ -107,7 +107,7 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     ```crystal
     # An example can be found on this website's source
-    # https://github.com/luckyframework/website/blob/master/config/database.cr
+    # https://github.com/luckyframework/website/blob/main/config/database.cr
     AppDatabase.configure do |settings|
       # No database is required
       settings.credentials = Avram::Credentials.void
