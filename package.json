@@ -21,7 +21,7 @@
     "laravel-mix": "^6.0.34",
     "postcss": "^8.4.6",
     "sass": "^1.49.7",
-    "sass-loader": "^12.4.0",
-    "tailwindcss": "^2.2.19"
+    "sass-loader": "^12.6.0",
+    "tailwindcss": "^3.0.23"
   }
 }
