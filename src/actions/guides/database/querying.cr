@@ -343,6 +343,16 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.not.in(["Sally", "Jenny"])
     ```
 
+    ### A = ANY of B
+
+    Find rows where `A` is in the array `B`
+
+    `WHERE 'Gold' = ANY (users.badges)`
+
+    ```crystal
+    UserQuery.new.badges.includes("Gold")
+    ```
+
     ### A like / iLike B
 
     Find rows where `A` is like (begins with) `B`.
