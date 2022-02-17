@@ -3,10 +3,10 @@
   "private": true,
   "dependencies": {
     "@docsearch/js": "^3.0.0-alpha.50",
+    "@hotwired/turbo": "^7.1.0",
+    "@rails/ujs": "^7.0.2-2",
     "highlight.js": "^11.4.0",
-    "modern-normalize": "^1.1.0",
-    "rails-ujs": "^5.2.6",
-    "turbolinks": "^5.2.0"
+    "modern-normalize": "^1.1.0"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
