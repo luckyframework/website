@@ -15,16 +15,16 @@ class Lucky023Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.23](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-023)
+    [Lucky v0.23](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-023)
     is out now and works with the newest version of Crystal (v0.35.0)
 
     Be sure to upgrade your version of Crystal, and take a look at our
-    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-022-to-023)
+    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-022-to-023)
     for help with migrating your app.
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-022-to-023) to learn how to upgrade to Lucky 0.23.0.
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-022-to-023) to learn how to upgrade to Lucky 0.23.0.
 
     Special thanks to community member [@stephendolan](https://github.com/stephendolan) for
     creating [LuckyDiff](https://luckydiff.com). This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -32,7 +32,7 @@ class Lucky023Release < BasePost
     ### What happened to 0.22.0?
 
     Don't worry, you didn't miss anything. If you're using Lucky 0.21.0, you can upgrade to
-    [0.22.0](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#v0220-2020-06-17) just by
+    [0.22.0](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#v0220-2020-06-17) just by
     updating your Crystal version to 0.35.0. This release didn't change anything other than compatibility
     with the latest Crystal. To get all of the latest goodies, you'll want to go up to 0.23.0.
 

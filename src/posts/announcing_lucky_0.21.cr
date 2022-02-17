@@ -15,11 +15,11 @@ class Lucky021Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.21](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-021)
+    [Lucky v0.21](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-021)
     is out now and works with the newest version of Crystal (v0.34.0)
 
     Be sure to upgrade your version of Crystal, and take a look at our
-    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-020-to-021)
+    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-020-to-021)
     for help with migrating your app.
 
     ## Clearer logs

@@ -271,7 +271,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     Similarly, a custom style check can be added by adding the
     `enforce_route_style` macro in your action. Or, for all actions by adding
-    it to `src/actions/browser_action.cr`. See [Lucky::EnforceUnderscoredRoute](https://github.com/luckyframework/lucky/blob/master/src/lucky/enforce_underscored_route.cr)
+    it to `src/actions/browser_action.cr`. See [Lucky::EnforceUnderscoredRoute](https://github.com/luckyframework/lucky/blob/main/src/lucky/enforce_underscored_route.cr)
     for an example.
 
     ## Memoization

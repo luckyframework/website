@@ -15,12 +15,12 @@ class Lucky024Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.24](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-024)
+    [Lucky v0.24](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-024)
     is out now and updated to work with Crystal v0.35.1
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-023-to-024).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-023-to-024).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.23.0&to=0.24.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.

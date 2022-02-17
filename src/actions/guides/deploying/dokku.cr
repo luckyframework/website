@@ -95,7 +95,7 @@ class Guides::Deploying::Dokku < GuideAction
 
     ```
     git remote add dokku dokku@ip:app.example.com
-    git push dokku master
+    git push dokku main
     ```
 
     ## Set up SSL

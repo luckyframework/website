@@ -135,7 +135,7 @@ class Guides::Database::IntroToAvramAndORMs < GuideAction
 
     > If your app doesn't need a database, you should still set the `AppDatabase` credentials setting to
     > `Avram::Credentials.void`. Avram Operations can still be quite useful for things like contact forms,
-    > or email subscribe forms. See [this website](https://github.com/luckyframework/website/blob/master/config/database.cr)
+    > or email subscribe forms. See [this website](https://github.com/luckyframework/website/blob/main/config/database.cr)
     > for an example.
     MD
   end

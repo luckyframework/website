@@ -32,14 +32,14 @@ class Lucky028Release < BasePost
     ways by everyone. On top of putting on a great conference, the Crystal team also managed to
     [release Crystal 1.1.0](https://crystal-lang.org/2021/07/16/1.1.0-released.html)! We've released Lucky 0.28 which has compatibility with the latest Crystal.
 
-    [Lucky v0.28](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md)
+    [Lucky v0.28](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md)
     is officially out. This ended up being a bit larger than we anticipated, but
     now we have a clear path to getting Lucky 1.0.0 out. This release is full of some pretty awesome
     features, and a lot of quality-of-life improvements.
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-027-to-028).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-027-to-028).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.27.2&to=0.28.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -282,7 +282,7 @@ class Lucky028Release < BasePost
     ### Tons more
 
     This was a huge release, so we can't get to everything. Feel free to check out the
-    [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see
+    [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md) to see
     more. Here's a quick highlight on a few more favorites:
 
     * Support for Arrays in query params and `multi_select_input`

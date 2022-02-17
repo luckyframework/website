@@ -38,9 +38,6 @@ class Guides::ShowPage
   def guide_content
     div class: "flex flex-col container mx-auto" do
       section class: "md:pl-sidebar" do
-        # Must be a section for Algolia docsearch to index it
-        #
-        # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
         section class: "mb-16 px-5 md:px-0 markdown-content container" do
           raw CustomMarkdownRenderer.render_to_html(markdown)
         end
@@ -90,8 +87,6 @@ class Guides::ShowPage
     end
   end
 
-  # https://github.com/algolia/docsearch-configs/blob/master/configs/luckyframework.json
-  #
   # Algolia looks for an h1 in this class to figure out the top level heading
   private def algolia_docsearch_class : String
     "page-intro"
