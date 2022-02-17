@@ -5,8 +5,8 @@ class Shared::LayoutHead < BaseComponent
     head do
       utf8_charset
       title "Lucky - #{@seo.page_title}"
-      css_link asset("css/app.css"), data_turbolinks_track: "reload"
-      js_link asset("js/app.js"), defer: "defer", data_turbolinks_track: "reload"
+      css_link asset("css/app.css"), data_turbo_track: "reload"
+      js_link asset("js/app.js"), defer: "defer", data_turbo_track: "reload"
       csrf_meta_tags
       meta name: "description", content: @seo.page_description
       rss_link
