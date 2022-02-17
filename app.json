@@ -1,13 +1,7 @@
 {
-  "addons": [
-    "heroku-postgresql"
-  ],
   "buildpacks": [
     {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
-    },
-    {
-      "url": "https://github.com/luckyframework/heroku-buildpack-crystal"
+      "url": "lucky-framework/lucky"
     }
   ],
   "env": {
