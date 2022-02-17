@@ -68,6 +68,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Lucky Hasura Docker",
         url: "https://github.com/KCErb/lucky-hasura-docker/",
         description: "Get up and running with Hasura and Docker using Lucky"
+      mount AwesomeLink,
+        text: "VSCode Lucky extension",
+        url: "https://marketplace.visualstudio.com/items?itemName=stephendolan.lucky",
+        description: "Add extra Lucky helpers in to your VS Code workflow"
     end
   end
 
