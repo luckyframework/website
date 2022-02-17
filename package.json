@@ -20,7 +20,7 @@
     "compression-webpack-plugin": "^9.2.0",
     "laravel-mix": "^6.0.34",
     "postcss": "^8.4.6",
-    "resolve-url-loader": "^4.0.0",
+    "resolve-url-loader": "^5.0.0",
     "sass": "^1.49.7",
     "sass-loader": "^12.4.0",
     "tailwindcss": "^2.2.19"
