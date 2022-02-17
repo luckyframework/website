@@ -12,14 +12,33 @@ class Guides::GettingStarted::Installing < GuideAction
   def markdown : String
     <<-MD
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
-    ## MacOS requirements
+    ## MacOS (M1) requirements
 
     ### 1. Install Homebrew
 
     Installation instructions from the [Homebrew website](https://brew.sh/)
 
     ```plain
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
+
+    ### 2. Install Lucky
+
+    The Homebrew Lucky formula will install the proper Crystal version as
+    a dependency
+
+    ```plain
+    brew install luckyframework/homebrew-lucky/lucky
+    ```
+
+    ## MacOS (Intel) requirements
+
+    ### 1. Install Homebrew
+
+    Installation instructions from the [Homebrew website](https://brew.sh/)
+
+    ```plain
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
 
     ### 2. Install OpenSSL
