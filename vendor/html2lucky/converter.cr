@@ -8,9 +8,8 @@ class HTML2Lucky::Converter
   end
 
   def convert : String
-    html = Myhtml::Parser.new(@input)
-    body = html.body!
-    body.children.each do |child_tag|
+    parser = Lexbor::Parser.new(@input)
+    parser.body!.children.each do |child_tag|
       convert_tag(child_tag)
     end
     output.to_s

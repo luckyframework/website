@@ -1,5 +1,7 @@
+require "carbon_sendgrid_adapter"
+
 BaseEmail.configure do |settings|
-  if Lucky::Env.production?
+  if LuckyEnv.production?
     # If you don't need to send emails, set the adapter to DevAdapter instead:
     #
     #   settings.adapter = Carbon::DevAdapter.new
@@ -7,6 +9,8 @@ BaseEmail.configure do |settings|
     # If you do need emails, get a key from SendGrid and set an ENV variable
     send_grid_key = send_grid_key_from_env
     settings.adapter = Carbon::SendGridAdapter.new(api_key: send_grid_key)
+  elsif LuckyEnv.development?
+    settings.adapter = Carbon::DevAdapter.new(print_emails: true)
   else
     settings.adapter = Carbon::DevAdapter.new
   end
@@ -17,5 +21,6 @@ private def send_grid_key_from_env
 end
 
 private def raise_missing_key_message
-  raise "If you are sending emails, get a key from SendGrid and set the SEND_GRID_KEY environment variable. If you are not sending email, use the Carbon::DevAdapter in 'config/email.cr'"
+  puts "Missing SEND_GRID_KEY. Set the SEND_GRID_KEY env variable to 'unused' if not sending emails, or set the SEND_GRID_KEY ENV var.".colorize.red
+  exit(1)
 end

@@ -4,13 +4,13 @@ class Shared::Footer < BaseComponent
       div class: "container mx-auto" do
         div class: "flex flex-wrap justify-center md:justify-between items-center md:px-6" do
           div class: "flex flex-col items-center md:flex-row" do
-            footer_link("Code of Conduct", "https://github.com/luckyframework/lucky/blob/master/CODE_OF_CONDUCT.md")
+            footer_link("Code of Conduct", "https://github.com/luckyframework/lucky/blob/main/CODE_OF_CONDUCT.md")
             footer_link("Contributors", "https://github.com/luckyframework/lucky/graphs/contributors")
           end
           div class: "flex flex-wrap md:flex-no-wrap justify-between items-center py-4 md:py-0 md:px-6" do
             footer_icon("https://github.com/luckyframework/lucky", asset("icons/github.svg"), "Github")
             footer_icon("https://twitter.com/luckyframework", asset("icons/twitter.svg"), "Twitter")
-            footer_icon("https://discord.gg/HeqJUcb", asset("icons/discord.svg"), "Discord")
+            footer_icon(Chat::Index.path, asset("icons/discord.svg"), "Discord")
           end
         end
       end

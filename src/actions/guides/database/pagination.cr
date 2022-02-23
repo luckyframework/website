@@ -22,7 +22,7 @@ class Guides::Database::Pagination < GuideAction
     ## Setup
 
     You can paginate records from within an action by including the
-    [`Lucky::Paginator::BackendHelpers`](https://github.com/luckyframework/lucky/blob/master/src/lucky/paginator/backend_helpers.cr)
+    [`Lucky::Paginator::BackendHelpers`](https://github.com/luckyframework/lucky/blob/main/src/lucky/paginator/backend_helpers.cr)
     in your actions.
 
     It's usually best to include the helpers in your base actions, such as `ApiAction`
@@ -157,7 +157,7 @@ class Guides::Database::Pagination < GuideAction
     used as an example for something you build from scratch.
 
     1. Create an empty component in your app, for example: `lucky gen.component PaginationLinks`
-    1. Find the component you want to customize from the [Lucky repo's components directory](https://github.com/luckyframework/lucky/tree/master/src/lucky/paginator/components)
+    1. Find the component you want to customize from the [Lucky repo's components directory](https://github.com/luckyframework/lucky/tree/main/src/lucky/paginator/components)
     1. Copy the contents of the component into your newly generated component
 
     And that's it! You can mount it like any other component `mount
@@ -285,6 +285,18 @@ class Guides::Database::Pagination < GuideAction
     ### `overflowed?`
 
     Returns `true` if the requested page is past the last page.
+
+    ### `next_page`
+
+    Returns the `page` number for the next page.
+
+    Returns `nil` if there is no next page.
+
+    ### `previous_page`
+
+    Returns the `page` number for the previous page.
+
+    Returns `nil` if there is no previous page.
 
     ### `path_to_next`
 
@@ -430,7 +442,7 @@ class Guides::Database::Pagination < GuideAction
     ```
 
     See the [built-in SimpleNav
-    component](https://github.com/luckyframework/lucky/blob/master/src/lucky/paginator/components/simple_nav.cr)
+    component](https://github.com/luckyframework/lucky/blob/main/src/lucky/paginator/components/simple_nav.cr)
     to see `series` in action and get some ideas.
     MD
   end

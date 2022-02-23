@@ -25,13 +25,13 @@ class Lucky027Release < BasePost
     the next release (or two) for sure won't be 1.0 for us. We want to ensure we have a solid 1.0 release,
     and we feel it's better to take our time, and do it right 💪
 
-    [Lucky v0.27](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md)
+    [Lucky v0.27](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md)
     is officially out. It's a smaller release, but brings some pretty big steps. We hope
     you're as stoked about the progress as we are!
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-025-to-026).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-025-to-026).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.26.0&to=0.27.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -102,7 +102,7 @@ class Lucky027Release < BasePost
 
     Learn tips and tricks with [LuckyCasts](https://luckycasts.com/).
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

@@ -382,7 +382,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     Here is how you would use `select_input` with a `Shared::Field` or other
     field component.
 
-    ```
+    ```crystal
     mount Shared::Field, op.car_make do |input_html|
       input_html.select_input append_class: "select-input" do
         options_for_select op.car_make, options_for_cars
@@ -392,6 +392,28 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     You can learn about field components in the section "[Shared
     Components](##{ANCHOR_SHARED_COMPONENTS})"
+
+    ### Multi-select
+
+    For select inputs that allow multiple values, you can use
+    the `multi_select_input`. This method requires an `Array`
+    attribute to be defined in your Operation.
+
+    ```crystal
+    # column car_features : Array(String)
+    multi_select_input(op.car_features, class: "multi-select") do
+      select_prompt("Choose included features")
+      options_for_select(op.car_make, [
+        {"Sunroof", "sunroof"},
+        {"120v Outlet", "outlet"},
+        {"Remote start", "remote"}
+      ])
+    end
+    ```
+
+    > NOTE: `SaveOperation` doesn't currently support arrays.
+    > See [Arrays in params](#{Guides::HttpAndRouting::RoutingAndParams.path})
+    > for a work around
 
     ## Checkboxes / Radios
 

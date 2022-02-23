@@ -77,7 +77,7 @@ class Guides::Deploying::Heroku < GuideAction
     Push to Heroku:
 
     ```plain
-    git push heroku master
+    git push heroku main
     ```
 
     Each step is explained in more detail below.
@@ -224,10 +224,10 @@ class Guides::Deploying::Heroku < GuideAction
 
     The last step is to upload our app's code up to Heroku.
     We'll do this with the standard `git push` command
-    and copy our local `master` branch to Heroku's `master` branch:
+    and copy our local `main` branch to Heroku's `main` branch:
 
     ```bash
-    git push heroku master
+    git push heroku main
     ```
 
     First,

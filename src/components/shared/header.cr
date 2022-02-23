@@ -25,7 +25,6 @@ class Shared::Header < BaseComponent
     nav id: "nav-links", class: "hidden w-full flex-grow md:flex md:flex-grow-0 md:w-auto mt-6 md:mt-0 justify-between items-center font-semibold" do
       nav_links
       docsearch_input
-      docsearch_js
     end
   end
 
@@ -56,30 +55,13 @@ class Shared::Header < BaseComponent
     nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("Learn", Learn::Index.path)
     nav_link("Blog", Blog::Index.path)
-    nav_link("Chat", "https://discord.gg/HeqJUcb", target: "_blank")
+    nav_link("Chat", Chat::Index.path, target: "_blank")
     nav_link("GitHub", "https://github.com/luckyframework/lucky", target: "_blank")
   end
 
   private def docsearch_input
     div class: "mx-5 md:m-0 header-search" do
-      input id: "algolia-docsearch",
-        type: "text",
-        placeholder: "Search...",
-        class: "w-full md:w-32 my-6 mr-6 md:m-0 md:mx-0 py-2 px-4 bg-blue-darker appearance-none border-2 border-grey-dark rounded-full transition-base text-white leading-tight focus:text-black md:focus:w-48 focus:shadow-inner focus:outline-none focus:bg-white focus:border-teal"
-      img src: asset("icons/search.svg")
-    end
-  end
-
-  private def docsearch_js
-    script type: "text/javascript" do
-      raw <<-JS
-        window.docsearch({
-          apiKey: '576424427b2189ea2d57cc245beaa67c',
-          indexName: 'luckyframework',
-          inputSelector: '#algolia-docsearch',
-          debug: false // Set debug to true if you want to inspect the dropdown
-        });
-      JS
+      div id: "docsearch"
     end
   end
 

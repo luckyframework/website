@@ -67,7 +67,7 @@ class Guides::Tutorial::NewResource < GuideAction
     Try this:
 
     * Boot your application. (`lucky dev`)
-    * Sign in, then visit `/fortunes` in your browser.
+    * *Sign in*, then visit `/fortunes` in your browser.
     * Add a few fortunes, then edit one, and delete one.
     * Sign out of your account, then try to visit `/fortunes`. Notice how it asks you to sign in first?
     * Sign up a new account.

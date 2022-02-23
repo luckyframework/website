@@ -15,13 +15,13 @@ class Lucky026Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.26](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-026)
+    [Lucky v0.26](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-026)
     is out, and just like 0.25.0, this was another huge release! So many bug fixes, and even a few
     more goodies!
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-025-to-026).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-025-to-026).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.25.0&to=0.26.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -230,7 +230,7 @@ class Lucky026Release < BasePost
     * A new [Heroku buildpack](https://github.com/luckyframework/heroku-buildpack-lucky) for (slightly) faster deploys
     * Starting work to support composite primary keys
 
-    Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see it all!
+    Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md) to see it all!
 
     ## Parting words
 
@@ -238,7 +238,7 @@ class Lucky026Release < BasePost
     Build anything, and let us know your thoughts. What do you like, what would you like to see improved?
 
     If you find any issues, don't hesitate to [report them](https://github.com/luckyframework/lucky/issues).
-    If you're unsure, just hop on [Discord chat](https://discord.gg/HeqJUcb) so we can help you out.
+    If you're unsure, just hop on [Discord chat](#{Chat::Index.path}) so we can help you out.
 
     Thanks so much for the support!
 
@@ -249,7 +249,7 @@ class Lucky026Release < BasePost
 
     Learn more about Lucky with the all new [LuckyCasts](https://luckycasts.com/)!
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

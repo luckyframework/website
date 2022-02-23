@@ -112,7 +112,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     the `Errors::Show` action. This allows you to keep error handling in a single location, as well as customize
     how the errors are displayed. You can even send errors off to a 3rd party reporting service in here.
 
-    Open up the `src/actions/errors/show.cr` action. You'll be adding an extra `render` method in her, but keep in
+    Open up the `src/actions/errors/show.cr` action. You'll be adding an extra `render` method in here, but keep in
     mind that the order of these matters in Crystal. We will add our code after the `Avram::InvalidOperationError` overload.
 
     ```crystal
@@ -123,18 +123,25 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     end
     ```
 
-    Before we give this a shot, we just need to add the code to use our new `ensure_owned_by_current_user!` method.
-    We will try this in our `Fortunes::Edit` action first. Open the `src/actions/fortunes/edit.cr` file, and update this code:
+    The next step is to include our new mixin to the actions we want to apply it to.
+    We will try this in our `Fortunes::Edit` action first. Open the `src/actions/fortunes/edit.cr`
+    file, and update this code:
 
     ```crystal
     # src/actions/fortunes/edit.cr
-    get "/fortunes/:fortune_id/edit" do
-      fortune = FortuneQuery.find(fortune_id)
-      ensure_owned_by_current_user!(fortune)
+    class Fortunes::Edit < BrowserAction
+      # include our module mixin here
+      include OnlyAllowCurrentUser
 
-      html EditPage,
-        operation: SaveFortune.new(fortune, current_user: current_user),
-        fortune: fortune
+      get "/fortunes/:fortune_id/edit" do
+        fortune = FortuneQuery.find(fortune_id)
+        # Then use the method defined in that module
+        ensure_owned_by_current_user!(fortune)
+
+        html EditPage,
+          operation: SaveFortune.new(fortune, current_user: current_user),
+          fortune: fortune
+      end
     end
     ```
 
@@ -152,7 +159,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ## Updating Pages
 
     We've blocked the fortune actions for fortunes we don't own, but the action links still exist. We can now
-    update the `Fortunes::ShowPage` to only display action links when we own fortune. Open the `Fortunes::ShowPage`
+    update the `Fortunes::ShowPage` to only display action links when we own a fortune. Open the `Fortunes::ShowPage`
     in `src/pages/fortunes/show_page.cr`, and update with this code:
 
     ```crystal
@@ -180,7 +187,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     you may have missed something the first time around! Maybe the second time will allow you to get
     a little more adventurous with your code.
 
-    As always, if you run in to any issues, please join us in the [Discord Chat](#{Links.chat_url})
+    As always, if you run in to any issues, please join us in the [Discord Chat](#{Chat::Index.path})
     and someone will be around more than willing to help you out.
 
     > If you find any issues in this tutorial, please [Open an issue](https://github.com/luckyframework/website/issues) on

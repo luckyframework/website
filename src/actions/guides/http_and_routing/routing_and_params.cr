@@ -247,6 +247,33 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
+    ## Routing style
+
+    By default Lucky ensures that all routes adhere to the same style. All
+    route paths are expected to use underscores unless you opt-out or change
+    the style check. You can opt-out from style checking by including
+    `Lucky::SkipRouteStyleCheck` in your action.
+
+    ```crystal
+    # src/actions/users/show.cr
+    class Guides::GettingStarted < BrowserAction
+      include Lucky::SkipRouteStyleCheck
+
+      get "/guides/getting-started" do
+        plain_text "Get started"
+      end
+    end
+    ```
+
+    Or, skipping checking altogether by removing
+    `Lucky::EnforceUnderscoredRoute` from `src/actions/browser_action.cr`.
+
+
+    Similarly, a custom style check can be added by adding the
+    `enforce_route_style` macro in your action. Or, for all actions by adding
+    it to `src/actions/browser_action.cr`. See [Lucky::EnforceUnderscoredRoute](https://github.com/luckyframework/lucky/blob/main/src/lucky/enforce_underscored_route.cr)
+    for an example.
+
     ## Memoization
 
     As your application gets larger, you may need to write helper methods that run expensive
@@ -427,10 +454,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     ### Params from multipart
 
-    Returns multipart params and files.
+    Returns multipart params and files in a `Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))`.
 
     ```crystal
-    form_params = params.from_multipart.last # Hash(String, String)
+    form_params = params.from_multipart.first # Hash(String, String)
     form_params["name"]                      # "Kyle"
 
     files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
@@ -516,6 +543,38 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     # Convert params to a Hash(String, String | Hash(String, String))
     params.to_h
+    ```
+
+    ## Subdomains
+
+    Sometimes you want to require that an endpoint is called with a subdomain. For example, you might have endpoints
+    you only expose in the test environment which is called with a subdomain.
+    That would allow `test.example.com/some-route` to work but `example.com/some-route` would raise a `Lucky::InvalidSubdomainError`.
+    To specifiy and require subdomains, you use `require_subdomain` in your action.
+
+    ```crystal
+    # subdomain required but can be anything
+    require_subdomain
+
+    # subdomain required and must equal "admin"
+    require_subdomain "admin"
+
+    # subdomain required and must match regex
+    require_subdomain /(dev|qa|prod)/
+
+    # subdomain required and must match one of the items in the array
+    require_subdomain ["tenant1", "tenant2", /tenantd/]
+    ```
+
+    When that is used, you can then access the subdomain by calling `subdomain` in your route handler.
+    Even if you don't require a subdomain, you can still call `subdomain?` to check if one was provided, but
+    keep in mind that it will be nilable.
+
+    ```crystal
+    get "/admin" do
+      subdomain #=> compile time error if `require_subdomain` not specified, guaranteed to return a String otherwise
+      subdomain? #=> can be called without `require_subdomain`, but will return String | Nil
+    end
     ```
 
     ## Where to put actions

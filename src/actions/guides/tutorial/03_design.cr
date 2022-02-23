@@ -71,7 +71,7 @@ class Guides::Tutorial::Design < GuideAction
     ```crystal
     # src/pages/auth_layout.cr
     html class: "h-100", lang: "en" do
-      mount Shared::LayoutHead, page_title: page_title, context: context
+      mount Shared::LayoutHead, page_title: page_title
 
       body class: "d-flex flex-column h-100" do
         mount Shared::FlashMessages, context.flash
@@ -91,7 +91,7 @@ class Guides::Tutorial::Design < GuideAction
     As you can see, we can write methods that match up with HTML tags like `span`, `div`, `main`, and `footer`. We can
     even add our own custom CSS classes by using the `class: ""` argument of each tag method.
 
-    Boot up your app, and give it a shot! See that you now have "CloverApp" displaying below the content of your Home page.
+    Boot up your app (`lucky dev`), and give it a shot! See that you now have "CloverApp" displaying below the content of your Home page.
 
     ## Adding a CSS framework
 
@@ -106,16 +106,30 @@ class Guides::Tutorial::Design < GuideAction
     Before we install Bootstrap, we should shut down our server. (`ctrl-c`) Then from the terminal, we can run:
 
     ```bash
-    yarn add bootstrap
+    yarn add bootstrap @popperjs/core
     ```
 
-    Next we will import it in our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
+    > PopperJS is required for some of the Bootstrap components such as dropdowns and popovers to function correctly.
+
+    Next we will import Bootstrap in our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
     a CSS framework, all of these can go away! Replace everything with this code:
 
     ```scss
     // src/css/app.scss
     @import "bootstrap";
     ```
+
+    Now, import Bootstrap into `src/js/app.js` to ensure the Bootstrap components that require Javascript function correctly.
+    Open that file and add this code:
+
+    ```diff
+    // src/js/app.js
+    require("turbolinks").start();
+
+    + import "bootstrap";
+    ```
+
+    Finally, restart the dev server from the terminal `lucky dev`.
 
     > For more information on handling assets, read the [Asset Handling](#{Guides::Frontend::AssetHandling.path}) guide.
 

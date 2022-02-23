@@ -8,33 +8,36 @@ targets:
   website_v2:
     main: src/website_v2.cr
 
-crystal: 0.36.1
+crystal: ">= 1.1.0"
 
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: ~> 0.27.0
+    version: ~> 0.29.0
   authentic:
     github: luckyframework/authentic
-    version: ~> 0.7.3
+    version: ~> 0.8.1
   carbon:
     github: luckyframework/carbon
-    version: ~> 0.1
+    version: ~> 0.2
+  carbon_sendgrid_adapter:
+    github: luckyframework/carbon_sendgrid_adapter
+    version: ~> 0.2.0
   lucky_env:
     github: luckyframework/lucky_env
-    version: ~> 0.1.0
+    version: ~> 0.1.4
   cmark:
     github: amauryt/cr-cmark-gfm
     branch: master
   cadmium_transliterator:
     github: cadmiumcr/transliterator
     branch: master
-  myhtml:
-    github: kostya/myhtml
-    version: 1.5.4
+  lexbor:
+    github: kostya/lexbor
+    version: ~> 3.0.2
   sitemapper:
     github: jwoertink/sitemapper
-    version: ~> 0.7.1
+    version: ~> 0.7.2
 
 development_dependencies:
   lucky_flow:
@@ -42,4 +45,4 @@ development_dependencies:
     version: ~> 0.7.3
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.2
+    version: ~> 0.14.3

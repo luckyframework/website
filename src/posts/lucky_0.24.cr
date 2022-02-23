@@ -15,12 +15,12 @@ class Lucky024Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.24](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-024)
+    [Lucky v0.24](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-024)
     is out now and updated to work with Crystal v0.35.1
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-023-to-024).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-023-to-024).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.23.0&to=0.24.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -159,7 +159,7 @@ class Lucky024Release < BasePost
 
     Please give it a spin and help us find bugs so our next release is even more solid.
     If you find any issues, don't hesitate to [report the issue](https://github.com/luckyframework/lucky/issues).
-    If you're unsure, just hop on [Discord chat](https://discord.gg/HeqJUcb) so we can help you out.
+    If you're unsure, just hop on [Discord chat](#{Chat::Index.path}) so we can help you out.
 
     Thanks so much for the support!
 
@@ -168,7 +168,7 @@ class Lucky024Release < BasePost
     If you haven't already, give us a [star on github](https://github.com/luckyframework/lucky),
     and be sure to follow us on [Twitter](https://twitter.com/luckyframework/).
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

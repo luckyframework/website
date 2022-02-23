@@ -2,23 +2,27 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.14.2
+    version: 0.14.3
 
   authentic:
     git: https://github.com/luckyframework/authentic.git
-    version: 0.7.3
+    version: 0.8.1
 
   avram:
     git: https://github.com/luckyframework/avram.git
-    version: 0.20.0
+    version: 0.22.0
 
   awscr-s3:
     git: https://github.com/taylorfinnell/awscr-s3.git
-    version: 0.8.2
+    version: 0.8.3
 
   awscr-signer:
     git: https://github.com/taylorfinnell/awscr-signer.git
     version: 0.8.2
+
+  backtracer:
+    git: https://github.com/sija/backtracer.cr.git
+    version: 1.2.1
 
   cadmium_transliterator:
     git: https://github.com/cadmiumcr/transliterator.git
@@ -26,11 +30,15 @@ shards:
 
   carbon:
     git: https://github.com/luckyframework/carbon.git
-    version: 0.1.4
+    version: 0.2.0
+
+  carbon_sendgrid_adapter:
+    git: https://github.com/luckyframework/carbon_sendgrid_adapter.git
+    version: 0.2.0
 
   cmark:
     git: https://github.com/amauryt/cr-cmark-gfm.git
-    version: 0.1.0+git.commit.4dd681983e6fe10c5e44ef7f38ed94e8a7a9b147
+    version: 0.1.0+git.commit.7fbe7718ae6fa1ccd09b83dd203de9da8cc39b70
 
   cry:
     git: https://github.com/luckyframework/cry.git
@@ -50,23 +58,27 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.1.5
-
-  future:
-    git: https://github.com/crystal-community/future.cr.git
-    version: 1.0.0+git.commit.9fe168418c6884cb3552c13b004763eb4815ceb9
+    version: 0.2.1
 
   habitat:
     git: https://github.com/luckyframework/habitat.git
     version: 0.4.7
 
+  lexbor:
+    git: https://github.com/kostya/lexbor.git
+    version: 3.0.2
+
   lucky:
     git: https://github.com/luckyframework/lucky.git
-    version: 0.27.2
+    version: 0.29.0
+
+  lucky_cache:
+    git: https://github.com/luckyframework/lucky_cache.git
+    version: 0.1.0
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git
-    version: 0.1.1
+    version: 0.1.4
 
   lucky_flow:
     git: https://github.com/luckyframework/lucky_flow.git
@@ -74,19 +86,15 @@ shards:
 
   lucky_router:
     git: https://github.com/luckyframework/lucky_router.git
-    version: 0.4.2
+    version: 0.5.1
 
   lucky_task:
     git: https://github.com/luckyframework/lucky_task.git
-    version: 0.1.0
-
-  myhtml:
-    git: https://github.com/kostya/myhtml.git
-    version: 1.5.4
+    version: 0.1.1
 
   pg:
     git: https://github.com/will/crystal-pg.git
-    version: 0.23.2
+    version: 0.24.0
 
   pulsar:
     git: https://github.com/luckyframework/pulsar.git
@@ -98,15 +106,19 @@ shards:
 
   shell-table:
     git: https://github.com/luckyframework/shell-table.cr.git
-    version: 0.9.2+git.commit.ad72379f241ba28698ca2873d9b43785324a7932
+    version: 0.9.3
 
   sitemapper:
     git: https://github.com/jwoertink/sitemapper.git
-    version: 0.7.1
+    version: 0.7.2
+
+  splay_tree_map:
+    git: https://github.com/wyhaines/splay_tree_map.cr.git
+    version: 0.1.3
 
   teeplate:
     git: https://github.com/luckyframework/teeplate.git
-    version: 0.8.3
+    version: 0.8.5
 
   webdrivers:
     git: https://github.com/matthewmcgarvey/webdrivers.cr.git
@@ -114,5 +126,5 @@ shards:
 
   wordsmith:
     git: https://github.com/luckyframework/wordsmith.git
-    version: 0.2.2
+    version: 0.3.0
 

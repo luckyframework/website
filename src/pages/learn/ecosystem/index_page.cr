@@ -68,6 +68,10 @@ class Learn::Ecosystem::IndexPage < PageLayout
           name: "Lucky Env",
           description: "Environment variable parser.",
           slug: "lucky_env"
+        mount ProjectCard,
+          name: "Lucky Cache",
+          description: "Cache content within your Lucky application.",
+          slug: "lucky_cache"
       end
     end
   end

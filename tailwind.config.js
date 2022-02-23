@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "light-blue": colors.lightBlue,
+        sky: colors.sky,
         rose: colors.rose,
 
         // Pre-2.0 colors for backwards compatibility
@@ -41,8 +41,10 @@ module.exports = {
         "blue-lighter": "#bcdefa",
         "blue-lightest": "#eff8ff",
 
-        "lucky-blue": "#021e37",
-        "lucky-teal-blue": "#1c92b3",
+        "lucky-blue": "#031e37",
+        "lucky-teal-blue": "#1b92b3",
+        "lucky-dark-green": "#37DE97",
+        "lucky-light-green": "#9DFF66",
       },
       width: {
         sidebar: "335px",
@@ -52,6 +54,9 @@ module.exports = {
   variants: {
     width: ["responsive", "focus"],
     textColor: ["responsive", "hover", "focus", "group-hover"],
+    extend: {
+      ringWidth: ["hover"],
+    },
   },
   plugins: [],
 };

@@ -15,12 +15,12 @@ class Lucky025Release < BasePost
 
   def content : String
     <<-MD
-    [Lucky v0.25](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-025)
+    [Lucky v0.25](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-025)
     is out now, and we have a ton to go over. Let's get to it!
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-024-to-025).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-024-to-025).
 
     Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.24.0&to=0.25.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -341,7 +341,7 @@ class Lucky025Release < BasePost
     * Testing CLI Tasks is easier
     * Lots of cleanup, and refactors
 
-    Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md) to see it all!
+    Read through the [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md) to see it all!
 
     ## Parting words
 
@@ -350,7 +350,7 @@ class Lucky025Release < BasePost
 
     Please give it a spin and help us find bugs so our next release is even more solid.
     If you find any issues, don't hesitate to [report them](https://github.com/luckyframework/lucky/issues).
-    If you're unsure, just hop on [Discord chat](https://discord.gg/HeqJUcb) so we can help you out.
+    If you're unsure, just hop on [Discord chat](#{Chat::Index.path}) so we can help you out.
 
     Thanks so much for the support!
 
@@ -359,7 +359,7 @@ class Lucky025Release < BasePost
     If you haven't already, give us a [star on GitHub](https://github.com/luckyframework/lucky),
     and be sure to follow us on [Twitter](https://twitter.com/luckyframework/).
 
-    For questions, or just to chat, come say hi on [Discord](https://discord.gg/HeqJUcb).
+    For questions, or just to chat, come say hi on [Discord](#{Chat::Index.path}).
     MD
   end
 end

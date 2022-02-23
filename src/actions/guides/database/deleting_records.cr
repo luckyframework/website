@@ -40,7 +40,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Using a `DeleteOperation` in actions
 
-    The interface should feel pretty familiar. The object being deleted is passed in to the `destroy` method, and a block will
+    The interface should feel pretty familiar. The object being deleted is passed in to the `delete` method, and a block will
     return the operation instance, and the object being deleted.
 
     > Note: The second block argument (the deleted object) is optional
@@ -53,7 +53,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
         # The second block argument can be completely removed.
         # It is shown here with a `_` to show that it can be used if needed.
-        DeleteServer.destroy(server) do |operation, _deleted_server|
+        DeleteServer.delete(server) do |operation, _deleted_server|
           if operation.deleted?
             redirect to: Servers::Index
           else
@@ -68,11 +68,11 @@ class Guides::Database::DeletingRecords < GuideAction
     You can also pass in params or named args for use with attributes, or `needs`.
 
     ```crystal
-    DeleteServer.destroy(server, params, secret_codes: [23_u16, 94_u16]) do |operation, deleted_server|
+    DeleteServer.delete(server, params, secret_codes: [23_u16, 94_u16]) do |operation, deleted_server|
       if operation.deleted?
         redirect to: Servers::Index
       else
-        flash.danger = "Could not delete"
+        flash.failure = "Could not delete"
         html Servers::EditPage, server: deleted_server
       end
     end
@@ -210,7 +210,7 @@ class Guides::Database::DeletingRecords < GuideAction
       delete "/articles/:article_id" do
         article = ArticleQuery.find(article_id)
 
-        deleted_article = DeleteArticle.destroy!(article)
+        deleted_article = DeleteArticle.delete!(article)
 
         # This returns `true`
         deleted_article.soft_deleted?
@@ -303,6 +303,17 @@ class Guides::Database::DeletingRecords < GuideAction
     ```crystal
     UserQuery.truncate
     ```
+
+    > Running the `truncate` method may raise an error similar to the following:
+    >
+    > `Error message cannot truncate a table referenced in a foreign key constraint.`
+    >
+    > If that's the case, call the same method with the `cascade` option set to `true`:
+    >
+    > `UserQuery.truncate(cascade: true)`
+    >
+    > This will automatically delete or update matching records in a child table where a foreign key relationship is in place.
+
 
     ### Truncate database
 

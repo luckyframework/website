@@ -18,13 +18,13 @@ class Lucky018Release < BasePost
     Lucky v0.18 is now out and requires the newest version of Crystal (v0.31.1)
 
     Be sure to upgrade your version of Crystal, and take a look at our
-    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-017-to-018)
+    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-017-to-018)
     for help with migrating your app.
 
     ## What's new?
 
     We've made a ton of changes for this release, but we will highlight a few.
-    You can see a full list through our [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-018).
+    You can see a full list through our [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-018).
 
     ### Built in JWT (JSON Web Token) authentication
 

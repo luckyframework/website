@@ -343,6 +343,16 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.not.in(["Sally", "Jenny"])
     ```
 
+    ### A = ANY of B
+
+    Find rows where `A` is in the array `B`
+
+    `WHERE 'Gold' = ANY (users.badges)`
+
+    ```crystal
+    UserQuery.new.badges.includes("Gold")
+    ```
+
     ### A like / iLike B
 
     Find rows where `A` is like (begins with) `B`.
@@ -364,7 +374,7 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     class User < BaseModel
-      avram_enum Role do
+      enum Role
         Basic
         Admin
       end
@@ -374,9 +384,25 @@ class Guides::Database::Querying < GuideAction
     ```
 
     ```crystal
-    # `admin_value` is equal to 1 here.
-    admin_value = User::Role.new(:admin).value
-    admin_users = UserQuery.new.role(admin_value)
+    UserQuery.new.role(User::Role::Admin)
+    ```
+
+    ### Any? / None?
+
+    When you only need to know if there's any records that match your query
+    you can use the `any?` method.
+
+    ```crystal
+    # returns `true` if there's at least 1 record
+    UserQuery.new.any?
+    ```
+
+    The opposite is `none?` which will return `true` if there's no records that
+    match your query.
+
+    ```crystal
+    # returns `true` if there's no records
+    UserQuery.new.none?
     ```
 
     ## Order By

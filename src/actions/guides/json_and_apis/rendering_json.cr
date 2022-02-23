@@ -11,7 +11,7 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     <<-MD
     > This guide covers the basics of implementing a JSON API. If you have any
     questions about how to use Lucky in more complex ways, hop on our
-    [chatroom](https://discord.gg/HeqJUcb). We'd be happy to help!
+    [chatroom](#{Chat::Index.path}). We'd be happy to help!
 
     ## Respond with JSON
 
@@ -29,7 +29,27 @@ class Guides::JsonAndApis::RenderingJson < GuideAction
     ```
 
     > Here is a [list of all statuses Lucky
-    supports](https://github.com/luckyframework/lucky/blob/9e390e12c9f517517f6526d26fde372dfd02585c/src/lucky/action.cr#L20-L80)
+    supports](https://crystal-lang.org/api/1.0.0/HTTP/Status.html#enum-members)
+
+    ### Rendering raw JSON
+
+    The `json` method will automatically call `to_json` on the object that is passed in.
+    Generally this would be a `Hash`, `NamedTuple`, or `Lucky::Serializer`. If your
+    data is already in a JSON formatted string, you'll need to use the `raw_json` method.
+
+    ```crystal
+    # in src/actions/api/graphql.cr
+    class Api::Graphql < ApiAction
+      param query : String
+
+      post "/api/graphql" do
+        graph_response = graphql_schema.execute(query)
+
+        # The `graph_response` is already a JSON string.
+        raw_json(graph_response)
+      end
+    end
+    ```
 
     #{permalink(ANCHOR_SERIALIZERS)}
     ## Create a serializer

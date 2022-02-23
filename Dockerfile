@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.36.1
+FROM crystallang/crystal:1.1.0
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -13,7 +13,7 @@ RUN apt-get update && \
   apt-get install -y nodejs && \
   npm install -g yarn && \
   # Lucky cli
-  git clone https://github.com/luckyframework/lucky_cli --branch master --depth 1 /usr/local/lucky_cli && \
+  git clone https://github.com/luckyframework/lucky_cli --branch main --depth 1 /usr/local/lucky_cli && \
   cd /usr/local/lucky_cli && \
   shards install && \
   crystal build src/lucky.cr -o /usr/local/bin/lucky && \
