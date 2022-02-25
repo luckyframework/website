@@ -76,7 +76,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Delete and raise if it fails
 
-    You can also use the `destroy!` method if you don't need validations and expect delete's to work every time:
+    You can also use the `delete!` method if you don't need validations and expect deletes to work every time:
 
     ```crystal
     DeleteServer.delete!(server)
