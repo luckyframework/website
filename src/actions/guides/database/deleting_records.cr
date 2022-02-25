@@ -79,7 +79,7 @@ class Guides::Database::DeletingRecords < GuideAction
     You can also use the `destroy!` method if you don't need validations and expect delete's to work every time:
 
     ```crystal
-    DeleteServer.destroy!(server)
+    DeleteServer.delete!(server)
     ```
 
     This is helpful when your operation only has callbacks or needs and is expected to work every time.
