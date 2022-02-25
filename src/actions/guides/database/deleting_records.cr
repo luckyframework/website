@@ -74,7 +74,7 @@ class Guides::Database::DeletingRecords < GuideAction
     end
     ```
 
-    ### Destroy and raise if it fails
+    ### Delete and raise if it fails
 
     You can also use the `destroy!` method if you don't need validations and expect delete's to work every time:
 
