@@ -21,7 +21,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ```crystal
     server = ServerQuery.find(123)
-    Server::DeleteOperation.destroy!(server)
+    Server::DeleteOperation.delete!(server)
     ```
 
     If the record fails to be deleted, an `Avram::InvalidOperationError` will be raised.
