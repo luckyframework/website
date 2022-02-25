@@ -43,22 +43,18 @@ class Guides::Database::DeletingRecords < GuideAction
     The interface should feel pretty familiar. The object being deleted is passed in to the `delete` method, and a block will
     return the operation instance, and the object being deleted.
 
-    > Note: The second block argument (the deleted object) is optional
-
     ```crystal
     # src/actions/servers/delete.cr
     class Servers::Delete < BrowserAction
       delete "/servers/:server_id" do
         server = ServerQuery.find(server_id)
 
-        # The second block argument can be completely removed.
-        # It is shown here with a `_` to show that it can be used if needed.
         DeleteServer.delete(server) do |operation, deleted_server|
           if operation.deleted?
             redirect to: Servers::Index
           else
             flash.failure = "Could not delete"
-            html Servers::EditPage, server: server
+            html Servers::EditPage, server: deleted_server
           end
         end
       end
