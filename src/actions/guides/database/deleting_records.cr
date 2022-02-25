@@ -53,7 +53,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
         # The second block argument can be completely removed.
         # It is shown here with a `_` to show that it can be used if needed.
-        DeleteServer.delete(server) do |operation, _deleted_server|
+        DeleteServer.delete(server) do |operation, deleted_server|
           if operation.deleted?
             redirect to: Servers::Index
           else
