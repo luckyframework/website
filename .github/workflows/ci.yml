@@ -10,7 +10,7 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: 1.1.0
@@ -23,7 +23,7 @@ jobs:
   specs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: 1.1.0
