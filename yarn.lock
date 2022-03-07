@@ -1058,11 +1058,6 @@
     "@docsearch/css" "3.0.0"
     algoliasearch "^4.0.0"
 
-"@hotwired/turbo@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@hotwired/turbo/-/turbo-7.1.0.tgz#27e44e0e3dc5bd1d4bda0766d579cf5a14091cd7"
-  integrity sha512-Q8kGjqwPqER+CtpQudbH+3Zgs2X4zb6pBAlr6NsKTXadg45pAOvxI9i4QpuHbwSzR2+x87HUm+rot9F/Pe8rxA==
-
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz#68eb521368db76d040a6315cdb24bf2483037b9c"
@@ -1101,11 +1096,6 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
-
-"@rails/ujs@^7.0.2-2":
-  version "7.0.2-2"
-  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.0.2-2.tgz#9f2f114f4777627034be541151a1240ebe585199"
-  integrity sha512-2M+stexFdUwVXMo4sborFkGEI7A7qEl8iIZX9oqW/JOjEyl6jpjpKAtPCAvKrXQAduX8lBQKHj/eTQKqONVB0Q==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -4958,6 +4948,11 @@ quick-lru@^5.1.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
+rails-ujs@^5.2.6:
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/rails-ujs/-/rails-ujs-5.2.6.tgz#4193242a108d0cd9ed3595695644755c0bd329eb"
+  integrity sha512-JpUq5RlA4p5XE69dz0ZOIkn1xXQn9H8VDXQJWuVPRtFBOFylWFriaDVpxFmdQuARPo4bm2l67uIMMBpX6KNY+g==
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -5827,6 +5822,11 @@ tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
+
+turbolinks@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/turbolinks/-/turbolinks-5.2.0.tgz#e6877a55ea5c1cb3bb225f0a4ae303d6d32ff77c"
+  integrity sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==
 
 type-is@~1.6.18:
   version "1.6.18"

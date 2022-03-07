@@ -1,9 +1,13 @@
 /* eslint no-console:0 */
 
 // RailsUjs is *required* for links in Lucky that use DELETE, POST and PUT.
-require("@rails/ujs").start();
-require("@hotwired/turbo");
+import RailsUjs from "rails-ujs";
 
+// Turbolinks is optional. Learn more: https://github.com/turbolinks/turbolinks/
+import Turbolinks from "turbolinks";
+
+RailsUjs.start();
+Turbolinks.start();
 
 import hljs from 'highlight.js/lib/core';
 
@@ -37,17 +41,18 @@ hljs.registerLanguage('yaml', yaml);
 import diff from 'highlight.js/lib/languages/diff';
 hljs.registerLanguage('diff', diff);
 
-import docsearch from '@docsearch/js';
-
-document.addEventListener("turbo:load", function () {
+document.addEventListener("turbolinks:load", function () {
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightElement(block);
   });
-
-  docsearch({
-    container: '#docsearch',
-    appId: 'P30IY9NAHF',
-    indexName: 'luckyframework',
-    apiKey: '5d744498cfdcf4d4340dc3751c5bfd5f',
-  });
 });
+
+import docsearch from '@docsearch/js';
+
+docsearch({
+  container: '#docsearch',
+  appId: 'P30IY9NAHF',
+  indexName: 'luckyframework',
+  apiKey: '5d744498cfdcf4d4340dc3751c5bfd5f',
+});
+
