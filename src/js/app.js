@@ -41,18 +41,18 @@ hljs.registerLanguage('yaml', yaml);
 import diff from 'highlight.js/lib/languages/diff';
 hljs.registerLanguage('diff', diff);
 
+import docsearch from '@docsearch/js';
+
 document.addEventListener("turbolinks:load", function () {
+
+  docsearch({
+    container: '#docsearch',
+    appId: 'P30IY9NAHF',
+    indexName: 'luckyframework',
+    apiKey: '5d744498cfdcf4d4340dc3751c5bfd5f',
+  });
+
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightElement(block);
   });
 });
-
-import docsearch from '@docsearch/js';
-
-docsearch({
-  container: '#docsearch',
-  appId: 'P30IY9NAHF',
-  indexName: 'luckyframework',
-  apiKey: '5d744498cfdcf4d4340dc3751c5bfd5f',
-});
-
