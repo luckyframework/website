@@ -4948,10 +4948,10 @@ quick-lru@^5.1.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
-rails-ujs@^5.2.6:
-  version "5.2.6"
-  resolved "https://registry.yarnpkg.com/rails-ujs/-/rails-ujs-5.2.6.tgz#4193242a108d0cd9ed3595695644755c0bd329eb"
-  integrity sha512-JpUq5RlA4p5XE69dz0ZOIkn1xXQn9H8VDXQJWuVPRtFBOFylWFriaDVpxFmdQuARPo4bm2l67uIMMBpX6KNY+g==
+rails-ujs@^5.2.7:
+  version "5.2.7"
+  resolved "https://registry.yarnpkg.com/rails-ujs/-/rails-ujs-5.2.7.tgz#b6ef09b26f6e195d48d0e797d3380aedd8bca6d4"
+  integrity sha512-Rk9kMVU5Sgup0no2f+2YoFou9F4ZIgQ1s0t4zOwi0RLmllD8DIUxXMH04wT5l+BHuH6qSfmANSw9EdqB/tkABA==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
