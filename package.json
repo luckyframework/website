@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@docsearch/js": "^3.0.0",
-    "highlight.js": "^11.4.0",
+    "highlight.js": "^11.5.0",
     "modern-normalize": "^1.1.0",
     "rails-ujs": "^5.2.7",
     "turbolinks": "^5.2.0"
