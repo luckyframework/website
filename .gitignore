@@ -14,6 +14,7 @@ start_server
 /public/mix-manifest.json
 /tmp
 .DS_Store
+.tool-versions
 
 # Ignore Up cache file
 /up.cache
