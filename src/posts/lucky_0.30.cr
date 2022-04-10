@@ -15,7 +15,13 @@ class Lucky030Release < BasePost
 
   def content : String
     <<-MD
-    
+    Lucky 0.30 is a smaller release compared to previous ones, but this one
+    includes some pretty big steps forward. Better error messages, some spring
+    cleaning, a few added methods, and the new inclusion of automated security
+    testing that we're super excited about!
+
+    We will cover a few notable changes, but you can view all the changes
+    from the [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md)
 
     ### How to upgrade
 
@@ -60,7 +66,6 @@ class Lucky030Release < BasePost
 
     Following the Lucky mantra of catching bugs in development, it is our hope that this new integration
     gives you peace of mind that your production app is a lot safer and solid.
-    
 
     ### MessageVerifier revamped (again)
 
@@ -79,7 +84,7 @@ class Lucky030Release < BasePost
     Base64 JSON string. The old way will now be deprecated, and removed in the next release.
 
     [Read more on this PR](https://github.com/luckyframework/lucky/pull/1674)
-    
+
     ### Remote IPs from the client
 
     It's pretty common that you may need to get the client's IP. Maybe you want to track
@@ -118,7 +123,7 @@ class Lucky030Release < BasePost
       settings.ip_header_name = "X-Real-Ip"
     end
     ```
-    
+
     ### Slugify Integration
 
     When you want to use slugs for your URLs in place of passing an ID, you can turn
@@ -139,7 +144,6 @@ class Lucky030Release < BasePost
     To get started, it's as simple as generating a new Lucky app, and running `docker compose up`.
 
     > It will download images, create the database, install npm modules, install shard dependencies, and even migrate the database (just on the first boot).
-    
 
     ## Parting words
 
