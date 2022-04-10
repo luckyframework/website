@@ -8,26 +8,26 @@ class Lucky030Release < BasePost
 
   def summary : String
     <<-TEXT
-    This new release of lucky 0.30 is one of our smaller releases, but
+    Lucky 0.30 is one of our smaller releases, but it
     takes a huge step forward with the inclusion of automated security testing.
     TEXT
   end
 
   def content : String
     <<-MD
-    Lucky 0.30 is a smaller release compared to previous ones, but this one
-    includes some pretty big steps forward. Better error messages, some spring
+    Lucky 0.30 is a smaller release compared to previous ones, but it
+    includes some big steps forward. Better error messages, some spring
     cleaning, a few added methods, and the new inclusion of automated security
     testing that we're super excited about!
 
-    We will cover a few notable changes, but you can view all the changes
+    We will cover a few notable differences, but you can view all the changes
     from the [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md)
 
     ### How to upgrade
 
     See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-029-to-030).
 
-    Or you can view the changes using [LuckyDiff](https://luckydiff.com/?from=0.29.0&to=0.30.0).
+    You can also view the changes using [LuckyDiff](https://luckydiff.com/?from=0.29.0&to=0.30.0).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
 
     ## Here's what's new
@@ -37,7 +37,7 @@ class Lucky030Release < BasePost
     During this release, we've worked directly with the [Bright Security](https://brightsec.com/)
     team to bring out-of-the-box security testing support for Lucky apps!
 
-    When we say "security testing", what we mean is catching vulnerabilities such as
+    When we say "security testing", what we mean is catching vulnerabilities such as:
 
     * insecure cookies
     * cross-site scripting
@@ -87,9 +87,9 @@ class Lucky030Release < BasePost
 
     ### Remote IPs from the client
 
-    It's pretty common that you may need to get the client's IP. Maybe you want to track
-    where they're logging in from, or maybe you want to do a little geocoding on their
-    location? Whatever the reason, it's a nice thing to be able to easily access.
+    It's pretty common that you may need to get the client's IP. Maybe you need to log it for analytics,
+    or maybe you want to do a little geocoding on their
+    location. Whatever the reason, it's a nice thing to be able to easily access.
 
     Crystal's `HTTP::Request` class has the `remote_address` property that we can assign
     this value to, but it returns `Socket::Address | Nil` which made it a bit clunky to access.
@@ -127,7 +127,7 @@ class Lucky030Release < BasePost
     ### Slugify Integration
 
     When you want to use slugs for your URLs in place of passing an ID, you can turn
-    to Avram to "slugify" a value for you. Previously we had the `AvramSlufigy` shard
+    to Avram to "slugify" a value for you. Previously we had the `AvramSlugify` shard
     that you would include in your project. We've now integrated this shard directly in
     to Avram itself as `Avram::Slugify`. This will make maintaining and releasing updates
     a lot easier.
@@ -161,7 +161,7 @@ class Lucky030Release < BasePost
 
     Learn tips and tricks with [LuckyCasts](https://luckycasts.com/).
 
-    If you have any questions, or just want to chat,  please join us on [Discord](#{Chat::Index.path}).
+    If you have any questions, or just want to chat, please join us on [Discord](#{Chat::Index.path}).
     MD
   end
 end
