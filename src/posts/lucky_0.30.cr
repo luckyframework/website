@@ -69,14 +69,42 @@ class Lucky030Release < BasePost
 
     ### Faster specs
 
-    After quite a bit of refactoring, we now have our database related specs running in a transaction
-    as opposed to truncating between specs. This has shown to give at least 4x speed to your specs.
+    After quite a bit of refactoring, we now have database related specs running in a transaction
+    instead of truncating between each spec. This has shown to give at least 4x speed to your specs.
+
+    To enable this, you'll need to update a few things.
+
+    * Remove the `spec/setup/clean_database.cr` file.
+    * Update your `spec/spec_helper.cr` file with this line:
 
     ```crystal
-    # notes on how to use this
+    Avram::SpecHelper.use_transactional_specs(AppDatabase)
     ```
 
-    [Read more on this PR](https://github.com/luckyframework/avram/pull/780)
+    Adding to the speed, action specs are faster as well! This is done by building the context
+    internally instead of making the full HTTP request to the Action. In your `ApiClient`, you
+    just need to add this line:
+
+    ```crystal
+    class ApiClient < Lucky::BaseHTTPClient
+      # Add this line
+      app AppServer.new
+
+      # ...
+    end
+    ```
+
+    Finally, if you want to try out even more speed for your Flow specs, you can upgrade to v0.8.0.
+    This release of LuckyFlow wasn't included for this 0.30.0 release of Lucky, but you can still include
+    it to test it out.
+
+    LuckyFlow 0.8.0 brings in a new Driver registration along with a new "Webless" driver. By using this
+    driver, no Chrome process is booted which saves on both CPU and memory. The caveat to this is the
+    limitations to any javascript related interactions.
+
+    [Read more on this PR](https://github.com/luckyframework/avram/pull/780),
+    [For Lucky](https://github.com/luckyframework/lucky/pull/1644),
+    [For LuckyFlow](https://github.com/luckyframework/lucky_flow/pull/137)
 
     ### Built-in Process runner Nox
 
