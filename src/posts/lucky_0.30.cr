@@ -94,13 +94,13 @@ class Lucky030Release < BasePost
     end
     ```
 
-    Finally, if you want to try out even more speed for your Flow specs, you can upgrade to v0.8.0.
+    Finally, if you want to try out even more speed for your Flow specs, you can upgrade to LuckyFlow v0.8.0.
     This release of LuckyFlow wasn't included for this 0.30.0 release of Lucky, but you can still include
     it to test it out.
 
     LuckyFlow 0.8.0 brings in a new Driver registration along with a new "Webless" driver. By using this
-    driver, no Chrome process is booted which saves on both CPU and memory. The caveat to this is the
-    limitations to any javascript related interactions.
+    driver, no Chrome process is booted which saves on both CPU and memory. The caveat to this is that
+    JavaScript is not enabled so those interactions will not function.
 
     [Read more on this PR](https://github.com/luckyframework/avram/pull/780),
     [For Lucky](https://github.com/luckyframework/lucky/pull/1644),
