@@ -67,6 +67,26 @@ class Lucky030Release < BasePost
     Following the Lucky mantra of catching bugs in development, it is our hope that this new integration
     gives you peace of mind that your production app is a lot safer and solid.
 
+    ### Faster specs
+
+    After quite a bit of refactoring, we now have our database related specs running in a transaction
+    as opposed to truncating between specs. This has shown to give at least 4x speed to your specs.
+
+    ```crystal
+    # notes on how to use this
+    ```
+
+    [Read more on this PR](https://github.com/luckyframework/avram/pull/780)
+
+    ### Built-in Process runner Nox
+
+    [Nox](https://github.com/matthewmcgarvey/nox) is a process runner built by [@matthewmcgarvey](https://github.com/matthewmcgarvey).
+    Lucky now ships with this out of the box so there's no longer a need to install an additional tool for local development. After
+    installing LuckyCLI, you can boot your app locally using `lucky dev`, and this will start the Nox process manager using
+    your `Procfile.dev`.
+
+    You can continue to use other process managers such as Overmind, Foreman, or the Heroku CLI if you wish.
+
     ### MessageVerifier revamped (again)
 
     The Lucky `MessageVerifier` is a class that allows you to securely pass data around by
