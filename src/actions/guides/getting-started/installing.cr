@@ -12,7 +12,30 @@ class Guides::GettingStarted::Installing < GuideAction
   def markdown : String
     <<-MD
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
-    ## MacOS (M1) requirements
+    ## Crystal Version
+
+    You will need Crystal installed for local development. Make sure to install all of Crystal's
+    dependencies for your system.
+
+    Lucky supports Crystal `>= #{LuckyCliVersion.min_compatible_crystal_version}`, `<= #{LuckyCliVersion.max_compatible_crystal_version}`
+
+    > We recommend using a version manager (like [asdf](https://crystal-lang.org/install/from_asdf/))
+    > to make sure the correct version of Crystal is used with Lucky.
+
+    ### 1. Install Crystal
+
+    Follow the [Installing Crystal](https://crystal-lang.org/install/) instructions page
+    for your specific system.
+
+    ### 2. Check installation
+
+    ```plain
+    crystal -v
+    ```
+
+    Should return between `#{LuckyCliVersion.min_compatible_crystal_version}` and `#{LuckyCliVersion.max_compatible_crystal_version}`
+
+    ## macOS (M1) requirements
 
     ### 1. Install Homebrew
 
@@ -22,16 +45,7 @@ class Guides::GettingStarted::Installing < GuideAction
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
 
-    ### 2. Install Lucky
-
-    The Homebrew Lucky formula will install the proper Crystal version as
-    a dependency
-
-    ```plain
-    brew install luckyframework/homebrew-lucky/lucky
-    ```
-
-    ## MacOS (Intel) requirements
+    ## macOS (Intel) requirements
 
     ### 1. Install Homebrew
 
@@ -71,7 +85,9 @@ class Guides::GettingStarted::Installing < GuideAction
       pkg-config search path" then be sure to run this step so that
       Crystal knows where OpenSSL is located.
 
-    ## Linux requirements
+    ## Linux / WSL2 requirements
+
+    These are additional dependencies you will need in order to boot your Lucky application.
 
     ### Debian
 
@@ -91,75 +107,14 @@ class Guides::GettingStarted::Installing < GuideAction
     dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
     ```
 
-    ## Crystal Version
-
-    Lucky supports Crystal `>= #{LuckyCliVersion.min_compatible_crystal_version}`, `<= #{LuckyCliVersion.max_compatible_crystal_version}`
-
-    ### 1. Install Crystal
-
-    **Using asdf version manager:**
-
-    We recommend using a version manager to make sure the correct version of
-    Crystal is used with Lucky.
-
-    * [Install asdf](https://asdf-vm.com/#/core-manage-asdf)
-    * Install the [asdf-crystal](https://github.com/marciogm/asdf-crystal) plugin:
-
-    ```plain
-    asdf plugin-add crystal https://github.com/asdf-community/asdf-crystal.git
-    ```
-
-    * Set up `asdf` so it uses the `.crystal-version` file to determine which version to use:
-
-    ```plain
-    echo "legacy_version_file = yes" >>~/.asdfrc
-    ```
-
-    * Install Crystal with `asdf`.
-
-    ```plain
-    asdf install crystal #{LuckyCliVersion.min_compatible_crystal_version}
-    ```
-
-    * See which version of crystal was installed
-
-    ```plain
-    asdf list crystal
-    ```
-
-    * Set global version of crystal to that version (#{LuckyCliVersion.min_compatible_crystal_version} is used as an example)
-
-    ```plain
-    asdf global crystal #{LuckyCliVersion.min_compatible_crystal_version}
-    ```
-
-    **Or, install Crystal without a version manager**
-
-    If you can't get asdf installed or don't want to use a version manager,
-    you can [install Crystal without a version manager](https://crystal-lang.org/install/).
-
-    ### 2. Check installation
-
-    ```plain
-    crystal -v
-    ```
-
-    Should return at least `#{LuckyCliVersion.min_compatible_crystal_version}`
-
-    ## Install Lucky CLI on macOS
+    ## Install Lucky CLI with Homebrew
 
     Once the required dependencies above are installed, set up Lucky for your system.
 
-    ### 1. Add the Lucky tap to Homebrew
+    ### 1. Install the Lucky CLI with Homebrew
 
     ```plain
-    brew tap luckyframework/homebrew-lucky
-    ```
-
-    ### 2. Install the Lucky CLI with Homebrew
-
-    ```plain
-    brew install lucky
+    brew install luckyframework/homebrew-lucky/lucky
     ```
 
     ### 3. Check installation
@@ -172,7 +127,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     This should return `#{LuckyCliVersion.current_version}`
 
-    ## Install Lucky CLI on Linux
+    ## Install Lucky CLI Manually
 
     ### 1. Clone the CLI repo
 
@@ -197,13 +152,13 @@ class Guides::GettingStarted::Installing < GuideAction
     We call packages/libraries in Crystal "shards". Let's install the shards that Lucky CLI needs:
 
     ```plain
-    shards install
+    shards install --without-development
     ```
 
     ### 5. Build the CLI
 
     ```plain
-    crystal build src/lucky.cr
+    shards build --production
     ```
 
     ### 6. Move the generated binary to your path
@@ -211,7 +166,7 @@ class Guides::GettingStarted::Installing < GuideAction
     This will let you use `lucky` from the command line.
 
     ```plain
-    mv lucky /usr/local/bin
+    cp bin/lucky /usr/local/bin
     ```
 
     ### 7. Check installation
@@ -223,22 +178,6 @@ class Guides::GettingStarted::Installing < GuideAction
     ```
 
     This should return `#{LuckyCliVersion.current_version}`
-
-    #{permalink(ANCHOR_PROC_MANAGER)}
-    ## Process manager
-
-    Lucky uses a process manager to watch assets and start the server in development.
-
-    Install one of these process managers: [Overmind (recommended)](https://github.com/DarthSim/overmind#installation),
-    [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
-    [forego](https://github.com/ddollar/forego#installation),
-    or [foreman](https://github.com/ddollar/foreman#installation).
-
-    > By default Lucky creates a `Procfile.dev` that  defines  what processes should be started when running `lucky dev`.
-    > You can modify the `Procfile.dev` to start other processes like running
-    > background jobs.
-
-    > For WSL users on Windows, Overmind is not recommended due to [compatibility issues](https://github.com/DarthSim/overmind/issues/88).
 
     #{permalink(ANCHOR_POSTGRESQL)}
     ## Postgres database
