@@ -78,6 +78,7 @@ class GuidesList
         Guides::Testing::HtmlAndInteractivity,
         Guides::Testing::CreatingTestData,
         Guides::Testing::TestingActions,
+        Guides::Testing::SecurityTests,
         Guides::Testing::Debugging,
         Guides::GettingStarted::Logging,
         Guides::Testing::ContinuousIntegration,
