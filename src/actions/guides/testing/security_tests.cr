@@ -9,10 +9,11 @@ class Guides::Testing::SecurityTests < GuideAction
     <<-MD
     ## Getting Started
 
-    [BrightSec](https://brightsec.com/) (formerly NeuraLegion) provides an API to test your application
-    against common vulnerabilities like [cross-site scripting (XSS)](https://www.cloudflare.com/learning/security/threats/cross-site-scripting/),
+    [BrightSec](https://brightsec.com/) (formerly NeuraLegion) provides a no false positive,
+    Dynamic Application Security Testing (DAST) scanner to automatically test your application
+    against common vulnerabilities like [cross-site scripting (XSS)](https://brightsec.com/blog/xss/),
     [IP & header spoofing](https://www.cloudflare.com/learning/ddos/glossary/ip-spoofing/),
-    [SQL Injection (SQi)](https://www.cloudflare.com/learning/security/threats/sql-injection/),
+    [SQL Injection (SQi)](https://brightsec.com/blog/sql-injection-attack/),
     and cookie tampering, for example.
 
     By integrating the BightSec [SecTester](https://github.com/NeuraLegion/sec_tester), we can
@@ -34,9 +35,10 @@ class Guides::Testing::SecurityTests < GuideAction
 
     ### Create a new API key
 
-    Head over to [BrightSec Signup](https://app.neuralegion.com/signup) and create your account.
+    Head over to [BrightSec Signup](https://brightsec.com/sign-up-for-bright?utm_source=luckyframework&utm_medium=luckywebsite&utm_campaign=luckysignup) and create your account.
     Once you're logged in, you can visit your [Profile](https://app.neuralegion.com/profile), and
-    generate a new API key. For now, create with all scopes enabled. This can be customized later.
+    [generate a new API key](https://docs.brightsec.com/docs/manage-your-personal-account?utm_source=luckyframework&utm_medium=luckywebsite&utm_campaign=luckysignup#manage-your-personal-api-keys-authentication-tokens).
+    For now, create with all scopes enabled; this can be customized later.
 
     Save this key in your `.env` file locally as `NEXPLOIT_TOKEN`.
 
@@ -62,7 +64,7 @@ class Guides::Testing::SecurityTests < GuideAction
     flag.
 
     ```bash
-    crystal spec -with_sec_tests
+    crystal spec -Dwith_sec_tests
     ```
 
     You may also notice that your Github Actions CI in `.github/workflows/ci.yml` includes this flag
