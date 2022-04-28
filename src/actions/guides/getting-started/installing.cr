@@ -19,9 +19,6 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Lucky supports Crystal `>= #{LuckyCliVersion.min_compatible_crystal_version}`, `<= #{LuckyCliVersion.max_compatible_crystal_version}`
 
-    > We recommend using a version manager (like [asdf](https://crystal-lang.org/install/from_asdf/))
-    > to make sure the correct version of Crystal is used with Lucky.
-
     ### 1. Install Crystal
 
     Follow the [Installing Crystal](https://crystal-lang.org/install/) instructions page
