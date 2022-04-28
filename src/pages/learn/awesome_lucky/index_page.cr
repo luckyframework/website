@@ -141,10 +141,6 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://github.com/grottopress/shield",
         description: "Comprehensive security solution and authentication for Lucky"
       mount AwesomeLink,
-        text: "Avram Slugify",
-        url: "https://github.com/luckyframework/avram_slugify",
-        description: "Turn a column into a parameterized slug for URLs"
-      mount AwesomeLink,
         text: "Lucky SVG builder",
         url: "https://github.com/wout/lucky_svg_sprite",
         description: "Turn your SVG markup into reusable Lucky components"

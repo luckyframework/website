@@ -25,10 +25,6 @@ class Learn::Ecosystem::IndexPage < PageLayout
           description: "User authentication with Avram.",
           slug: "authentic"
         mount ProjectCard,
-          name: "Avram Slugify",
-          description: "Parameterize your Avram models.",
-          slug: "avram_slugify"
-        mount ProjectCard,
           name: "Carbon",
           description: "Create and Send emails. Many adapters supported.",
           slug: "carbon"
