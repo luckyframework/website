@@ -17,11 +17,6 @@ if command_not_found "yarn"; then
   print_error "Yarn is not installed\n  See https://yarnpkg.com/lang/en/docs/install/ for install instructions."
 fi
 
-# Only if this isn't CI
-if [ -z "$CI" ]; then
-  lucky ensure_process_runner_installed
-fi
-
 ## CUSTOM PRE-BOOT CHECKS ##
 # example:
 # if command_not_running "redis-cli ping"; then

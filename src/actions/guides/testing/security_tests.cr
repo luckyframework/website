@@ -220,7 +220,7 @@ class Guides::Testing::SecurityTests < GuideAction
 
     If you leave this value as `nil`, it will tell the SecTester to run against ALL of the available
     vulnerabilities.
-    
+
     For more information about choosing and configuring the right tests visit the [SecTester Docs](https://github.com/NeuraLegion/sec-tester-cr#choosing-the-right-tests)
 
     ### target
