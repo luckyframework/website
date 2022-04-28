@@ -610,6 +610,68 @@ class Guides::Database::SavingRecords < GuideAction
     SaveUser.create!(name: "Paul", role: User::Role::Superadmin)
     ```
 
+    ## Using URL slugs instead of ID
+
+    When it comes to passing a model reference through the URL, you can
+    pass the ID for easy lookup. (e.g. `/posts/1234`)
+
+    However, it's also common practice to use a more human readable form like
+    `/posts/learning-lucky`. In this case, we call the "learning-lucky" a "slug".
+    Avram comes built with a way to "slugify" a column with some type-safe checks.
+
+    You will first want to require the `Avram::Slugify` extension in your `src/shards.cr`
+
+    ```crystal
+    # src/shards.cr
+    require "avram"
+    require "avram/slugify"
+    # ...
+    ```
+
+    Next, be sure to add a `slug : String` column to your model you wish to slufigy.
+    For this example, we'll use a `Post`.
+
+    ```crystal
+    # src/models/post.cr
+    class Post < BaseModel
+      table do
+        column title : String
+        column slug : String
+      end
+    end
+    ```
+
+    Lastly, we will want to make sure that our `title` is slugified before saving the
+    post.
+
+    ```crystal
+    # src/operations/save_post.cr
+    class SavePost < Post::SaveOperation
+      permit_columns title
+
+      before_save do
+        Avram::Slugify.set slug,
+          using: title,
+          query: PostQuery.new
+      end
+    end
+    ```
+
+    > The query allows us to check for slug uniqueness. If that one exists,
+    > a random UUID will be appended to the slug.
+
+    Now when we save our post, the title will be transformed in to a URL safe slug
+    that we can use to look the record up, but also allow it to be both SEO friendly,
+    and human readable.
+
+    To find the record, you can find by the `slug`.
+
+    ```crystal
+    PostQuery.new.slug("learning-lucky").first
+    ```
+
+    > Checkout the [querying guide](#{Guides::Database::Querying.path}) for more examples.
+
     ## Ideas for naming
 
     In Lucky it is common to have multiple operations per model. This makes it easier to
