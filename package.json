@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@babel/compat-data": "^7.17.10",
-    "browser-sync": "^2.27.9",
+    "browser-sync": "^2.27.10",
     "compression-webpack-plugin": "^9.2.0",
     "laravel-mix": "^6.0.43",
     "postcss": "^8.4.13",
