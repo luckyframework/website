@@ -42,6 +42,9 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
       mount AwesomeLink,
         text: "Jeremy Woertink: How I got Lucky | Raw Crystal 2020",
         url: "https://www.youtube.com/watch?v=rnu4g-vCZ70&list=PLfpFq_WLOW__RIIyWvTgYV4bw2cpav2mJ&index=7"
+      mount AwesomeLink,
+        text: "Security Testing, Spec by Spec, with Bright",
+        url: "https://www.youtube.com/watch?v=76NYNsGPvLk"
     end
   end
 
