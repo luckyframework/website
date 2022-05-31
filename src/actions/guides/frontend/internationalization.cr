@@ -67,7 +67,7 @@ class Guides::Frontend::Internationalization < GuideAction
     bin/rosetta --init --lucky
     ```
 
-    This command will geneate:
+    This command will generate:
 
     **1. An initializer at `config/rosetta.cr` with the following content:**
 
@@ -82,7 +82,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     Rosetta has an integration macro for Lucky to include the
     `Rosetta::Translatable` module everywhere translations are needed. It also
-    adds the necessary method overloads to make Lucky seamlessly work with the
+    adds the necessary method overloads to make Lucky work seamlessly with the
     underlying `Rosetta::Translation` objects. Add the following line at the
     bottom of `config/rosetta.cr`, and you're good to go:
 
@@ -262,7 +262,7 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       before_save do
         # ...
-        validate_inclusion_of language, in: Rosetta.available_locales.map(&.to_s)
+        validate_inclusion_of language, in: Rosetta.available_locales
         # ...
       end
     end
@@ -338,7 +338,7 @@ class Guides::Frontend::Internationalization < GuideAction
     > **Note 2**: when translating the link with `r("default.button.sign_out")`,
     > the `.t` method isn't called. That's because the returned value of the `r`
     > macro includes `Lucky::AllowedInTags`, so it's translated implicitly. This
-    > true almost everywhere, except for custom validation error messages in
+    > is true almost everywhere, except for custom validation error messages in
     > operations.
 
     Do the same for `AuthLayout`:
