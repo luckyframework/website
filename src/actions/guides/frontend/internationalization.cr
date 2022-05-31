@@ -83,12 +83,13 @@ class Guides::Frontend::Internationalization < GuideAction
     Rosetta has an integration macro for Lucky to include the
     `Rosetta::Translatable` module everywhere translations are needed. It also
     adds the necessary method overloads to make Lucky work seamlessly with the
-    underlying `Rosetta::Translation` objects. Add the following line at the
-    bottom of `config/rosetta.cr`, and you're good to go:
+    underlying `Rosetta::Translation` objects. Add the following line *before*
+    `Rosetta::Backend.load` in `config/rosetta.cr`, and you're good to go:
 
     ```crystal
     # ...
     Rosetta::Lucky.integrate
+    Rosetta::Backend.load("config/rosetta")
     ```
 
     **2. `config/rosetta/rosetta.en.yml`**
