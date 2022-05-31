@@ -163,6 +163,19 @@ class Guides::Frontend::Internationalization < GuideAction
           page_title: "Sign in"
     ```
 
+    ### Configure the i18n backend for Avram
+    Tell Avram to use Rosetta's backend to translate the default validation
+    error messages:
+
+    ```crystal
+    # config/database.cr
+    # ...
+    Avram.configure do |settings|
+      # ...
+      settings.i18n_backend = Rosetta::AvramBackend.new
+    end
+    ```
+
     ## Step 3 - Add language to the users table
 
     This setup will associate a language key with each user. Generate a
