@@ -45,7 +45,8 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
 
     ### SendGrid Adapter
 
-    The `SendGridAdapter` ships with Carbon by default, and once configured will send all emails through the [SendGrid](https://sendgrid.com) email service.
+    The [SendGridAdapter](https://github.com/luckyframework/carbon_sendgrid_adapter) ships with Lucky by default,
+    and once configured will send all emails through the [SendGrid](https://sendgrid.com) email service.
 
     Initializing the `SendGridAdapter` is as simple as initializing the adapter with your SendGrid API key in `config/email.cr`:
 
@@ -55,6 +56,8 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
       settings.adapter = Carbon::SendGridAdapter.new(api_key: ENV["SEND_GRID_KEY"])
     end
     ```
+
+    > Be sure the `carbon_sendgrid_adapter` shard is listed in your `shard.yml` dependencies.
 
     ## Creating Emails
 
