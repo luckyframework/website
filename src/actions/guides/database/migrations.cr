@@ -552,14 +552,14 @@ class Guides::Database::Migrations < GuideAction
 
     ## Postgres Extensions
 
-    Postgres extensions allow you to enhance your database setup with new functionality. Some common extensions are adding [UUID functions](https://www.postgresql.org/docs/current/uuid-ossp.html),
+    Postgres extensions allow you to enhance your database setup with new functionality. Some common extensions are adding [UUID functions](https://www.postgresql.org/docs/current/pgcrypto.html),
     or using [postgis](https://postgis.net/) to do geographic queries. Avram includes a few methods for enabling and disabling these extensions.
 
     ### Enable extension
 
     ```crystal
     def migrate
-      enable_extension "uuid-ossp"
+      enable_extension "pgcrypto"
     end
     ```
 
@@ -567,7 +567,7 @@ class Guides::Database::Migrations < GuideAction
 
     ```crystal
     def rollback
-      disable_extension "uuid-ossp"
+      disable_extension "pgcrypto"
     end
     ```
 
