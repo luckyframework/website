@@ -14,7 +14,7 @@ class Learn::Ecosystem::IndexPage < PageLayout
           slug: "lucky"
         mount ProjectCard,
           name: "Lucky Cli",
-          description: "CLI for generating a new Lucky applications.",
+          description: "CLI for generating new Lucky applications.",
           slug: "lucky_cli"
         mount ProjectCard,
           name: "Avram",
@@ -68,6 +68,10 @@ class Learn::Ecosystem::IndexPage < PageLayout
           name: "Lucky Cache",
           description: "Cache content within your Lucky application.",
           slug: "lucky_cache"
+        mount ProjectCard,
+          name: "LuckySecTester",
+          description: "Integrated Security specs with BrightSec.",
+          slug: "lucky_sec_tester"
       end
     end
   end
