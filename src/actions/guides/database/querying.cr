@@ -500,6 +500,15 @@ class Guides::Database::Querying < GuideAction
     `select_min` and `select_max` will return a union type of the column and `Nil`.
     For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
 
+    ### Grouped count
+
+    When your query is grouped, and you want to return the count of each group,
+    you can use the `group_count` method.
+
+    ```crystal
+    # {[32, "Daniel"] => 1, [32, "Taylor"] => 2, [44, "Shakira"] => 1}
+    UserQuery.new.group(&.age).group(&.name).group_count
+    ```
 
     ## Associations and Joins
 
