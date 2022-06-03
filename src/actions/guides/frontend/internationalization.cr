@@ -12,7 +12,7 @@ class Guides::Frontend::Internationalization < GuideAction
     If these steps are done in order then Lucky should continue to compile and
     be usable with each change.
 
-    > We'll be using the [Rosetta shard](https://wout.github.io/rosetta/v0.3.0/)
+    > We'll be using the [Rosetta shard](https://wout.github.io/rosetta/latest/)
     > because it integrates well with Lucky, it handles key lookup at
     > compile-time and it is very fast.
 
@@ -61,29 +61,35 @@ class Guides::Frontend::Internationalization < GuideAction
     ## Step 2 - Configure Rosetta
 
     After installing, run the init command to have Rosetta set up the required
-    files:
+    files, including translations for Lucky:
 
     ```bash
-    bin/rosetta --init
+    bin/rosetta --init --lucky
     ```
 
-    This will geneate:
+    This command will generate:
 
     **1. An initializer at `config/rosetta.cr` with the following content:**
 
     ```crystal
-    Rosetta::DEFAULT_LOCALE = :en
-    Rosetta::AVAILABLE_LOCALES = %i[en]
+    @[Rosetta::DefaultLocale(:en)]
+    @[Rosetta::AvailableLocales(:en)]
+    module Rosetta
+    end
+
     Rosetta::Backend.load("config/rosetta")
     ```
 
-    Rosetta includes an integration macro for Lucky to include the
-    `Rosetta::Translatable` module everywhere translations are needed. Add the
-    following line at the bottom of `config/rosetta.cr` and you're good to go:
+    Rosetta has an integration macro for Lucky to include the
+    `Rosetta::Translatable` module everywhere translations are needed. It also
+    adds the necessary method overloads to make Lucky work seamlessly with the
+    underlying `Rosetta::Translation` objects. Add the following line *before*
+    `Rosetta::Backend.load` in `config/rosetta.cr`, and you're good to go:
 
     ```crystal
     # ...
     Rosetta::Lucky.integrate
+    Rosetta::Backend.load("config/rosetta")
     ```
 
     **2. `config/rosetta/rosetta.en.yml`**
@@ -91,7 +97,13 @@ class Guides::Frontend::Internationalization < GuideAction
     This file contains localizations required by Rosetta. For every additional
     locale, you'll need to copy and translate this file.
 
-    **3. `config/locales/example.en.yml`**
+    **3. `config/rosetta/avram.en.yml`**
+
+    This file contains translations for Avram's validations. For every
+    additional locale, you'll need to copy and translate this file. Please
+    consider contributing your translations.
+
+    **4. `config/locales/example.en.yml`**
 
     An example locale file. Replace the contents of this file with the following
     to make it through this tutorial without compilation errors:
@@ -149,6 +161,19 @@ class Guides::Frontend::Internationalization < GuideAction
           success: "You have been signed out"
         new_page:
           page_title: "Sign in"
+    ```
+
+    ### Configure the i18n backend for Avram
+    Tell Avram to use Rosetta's backend to translate the default validation
+    error messages:
+
+    ```crystal
+    # config/database.cr
+    # ...
+    Avram.configure do |settings|
+      # ...
+      settings.i18n_backend = Rosetta::AvramBackend.new
+    end
     ```
 
     ## Step 3 - Add language to the users table
@@ -234,7 +259,7 @@ class Guides::Frontend::Internationalization < GuideAction
 
     This module tries to set `current_user`'s language. If there isn't a
     signed-in user, it tries to find a `language` query parameter. If both
-    aren't present, the `Rosetta::DEFAULT_LOCALE` will be used, as configured in
+    aren't present, the `Rosetta.default_locale` will be used, as configured in
     Rosetta's initializer (`config/rosetta.cr`).
 
     ## Step 6 - Update Operations
@@ -251,7 +276,7 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
       before_save do
         # ...
-        validate_inclusion_of language, in: Rosetta::AVAILABLE_LOCALES.map(&.to_s)
+        validate_inclusion_of language, in: Rosetta.available_locales
         # ...
       end
     end
@@ -301,7 +326,7 @@ class Guides::Frontend::Internationalization < GuideAction
       needs current_user : User
       # ...
       def page_title
-        r(".page_title").t
+        r(".page_title")
       end
 
       def render
@@ -326,7 +351,9 @@ class Guides::Frontend::Internationalization < GuideAction
 
     > **Note 2**: when translating the link with `r("default.button.sign_out")`,
     > the `.t` method isn't called. That's because the returned value of the `r`
-    > macro includes `Lucky::AllowedInTags`, so it's translated implicitly.
+    > macro includes `Lucky::AllowedInTags`, so it's translated implicitly. This
+    > is true almost everywhere, except for custom validation error messages in
+    > operations.
 
     Do the same for `AuthLayout`:
 
@@ -335,7 +362,7 @@ class Guides::Frontend::Internationalization < GuideAction
     abstract class AuthLayout
       # ...
       def page_title
-        r(".page_name").t
+        r(".page_name")
       end
 
       def render
@@ -395,7 +422,7 @@ class Guides::Frontend::Internationalization < GuideAction
       private def render_sign_up_form(op)
         form_for SignUps::Create do
           # ...
-          submit r("default.button.sign_up").t, flow_id: "sign-up-button"
+          submit r("default.button.sign_up"), flow_id: "sign-up-button"
         end
         link r(".sign_in_instead"), to: SignIns::New
       end
@@ -403,16 +430,16 @@ class Guides::Frontend::Internationalization < GuideAction
       private def sign_up_fields(op)
         mount Shared::Field,
           attribute: op.email,
-          label_text: r("default.field.email").t, &.email_input(autofocus: "true")
+          label_text: r("default.field.email"), &.email_input(autofocus: "true")
         mount Shared::Field,
           attribute: op.password,
-          label_text: r("default.field.password").t, &.password_input
+          label_text: r("default.field.password"), &.password_input
         mount Shared::Field,
           attribute: op.password_confirmation,
-          label_text: r("default.field.password_confirmation").t, &.password_input
+          label_text: r("default.field.password_confirmation"), &.password_input
         mount Shared::Field,
           attribute: op.language,
-          label_text: r("default.field.language").t, &.select_input do
+          label_text: r("default.field.language"), &.select_input do
           options_for_select(op.language, [{"English", "en"}])
         end
       end
@@ -448,8 +475,9 @@ class Guides::Frontend::Internationalization < GuideAction
     ```
 
     > **Note**: The `t` method for the `r(".user_email")` translation takes an
-    > `email` argument. If a translation includes interpolation keys (in this
-    > case `%{email}`), Rosetta will require an argument with the same name.
+    > argument called `email`. If a translation includes interpolation keys (in
+    > this case `%{email}`), Rosetta will require an argument with the same
+    > name.
 
     Follow the same logic for the following files (as desired):
 
@@ -470,10 +498,10 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
           if authenticated_user
             # ...
-            flash.success = r(".success").t
+            flash.success = r(".success")
             # ...
           else
-            flash.failure = r(".failure").t
+            flash.failure = r(".failure")
             # ...
           end
       # ...
@@ -489,10 +517,10 @@ class Guides::Frontend::Internationalization < GuideAction
       post "/sign_up" do
         SignUpUser.create(params) do |operation, user|
           if user
-            flash.success = r(".success").t
+            flash.success = r(".success")
             # ...
           else
-            flash.failure = r(".failure").t
+            flash.failure = r(".failure")
             # ...
           end
         end
@@ -507,7 +535,7 @@ class Guides::Frontend::Internationalization < GuideAction
     class SignIns::Delete < BrowserAction
       delete "/sign_out" do
         sign_out
-        flash.info = r(".success").t
+        flash.info = r(".success")
         redirect to: SignIns::New
       end
     end
