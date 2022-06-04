@@ -15,8 +15,13 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     class FooAction < BrowserAction
       get "/foo" do
         cookies.set("name", "Sally")
+        cookies["name"] = "Sally"
+
         cookies.get("name") # Will return "Sally"
+        cookies["name"] # or use shorthand
+
         cookies.get?("person") # Will return nil
+        cookies["person"]?
 
         # You can use Symbol for your key as well
         session.set(:name, "Sally")
@@ -27,12 +32,13 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     end
     ```
 
-    Cookies are encrypted by Lucky by default when you use `set`. If you
+    Cookies are encrypted by Lucky by default when you use `set` or `[]=`. If you
     need to set a raw value unencrypted, Lucky gives you that option:
 
     ```crystal
     cookies.set_raw("name", "Sally") # Sets a raw unencrypted cookie
     cookies.get_raw("name") # Will return "Sally"
+    cookies.get_raw?("person") # Will return nil
     ```
 
     ### Clearing Sessions and Cookies
