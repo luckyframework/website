@@ -247,6 +247,39 @@ class Guides::Database::CallbacksAndValidations < GuideAction
     end
     ```
 
+    ## Default validations
+
+    It's a common pattern in Lucky to break out specific operations in to several SaveOperation
+    classes, and these may need to share validation logic. The `default_validations` block allows
+    you to run validations that should always be ran in your operations. This block runs when the
+    `valid?` method is called on an operation which is before any `before` block. (i.e. `before_save` or `before_run`)
+
+    ```crystal
+    module DefaultUserValidations
+      macro included
+        default_validations do
+          validate_required access_level
+        end
+      end
+    end
+
+    class SaveUser < User::SaveOperation
+      include DefaultUserValidations
+
+      before_save do
+        access_level.value = "user"
+      end
+    end
+
+    class SaveAdmin < User::SaveOperation
+      include DefaultUserValidations
+
+      before_save do
+        access_level.value = "admin"
+      end
+    end
+    ```
+
     ## Sharing common validations, callbacks, etc.
 
     When using multiple operations for one model you often want to share a common set of
