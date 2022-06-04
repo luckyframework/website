@@ -8,7 +8,7 @@ targets:
   website_v2:
     main: src/website_v2.cr
 
-crystal: ">= 1.1.0"
+crystal: ">= 1.4.0"
 
 dependencies:
   lucky:
@@ -45,4 +45,4 @@ development_dependencies:
     version: ~> 0.7.3
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.3
+    version: ~> 1.0.0
