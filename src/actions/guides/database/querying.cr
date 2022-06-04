@@ -429,6 +429,19 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.age.desc_order(:nulls_last)
     ```
 
+    ### Random Order
+
+    Return rows in a random order.
+
+    `SELECT COLUMNS FROM users ORDER BY RANDOM()`
+
+    ```crystal
+    UserQuery.new.random_order
+    ```
+
+    > Appending a specific order after a random order will use that specific order.
+    > (e.g. `UserQuery.new.random_order.username.desc_order` will order by username descending)
+
     ## Group By
 
     Return rows grouped by the `age` column.
