@@ -2,6 +2,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
   ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES = "perma-run-code-before-or-after-actions-with-pipes"
   ANCHOR_HANDLING_RESPONSES                          = "perma-hanlding-responses"
   ANCHOR_REDIRECTING                                 = "perma-redirecting"
+  ANCHOR_HTML_WITH_CUSTOM_STATUS                     = "perma-html-with-custom-status"
   guide_route "/http-and-routing/request-and-response"
 
   def self.title
@@ -148,6 +149,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     > The `response` object is an instance of [HTTP::Server::Response](https://crystal-lang.org/api/HTTP/Server/Response.html).
 
+    #{permalink(ANCHOR_HTML_WITH_CUSTOM_STATUS)}
     ### HTML with non-200 status
 
     The `html()` macro will render your Page object with a 200 status.
