@@ -450,6 +450,25 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # => true
     ```
 
+    ### Previous URL
+
+    Lucky also has a `previous_url` helper method you can use on your pages.
+
+    It returns the url of the page that issued the request (the referrer)
+    if possible, otherwise redirects to the provided default fallback
+    location.
+
+    The referrer information is pulled from the 'Referer' header on
+    the request. This is an optional header, and if the request
+    is missing this header the *fallback* will be used.
+
+    Ex. within a Lucky Page, previous_url can be used to provide an href
+    to an anchor element that would allow the user to go back.
+
+    ```crystal
+    a "Back", href: previous_url(fallback: Users::Index)
+    ```
+
     ## Formatting and Page helpers
 
     Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
