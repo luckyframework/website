@@ -24,6 +24,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     ```crystal
     def middleware : Array(HTTP::Handler)
       [
+        Lucky::RequestIdHandler.new,
         Lucky::ForceSSLHandler.new,
         Lucky::HttpMethodOverrideHandler.new,
         Lucky::LogHandler.new,
@@ -37,7 +38,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     end
     ```
 
-    The `request` object will start in the `Lucky::ForceSSLHandler`, do some processing, then move on to the `Lucky::LogHandler`, and so on.
+    The `request` object will start in the `Lucky::RequestIdHandler`, do some processing, then move on to the `Lucky::ForceSSLHandler`, and so on.
     In the `Lucky::RouteHandler` it will look for a `Lucky::Action` that matches the request, run any pipes, then run the action. If no action is found,
     we check to see if there's a static file in `Lucky::StaticFileHandler`. Finally, if no route or file matches the request, we run the `Lucky::RouteNotFoundHandler`.
 
@@ -72,6 +73,7 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     ```crystal
     def middleware : Array(HTTP::Handler)
       [
+        Lucky::RequestIdHandler.new,
         Lucky::ForceSSLHandler.new,
         Lucky::HttpMethodOverrideHandler.new,
         Lucky::LogHandler.new,
