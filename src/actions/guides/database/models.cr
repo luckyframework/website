@@ -234,6 +234,7 @@ class Guides::Database::Models < GuideAction
     * `Time` - `timestamp with time zone` (`timestamptz`) column type.
     * `UUID` - `uuid` column type.
     * `JSON::Any` - `jsonb` column type.
+    * `JSON::Serializable` - `jsonb` column type.
     * `Array(T)` - `[]` column type where `T` is any other supported type.
     * Avram Enum - [see using enums](##{ANCHOR_USING_ENUMS})
 
@@ -263,6 +264,45 @@ class Guides::Database::Models < GuideAction
     > Avram is constantly being updated, and some types may not "patch" as easily. If you tried this
     > method, and it doesn't work for you, be sure to [open an issue](https://github.com/luckyframework/avram/issues) so we can get support for that
     > as soon as possible.
+
+    ## JSON Serialized columns
+
+    The serialized columns are stored as a `jsonb` field in your database. When the data
+    is fetched, Avram can convert it to a serialized object type.
+
+    > Valid JSON can be stored in many ways, but serialized columns assume your JSON
+    > is structed in a simple key/value way.
+
+    To enable the serialized column, you'll need to make sure the column in your migration
+    is set to `JSON::Any`. For this example, we will use a `User::Preferences` struct.
+    Your model will define a column of type `User::Preferences`, and set the `serialize` option
+    to `true`.
+
+    ```crystal
+    # src/models/user.cr
+    class User < BaseModel
+      struct Preferences
+        include JSON::Serializable
+
+        property? receive_email : Bool = true
+      end
+
+      table do
+        column preferences : User::Preferences, serialize: true
+      end
+    end
+    ```
+
+    When calling the `preferences` method on your user instance, you'll have the `User::Preferences`
+    struct which pulls the values from the `preferences` column of the users record.
+
+    ```crystal
+    user = UserQuery.new.first
+    user.preferences.receive_email? #=> true
+    ```
+
+    For info on using serialized column in SaveOperations,
+    see [Saving Serialized JSON](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_SAVING_SERIALIZED_JSON)})
 
     #{permalink(ANCHOR_USING_ENUMS)}
     ## Using enums
