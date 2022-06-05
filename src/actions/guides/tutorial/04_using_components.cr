@@ -59,7 +59,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
     component. This allows you to see which component is responsible for the markup being rendered.
 
     When creating your own components that require specific data (i.e. page_title), you will add your `needs`
-    for that data, then in your `mount`, you'll pass each as a named argument. (e.g. `moung Shared::Footer, copyright_year: 3099`)
+    for that data, then in your `mount`, you'll pass each as a named argument. (e.g. `mount Shared::Footer, copyright_year: 3099`)
 
     > For more information on components, read the [Components](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)})
     > guide in Rendering HTML.
