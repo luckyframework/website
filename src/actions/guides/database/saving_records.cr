@@ -1,10 +1,11 @@
 class Guides::Database::SavingRecords < GuideAction
-  ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
-  ANCHOR_PARAM_KEY             = "perma-param-key"
-  ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
-  ANCHOR_CHANGE_TRACKING       = "perma-change-tracking"
-  ANCHOR_SAVING_WITHOUT_PARAMS = "perma-saving-without-params"
-  ANCHOR_SAVING_ENUMS          = "perma-saving-enums"
+  ANCHOR_USING_WITH_HTML_FORMS  = "perma-using-with-html-forms"
+  ANCHOR_PARAM_KEY              = "perma-param-key"
+  ANCHOR_PERMITTING_COLUMNS     = "perma-permitting-columns"
+  ANCHOR_CHANGE_TRACKING        = "perma-change-tracking"
+  ANCHOR_SAVING_WITHOUT_PARAMS  = "perma-saving-without-params"
+  ANCHOR_SAVING_ENUMS           = "perma-saving-enums"
+  ANCHOR_SAVING_SERIALIZED_JSON = "perma-saving-serialized-json"
   guide_route "/database/saving-records"
 
   def self.title
@@ -184,8 +185,35 @@ class Guides::Database::SavingRecords < GuideAction
     end
     ```
 
-    ## Using with JSON endpoints
+    #{permalink(ANCHOR_SAVING_SERIALIZED_JSON)}
+    ## Saving Serialized JSON
 
+    Serialized columns will be deserialized before being saved allowing you
+    to work with the serialized object directly.
+
+    ```crystal
+    class SignUpUser < User::SaveOperation
+      before_save do
+        preferences.value = User::Preferences.from_json("{}")
+      end
+    end
+    ```
+
+    You can set your operation up wity virtual properties to map
+    back to your serializable object when updating.
+
+    ```crystal
+    class UpdateUser < User::SaveOperation
+      attribute allow_email : Bool
+      before_save do
+        if prefs = preferences.value
+          prefs.receive_email = !!allow_email.value
+        end
+      end
+    end
+    ```
+
+    For more info on working with JSON APIs,
     See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
 
     #{permalink(ANCHOR_USING_WITH_HTML_FORMS)}
