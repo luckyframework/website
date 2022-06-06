@@ -455,7 +455,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     Lucky also has a `previous_url` helper method you can use on your pages.
 
     It returns the url of the page that issued the request (the referrer)
-    if possible, otherwise redirects to the provided default fallback
+    if possible, otherwise it uses the provided default fallback
     location.
 
     The referrer information is pulled from the 'Referer' header on
