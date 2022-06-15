@@ -247,6 +247,85 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
+    ## Optional and Glob paths
+
+    ### Optional route paths
+
+    You may have a path that has an optional path segment. For example:
+
+    ```
+    # MenuItems::Index
+    /menu-items
+
+    # also MenuItems::Index
+    /menu-items/appetizers
+    ```
+
+    In this example, the `/appetizers` path segment might be optional, but if it
+    does exist, then you are able to change what is displayed on your page. Both
+    routes go to the same Action class.
+
+    The optional path param is specified the same as a normal path param, but with a
+    `?` prefix. (e.g. `/?:path_param`)
+
+    ```crystal
+    class MenuItems::Index < BrowserAction
+      get "/menu-items/?:section" do
+        if section
+          # we have a value for section
+        else
+          # no value for section
+        end
+      end
+    end
+    ```
+
+    ### Glob routing
+
+    Glob routing is a way to define a path with an unknown number of path segments.
+    This allows you to do deep nested linking, or use different paths for loading specific
+    data. For example:
+
+    ```
+    # Posts::Index
+    /posts
+
+    # also Posts::Index
+    /posts/2022/02/14
+    ```
+
+    Similar to the optional path segments, but with an unknown number. This can also be used
+    as a "catch-all" route similar to the `fallback` routing.
+
+    To use the glob route, your trailing path segment must be a `*`. This will give you a method
+    `glob` that returns a String of the entire trailing path.
+
+    ```crystal
+    class Posts::Index < BrowserAction
+      get "/posts/*" do
+        if glob
+          # glob == "2022/02/14"
+        else
+          # the path was just "/posts"
+        end
+      end
+    end
+    ```
+
+    You can also name your glob by giving it a path param.
+
+    ```crystal
+    class Posts::Index < BrowserAction
+      get "/posts/*:date" do
+        if date
+          # date == "2022/02/14"
+        else
+          # the path was just "/posts"
+        end
+      end
+    end
+    ```
+
     ## Routing style
 
     By default Lucky ensures that all routes adhere to the same style. All
