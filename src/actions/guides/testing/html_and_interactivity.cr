@@ -7,21 +7,45 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
   def markdown : String
     <<-MD
+    ## About Flow
+
+    LuckyFlow is a shard that allows you to programmatically control a browser. This is best used
+    to test your front-end and how users directly interact with your website in a browser.
+
+    The name "flow" comes from the idea that a user will follow a "flow" from some starting point
+    to some ending point. (e.g. Clicking login, entering login details, and being redirected to a dashboard)
+
+    LuckyFlow is automatically installed and configured with Lucky full (or web) projects.
+    API based projects don't need it since there's no HTML, CSS, or JavaScript.
+
     ## Setup
 
-    LuckyFlow is automatically installed and configured with Lucky projects
-    (excluding projects generated with the `—api` option)
+    LuckyFlow uses [chromedriver](https://chromedriver.chromium.org/) to control Selenium under the hood.
+    You don't need anything installed as LuckyFlow will automatically install the chromedriver for you
+    when it runs the first time.
 
-    For tests to run you will need to install Chrome and Chromedriver:
+    The LuckyFlow configuration settings are located in `spec/setup/configure_lucky_flow.cr`.
 
-    ### On macOS
+    ```crystal
+    # spec/setup/configure_lucky_flow.cr
+    LuckyFlow.configure do |settings|
+      settings.stop_retrying_after = 200.milliseconds
+      settings.base_uri = Lucky::RouteHelper.settings.base_uri
+      settings.retry_delay = 10.milliseconds
 
-    `brew cask install chromedriver`
+      # Change where screenshots are stored
+      settings.screenshot_directory = "./tmp/screenshots"
 
-    ### On Linux
+      # Point to a different Chrome browser than the default
+      settings.browser_binary = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-    `sudo apt-get install chromium-chromedriver` or
-    https://makandracards.com/makandra/29465-install-chromedriver-on-linux
+      # Specify a custom location to the driver
+      settings.driver_path = "/path/to/driver"
+
+      # Change which driver is loaded. (`LuckyFlow::Drivers::HeadlessChrome` is default)
+      settings.driver = LuckyFlow::Drivers::Chrome
+    end
+    ```
 
     ## A quick overview of flows
 
@@ -104,21 +128,23 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     visit Home::Index
 
     # Visit a route that takes params
-    post = PostBox.create
+    post = PostFactory.create
     visit Posts::Show.with(post.id)
     ```
 
     ### Using `as` to sign users in
 
-    Lucky comes built-in with a backdoor in tests so that you don’t need to go through the full process of loading the sign in page and filling out the form. Instead you can use the `as` option to visit the page and sign the user in automatically:
+    Lucky comes built-in with a backdoor in tests so that you don’t need to go through the full process of
+    loading the sign in page and filling out the form. Instead you can use the `as` option to visit the page
+    and sign the user in automatically:
 
     ```crystal
-    user = UserBox.create
-    post = PostBox.create
+    user = UserFactory.create
+    post = PostFactory.create
     visit Posts::Show.with(post.id), as: user
     ```
 
-    > Check out the `Auth::SignInThroughBackdoor`  mixin to see how the backdoor works.
+    > Check out the `Auth::SignInThroughBackdoor` mixin to see how the backdoor works.
 
     ### Using strings paths
 
@@ -136,7 +162,7 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     find the element until you try to interact with it or check if it is in the
     page.
 
-    ### Using `@`  to find by Flow ID
+    ### Using `@` to find by Flow ID
 
     If you are familiar with other libraries for interacting with pages, you
     likely have found elements using CSS or by the text inside of elements. This
@@ -195,6 +221,31 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     click "a.post-title"
     ```
 
+    ### Hover over an element
+
+    ```crystal
+    el("@file-upload-box").hover
+    ```
+
+    ### Checking visiblity of an element
+
+    ```html
+    <style>
+    .alert-box { display: none; }
+    .upload-zone:hover + .alert-box { display: block; }
+    </style>
+    <div class="upload-zone" flow-id="file-upload-box">Drop Files Here</div>
+    <div class="alert-box">Ready for upload!</div>
+    ```
+
+    ```crystal
+    el(".alert-box").displayed? #=> false
+
+    el("@file-upload-box").hover
+
+    el(".alert-box").displayed? #=> true
+    ```
+
     ### Filling and submitting forms
 
     Fill forms rendered by Lucky:
@@ -217,7 +268,57 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     el("#title-field").fill("My Post")
     ```
 
-    ## Asserting elements are on the page
+    ### Filling select fields
+
+    To fill the value of a `<select>` tag, use the `flow.select()` method.
+
+    ```html
+    <select name="cars" flow_id="car-list">
+      <option value="ford">Ford</option>
+      <option value="honda">Honda</option>
+      <option value="tesla">Tesla</option>
+    </select>
+    ```
+
+    ```crystal
+    flow.select("cars", value: "honda")
+    flow.el("@car-list").value.should eq "honda"
+    ```
+
+    If you need to fill multiple values for a `<select multiple>` tag, you can pass an array.
+
+    ```crystal
+    flow.select("cars", value: ["honda", "toyota"])
+    ```
+
+    Check if a specific value is selected using the `selected?` method.
+
+    ```crystal
+    flow.el("option[value='tesla']").selected? #=> false
+    flow.el("option[value='toyota']").selected? #=> true
+    ```
+
+    ## Interacting with JavaScript
+
+    ### Dismissing alerts
+
+    If your page as a `confirm()` modal, you can `accept` or `dismiss` with the `accept_alert` or `dismiss_alert` methods.
+
+    ```crystal
+    flow.click("@delete-comment-button")
+    flow.accept_alert
+
+    flow.click("@back-button")
+    flow.dismiss_alert
+    ```
+
+    > For javascript `alert()` modals, the `accept_alert` and `dismiss_alert` do the same thing.
+
+    ## Spec Assertions
+
+    LuckyFlow comes with a few methods for asserting elements exist
+
+    ### Asserting elements are on the page
 
     You can use `el` combined with the `be_on_page` matcher to assert that an
     element is on the page:
@@ -225,6 +326,50 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
     ```crystal
     el("@post-title", text: "My post").should be_on_page
     ```
+
+    ### Asserting the current URL path
+
+    You can use `have_current_path` to check that the page you are on matches the path you expect
+
+    ```crystal
+    flow = BaseFlow.new
+    flow.visit Authenticated::Endpoint::Index
+    flow.should have_current_path(SignIn::New)
+    ```
+
+    ### Asserting an element's text
+
+    The `have_text` will test that an element contains a piece of text.
+
+    ```html
+    <ul flow_id="user-list">
+      <li>Natasha</li>
+      <li>Steve</li>
+      <li>Tony</li>
+      <li>Bruce</li>
+    </ul>
+    ```
+
+    ```crystal
+    el("@user-list").should have_text("Tony")
+    ```
+
+    ## Managing Cookies
+
+    You can access cookies using the flow's `session.cookie_manager`.
+
+    ```crystal
+    flow = SomeFlow.new
+
+    flow.visit SomePage::Index
+
+    flow.session.cookie_manager.add_cookie("hello", "world")
+    flow.session.cookie_manager.get_cookie("hello") #=> "world"
+    ```
+
+    ## Debugging
+
+    For debugging tips with LuckyFlow, read our [Debugging Tests](#{Guides::Testing::Debugging.path(anchor: Guides::Testing::Debugging::ANCHOR_LUCKY_FLOW)}) guide.
     MD
   end
 end

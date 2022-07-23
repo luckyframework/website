@@ -67,7 +67,7 @@ class Guides::GettingStarted::Logging < GuideAction
     class Dashboard::Index < BrowserAction
       get "/dashboard" do
         # Pass a String to log that message
-        Log.info { "\#{curent_user.email} view the Dashboard" }
+        Log.info { "\#{current_user.email} view the Dashboard" }
         html IndexPage
       end
     end

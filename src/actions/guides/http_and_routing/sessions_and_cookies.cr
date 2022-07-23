@@ -15,8 +15,13 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     class FooAction < BrowserAction
       get "/foo" do
         cookies.set("name", "Sally")
+        cookies["name"] = "Sally"
+
         cookies.get("name") # Will return "Sally"
+        cookies["name"] # or use shorthand
+
         cookies.get?("person") # Will return nil
+        cookies["person"]?
 
         # You can use Symbol for your key as well
         session.set(:name, "Sally")
@@ -27,12 +32,13 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     end
     ```
 
-    Cookies are encrypted by Lucky by default when you use `set`. If you
+    Cookies are encrypted by Lucky by default when you use `set` or `[]=`. If you
     need to set a raw value unencrypted, Lucky gives you that option:
 
     ```crystal
     cookies.set_raw("name", "Sally") # Sets a raw unencrypted cookie
     cookies.get_raw("name") # Will return "Sally"
+    cookies.get_raw?("person") # Will return nil
     ```
 
     ### Clearing Sessions and Cookies
@@ -54,7 +60,17 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
     cookies.clear
     ```
 
-    ### Customize Cookies
+    Cookies that have been set with a specific path or domain cannot be deleted unless you pass in the original values.
+    To clear these out, you can pass a block to the `delete()` method. [See RFC-2109](https://www.ietf.org/rfc/rfc2109.txt).
+
+    ```crystal
+    cookies.delete(:remember_me) do |cookie|
+      cookie.domain("mysite.co")
+      cookie.path(Home::Index.path)
+    end
+    ```
+
+    ## Configuring Cookies
 
     If you need to customize specific [cookie options](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie), each cookie is an instance of [HTTP::Cookie](https://crystal-lang.org/api/HTTP/Cookie.html), which gives you access to several helpful methods.
 
@@ -82,7 +98,60 @@ class Guides::HttpAndRouting::SessionsAndCookies < GuideAction
 
     # Set the cookie to HTTP only
     c_is_for_cookie.http_only(true)
+
+    # Set the cookie SameSite to Lax.
+    # You can also use `:strict` here.
+    c_is_for_cookie.samesite(:lax)
     ```
+
+    ### Setting cookie defaults
+
+    The `Lucky::CookieJar` configuration is located in your app's `config/cookies.cr` file.
+    You can set defaults for your cookies when they're written.
+
+    ```crystal
+    # config/cookies.cr
+    Lucky::CookieJar.configure do |settings|
+      settings.on_set = ->(cookie : HTTP::Cookie) {
+        cookie
+          .secure(true)
+          .http_only(true)
+          .samesite(:strict)
+          .expires(1.year.from_now)
+          .domain("mydomain.com")
+      }
+    end
+    ```
+
+    ## Disabling Cookies
+
+    There may be an action where you need disable writing cookies. For this, you
+    can use the `disable_cookies` macro in the action you want to skip writing cookies.
+
+    ```crystal
+    class Api::Posts::Index < ApiAction
+      disable_cookies
+
+      get "/posts" do
+        json([] of Post)
+      end
+    end
+    ```
+
+    You will also need to disable cookies for your errors to avoid sending this data
+    when an error is raised in your API.
+
+    ```crystal
+    # src/actions/errors/show.cr
+    class Errors::Show < Lucky::ErrorAction
+      disable_cookies
+      # ...
+    end
+    ```
+
+    This will disable writing all cookies, session, and flash messages for this action.
+    If you need to do this for all of your actions, you can add the `disable_cookies` macro to
+    the action you inherit from (For example the `ApiAction`).
     MD
   end
 end

@@ -1,6 +1,6 @@
 class Guides::HttpAndRouting::RoutingAndParams < GuideAction
-  ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES = "perma-automatically-generate-restful-routes"
-  ANCHOR_FALLBACK_ROUTING                      = "perma-fallback-routing"
+  ANCHOR_RESTFUL_ROUTES   = "perma-restful-routes"
+  ANCHOR_FALLBACK_ROUTING = "perma-fallback-routing"
   guide_route "/http-and-routing/routing-and-params"
 
   def self.title
@@ -14,15 +14,15 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     see how Lucky can make writing your applications reliable and productive
     with its unique approach to HTTP and routing.
 
-    ## Routing
+    ## Routing with Actions
 
     Instead of having separate definition files for routes and controllers, Lucky combines them in action classes.
-    This allows for solid error detection, and method and helper creation.
+    This allows for solid error detection, as well as method and helper creation.
 
-    To save some typing, Lucky can automatically infer a default route path from the name of the action class,
-    if the name ends with a known [RESTful action (see below)](##{ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES}).
+    Most Lucky actions use a "REST" style convention. If you're unfamiliar with REST, you can read
+    our [RESTful action guide](##{ANCHOR_RESTFUL_ROUTES}).
 
-    ### Example without route inference
+    ### Example route
 
     To see what a simple action looks like, let's generate an index action for showing users with
     `lucky gen.action.browser Users::Index`.
@@ -30,7 +30,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ```crystal
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
-      get "/users/:user_id" do
+      get "/users" do
         # `plain_text` sends plain/text to the client
         plain_text "Rendering something in Users::Index"
       end
@@ -117,8 +117,30 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     `project_id` and `task_id` method generated on the class for accessing the named
     parameters.
 
-    #{permalink(ANCHOR_AUTOMATICALLY_GENERATE_RESTFUL_ROUTES)}
-    ## Automatically generate RESTful routes
+
+    ### Optional path parameters
+
+    Sometimes it can be helpful to allow optional parameters in a route's path. We can accomplish
+    this by prefixing a path parameter with a `?`, like this:
+
+    ```crystal
+    # src/actions/posts/index.cr
+    class Posts::Index < BrowserAction
+      get "/posts/:year/:month/?:day" do
+        if day
+          plain_text "I'll show all posts on a specific day!"
+        else
+          plain_text "I'll show all posts in a given month!"
+        end
+      end
+    end
+    ```
+
+    In the above example, we require that the `Posts::Index` route has both a `:year` and `:month` provided,
+    but allow users to optionally route to a specific `:day` as well.
+
+    #{permalink(ANCHOR_RESTFUL_ROUTES)}
+    ## Understanding RESTful routes
 
     REST is a way to make access to resources more uniform. It consists of the following actions:
 
@@ -130,97 +152,37 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     * `Update` - update an existing resource
     * `Delete` - delete the resource
 
-    Use the `route` and `nested_route` macros to generate RESTful routes
-    automatically based on the class name.
+    > The word "resource" generally just refers to some model (i.e. User, or BlogPost, etc...)
 
-    ### `route`
+    ### Examples of restful routes
 
-    [The macros `route` and `nested_route` do still exist, and automatically imply the default route paths,
-    however, their deprecation is [discussed](https://github.com/luckyframework/lucky/issues/789). Moving
-    the automatic path inference to the generators will make the actions more concrete and directly readable.]
+    For standard resources:
 
-    The `route` macro uses the first part of the class name as the resource name,
-    and the second part as one of the resourceful actions listed above.
+    | Action Class                  | Route                                    |
+    |-------------------------------|------------------------------------------|
+    | `Users::Index`                | `get "/users"`                           |
+    | `Users::Show`                 | `get "/users/:user_id"`                  |
+    | `Users::New`                  | `get "/users/new"`                       |
+    | `Users::Create`               | `post "/users"`                          |
+    | `Users::Edit`                 | `get "/users/:user_id/edit"`             |
+    | `Users::Update`               | `put "/users/:user_id"`                  |
+    | `Users::Delete`               | `delete "/users/:user_id"`               |
+    | `Api::V1::Users::Show`        | `get "/api/v1/users/:user_id"`           |
+    | `MyAdminSection::Users::Show` | `get "/my_admin_section/users/:user_id"` |
 
-    ```crystal
-     class Users::Show < BrowserAction
-     # From the name,
-     #   "Users" is the resource, and
-     #   "Show" is the RESTful action.
+    For nested resources:
 
-      route do   # The inferred route is:  get "/users/:user_id"
-        plain_text "A request was made for the user_id: \#{user_id}"
-      end
-    end
-    ```
-
-    > Routes that require an "id" param will be prefixed with the resource name like `user_id`. (e.g. `Users::Show` generates `user_id`, and `Projects::Show` generates `project_id`)
-
-    ### `nested_route`
-
-    For a nested resource it will use the third to last part as the
-    nested resource name, the second to last part of the class name as the resource
-    name,  and the last part as one of the resourceful actions listed above.
-
-    ```crystal
-    class Projects::Users::Index < BrowserAction
-      # From the name,
-      #   "Projects" is the parent resource
-      #   "Users" is the nested resource
-      #   "Index" is the RESTful action
-
-      nested_route do  # The inferred route is: get "/projects/:project_id/users"
-        plain_text "Render list of users in project \#{project_id}"
-      end
-    end
-    ```
-
-    > Likewise, defining `Projects::Users::Show` would generate both `project_id` and `user_id`.
-
-
-    ### Namespaces are handled automatically
-
-    You can namespace your routes by prefixing the class name, e.g. with `Admin::`.
-
-    ```crystal
-    # in src/actions/admin/projects/index.cr
-    class Admin::Projects::Index < BrowserAction
-      # From the name,
-      # anything before the resource (`Projects`) will be used as a namespace (`Admin`).
-
-      route do   # The inferred route is: get "/admin/projects"
-        plain_text "Render list of projects"
-      end
-    end
-    ```
-
-    > Note the use of `route` here and not `nested_route`. These change how the routes are generated.
-
-    ### Examples of automatically generated routes
-
-    For the `route` macro:
-
-    *  `Users::Index`  -> `get "/users"`
-    *  `Users::Show`  -> `get "/users/:user_id"`
-    *  `Users::New`  -> `get "/users/new"`
-    *  `Users::Create`  -> `post "/users"`
-    *  `Users::Edit`  -> `get "/users/:user_id/edit"`
-    *  `Users::Update`  -> `put "/users/:user_id"`
-    *  `Users::Delete`  -> `delete "/users/:user_id"`
-    * Multiple namespaces: `Api::V1::Users::Show`  -> `get "/api/v1/users/:user_id"`
-    * Multi-word namespace: `MyAdminSection::Users::Show`  -> `get "/my_admin_section/users/:user_id"`
-
-    For the `nested_route` macro:
-
-    *  `Projects::Users::Index`  -> `get "/projects/:project_id/users"`
-    *  `Projects::Users::Show`  -> `get "/projects/:project_id/users/:user_id"`
-    *  `Projects::Users::New`  -> `get "/projects/:project_id/users/new"`
-    *  `Projects::Users::Create`  -> `post "/projects/:project_id/users"`
-    *  `Projects::Users::Edit`  -> `get "/projects/:project_id/users/:user_id/edit"`
-    *  `Projects::Users::Update`  -> `put "/projects/:project_id/users/:user_id"`
-    *  `Projects::Users::Delete`  -> `delete "/projects/:project_id/users/:user_id"`
-    * Multiple namespaces: `Api::V1::Projects::Users::Show`  -> `get "/api/v1/projects/:project_id/users/:user_id"`
-    * Multi-word namespace: `MyAdminSection::Projects::Users::Show`  -> `get "/my_admin_section/projects/:project_id/users/:user_id"`
+    | Action Class                            | Route                                                         |
+    |-----------------------------------------|---------------------------------------------------------------|
+    | `Projects::Users::Index`                | `get "/projects/:project_id/users"`                           |
+    | `Projects::Users::Show`                 | `get "/projects/:project_id/users/:user_id"`                  |
+    | `Projects::Users::New`                  | `get "/projects/:project_id/users/new"`                       |
+    | `Projects::Users::Create`               | `post "/projects/:project_id/users"`                          |
+    | `Projects::Users::Edit`                 | `get "/projects/:project_id/users/:user_id/edit"`             |
+    | `Projects::Users::Update`               | `put "/projects/:project_id/users/:user_id"`                  |
+    | `Projects::Users::Delete`               | `delete "/projects/:project_id/users/:user_id"`               |
+    | `Api::V1::Projects::Users::Show`        | `get "/api/v1/projects/:project_id/users/:user_id"`           |
+    | `MyAdminSection::Projects::Users::Show` | `get "/my_admin_section/projects/:project_id/users/:user_id"` |
 
     #{permalink(ANCHOR_FALLBACK_ROUTING)}
     ## Fallback routing
@@ -237,7 +199,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     class Frontend::Index < BrowserAction
       fallback do
         if html?
-          render Home::IndexPage
+          html Home::IndexPage
         else
           raise Lucky::RouteNotFoundError.new(context)
         end
@@ -248,6 +210,148 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     > The `fallback` should always contain a `Lucky::RouteNotFoundError`
     error. This is to throw a 404 when an asset, or some other file is not
     found.
+
+    ## Routing prefix
+
+    Sometimes you need a group of routes to be prefixed with some path.
+    For example, starting all of your routes with `/api/v1/`. For this, you can use the `route_prefix`
+    macro.
+
+    ```crystal
+    # src/actions/api_action.cr
+    abstract class ApiAction < Lucky::Action
+      accepted_formats [:json], default: :json
+
+      route_prefix "/api/v1"
+    end
+    ```
+
+    Now all of your actions that inherit from `ApiAction` will start with `/api/v1`.
+
+    ```crystal
+    class Api::Posts::Index < ApiAction
+
+      # GET /api/v1/posts
+      get "/posts" do
+        json(PostQuery.new)
+      end
+    end
+
+    class Posts::Index < BrowserAction
+      # This is NOT prefixed because it inherits from
+      # BrowserAction.
+      # GET /posts
+      get "/posts" do
+        html IndexPage
+      end
+    end
+    ```
+
+    ## Optional and Glob paths
+
+    ### Optional route paths
+
+    You may have a path that has an optional path segment. For example:
+
+    ```
+    # MenuItems::Index
+    /menu-items
+
+    # also MenuItems::Index
+    /menu-items/appetizers
+    ```
+
+    In this example, the `/appetizers` path segment might be optional, but if it
+    does exist, then you are able to change what is displayed on your page. Both
+    routes go to the same Action class.
+
+    The optional path param is specified the same as a normal path param, but with a
+    `?` prefix. (e.g. `/?:path_param`)
+
+    ```crystal
+    class MenuItems::Index < BrowserAction
+      get "/menu-items/?:section" do
+        if section
+          # we have a value for section
+        else
+          # no value for section
+        end
+      end
+    end
+    ```
+
+    ### Glob routing
+
+    Glob routing is a way to define a path with an unknown number of path segments.
+    This allows you to do deep nested linking, or use different paths for loading specific
+    data. For example:
+
+    ```
+    # Posts::Index
+    /posts
+
+    # also Posts::Index
+    /posts/2022/02/14
+    ```
+
+    Similar to the optional path segments, but with an unknown number. This can also be used
+    as a "catch-all" route similar to the `fallback` routing.
+
+    To use the glob route, your trailing path segment must be a `*`. This will give you a method
+    `glob` that returns a String of the entire trailing path.
+
+    ```crystal
+    class Posts::Index < BrowserAction
+      get "/posts/*" do
+        if glob
+          # glob == "2022/02/14"
+        else
+          # the path was just "/posts"
+        end
+      end
+    end
+    ```
+
+    You can also name your glob by giving it a path param.
+
+    ```crystal
+    class Posts::Index < BrowserAction
+      get "/posts/*:date" do
+        if date
+          # date == "2022/02/14"
+        else
+          # the path was just "/posts"
+        end
+      end
+    end
+    ```
+
+    ## Routing style
+
+    By default Lucky ensures that all routes adhere to the same style. All
+    route paths are expected to use underscores unless you opt-out or change
+    the style check. You can opt-out from style checking by including
+    `Lucky::SkipRouteStyleCheck` in your action.
+
+    ```crystal
+    # src/actions/users/show.cr
+    class Guides::GettingStarted < BrowserAction
+      include Lucky::SkipRouteStyleCheck
+
+      get "/guides/getting-started" do
+        plain_text "Get started"
+      end
+    end
+    ```
+
+    Or, skipping checking altogether by removing
+    `Lucky::EnforceUnderscoredRoute` from `src/actions/browser_action.cr`.
+
+
+    Similarly, a custom style check can be added by adding the
+    `enforce_route_style` macro in your action. Or, for all actions by adding
+    it to `src/actions/browser_action.cr`. See [Lucky::EnforceUnderscoredRoute](https://github.com/luckyframework/lucky/blob/main/src/lucky/enforce_underscored_route.cr)
+    for an example.
 
     ## Memoization
 
@@ -260,7 +364,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
       get "/report" do
         small_number = calculate_numbers
         big_number = calculate_numbers + 1000
-        render ShowPage, small_number: small_number, big_number: big_number
+        html ShowPage, small_number: small_number, big_number: big_number
       end
 
       memoize def calculate_numbers : Int64
@@ -270,10 +374,29 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    There are a few caveats to the `memoize` macro. It will not memoize `false`, or `nil` return values.
-    If your method returns a "falsey" value, then it will be ran each time. Another thing to note is
-    you can't memoize a method that takes an argument. This is due to the dynamic nature of the
-    arguments.
+    Memoized methods can return any value, including`nil` or `false`.
+    You can also pass arguments to your memoized method.
+
+    ```crystal
+    class Users::Show < BrowserAction
+      get "/users/:id" do
+        user = fetch_user(id)
+
+        if user
+          html ShowPage, user: user
+        else
+          redirect to: Home::IndexPage
+        end
+      end
+
+      # This is only called once per `id` passed in.
+      memoize def fetch_user(id : String) : User
+        make_api_call && UserQuery.new.find(id)
+      end
+    end
+    ```
+
+    If you need access to `memoize` from outside of your action, just `include Lucky::Memoizable`.
 
     [Learn more about memoization](https://en.wikipedia.org/wiki/Memoization).
 
@@ -300,16 +423,26 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
 
     > Learn more about [error handling](#{Guides::HttpAndRouting::ErrorHandling.path}).
 
-    ## Query parameters
+    ## Handling parameters
 
-    Other times you may want to accept parameters in the query string, e.g. `https://example.com?page=2`.
+    Parameters, or `params`, are data that is sent from client back to the server. There are a few different ways this can happen:
+
+    * Path parameters - The dynamic values passed in your route path. e.g. `/users/:id`.
+    * Query parameters - The query string at the end of a URL after the `?` in key/value pairs. e.g. `?page=1`
+    * Form parameters - Data sent through HTTP POST. This may be formatted as JSON.
+    * Multipart parameters - Similar to form parameters, but generally to contain a file.
+
+    ### Type-safe query params
+
+    You may want to accept parameters in the query string, e.g. `/users?page=2`. Lucky gives you access
+    to these in a type-safe way through the `param` macro.
 
     ```crystal
     # src/actions/users/index.cr
     class Users::Index < BrowserAction
       param page : Int32 = 1
 
-      route do
+      get "/users" do
         plain_text "All users starting on page \#{page}"
       end
     end
@@ -319,11 +452,209 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     The parameter definition will inspect the given type declaration, so you can easily define
     required or optional parameters by using non- or nilable types (`Int32` vs. `Int32?`).
     Parameter defaults are set by assigning a value in the parameter definition. Query parameters
-    are type-safe as well, so when `https://example.com?page=unlucky` is accessed with the above definition, an exception
+    are type-safe as well, so when `/users?page=unlucky` is accessed with the above definition, an exception
     is raised.
 
     Just like path parameters, you can define as many query parameters as you want. Every
     query parameter will have a method generated for it to access the value.
+
+    To pass these params from a page in to the action, you will use the `with` method.
+
+    ```crystal
+    def content
+      link "View more users", to: Users::Index.with(page: 2)
+    end
+    ```
+
+    [Read more on link generation](#{Guides::HttpAndRouting::LinkGeneration.path})
+
+    ### Params from query string
+
+    You also have access to these with the `params` method.
+
+    Here's an example of using parameters when visiting the `/users?page=1&filter=active` path:
+
+    ```crystal
+    # src/actions/users/index.cr
+    class Users::Index < BrowserAction
+
+      get "/users" do
+        filter = params.get(:filter) # type String
+        page = params.get(:page) # type String
+        per = params.get(:per) # Error! there is no parameter :per
+
+        plain_text "All users starting on page \#{page}"
+      end
+    end
+    ```
+
+    The `params.get?(:key)` method will return `nil` if the key doesn't exist instead of raising an error.
+
+    ```crystal
+    get "/users" do
+      per = params.get?(:per) # returns nil
+
+      plain_text "..."
+    end
+    ```
+
+    > By default, all param values are trimmed of blankspace. If you need the raw value,
+    > use `params.get_raw(:key)` or `params.get_raw?(:key)`.
+
+    The `from_query` method returns `HTTP::Params` from query params. You can access the values
+    similar to a `Hash(String, String)`.
+
+    ```crystal
+    # /path?q=Lucky
+    params.from_query["q"] #=> "Lucky"
+    params.from_query["search"] #=> Error!
+    params.from_query["search"]? #=> nil
+    ```
+
+    > This is the same as using `params.get_raw(:key)` and `params.get_raw?(:key)`.
+
+    ### Params from JSON
+
+    Parses the request body as `JSON::Any` or raises `Lucky::ParamParsingError`
+    if JSON is invalid.
+
+    ```crystal
+    # {"users": [{"name": "Skyler"}]}
+    params.from_json["users"][0]["name"].as_s #=> "Skyler"
+    ```
+
+    ### Params from form data
+
+    The `from_form_data` method returns `HTTP::Params` from x-www-form-urlencoded body params.
+
+    ```crystal
+    params.from_form_data["name"]
+    ```
+
+    ### Params from multipart
+
+    Returns multipart params and files in a `Tuple(Hash(String, String), Hash(String, Lucky::UploadedFile))`.
+
+    ```crystal
+    form_params = params.from_multipart.first # Hash(String, String)
+    form_params["name"]                      # "Kyle"
+
+    files = params.from_multipart.last # Hash(String, Lucky::UploadedFile)
+    files["avatar"]                    # Lucky::UploadedFile
+
+    params.get_file(:avatar)    # Lucky::UploadedFile
+    params.get_file?("missing") # nil
+    ```
+
+    ### Arrays in params
+
+    When it comes to a collection of values in params, there's no official standard for how this should be formatted. For this reason,
+    each framework must choose on their own how to handle it. For Lucky, we've gone with the square bracket notation `key[]=value1&key[]=value2`.
+
+    To access these values as an `Array(String)`, you can use the `get_all(:key)`, or `get_all?(:key)` methods.
+
+    ```crystal
+    # key[]=value1&key[]=value2
+    params.get_all(:key)  # ["value1", "value2"]
+
+    params.get_all?("missing") # nil
+    ```
+
+    ### Nested params
+
+    When data is sent through HTML forms, Lucky will namespace or "nest" the
+    parameter names according to the object used in the form. For example,
+    if we're saving a `User` object, all of the param names will be prefixed with
+    `user:`. (i.e. `user:name`, `user:email`).
+
+    To access these values, we can use the `params.nested(:key)` and `params.nested?(:key)`
+    methods.
+
+    ```crystal
+    class Users::Create < BrowserAction
+      # user:name=Alesia&user:age=35&page=1
+      post "/users" do
+        data = params.nested(:user)
+        name = data["name"] #=> "Alesia"
+        email = data["email"]? #=> nil
+
+        plain_text "The name is \#{name}"
+      end
+    end
+    ```
+
+    Lucky also gives you the ability to send more than 1 set of param values
+    at the same time. We call the `many_nested`.
+
+    In this example, we want to create 2 notes at the same time.
+
+    ```crystal
+    # notes[0]:title=Buying&notes[1]:title=Selling
+    class Notes::Create < BrowserAction
+      post "/notes" do
+        notes = params.many_nested(:notes)
+
+        plain_text "The first note title is \#{notes[0]["title"]}"
+      end
+    end
+    ```
+
+    > The `many_nested` method will raise an error if the key does not exist.
+    > Use `many_nested?(:key)` to return `nil` in that case.
+
+    ### Nested files
+
+    For files associated with models, the param will be nested. (e.g. `post:banned_photo`)
+    To access the file from the nested params, use the `nested_file` or `nested_file?` methods.
+
+    ```crystal
+    params.nested_file(:post)       # Lucky::UploadedFile
+    params.nested_file?("missing")  # nil
+    ```
+
+    ## Debugging Params
+
+    If you need to get the raw params, you can call `params.body` which will take the request, and give you a String
+    of what params were sent.
+
+    ```crystal
+    Lucky::Log.dexter.info { {raw_params: params.body} }
+
+    # Convert params to a Hash(String, String | Hash(String, String))
+    params.to_h
+    ```
+
+    ## Subdomains
+
+    Sometimes you want to require that an endpoint is called with a subdomain. For example, you might have endpoints
+    you only expose in the test environment which is called with a subdomain.
+    That would allow `test.example.com/some-route` to work but `example.com/some-route` would raise a `Lucky::InvalidSubdomainError`.
+    To specifiy and require subdomains, you use `require_subdomain` in your action.
+
+    ```crystal
+    # subdomain required but can be anything
+    require_subdomain
+
+    # subdomain required and must equal "admin"
+    require_subdomain "admin"
+
+    # subdomain required and must match regex
+    require_subdomain /(dev|qa|prod)/
+
+    # subdomain required and must match one of the items in the array
+    require_subdomain ["tenant1", "tenant2", /tenantd/]
+    ```
+
+    When that is used, you can then access the subdomain by calling `subdomain` in your route handler.
+    Even if you don't require a subdomain, you can still call `subdomain?` to check if one was provided, but
+    keep in mind that it will be nilable.
+
+    ```crystal
+    get "/admin" do
+      subdomain #=> compile time error if `require_subdomain` not specified, guaranteed to return a String otherwise
+      subdomain? #=> can be called without `require_subdomain`, but will return String | Nil
+    end
+    ```
 
     ## Where to put actions
 

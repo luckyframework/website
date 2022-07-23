@@ -1,40 +1,42 @@
 class LegacyRedirectHandler
   include HTTP::Handler
   REDIRECTS = {
-    "/guides"                                     => Guides::GettingStarted::Installing,
-    "/guides/overview"                            => Guides::GettingStarted::Concepts,
-    "/guides/installing"                          => Guides::GettingStarted::Installing,
-    "/guides/configuration"                       => Guides::GettingStarted::Configuration,
-    "/guides/database-migrations"                 => Guides::Database::Migrations,
-    "/guides/actions-and-routing"                 => Guides::HttpAndRouting::RoutingAndParams,
-    "/guides/rendering-html"                      => Guides::Frontend::RenderingHtml,
-    "/guides/querying-the-database"               => Guides::Database::Querying,
-    "/guides/custom-queries"                      => Guides::Database::RawSql,
-    "/guides/saving-with-forms"                   => Guides::Database::ValidatingSaving,
-    "/guides/asset-handling"                      => Guides::Frontend::AssetHandling,
-    "/guides/tasks"                               => Guides::CommandLineTasks::BuiltIn,
-    "/guides/logging-and-error-handling"          => Guides::GettingStarted::Logging,
-    "/guides/writing-json-apis"                   => Guides::JsonAndApis::RenderingJson,
-    "/guides/json-and-apis/handling-errors"       => Guides::HttpAndRouting::ErrorHandling,
-    "/guides/generating-test-data"                => Guides::Testing::CreatingTestData,
-    "/guides/database/testing"                    => Guides::Testing::CreatingTestData,
-    "/guides/browser-tests"                       => Guides::Testing::HtmlAndInteractivity,
-    "/guides/frontend/testing"                    => Guides::Testing::HtmlAndInteractivity,
-    "/guides/sending-emails"                      => Guides::Emails::SendingEmailsWithCarbon,
-    "/guides/authentication"                      => Guides::Authentication::Intro,
-    "/guides/deploying-heroku"                    => Guides::Deploying::Heroku,
-    "/guides/database/validating-saving-deleting" => Guides::Database::ValidatingSaving,
-    "/guides/database/querying"                   => Guides::Database::Querying,
-    "/guides/database/querying-deleting"          => Guides::Database::Querying,
+    "/convert-html-to-lucky"                      => HtmlConversions::New.url,
+    "/guides"                                     => Guides::GettingStarted::Installing.url,
+    "/guides/overview"                            => Guides::GettingStarted::Concepts.url,
+    "/guides/installing"                          => Guides::GettingStarted::Installing.url,
+    "/guides/configuration"                       => Guides::GettingStarted::Configuration.url,
+    "/guides/database-migrations"                 => Guides::Database::Migrations.url,
+    "/guides/actions-and-routing"                 => Guides::HttpAndRouting::RoutingAndParams.url,
+    "/guides/rendering-html"                      => Guides::Frontend::RenderingHtml.url,
+    "/guides/querying-the-database"               => Guides::Database::Querying.url,
+    "/guides/custom-queries"                      => Guides::Database::RawSql.url,
+    "/guides/saving-with-forms"                   => Guides::Database::SavingRecords.url,
+    "/guides/asset-handling"                      => Guides::Frontend::AssetHandling.url,
+    "/guides/tasks"                               => Guides::CommandLineTasks::BuiltIn.url,
+    "/guides/logging-and-error-handling"          => Guides::GettingStarted::Logging.url,
+    "/guides/writing-json-apis"                   => Guides::JsonAndApis::RenderingJson.url,
+    "/guides/json-and-apis/handling-errors"       => Guides::HttpAndRouting::ErrorHandling.url,
+    "/guides/generating-test-data"                => Guides::Testing::CreatingTestData.url,
+    "/guides/database/testing"                    => Guides::Testing::CreatingTestData.url,
+    "/guides/browser-tests"                       => Guides::Testing::HtmlAndInteractivity.url,
+    "/guides/frontend/testing"                    => Guides::Testing::HtmlAndInteractivity.url,
+    "/guides/sending-emails"                      => Guides::Emails::SendingEmailsWithCarbon.url,
+    "/guides/authentication"                      => Guides::Authentication::Intro.url,
+    "/guides/deploying-heroku"                    => Guides::Deploying::Heroku.url,
+    "/guides/database/validating-saving-deleting" => Guides::Database::SavingRecords.url,
+    "/guides/database/querying"                   => Guides::Database::Querying.url,
+    "/guides/database/querying-deleting"          => Guides::Database::Querying.url,
+    "/guides/database/validating-saving"          => Guides::Database::SavingRecords.url,
   }
 
   def call(context)
     response = context.response
     path = context.request.path.rchop('/')
-    if new_route = REDIRECTS[path]?
-      Lucky.logger.info(handled_by: LegacyRedirectHandler.name)
+    if new_url = REDIRECTS[path]?
+      Lucky::Log.dexter.info { {handled_by: LegacyRedirectHandler.name} }
       response.status_code = HTTP::Status::MOVED_PERMANENTLY.value
-      response.headers["Location"] = new_route.url
+      response.headers["Location"] = new_url
       return
     end
     call_next(context)

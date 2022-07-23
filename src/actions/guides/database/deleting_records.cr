@@ -8,23 +8,129 @@ class Guides::Database::DeletingRecords < GuideAction
 
   def markdown : String
     <<-MD
-    ## Deleting Records
+    ## Delete Operations
 
-    ### Delete one
+    Similar to the `SaveOperation`, Avram comes with a `DeleteOperation` that's generated with each model.
+    This allows you to write more complex logic around deleteing records. (e.g. delete confirmations, etc...)
 
-    Deleting a single record is done on the [model](#{Guides::Database::Models.path}) directly.
+    ### Simple deletes
+
+    If you just want to delete a record without any validations or callbacks, the simplest way is to use the generated `{ModelName}::DeleteOperation`
+
+    For example, if we have a `Server` model, Lucky will generate a `Server::DeleteOperation` that you can use:
 
     ```crystal
-    user = UserQuery.find(4)
+    server = ServerQuery.find(123)
+    Server::DeleteOperation.delete!(server)
+    ```
 
-    # DELETE FROM users WHERE users.id = 4
-    user.delete
+    If the record fails to be deleted, an `Avram::InvalidOperationError` will be raised.
+
+    ### Setting up a custom DeleteOperation
+
+    You can customize DeleteOperations with callbacks and validations.  These
+    classes go in your `src/operations/` directory, and will inherit from
+    `{ModelName}::DeleteOperation`.
+
+    ```crystal
+    # src/operations/delete_server.cr
+    class DeleteServer < Server::DeleteOperation
+    end
+    ```
+
+    ### Using a `DeleteOperation` in actions
+
+    The interface should feel pretty familiar. The object being deleted is passed in to the `delete` method, and a block will
+    return the operation instance, and the object being deleted.
+
+    ```crystal
+    # src/actions/servers/delete.cr
+    class Servers::Delete < BrowserAction
+      delete "/servers/:server_id" do
+        server = ServerQuery.find(server_id)
+
+        DeleteServer.delete(server) do |operation, deleted_server|
+          if operation.deleted?
+            redirect to: Servers::Index
+          else
+            flash.failure = "Could not delete"
+            html Servers::EditPage, server: deleted_server
+          end
+        end
+      end
+    end
+    ```
+
+    You can also pass in params or named args for use with attributes, or `needs`.
+
+    ```crystal
+    DeleteServer.delete(server, params, secret_codes: [23_u16, 94_u16]) do |operation, deleted_server|
+      if operation.deleted?
+        redirect to: Servers::Index
+      else
+        flash.failure = "Could not delete"
+        html Servers::EditPage, server: deleted_server
+      end
+    end
+    ```
+
+    ### Delete and raise if it fails
+
+    You can also use the `delete!` method if you don't need validations and expect deletes to work every time:
+
+    ```crystal
+    DeleteServer.delete!(server)
+    ```
+
+    This is helpful when your operation only has callbacks or needs and is expected to work every time.
+
+    ## `DeleteOperation` Callbacks and Validations
+
+    DeleteOperations come with `before_delete` and `after_delete` callbacks that allow you to either validate
+    some code before performing the delete, or perform some action after deleteing. (i.e. Send a "Goodbye" email, etc...)
+
+    Along with the callbacks, you also have access to `attribute`, `needs`, and all of the columns related to a model.
+    You even have `file_attribute` for those times you need to use biometric scans to authorize deleting a record!
+
+    ### before_delete
+
+    ```crystal
+    # src/operations/delete_server.cr
+    class DeleteServer < Server::DeleteOperation
+      attribute confirmation : String
+
+      before_delete do
+        validate_required confirmation
+
+        # `record` is the object to be deleted
+        if confirmation.value != record.server_name
+          confirmation.add_error("Confirmation must match the server name")
+        end
+      end
+    end
+    ```
+
+    ### after_delete
+
+    ```crystal
+    # src/operations/delete_server.cr
+    class DeleteServer < Server::DeleteOperation
+      needs secret_codes : Array(UInt16)
+
+      after_delete do |deleted_server|
+        decrypted_server_data = DecryptServer.new(deleted_server, with: secret_codes)
+
+        DecryptedServerDataEmail.new(decrypted_server_data).deliver
+      end
+    end
     ```
 
     ### Bulk delete
 
-    If you need to bulk delete a group of records based on a where query, you can use `delete` at
-    the end of your query. This returns the number of records deleted.
+    > Currently bulk deletes with DeleteOperation are not supported.
+
+    If you need to bulk delete a group of records based on a where query, you can use `delete` at the end of your query.
+    This returns the number of records deleted.
 
     ```crystal
     # DELETE FROM users WHERE banned_at IS NOT NULL
@@ -37,7 +143,7 @@ class Guides::Database::DeletingRecords < GuideAction
     A "soft delete" is when you want to hide a record as if it were deleted, but you want to keep the actual
     record in your database. This allows you to restore the record without losing any previous data or associations.
 
-    Avram comes with some built-in modules to help working with soft deleted records a lot easier. Let's add it
+    Avram comes with some built-in modules to help make working with soft deleted records a lot easier. Let's add it
     to an existing `Article` model.
 
     * First, we need to add a new `soft_deleted_at : Time?` column to the table that needs soft deletes.
@@ -84,23 +190,35 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Marking a record as soft deleted
 
-    Your model instance will now have a `soft_delete` method to mark that record as soft deleted, as well as,
-    a `soft_deleted?` method to check if the record has been marked as soft deleted.
+    Once a model includes the `Avram::SoftDelete::Model`, the associated DeleteOperation will handle the soft delete for you.
 
     ```crystal
-    article = ArticleQuery.first
+    # src/operations/delete_article.cr
+    class DeleteArticle < Article::DeleteOperation
+    end
+    ```
 
-    # Check to see if soft_deleted_at is present
-    article.soft_deleted? #=> false
+    and in your action
 
-    # Save the record as soft deleted
-    article.soft_delete
+    ```crystal
+    # src/actions/articles/delete.cr
+    class Articles::Delete < BrowserAction
+      delete "/articles/:article_id" do
+        article = ArticleQuery.find(article_id)
 
-    # Reload the model to get the new value
-    article.reload.soft_deleted? #=> true
+        deleted_article = DeleteArticle.delete!(article)
+
+        # This returns `true`
+        deleted_article.soft_deleted?
+
+        redirect to: Articles::Index
+      end
+    end
     ```
 
     ### Soft deleting in bulk
+
+    > Currently bulk soft deletes with DeleteOperation are not supported.
 
     You can bulk update a group of records as soft deleted with the `soft_delete` method on your Query object.
 
@@ -113,7 +231,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Restore a soft deleted record
 
-    If you need to restore a soft deleted record, you can use the `restore` method.
+    If you need to restore a soft deleted record, you can use the `restore` method on the model instance.
 
     ```crystal
     # Set the `soft_deleted_at` back to `nil`
@@ -122,8 +240,8 @@ class Guides::Database::DeletingRecords < GuideAction
 
     ### Bulk restoring soft deleted records
 
-    The same as we can bulk soft delet records, we can also bulk update to restore them with
-    the `restore` method.
+    The same as we can bulk soft delete records, we can also bulk update to restore them with
+    the `restore` method on your Query object.
 
     ```crystal
     articles_to_restore = ArticleQuery.new.published_at.lt(1.week.ago)
@@ -145,7 +263,7 @@ class Guides::Database::DeletingRecords < GuideAction
     ### Default queries without soft deleted
 
     If you want to filter out soft deleted records by default, it's really easy to do.
-    Just add the `only_kept` method to an `initialize` method.
+    Just add the `only_kept` method as the default query in the `initialize` method.
 
     ```crystal
     class ArticleQuery < Article::BaseQuery
@@ -153,7 +271,7 @@ class Guides::Database::DeletingRecords < GuideAction
 
       # All queries will scope to only_kept
       def initialize
-        only_kept
+        defaults &.only_kept
       end
     end
     ```
@@ -181,6 +299,17 @@ class Guides::Database::DeletingRecords < GuideAction
     ```crystal
     UserQuery.truncate
     ```
+
+    > Running the `truncate` method may raise an error similar to the following:
+    >
+    > `Error message cannot truncate a table referenced in a foreign key constraint.`
+    >
+    > If that's the case, call the same method with the `cascade` option set to `true`:
+    >
+    > `UserQuery.truncate(cascade: true)`
+    >
+    > This will automatically delete or update matching records in a child table where a foreign key relationship is in place.
+
 
     ### Truncate database
 

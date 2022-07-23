@@ -22,7 +22,7 @@ class Guides::Database::Pagination < GuideAction
     ## Setup
 
     You can paginate records from within an action by including the
-    [`Lucky::Paginator::BackendHelpers`](https://github.com/luckyframework/lucky/blob/master/src/lucky/paginator/backend_helpers.cr)
+    [`Lucky::Paginator::BackendHelpers`](https://github.com/luckyframework/lucky/blob/main/src/lucky/paginator/backend_helpers.cr)
     in your actions.
 
     It's usually best to include the helpers in your base actions, such as `ApiAction`
@@ -49,7 +49,7 @@ class Guides::Database::Pagination < GuideAction
     class Users::Index < BrowserAction
       get "/users" do
         pages, users = paginate(UserQuery.new)
-        html IndexPages, users: users, pages: pages
+        html IndexPage, users: users, pages: pages
       end
     end
     ```
@@ -135,9 +135,9 @@ class Guides::Database::Pagination < GuideAction
       needs users : UserQuery
       needs pages : Lucky::Paginator # Add this to use the paginator
 
-      def render
+      def content
         # Mount one of the built-in components
-        mount Lucky::Paginator::SimpleNav.new(pages)
+        mount Lucky::Paginator::SimpleNav, pages
       end
     end
     ```
@@ -157,11 +157,11 @@ class Guides::Database::Pagination < GuideAction
     used as an example for something you build from scratch.
 
     1. Create an empty component in your app, for example: `lucky gen.component PaginationLinks`
-    1. Find the component you want to customize from the [Lucky repo's components directory](https://github.com/luckyframework/lucky/tree/master/src/lucky/paginator/components)
+    1. Find the component you want to customize from the [Lucky repo's components directory](https://github.com/luckyframework/lucky/tree/main/src/lucky/paginator/components)
     1. Copy the contents of the component into your newly generated component
 
-    And that's it! You can `mount` it like any other component `mount
-    PaginationsLinks.new(page)` and customize the HTML and classes as much as
+    And that's it! You can mount it like any other component `mount
+    PaginationsLinks, page` and customize the HTML and classes as much as
     you'd like.
 
     ## API responses
@@ -178,8 +178,8 @@ class Guides::Database::Pagination < GuideAction
     class Api::Users::Index < ApiAction
       get "/api/users/index" do
         pages, users = paginate(UserQuery.new)
-        reponse.headers["Next-Page"] = pages.path_to_next
-        reponse.headers["Total-Pages"] = pages.total
+        response.headers["Next-Page"] = pages.path_to_next.to_s
+        response.headers["Total-Pages"] = pages.total.to_s
         json UserSerializer.for_collection(users)
       end
     end
@@ -237,6 +237,21 @@ class Guides::Database::Pagination < GuideAction
     Next, we'll go into details about all the methods available on the
     `Lucky::Paginator` object.
 
+    ## Paginate arrays
+
+    If you are working with arrays that are not coming from the database, you
+    can use the `paginate_array` method. It will paginate the array and return
+    the `Paginator` object for that array.
+
+    ```crystal
+      array = [1, 2, 3, 5, 6, 7]
+      pages, numbers = paginate_array(array)
+      html IndexPage, numbers: numbers, pages: pages
+    ```
+
+    The array can contain all different types, like `Int32`, `String`, or your
+    own classes.
+
     ## The Lucky::Paginator object
 
     The `paginate` method returns a `Lucky::Paginator` object. This object
@@ -271,6 +286,18 @@ class Guides::Database::Pagination < GuideAction
 
     Returns `true` if the requested page is past the last page.
 
+    ### `next_page`
+
+    Returns the `page` number for the next page.
+
+    Returns `nil` if there is no next page.
+
+    ### `previous_page`
+
+    Returns the `page` number for the previous page.
+
+    Returns `nil` if there is no previous page.
+
     ### `path_to_next`
 
     Returns the path with a 'page' query param for the next page.
@@ -299,7 +326,7 @@ class Guides::Database::Pagination < GuideAction
 
     ```crystal
     range = pages.item_range
-    "Showing #\{range.begin}-#\{range.end} of #\{pages.item_count}"
+    "Showing \#{range.begin}-\#{range.end} of \#{pages.item_count}"
     ```
 
     ### `series`
@@ -415,7 +442,7 @@ class Guides::Database::Pagination < GuideAction
     ```
 
     See the [built-in SimpleNav
-    component](https://github.com/luckyframework/lucky/blob/master/src/lucky/paginator/components/simple_nav.cr)
+    component](https://github.com/luckyframework/lucky/blob/main/src/lucky/paginator/components/simple_nav.cr)
     to see `series` in action and get some ideas.
     MD
   end

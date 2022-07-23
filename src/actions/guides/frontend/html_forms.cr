@@ -47,6 +47,16 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
+    ### Multipart forms
+
+    When doing file-uploads, you'll need to set the `multipart` option to `true`. This will add `enctype="multipart/form-data"` to your form.
+
+    ```crystal
+    form_for(Users::Update.with(id: current_user.id), multipart: true) do
+      file_input(operation.avatar)
+    end
+    ```
+
     ### Custom forms
 
     If you need more control over how your form is displayed, you can always use the `form`
@@ -61,7 +71,7 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     All of the input helper methods take an `Avram::PermittedAttribute`. These are created
     from declaring an `attribute` or `permit_columns` in your `Avram::Operation`.
-    See the [Operations Guide](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_PERMITTING_COLUMNS)}) for more info.
+    See the [Operations Guide](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_PERMITTING_COLUMNS)}) for more info.
 
     > For these examples, `op` will refer to an instance of an `Avram::Operation` (e.g. `SaveUser`).
 
@@ -139,6 +149,8 @@ class Guides::Frontend::HtmlForms < GuideAction
            class="custom-input"
            required />
     ```
+
+    > Be sure to set `multipart: true` on your `form_for`
 
     ### color input
 
@@ -342,13 +354,36 @@ class Guides::Frontend::HtmlForms < GuideAction
     end
     ```
 
+    ### Select prompt
+
+    When you need to display a prompt for your select, you can use the `select_prompt` method.
+
+    ```crystal
+    select_input(op.car_make, class: "custom-select") do
+      select_prompt("Select your car")
+      options_for_select(op.car_make, [{"Honda", 1}, {"Toyota", 2}])
+    end
+    ```
+
+    Which will generate this HTML
+
+    ```html
+    <option value="">Select your car</option>
+    ```
+
+    Optionally, if you want to render this only when creating a new record:
+
+    ```crystal
+    select_prompt("Select your car") if op.record.nil?
+    ```
+
     ### Using selects with `Shared::Field` component
 
     Here is how you would use `select_input` with a `Shared::Field` or other
     field component.
 
-    ```
-    mount Shared::Field.new(op.car_make) do |input_html|
+    ```crystal
+    mount Shared::Field, op.car_make do |input_html|
       input_html.select_input append_class: "select-input" do
         options_for_select op.car_make, options_for_cars
       end
@@ -357,6 +392,28 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     You can learn about field components in the section "[Shared
     Components](##{ANCHOR_SHARED_COMPONENTS})"
+
+    ### Multi-select
+
+    For select inputs that allow multiple values, you can use
+    the `multi_select_input`. This method requires an `Array`
+    attribute to be defined in your Operation.
+
+    ```crystal
+    # column car_features : Array(String)
+    multi_select_input(op.car_features, class: "multi-select") do
+      select_prompt("Choose included features")
+      options_for_select(op.car_make, [
+        {"Sunroof", "sunroof"},
+        {"120v Outlet", "outlet"},
+        {"Remote start", "remote"}
+      ])
+    end
+    ```
+
+    > NOTE: `SaveOperation` doesn't currently support arrays.
+    > See [Arrays in params](#{Guides::HttpAndRouting::RoutingAndParams.path})
+    > for a work around
 
     ## Checkboxes / Radios
 
@@ -383,8 +440,8 @@ class Guides::Frontend::HtmlForms < GuideAction
     ### Radio
 
     ```crystal
-    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "Yes")
-    input(op.question_five, type: "radio", name: "\#{op.param_key}:\#{op.question_five.name}", value: "No")
+    radio(op.question_five, "Yes")
+    radio(op.question_five, "No")
     ```
 
     ```html
@@ -395,8 +452,6 @@ class Guides::Frontend::HtmlForms < GuideAction
            name="param_key:question_five"
            value="No" />
     ```
-
-    > ISSUE REF: https://github.com/luckyframework/lucky/issues/1023
 
     ## Buttons
 
@@ -448,10 +503,10 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ## Saving Data
 
-    HTML Forms in Lucky are based around the concept of [Operations](#{Guides::Database::ValidatingSaving.path}). We use these for securing param values from form inputs, and doing validations.
+    HTML Forms in Lucky are based around the concept of [Operations](#{Guides::Database::SavingRecords.path}). We use these for securing param values from form inputs, and doing validations.
 
     For info on interacting with databases, see the [saving
-    data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
+    data with operations](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
 
     ## Displaying Errors
 
@@ -460,7 +515,7 @@ class Guides::Frontend::HtmlForms < GuideAction
     in `src/components/shared/field_errors.cr`.
 
     ```crystal
-    mount Shared::FieldErrors.new(op.email)
+    mount Shared::FieldErrors, op.email
     ```
 
     ```html
@@ -498,7 +553,7 @@ class Guides::Frontend::HtmlForms < GuideAction
       end
 
       private def error_for(field)
-        mount Shared::FieldErrors.new(field)
+        mount Shared::FieldErrors, field
       end
     end
     ```
@@ -513,23 +568,23 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ```crystal
     # This will render a label, an input, and any validation errors for the 'name'
-    mount Shared::Field.new(op.name)
+    mount Shared::Field, op.name
 
     # You can customize the generated input
-    mount Shared::Field.new(operation.email), &.email_input
-    mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
-    mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
+    mount Shared::Field, operation.email, &.email_input
+    mount Shared::Field, operation.email, &.email_input(autofocus: "true")
+    mount Shared::Field, operation.username, &.email_input(placeholder: "Username")
 
     # You can append to or replace the HTML class on the input
-    mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
-    mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
+    mount Shared::Field, operation.name, &.text_input(append_class: "custom-input-class")
+    mount Shared::Field, operation.nickname, &.text_input(replace_class: "compact-input")
     ```
 
     If your lines are long you can name the block argument. This is extra helpful
     for selects since they are typically more complex:
 
     ```crystal
-    mount Shared::Field.new(op.car_make) do |input_html|
+    mount Shared::Field, op.car_make do |input_html|
       input_html.select_input append_class: "select-input" do
         options_for_select op.car_make, [{"Toyota", 1, "Tesla", 2}]
       end

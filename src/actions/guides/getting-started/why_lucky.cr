@@ -11,6 +11,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     Lucky was designed to solve a few core problems that teams often see. Lucky strives to:
 
+    * Encompass a strong welcoming community.
     * Catch bugs at compile time, rather than finding them in production.
     * Spend less time writing tests, because the compiler catches many errors for you.
     * Minimize guesswork by using conventions for the most common tasks.
@@ -26,7 +27,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
 
     [Type safe database queries](#{Guides::Database::Querying.path}), [rock solid
     routing](#{Guides::HttpAndRouting::RoutingAndParams.path}), [type safe forms and
-    validations](#{Guides::Database::ValidatingSaving.path}), and more. This is how Lucky helps you
+    validations](#{Guides::Database::SavingRecords.path}), and more. This is how Lucky helps you
     find errors before they reach your customers, write fewer tests, and spend less
     time fixing embarrassing bugs.
 
@@ -75,7 +76,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     [router]: #{Guides::HttpAndRouting::RoutingAndParams.path}
     [HTML]: #{Guides::Frontend::RenderingHtml.path}
     [actions]: #{Guides::HttpAndRouting::RoutingAndParams.path}
-    [operations]: #{Guides::Database::ValidatingSaving.path}
+    [operations]: #{Guides::Database::SavingRecords.path}
 
     ## Catch missing assets at compile time
 
@@ -83,7 +84,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     Lucky will catch it for you at compile time. It checks a list of all available
     assets and will even suggest the right one if you have a typo.
 
-    ```plaintext
+    ```plain
     "images/logo.jpeg" does not exist in the manifest
     Did you mean "images/logo.jpg"?
     ```
@@ -105,7 +106,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     # LuckyWeb::Session::Store has marked "secret" as required
     ```
 
-    ```plaintext
+    ```plain
     LuckyWeb::Session::Store.settings.secret was nil, but the setting is required. Please set it.
 
     Example:

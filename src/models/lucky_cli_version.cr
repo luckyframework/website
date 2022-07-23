@@ -1,3 +1,5 @@
+require "semantic_version"
+
 module LuckyCliVersion
   extend self
 
@@ -5,7 +7,15 @@ module LuckyCliVersion
     "v#{current_version}"
   end
 
-  def current_version : String
-    "0.21.0"
+  def current_version : SemanticVersion
+    SemanticVersion.new(0, 30, 0)
+  end
+
+  def min_compatible_crystal_version : SemanticVersion
+    SemanticVersion.new(1, 0, 0)
+  end
+
+  def max_compatible_crystal_version : SemanticVersion
+    SemanticVersion.new(1, 4, 0)
   end
 end

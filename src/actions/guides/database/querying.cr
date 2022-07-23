@@ -1,6 +1,7 @@
 class Guides::Database::Querying < GuideAction
-  ANCHOR_PRELOADING = "perma-preloading"
-  ANCHOR_RELOADING  = "perma-reloading"
+  ANCHOR_PRELOADING     = "perma-preloading"
+  ANCHOR_RELOADING      = "perma-reloading"
+  ANCHOR_QUERYING_ENUMS = "perma-querying-enums"
   guide_route "/database/querying-records"
 
   def self.title
@@ -67,6 +68,8 @@ class Guides::Database::Querying < GuideAction
     all_users = UserQuery.new
     ```
 
+    > The `find` method requires a `primary_key`. `view` models that need this method will need to implement it.
+
     ### Lazy loading
 
     The query does not actually hit the database until a method is called to fetch a result
@@ -82,15 +85,26 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     # The query is not yet run
-    query = UserQuery.new
-    query.name("Sally")
-    query.age(30)
+    query = UserQuery.new.name("Sally").age(30)
 
     # The query will run once `each` is called
     # Results are not cached so a request will be made every time you call `each`
     query.each do |user|
       pp user.name
     end
+    ```
+
+    ### Immutability
+
+    Queries are immutable. Whenever a method is called on a query, it returns a new copy
+    of itself with the condition added. The query the method was called on will not be changed.
+
+    ```crystal
+    query = UserQuery.new.name("Wendy")
+    new_query = query.age(40)
+
+    query.to_sql     #=> SELECT COLUMNS FROM users WHERE users.name = 'Wendy';
+    new_query.to_sql #=> SELECT COLUMNS FROM users WHERE users.name = 'Wendy' AND users.age = 40;
     ```
 
     ## Simple Selects
@@ -192,6 +206,30 @@ class Guides::Database::Querying < GuideAction
 
     > All query methods are chainable!
 
+    ### WHERE with OR (A = B OR A = C)
+
+    Find rows where `A` is equal to `B` or `A` is equal to `C`.
+
+    `SELECT COLUMNS FROM users WHERE users.name = 'Alfred' OR users.name = 'Bruce'`
+
+    ```crystal
+    UserQuery.new.name("Alfred").or(&.name("Bruce"))
+    ```
+
+    `OR` queries can become quite complex. If you need to wrap conditions, you can use
+    the `where(&)` method. This will take a block, and wrap any query chain inside with
+    parenthesis `()`.
+
+    `SELECT COLUMNS FROM users WHERE users.likes_bats = true OR (users.first_name = 'Kate' AND users.last_name = 'Kane')`
+
+    ```crystal
+    UserQuery.new.likes_bats(true).or do |or|
+      or.where do |where|
+        where.first_name("Kate").last_name("Kane"))
+      end
+    end
+    ```
+
     ### A != B
 
     Find rows where `A` is not equal to `B`.
@@ -220,6 +258,22 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     UserQuery.new.name.is_not_nil
+    ```
+
+    ### LOWER/UPPER A = B
+
+    Find rows where (casting `A` to LOWER/UPPER) is equal to `B`
+
+    `SELECT COLUMNS FROM users WHERE LOWER(users.name) = 'gar'`
+
+    ```crystal
+    UserQuery.new.name.lower.eq("gar")
+    ```
+
+    `SELECT COLUMNS FROM users WHERE UPPER(users.name) = 'GAR'`
+
+    ```crystal
+    UserQuery.new.name.upper.eq("GAR")
     ```
 
     ### A gt/lt B
@@ -289,6 +343,16 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.not.in(["Sally", "Jenny"])
     ```
 
+    ### A = ANY of B
+
+    Find rows where `A` is in the array `B`
+
+    `WHERE 'Gold' = ANY (users.badges)`
+
+    ```crystal
+    UserQuery.new.badges.includes("Gold")
+    ```
+
     ### A like / iLike B
 
     Find rows where `A` is like (begins with) `B`.
@@ -303,6 +367,42 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     UserQuery.new.name.ilike("jim")
+    ```
+
+    #{permalink(ANCHOR_QUERYING_ENUMS)}
+    ### Querying enums
+
+    ```crystal
+    class User < BaseModel
+      enum Role
+        Basic
+        Admin
+      end
+
+      #...
+    end
+    ```
+
+    ```crystal
+    UserQuery.new.role(User::Role::Admin)
+    ```
+
+    ### Any? / None?
+
+    When you only need to know if there's any records that match your query
+    you can use the `any?` method.
+
+    ```crystal
+    # returns `true` if there's at least 1 record
+    UserQuery.new.any?
+    ```
+
+    The opposite is `none?` which will return `true` if there's no records that
+    match your query.
+
+    ```crystal
+    # returns `true` if there's no records
+    UserQuery.new.none?
     ```
 
     ## Order By
@@ -329,6 +429,19 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.age.desc_order(:nulls_last)
     ```
 
+    ### Random Order
+
+    Return rows in a random order.
+
+    `SELECT COLUMNS FROM users ORDER BY RANDOM()`
+
+    ```crystal
+    UserQuery.new.random_order
+    ```
+
+    > Appending a specific order after a random order will use that specific order.
+    > (e.g. `UserQuery.new.random_order.username.desc_order` will order by username descending)
+
     ## Group By
 
     Return rows grouped by the `age` column.
@@ -336,7 +449,7 @@ class Guides::Database::Querying < GuideAction
     `SELECT COLUMNS FROM users GROUP BY users.age, users.id`
 
     ```crystal
-    UserQuery.new.group_by(&.age).group_by(&.id)
+    UserQuery.new.group(&.age).group(&.id)
     ```
 
     > Using the Postgres GROUP BY function can be confusing. Read more on [postgres aggregate functions](https://www.postgresql.org/docs/current/tutorial-agg.html).
@@ -345,7 +458,19 @@ class Guides::Database::Querying < GuideAction
 
     This section has been moved to its own [pagination guide](#{Guides::Database::Pagination.path}).
 
-    ### Select Avg / Sum
+    ## Aggregate Functions
+
+    ### Select Count
+
+    `SELECT COUNT(*) FROM users`
+
+    ```crystal
+    # This will return an Int64.
+    # The value will be 0 if there are no records.
+    UserQuery.new.select_count
+    ```
+
+    ### Select Average / Sum
 
     `SELECT AVG(users.age) FROM users`
 
@@ -388,6 +513,15 @@ class Guides::Database::Querying < GuideAction
     `select_min` and `select_max` will return a union type of the column and `Nil`.
     For example, if the column type is an `Int32` the return type will be `Int32 | Nil`.
 
+    ### Grouped count
+
+    When your query is grouped, and you want to return the count of each group,
+    you can use the `group_count` method.
+
+    ```crystal
+    # {[32, "Daniel"] => 1, [32, "Taylor"] => 2, [44, "Shakira"] => 1}
+    UserQuery.new.group(&.age).group(&.name).group_count
+    ```
 
     ## Associations and Joins
 
@@ -490,14 +624,35 @@ class Guides::Database::Querying < GuideAction
     This is also how you would do nested preloads:
 
     ```crystal
-    # Preload the users's tasks, and the tasks's author
+    # Preload the user's tasks, and the task's author
     UserQuery.new.preload_tasks(TaskQuery.new.preload_author)
     ```
 
     > Note that you can only pass query objects to `preload` if the association is defined, otherwise you will
     > get a type error.
 
-    ### without preloading
+    ### With existing records
+
+    There are situations where you have an existing record and it does not have the associations preloaded that are needed.
+    Instead of loading the association separately, you can add an association after the fact, instead.
+
+    ```crystal
+    user = UserQuery.find(user_id)
+
+    # Preload the user's tasks
+    user_with_tasks = UserQuery.preload_tasks(user)
+    ```
+
+    It can even be used to load associations on a collection of records.
+
+    ```crystal
+    users = UserQuery.new.age(30)
+
+    # Preload the users' tasks
+    users_with_tasks = UserQuery.preload_tasks(users)
+    ```
+
+    ### Without preloading
 
     Sometimes you have a single model and don’t need to preload items. Or maybe you *can’t* preload because the
     model record is already loaded. In those cases you can use the association name with `!`:
@@ -536,6 +691,8 @@ class Guides::Database::Querying < GuideAction
     # The original value is still in place
     author.hide_avatar #=> true
     ```
+
+    > The `reload` method requires a `primary_key`. `view` models that need this method will need to implement it.
 
     ### Adding preloads when reloading
 
@@ -619,13 +776,23 @@ class Guides::Database::Querying < GuideAction
     end
     ```
 
-    ## Complex Queries
+    ### Queries with defaults
 
-    If you need more complex queries that Avram may not support, you can run
-    [raw SQL](#{Guides::Database::RawSql.path}).
+    You can also set defaults for your query objects which could be an ordering, named scope, or whatever you may need.
 
-    > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
-    > or raw SQL.
+    ```crystal
+    class AdminQuery < User::BaseQuery
+
+      def initialize
+        defaults &.admin(true).name.asc_order
+      end
+    end
+
+    # Will always query WHERE admin = true ORDER BY name ASC
+    AdminQuery.new
+    ```
+
+    > The `defaults` method is private scoped. It's only meant to be used in the `initialize` method of your class.
 
     ## Resetting Queries
 
@@ -673,6 +840,14 @@ class Guides::Database::Querying < GuideAction
     user_query.reset_offset
     ```
 
+    ## Complex Queries
+
+    If you need more complex queries that Avram may not support, you can run
+    [raw SQL](#{Guides::Database::RawSql.path}).
+
+    > Avram is designed to be type-safe. You should use caution when using the non type-safe methods,
+    > or raw SQL.
+
     ## Debugging Queries
 
     Sometimes you may need to double check that the query you wrote outputs the SQL you expect.
@@ -696,6 +871,13 @@ class Guides::Database::Querying < GuideAction
       .limit(10)
       .to_prepared_sql
     #=> "SELECT COLUMNS FROM users INNER JOIN posts ON users.id = posts.user_id WHERE posts.tags = '{"crystal", "lucky"}' LIMIT 10"
+    ```
+
+    If you'd prefer to see every query that is being run in your server logs, you can configure Avram's log level like this:
+
+    ```crystal
+    # This is often set in `config/database.cr`
+    Avram::QueryLog.dexter.configure(:info)
     ```
     MD
   end

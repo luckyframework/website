@@ -9,6 +9,8 @@ Lucky::CookieJar.configure do |settings|
     # If ForceSSLHandler is enabled, only send cookies over HTTPS
     cookie.secure(Lucky::ForceSSLHandler.settings.enabled)
     cookie.http_only(true)
+    cookie.samesite(:lax)
+    cookie.path("/")
 
     # You can set other defaults for cookies here. For example:
     #

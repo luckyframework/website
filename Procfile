@@ -1,2 +1,1 @@
-web: ./app
-release: lucky db.migrate
+web: bin/website_v2

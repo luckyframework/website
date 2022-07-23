@@ -2,25 +2,26 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "highlight.js": "^9.18.1",
-    "normalize-scss": "^7.0.1",
-    "rails-ujs": "^5.2.4",
-    "turbolinks": "^5.2.0"
+    "@docsearch/js": "^3.1.1",
+    "highlight.js": "^11.6.0",
+    "modern-normalize": "^1.1.0",
+    "@rails/ujs": "^7.0.3",
+    "@hotwired/turbo": "^7.1.0"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
-    "dev": "yarn run webpack --progress --hide-modules --color --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "yarn run webpack --watch --hide-modules --color --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "NODE_ENV=production yarn run webpack --progress --hide-modules --color --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "dev": "yarn run mix",
+    "watch": "yarn run mix watch",
+    "prod": "yarn run mix --production"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.7",
-    "compression-webpack-plugin": "^3.1.0",
-    "laravel-mix": "^5.0.1",
-    "resolve-url-loader": "3.1.1",
-    "sass": "1.26.2",
-    "sass-loader": "8.0.2",
-    "tailwindcss": "^1.2.0",
-    "vue-template-compiler": "^2.6.11"
+    "@babel/compat-data": "^7.18.8",
+    "browser-sync": "^2.27.10",
+    "compression-webpack-plugin": "^10.0.0",
+    "laravel-mix": "^6.0.49",
+    "postcss": "^8.4.14",
+    "sass": "^1.53.0",
+    "sass-loader": "^13.0.2",
+    "tailwindcss": "^3.1.6"
   }
 }

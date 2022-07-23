@@ -158,6 +158,31 @@ class Guides::HttpAndRouting::ErrorHandling < GuideAction
     these more in the section on [renderable
     errors](##{ANCHOR_RENDERABLE_ERRORS})
 
+    ## Using Errors for Control Flow
+
+    You may need to use custom errors for your control flow like manually rendering
+    a 404 page when a user shouldn't see certain pages, for example.
+
+    Since Lucky will pass all exceptions to the `Errors::Show` action for you,
+    you can raise specific errors to display the error page you want.
+
+    ```crystal
+    get "/profiles/:slug" do
+      profile = ProfileQuery.find_by_id_or_slug(slug)
+
+      if current_user.is_allowed_to_view?(profile)
+        # Return a 202 with the appropriate page
+        html ShowPage, profile: profile
+      else
+        # raising this error will render the 404 page for you
+        raise Lucky::RouteNotFoundError.new(context)
+      end
+    end
+    ```
+
+    > For rending non 200 status pages without raising errors,
+    > see [rendering HTML with non 200 status](#{Guides::HttpAndRouting::RequestAndResponse.path(anchor: Guides::HttpAndRouting::RequestAndResponse::ANCHOR_HTML_WITH_CUSTOM_STATUS)})
+
     #{permalink(ANCHOR_RENDERABLE_ERRORS)}
     ## Renderable errors
 

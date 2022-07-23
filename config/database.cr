@@ -1,5 +1,5 @@
 AppDatabase.configure do |settings|
-  settings.url = "unused"
+  settings.credentials = Avram::Credentials.void
 end
 
 Avram.configure do |settings|

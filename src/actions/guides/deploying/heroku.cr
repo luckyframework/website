@@ -32,10 +32,10 @@ class Guides::Deploying::Heroku < GuideAction
 
     ```plain
     # Skip this buildpack for API only app. Add this for HTML and Assets
-    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
+    heroku buildpacks:add heroku/nodejs
 
     # Then add this for all Lucky apps
-    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
+    heroku buildpacks:add lucky-framework/lucky
     ```
 
     Set `LUCKY_ENV` to `production`:
@@ -77,7 +77,7 @@ class Guides::Deploying::Heroku < GuideAction
     Push to Heroku:
 
     ```plain
-    git push heroku master
+    git push heroku main
     ```
 
     Each step is explained in more detail below.
@@ -129,7 +129,7 @@ class Guides::Deploying::Heroku < GuideAction
     to our app:
 
     ```bash
-    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs
+    heroku buildpacks:add heroku/nodejs
     ```
 
     While Heroku has a buildpack for Node.js apps,
@@ -137,12 +137,12 @@ class Guides::Deploying::Heroku < GuideAction
     (yet).
     Fortunately for us,
     Lucky has
-    [such a buildpack](https://github.com/luckyframework/heroku-buildpack-crystal)!
+    [such a buildpack](https://github.com/luckyframework/heroku-buildpack-lucky)!
     We'll add it so Heroku can download
     and install the dependencies for Lucky:
 
     ```bash
-    heroku buildpacks:add https://github.com/luckyframework/heroku-buildpack-crystal
+    heroku buildpacks:add lucky-framework/lucky
     ```
 
     ## Adding environment variables
@@ -224,10 +224,10 @@ class Guides::Deploying::Heroku < GuideAction
 
     The last step is to upload our app's code up to Heroku.
     We'll do this with the standard `git push` command
-    and copy our local `master` branch to Heroku's `master` branch:
+    and copy our local `main` branch to Heroku's `main` branch:
 
     ```bash
-    git push heroku master
+    git push heroku main
     ```
 
     First,
@@ -242,7 +242,8 @@ class Guides::Deploying::Heroku < GuideAction
     and run the app!
 
     > Migrations will happen automatically when the app is pushed to Heroku.
-    Lucky makes it so you never have to worry about forgetting to migrate our app when it's deployed!
+    > Lucky makes it so you never have to worry about forgetting to migrate our app when it's deployed!
+    > Read more about the [release phase](https://devcenter.heroku.com/articles/release-phase).
 
     To see our deployed app,
     use Heroku's `open` command:
@@ -251,7 +252,18 @@ class Guides::Deploying::Heroku < GuideAction
     heroku open
     ```
 
-    Happy shipping!
+    Happy shipping! 🚀
+
+    ## Running tasks
+
+    To run any of your Lucky tasks on your new Heroku container, use Heroku's `run` command:
+
+    ```bash
+    heroku run lucky db.create_required_seeds
+    ```
+
+    For a list of the tasks available, run `lucky -h` locally.
+
     MD
   end
 end

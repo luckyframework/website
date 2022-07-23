@@ -15,6 +15,26 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
 
     There's a few other modules you can include in your actions to help secure your app against attacks. It's up to you to decide which ones work best for your needs.
 
+    ### `SetCSPGuard`
+
+    This module sets the HTTP header [Content-Security-Policy](https://wiki.owasp.org/index.php/OWASP_Secure_Headers_Project#csp).
+    It's job is to prevent a wide range of attacks like Cross-Site Scripting.
+
+    Include this module in the actions you want to add this to.
+    A required method `csp_guard_value` must be defined
+
+    ```crystal
+    class BrowserAction < Lucky::Action
+      include Lucky::SecureHeaders::SetCSPGuard
+
+      def csp_guard_value : String
+        String.build do |io|
+          io << "default-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://cdn.somecss.com"
+        end
+      end
+    end
+    ```
+
     ### `SetFrameGuard`
 
     This module sets the HTTP header [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options).
@@ -60,7 +80,8 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
 
     ## Forcing SSL and HSTS
 
-    ['Strict-Transport-Security' header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) is used for telling a browser that this site should only be accessed using HTTPS.
+    ['Strict-Transport-Security' header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+    is used for telling a browser that this site should only be accessed using HTTPS.
     Lucky comes with a `Lucky::ForceSSLHandler` handler already included, but disabled by default. To enable this, go to `config/server.cr`, and set the `settings.enabled` option to `true`.
 
     If you would like to enable HSTS, you can add the options to the `settings.strict_transport_security` option.
@@ -69,10 +90,19 @@ class Guides::HttpAndRouting::SecurityHeaders < GuideAction
     # config/server.cr
 
     Lucky::ForceSSLHandler.configure do |settings|
-      settings.enabled = Lucky::Env.production?
+      settings.enabled = LuckyEnv.production?
       settings.strict_transport_security = {max_age: 1.year, include_subdomains: true}
     end
     ```
+
+    ## Google FLoC
+
+    The ['Permissions-Policy' header](https://github.com/WICG/floc) is a part of Google's Federated Learning of Cohorts (FLoC)
+    which is used to track browsing history instead of using 3rd-party cookies.
+
+    Lucky disables this feature by setting the header value to `interest-cohort=()` with the `Lucky::SecureHeaders::DisableFLoC`
+    module. If you want to enable this tracking for your application, you must remove the module include from your `BrowserAction`,
+    then add in the specific cohort you need.
     MD
   end
 end

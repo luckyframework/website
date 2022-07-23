@@ -43,6 +43,41 @@ class Guides::HttpAndRouting::Flash < GuideAction
     flash.set("something_special", "Super spesh")
     flash.get("something_special") # => "Super spesh"
     ```
+
+    ### Persisting flash messages through redirect
+
+    By default, flash messages are cleared whenever `redirect` is called. This is illustrated below:
+
+    ```crystal
+      class Home::Index < BrowserAction
+        get "/" do
+          if current_user
+            flash.failure = "I won't show, because we're using a redirect!"
+            redirect to: Me::Show
+          else
+            flash.success = "I will show, because we're rendering a page!"
+            html Home::IndexPage
+          end
+        end
+      end
+    ```
+
+    To show flash messages through a redirect, we must leverage the `flash.keep` method:
+
+    ```crystal
+    class Home::Index < BrowserAction
+      get "/" do
+        if current_user
+          flash.keep
+          flash.success = "Now I will show, because of flash.keep!"
+          redirect to: Me::Show
+        else
+          flash.success = "I will show, because we're rendering without calling a new action!"
+          html Home::IndexPage
+        end
+      end
+    end
+    ```
     MD
   end
 end

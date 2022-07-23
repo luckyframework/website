@@ -9,16 +9,16 @@ class Home::IndexPage
     html_doctype
 
     html lang: "en" do
-      mount Shared::LayoutHead.new(seo: SEO.new(page_title), context: @context)
+      mount Shared::LayoutHead, seo: SEO.new(page_title)
 
       body class: "font-sans text-grey-darkest leading-tight bg-grey-lighter" do
-        mount Shared::Header.new(@context.request)
+        mount Shared::Header, @context.request
         render_hero_content
         render_feature_grid
         render_freeform_text
       end
 
-      mount Shared::Footer.new
+      mount Shared::Footer
     end
   end
 
@@ -53,7 +53,7 @@ class Home::IndexPage
   private def render_feature_grid
     div class: "mx-auto container" do
       div class: "text-center lg:mx-5 md:text-left px-6 py-5 bg-white md:bg-transparent border-b border-grey-light md:border-none" do
-        mount Shared::FlashMessages.new(@context.flash)
+        mount Shared::FlashMessages, @context.flash
         div class: "flex flex-col md:flex-row md:bg-white mx-auto md:rounded-lg md:shadow md:-mt-12 md:px-5 md:py-12" do
           content_block "🚀 Say goodbye to slow", <<-TEXT
           Lucky is extremely fast and uses very little memory. You and
@@ -132,7 +132,7 @@ class Home::IndexPage
     ```crystal
     # Set up the model
     class User < BaseModel
-      table :users do
+      table do
         column last_active_at : Time
         column last_name : String
       end
@@ -168,7 +168,7 @@ class Home::IndexPage
 
       def content
         ul class: "users-list" do
-          @users.each do |user|
+          users.each do |user|
             li { link user.name, to: Users::Show.with(user) }
           end
         end
@@ -188,7 +188,7 @@ class Home::IndexPage
         tag("MyApp", title: "MyApp is the best")
 
         # Optionally render regular HTML for non-interactive elements
-        footer "Copyright MyApp 2019"
+        footer "Copyright MyApp #{Time.utc.year}"
       end
     end
     ```

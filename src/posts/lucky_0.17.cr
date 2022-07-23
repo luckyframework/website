@@ -17,12 +17,12 @@ class Lucky017Release < BasePost
     <<-MD
     Lucky v0.17 is now out and has support for the newest Crystal (v0.30)!
 
-    Be sure to upgrade your version of Crystal, and take a look at our [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-016-to-017) for help with migrating your app.
+    Be sure to upgrade your version of Crystal, and take a look at our [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-016-to-017) for help with migrating your app.
 
     ### What's new?
 
     We've made a ton of changes for this release, but we will highlight a few.
-    You can see a full list through our [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-v017).
+    You can see a full list through our [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-v017).
 
     ### Better primary key support
 
@@ -129,7 +129,7 @@ class Lucky017Release < BasePost
     since you used them to interact with HTML forms. Now named `SaveOperation`, these give a bit
     more clarity. We also renamed `VirtualForm` to just `Operation`.
 
-    [Learn more about operations](#{Guides::Database::ValidatingSaving.path})
+    [Learn more about operations](#{Guides::Database::SavingRecords.path})
 
     ### Parting words
 

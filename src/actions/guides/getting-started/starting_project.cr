@@ -49,6 +49,9 @@ class Guides::GettingStarted::StartingProject < GuideAction
     # Customize the directory where your app is generated.
     # Default is your current directory
     lucky init.custom my_app --dir /home/me/projects
+
+    # Generate your application with security specs from BrightSec
+    lucky init.custom my_app --with-sec-test
     ```
 
     > Use the `-h` flag for a quick reference from the terminal.

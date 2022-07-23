@@ -18,13 +18,13 @@ class Lucky019Release < BasePost
     Lucky v0.19 is now out and works with the newest version of Crystal (v0.33.0)
 
     Be sure to upgrade your version of Crystal, and take a look at our
-    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/master/UPGRADE_NOTES.md#upgrading-from-018-to-019)
+    [UPGRADE NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-018-to-019)
     for help with migrating your app.
 
     ## What's new?
 
     This release includes bug fixes, enhancements, doc improvements, and new features.
-    You can see a full list on our [CHANGELOG](https://github.com/luckyframework/lucky/blob/master/CHANGELOG.md#changes-in-019).
+    You can see a full list on our [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md#changes-in-019).
 
     Here are some of the most important enhancements.
 
@@ -51,7 +51,7 @@ class Lucky019Release < BasePost
     ```
 
     View more details in the
-    [change tracking guide](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_CHANGE_TRACKING)}).
+    [change tracking guide](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_CHANGE_TRACKING)}).
 
     ### Built-in Gzipping (compression) of static assets
 

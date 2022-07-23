@@ -1,6 +1,8 @@
 class Guides::Frontend::RenderingHtml < GuideAction
   ANCHOR_RENDERING_TEMPLATES = "perma-rendering-templates"
   ANCHOR_COMPONENTS          = "perma-components"
+  ANCHOR_EMPTY_TAG           = "perma-empty-tag"
+  ANCHOR_SPECIAL_TAGS        = "perma-special-tags"
   guide_route "/frontend/rendering-html"
 
   def self.title
@@ -14,7 +16,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     Lucky uses Crystal methods for rendering HTML. The Crystal methods map
     as closely as possible to how HTML is used. To help with the transition
     we also have a small app for [converting HTML to
-    Lucky methods](https://luckyhtml.herokuapp.com).
+    Lucky methods](#{HtmlConversions::New.path}).
 
     Using Lucky HTML adds an additional layer of type-safety, is
     auto-formatted with Crystal's formatter, and can be much easier to
@@ -31,7 +33,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # in src/actions/users/index.cr
     class Users::Index < BrowserAction
-      route do
+      get "/users" do
         # Renders the Users::IndexPage
         html IndexPage, user_names: ["Paul", "Sally", "Jane"]
       end
@@ -65,11 +67,68 @@ class Guides::Frontend::RenderingHtml < GuideAction
     You’ll notice we used `needs` near the top of the class. This declares that for
     this page to render we need an Array of Strings and that they will be accessible
     from the `user_names` getter method. We set the user names by passing it in the
-    `html` macro in our action: `html IndexPage, user_names: ["Paul", "Sally", "Jane"]`
+    `html` macro in our action:
+
+    ```crystal
+    # src/actions/users/index.cr
+    class Users::Index < BrowserAction
+      get "/users" do
+        html IndexPage, user_names: ["Paul", "Sally", "Jane"]
+      end
+    end
+    ```
 
     > This is nice because you won’t accidentally forget to pass something to a page
     ever again. If you forget, the compiler will tell you that you’re missing
     something.
+
+    ### Default values and nilable needs
+
+    Your page or component may need some value that is optional. In this case, you can
+    assign a default value to your `needs` or just make the type nilable. (i.e. `String?`)
+
+    ```crystal
+    class Users::IndexPage < MainLayout
+      needs page : Int32 = 1
+      needs status : String?
+
+      def content
+        # `page` will always have a value
+        # `status` may be nil
+      end
+    end
+    ```
+
+    From your action, you can optionally pass either of these values.
+
+    ```crystal
+    get "/users" do
+      html IndexPage
+      # or
+      html IndexPage, page: 2
+      # or
+      html IndexPage, status: "active", page: 3
+    end
+    ```
+
+    ### Using needs with Bool
+
+    When you use a `Bool` value for `needs`, Lucky will generate a helpful
+    method for you that ends in `?` to denote that it will return `true` or `false`.
+
+    ```crystal
+    class Users::IndexPage < MainLayout
+      needs admin : Bool = false
+
+      def content
+        if admin?
+          # ...
+        else
+          # ...
+        end
+      end
+    end
+    ```
 
     ## Rendering HTML in our page
 
@@ -164,10 +223,13 @@ class Guides::Frontend::RenderingHtml < GuideAction
     > become a dash once rendered. (e.g. `:ng_app` becomes `ng-app`). In more complex cases like you see in Vuejs,
     > crystal allows you to use quotes like in `:"v-on:click"`
 
+    #{permalink(ANCHOR_SPECIAL_TAGS)}
     ## Special tags (link, form helpers, etc.)
 
     There are a few specials helpers that make it easier. For creating links with an
     anchor tag, we have the `link` helper.
+
+    > NOTE: If you are looking for a way to create `<link>` tags in the `<head>`, use the [`empty_tag` helper](##{ANCHOR_EMPTY_TAG}).
 
     ```crystal
     link "Show user", to: Users::Show.with(user.id), class: "some-html-class"
@@ -247,7 +309,34 @@ class Guides::Frontend::RenderingHtml < GuideAction
     See the [rendering HTML forms](#{Guides::Frontend::HtmlForms.path}) guide to learn more.
 
     For info on interacting with databases, see the [saving
-    data with operations](#{Guides::Database::ValidatingSaving.path(anchor: Guides::Database::ValidatingSaving::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
+    data with operations](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_USING_WITH_HTML_FORMS)}) guide.
+
+    #{permalink(ANCHOR_EMPTY_TAG)}
+    ### Empty tag
+
+    If there's a bodyless tag you would like to render, but there is no helper for it, then use `empty_tag`.
+
+    ```crystal
+    # Renders an alternative language link element:
+    # <link rel="alternate" hreflang="es" href="https://www.example.es/" />
+
+    empty_tag "link", rel: "alternate", hreflang: "es" href: "https://www.example.es/"
+    ```
+
+    The first argument is a string that represents the tag name, the second is a hash passed to render as attributes.
+    This is especially convenient for elements with varying attributes, like a set of favicons:
+
+    ```crystal
+    head do
+      # ...
+
+      empty_tag "link", rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png"
+      empty_tag "link", rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png"
+      empty_tag "link", rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png"
+      empty_tag "link", rel: "manifest", href: "/site.webmanifest"
+      empty_tag "link", rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#c0ffee"
+    end
+    ```
 
     ### Other special helpers
 
@@ -256,6 +345,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     * `js_link(src, **options)` - Renders a `<script>` tag with `src` and any additional/override `options`
     * `utf8_charset` - Renders a `<meta charset="utf8">` tag
     * `responsive_meta_tag` - Another meta tag for responsive design.
+    * `canonical_link(href)` - Renders a `<link rel="canonical" href="...">` tag.
     * `nbsp(how_many = 1)` - Renders `&nbsp;` entity for the number of times in `how_many` (1 by default).
     * `raw` - Render RAW string to the page.
 
@@ -276,7 +366,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    ### Render unescaped text
+    ### Render unescaped (raw) text
 
     ```crystal
     div "email" do
@@ -285,7 +375,101 @@ class Guides::Frontend::RenderingHtml < GuideAction
     end
     ```
 
-    ## Page helpers
+    ## Finding the current page
+
+    Lucky provides the convenient `current_page?` helper on both pages and components to make it easier
+    to customize content based on context.
+
+    ### Basic usage
+
+    `current_page?` accepts a `RouteHelper`, `Action`, or path `String`.
+
+    One common use case is to highlight the currently-viewed page in a navigation header:
+
+    ```crystal
+    nav do
+      ul do
+        link "Home",
+          to: Home::Index,
+          data_selected: current_page?(Home::Index)
+
+        link "Your dashboard",
+          to: Dashboard::Index,
+          data_selected: current_page?(Dashboard::Index)
+
+        link "Your profile",
+          to: Me::Show,
+          data_selected: current_page?(Me::Show)
+      end
+    end
+
+    ```
+
+    ### Advanced usage
+
+    Let's take a look at some of the additional features we can take advantage of with `current_page?`.
+
+    For example, if we are visiting `https://example.com/users?sort_by=name`:
+
+    ```crystal
+    current_page?(Users::Index)
+    # => true
+
+    current_page?("/users")
+    # => true
+
+    current_page?("/users?sort_by=email")
+    # => true
+
+    current_page?("/users?sort_by=name")
+    # => true
+
+    current_page?("https://example.com/users")
+    # => true
+    ```
+
+    We can provide an optional second argument to `current_page?`, `check_query_params`,
+    to tell Lucky whether or not it should care about parameters.
+
+    Let's take a look at our `https://example.com/users?sort_by=name` example from before with this new parameter in mind:
+
+    ```crystal
+    current_page?(Users::Index, check_query_params: true)
+    # => true
+
+    current_page?("/users", check_query_params: true )
+    # => true
+
+    current_page?("/users?sort_by=email", check_query_params: true)
+    # => false
+
+    current_page?("/users?sort_by=name", check_query_params: true)
+    # => true
+
+    current_page?("https://example.com/users", check_query_params: true)
+    # => true
+    ```
+
+    ### Previous URL
+
+    Lucky also has a `previous_url` helper method you can use on your pages.
+
+    It returns the url of the page that issued the request (the referrer)
+    if possible, otherwise it uses the provided default fallback
+    location.
+
+    The referrer information is pulled from the 'Referer' header on
+    the request. This is an optional header, and if the request
+    is missing this header the *fallback* will be used.
+
+    Ex. within a Lucky Page, previous_url can be used to provide an href
+    to an anchor element that would allow the user to go back.
+
+    ```crystal
+    a "Back", href: previous_url(fallback: Users::Index)
+    ```
+
+    ## Formatting and Page helpers
 
     Formatting text on pages is pretty common. Lucky gives you several handy methods to help formatting.
 
@@ -415,6 +599,22 @@ class Guides::Frontend::RenderingHtml < GuideAction
     time_ago_in_words(Time.utc(2019, 8, 30))
     # => "about a month"
     ```
+
+    ### Cycle values
+
+    The most common case is alternating an HTML class name between rows of data. Lucky comes with a `cycle` method that makes this much
+    easier to do.
+
+    ```crystal
+    posts.each do |post|
+      tr class: cycle(["bg-gray-600", ""]) do
+        td post.title
+      end
+    end
+    ```
+
+    In this example, the first row, and all odd rows, will be `<tr class="bg-gray-600">`, but the next row, and all even rows, will be
+    `<tr class="">`. You can pass as many values as you'd like to cycle through on each iteration.
 
     ## Layouts
 
@@ -567,7 +767,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
       needs user : User
 
       def content
-        mount Users::Row.new(user)
+        mount Users::Row, user: user
       end
     end
     ```
@@ -595,7 +795,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     Now use it in a page:
 
     ```crystal
-    mount RoundedContainer.new do
+    mount RoundedContainer do
       h1 "This will be inside the div defined in the component"
     end
     ```
@@ -621,7 +821,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     # Without `expose`
     class Users::Index < BrowserAction
-      route do
+      get "/users" do
         html IndexPage, current_user_name: current_user_name
       end
 
@@ -634,7 +834,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     class Users::Index < BrowserAction
       expose current_user_name
 
-      route do
+      get "/users" do
         html IndexPage
       end
 
@@ -741,9 +941,9 @@ class Guides::Frontend::RenderingHtml < GuideAction
 
       def render_post_form(operation)
         form_for Posts::Create do
-          mount Shared::Field.new(operation.title), &.text_input(autofocus: "true")
-          mount Shared::Field.new(operation.body)
-          mount Shared::Field.new(operation.published_at)
+          mount Shared::Field, operation.title, &.text_input(autofocus: "true")
+          mount Shared::Field, operation.body
+          mount Shared::Field, operation.published_at
 
           submit "Save", data_disable_with: "Saving..."
         end
@@ -781,6 +981,52 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```erb
     My name is: <%= @user.name %>
     ```
+
+    #{permalink(ANCHOR_RENDERING_TEMPLATES)}
+    ## Caching HTML Content
+
+    Lucky applications can leverage [lucky_cache](https://github.com/luckyframework/lucky_cache) to cache HTML content within pages. By caching parts of your application, Lucky can serve already rendered and processed pages resulting in faster page loads for your application.
+
+    To begin utilizing `lucky_cache`, add it as a dependency to your `shards.yml` file.
+    ```yaml
+    dependencies:
+      lucky_cache:
+        github: luckyframework/lucky_cache
+    ```
+
+    Then run `shards install` to update your dependencies.
+
+    Next, you'll need to require `lucky_cache` in your application. Create a config file in `config/lucky_cache.cr` where you can configure the cache options.
+    ```crystal
+    # config/lucky_cache.cr
+
+    require "lucky_cache"
+
+    LuckyCache.configure do |settings|
+      settings.storage = LuckyCache::MemoryStore.new
+      settings.default_duration = 5.minutes
+    end
+    ```
+
+    With `lucky_cache` now included in your Lucky application, you have access to the `LuckyCache::HtmlHelpers` module that can be included in your pages. This module exposes a `cache` method to be used to cache your HTML content.
+
+    You'll need to provide a unique key to the `cache` method that Lucky can use to reference the unique content within the cache. A common pattern is to use any unique identifier, such as model id or page slug, to ensure no conflicts with cached data. The `cache` also provides an optional second argument that you can use to specify the duration until the cached data expired. If this argument is not provided, `lucky_cache` will default to the duration configured in the base application configuration.
+    ```crystal
+    class Posts::ShowPage < MainLayout
+      include LuckyCache::HtmlHelpers
+      needs post : Post
+
+      def content
+        cache("post:\#{post.id}:comments", expires_in: 1.hour) do
+          post.comments.each do |comment|
+            div comment.text
+          end
+        end
+      end
+    end
+    ```
+
+    For more information about `lucky_cache`, see the [API docs](https://luckyframework.github.io/lucky_cache/).
     MD
   end
 end

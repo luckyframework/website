@@ -33,6 +33,16 @@ class Guides::Testing::Introduction < GuideAction
 
     > If you generated a full Lucky app with authentication, you will have a few flow specs generated for you.
 
+    ## Security
+
+    You have the option to generate your Lucky app with support for [Bright](https://brightsec.com/)'s SecTester.
+    This will generate security specs for your application that will go in your `spec/flows` directory.
+
+    These tests can take several minutes to run, so you must opt-in to running them. To run these specs,
+    use `crystal spec -Dwith_sec_tests`.
+
+    > This is a custom option enabled with `lucky init.custom my_app --with-sec-test`, and requires an API key from Bright.
+
     ## Setup
 
     The `spec/setup/` directory is used to run necessary setup for your spec suite to work. Any additional setups
@@ -65,13 +75,20 @@ class Guides::Testing::Introduction < GuideAction
     This file boots your Lucky app for your test suite to use so you can make requests directly to it. It will be
     stopped when your specs are all done running.
 
+    ### setup/sec_tester.cr
+
+    Configure your SecTester nexploit repeater with your API key. Sign up for a new key at
+    [BrightSec](https://app.neuralegion.com/signup)
+
+    > This file will only exist if you generated your app with the `--with-sec-test` flag.
+
     ## Support
 
     Files in `spec/support/` contain code to make testing easier. This includes mock objects, objects for creating test
-    data (e.g. [Boxes](#{Guides::Testing::CreatingTestData.path})), and your Flow objects which are used in your flow specs,
+    data (e.g. [Factories](#{Guides::Testing::CreatingTestData.path})), and your Flow objects which are used in your flow specs,
     and whatever else you may need.
 
-    ### support/app_client.cr
+    ### support/api_client.cr
 
     The HTTP client you'll use to make requests to your API actions. See [#{Guides::Testing::TestingActions.title}](#{Guides::Testing::TestingActions.path})
 
@@ -79,9 +96,9 @@ class Guides::Testing::Introduction < GuideAction
 
     The LuckyFlow objects used for testing your frontend. See [#{Guides::Testing::HtmlAndInteractivity.title}](#{Guides::Testing::HtmlAndInteractivity.path})
 
-    ### support/boxes/
+    ### support/factories/
 
-    The Boxes used for generating test data in your database. These are based off your models. See [#{Guides::Testing::CreatingTestData.title}](#{Guides::Testing::CreatingTestData.path})
+    The Factories used for generating test data in your database. These are based off your models. See [#{Guides::Testing::CreatingTestData.title}](#{Guides::Testing::CreatingTestData.path})
 
     MD
   end

@@ -49,7 +49,7 @@
   }
 
   h2 {
-    @apply font-normal text-2xl text-teal-dark py-2 mb-5 mt-8 tracking-medium;
+    @apply font-normal text-2xl text-teal-dark py-2 mb-5 mt-8 tracking-wide;
   }
 
   h3 {
@@ -57,7 +57,7 @@
   }
 
   a {
-    @apply text-blue-dark no-underline border-b border-blue-light;
+    @apply text-blue-dark no-underline border-b border-blue-light break-all;
 
     &:hover {
       @apply text-blue-darker border-blue-darkest;
@@ -181,11 +181,38 @@
 
   blockquote {
     border-left: 2px solid;
-    @apply border-green-dark;
+    @apply border-green-600;
 
     > p {
       padding: 10px;
       margin: 0;
+    }
+  }
+
+  table {
+    background: #ffffff;
+    max-width: 100%;
+    overflow: auto;
+    margin: 30px 0 30px 0;
+    border: 1px solid #cccccc;
+
+    thead {
+      tr {
+        border-bottom: 1px solid #cccccc;
+        th {
+          padding: 10px 10px 10px 16px;
+          text-align: left;
+          vertical-align: bottom;
+        }
+      }
+    }
+    tbody {
+      tr {
+        border-bottom: 1px solid #cccccc;
+        td {
+          padding: 10px 10px 10px 16px;
+        }
+      }
     }
   }
 }

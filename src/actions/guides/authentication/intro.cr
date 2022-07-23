@@ -49,7 +49,7 @@ class Guides::Authentication::Intro < GuideAction
       # This will allow users that are not signed in
       include Auth::AllowGuests
 
-      route do
+      get "/hello" do
         user = current_user
 
         # Check if user is signed in
@@ -74,7 +74,7 @@ class Guides::Authentication::Intro < GuideAction
 
     ```crystal
     class Articles::Create < BrowserAction
-      route do
+      post "/articles" do
         # Set 'author_id' to the current_user's id
         SaveArticle.create!(params, author_id: current_user.id) do |op, article|
           # ...
@@ -90,7 +90,7 @@ class Guides::Authentication::Intro < GuideAction
 
     ```crystal
     class MyArticles::Index < BrowserAction
-      route do
+      get "/articles" do
         # Filter articles by 'author_id'
         articles = ArticleQuery.new.author_id(current_user.id)
         html MyArticles::IndexPage, articles: articles

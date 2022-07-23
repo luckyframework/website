@@ -1,5 +1,8 @@
 class Guides::GettingStarted::Installing < GuideAction
   ANCHOR_INSTALL_REQUIRED_DEPENDENCIES = "perma-install-required-dependencies"
+  ANCHOR_POSTGRESQL                    = "perma-install-postgres"
+  ANCHOR_PROC_MANAGER                  = "perma-install-process-manager"
+  ANCHOR_NODE                          = "perma-install-node"
   guide_route "/getting-started/installing"
 
   def self.title
@@ -9,14 +12,44 @@ class Guides::GettingStarted::Installing < GuideAction
   def markdown : String
     <<-MD
     #{permalink(ANCHOR_INSTALL_REQUIRED_DEPENDENCIES)}
-    ## MacOS requirements
+    ## Crystal Version
+
+    You will need Crystal installed for local development. Make sure to install all of Crystal's
+    dependencies for your system.
+
+    Lucky supports Crystal `>= #{LuckyCliVersion.min_compatible_crystal_version}`, `<= #{LuckyCliVersion.max_compatible_crystal_version}`
+
+    ### 1. Install Crystal
+
+    Follow the [Installing Crystal](https://crystal-lang.org/install/) instructions page
+    for your specific system.
+
+    ### 2. Check installation
+
+    ```plain
+    crystal -v
+    ```
+
+    Should return between `#{LuckyCliVersion.min_compatible_crystal_version}` and `#{LuckyCliVersion.max_compatible_crystal_version}`
+
+    ## macOS (M1) requirements
 
     ### 1. Install Homebrew
 
     Installation instructions from the [Homebrew website](https://brew.sh/)
 
     ```plain
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
+
+    ## macOS (Intel) requirements
+
+    ### 1. Install Homebrew
+
+    Installation instructions from the [Homebrew website](https://brew.sh/)
+
+    ```plain
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
 
     ### 2. Install OpenSSL
@@ -27,7 +60,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 3. Configure SSL for Crystal
 
-    You'll need to add tell Crystal how to find OpenSSL by adding an `export`
+    You'll need to tell Crystal how to find OpenSSL by adding an `export`
     to your `~/.bash_profile` or `~/.zshrc`.
 
     > You can run `echo $SHELL` in your terminal if you're not sure whether you
@@ -49,12 +82,20 @@ class Guides::GettingStarted::Installing < GuideAction
       pkg-config search path" then be sure to run this step so that
       Crystal knows where OpenSSL is located.
 
-    ## Linux requirements
+    ## Linux / WSL2 requirements
 
-    ### Debian (Ubuntu should be similar)
+    These are additional dependencies you will need in order to boot your Lucky application.
+
+    ### Debian
 
     ```plain
-    apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl1.0-dev libyaml-dev zlib1g-dev
+    apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl-dev libyaml-dev zlib1g-dev
+    ```
+
+    ### Ubuntu
+
+    ```plain
+    apt-get install libc6-dev libevent-dev libpcre2-dev libpcre3-dev libpng-dev libssl-dev libyaml-dev zlib1g-dev
     ```
 
     ### Fedora (28)
@@ -63,55 +104,14 @@ class Guides::GettingStarted::Installing < GuideAction
     dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
     ```
 
-    ## Crystal v0.34.0
-
-    ### 1. Install Crystal
-
-    **Using asdf version manager:**
-
-    We recommend using a version manager to make sure the correct version of
-    Crystal is used with Lucky.
-
-    * [Install asdf](https://asdf-vm.com/#/core-manage-asdf-vm)
-    * Install the [asdf-crystal](https://github.com/marciogm/asdf-crystal) plugin:
-
-    ```plain
-    asdf plugin-add crystal https://github.com/asdf-community/asdf-crystal.git
-    ```
-
-    * Set up `asdf` so it uses the `.crystal-version` file to determine which version to use:
-
-    ```plain
-    echo "legacy_version_file = yes" >>~/.asdfrc
-    ```
-
-    **Or, install Crystal without a version manager**
-
-    If you can't get asdf installed or don't want to use a version manager,
-    you can [install Crystal without a version manager](https://crystal-lang.org/reference/installation/).
-
-    ### 2. Check installation
-
-    ```plain
-    crystal -v
-    ```
-
-    Should return at least `0.34.0`
-
-    ## Install Lucky CLI on macOS
+    ## Install Lucky CLI with Homebrew
 
     Once the required dependencies above are installed, set up Lucky for your system.
 
-    ### 1. Add the Lucky tap to Homebrew
+    ### 1. Install the Lucky CLI with Homebrew
 
     ```plain
-    brew tap luckyframework/homebrew-lucky
-    ```
-
-    ### 2. Install the Lucky CLI with Homebrew
-
-    ```plain
-    brew install lucky
+    brew install luckyframework/homebrew-lucky/lucky
     ```
 
     ### 3. Check installation
@@ -124,7 +124,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     This should return `#{LuckyCliVersion.current_version}`
 
-    ## Install Lucky CLI on Linux
+    ## Install Lucky CLI Manually
 
     ### 1. Clone the CLI repo
 
@@ -149,13 +149,13 @@ class Guides::GettingStarted::Installing < GuideAction
     We call packages/libraries in Crystal "shards". Let's install the shards that Lucky CLI needs:
 
     ```plain
-    shards install
+    shards install --without-development
     ```
 
     ### 5. Build the CLI
 
     ```plain
-    crystal build src/lucky.cr
+    shards build --production
     ```
 
     ### 6. Move the generated binary to your path
@@ -163,7 +163,7 @@ class Guides::GettingStarted::Installing < GuideAction
     This will let you use `lucky` from the command line.
 
     ```plain
-    mv lucky /usr/local/bin
+    cp bin/lucky /usr/local/bin
     ```
 
     ### 7. Check installation
@@ -176,19 +176,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     This should return `#{LuckyCliVersion.current_version}`
 
-    ## Process manager
-
-    Lucky uses a process manager to watch assets and start the server in development.
-
-    Install one of these process managers: [Overmind (recommended)](https://github.com/DarthSim/overmind#installation),
-    [Heroku CLI (great if you plan to use Heroku to deploy)](https://devcenter.heroku.com/articles/heroku-cli#download-and-install),
-    [forego](https://github.com/ddollar/forego#installation),
-    or [foreman](https://github.com/ddollar/foreman#installation).
-
-    > By default Lucky creates a `Procfile.dev` that  defines  what processes should be started when running `lucky dev`.
-    > You can modify the `Procfile.dev` to start other processes like running
-    > background jobs.
-
+    #{permalink(ANCHOR_POSTGRESQL)}
     ## Postgres database
 
     ### 1. Install Postgres
@@ -207,6 +195,27 @@ class Guides::GettingStarted::Installing < GuideAction
 
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
 
+    ### 1b. (Linux only) Password-less logins for local development
+
+    Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins. But for Linux, if you wish to
+    use PostgreSQL without a password, you'll need to ensure your `pg_hba.conf` file is updated.
+    We recommend adding this entry right after the `postgres` user entry:
+
+    ```plain
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    # "local" is for Unix domain socket connections only
+    local   all             all                                     trust
+    # IPv4 local connections:
+    host    all             all             127.0.0.1/32            trust
+    # IPv6 local connections:
+    host    all             all             ::1/128                 trust
+    ```
+
+    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/12/auth-methods.html) to learn
+    more more about available authentication methods and how to configure them for PostgreSQL.
+
+    > Restart the `postgresql` service to activate the configuration changes.
+
     ### 2. Ensure Postgres CLI tools installed
 
     First open a new session to reload your terminal, then:
@@ -217,18 +226,10 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Should return `psql (PostgreSQL) 10.x` or higher.
 
-    ## Chromedriver (optional)
-
-    > You can skip this if you only plan to only build APIs.
-
-    If you want to test your frontend using
-    [LuckyFlow](#{Guides::Testing::HtmlAndInteractivity.path}) you will need
-    Chromedriver, see the [Testing HTML and
-    Interactivity](#{Guides::Testing::HtmlAndInteractivity.path}) guide for details and installation.
-
+    #{permalink(ANCHOR_NODE)}
     ## Node and Yarn (optional)
 
-    > You can skip this if you only plan to only build APIs.
+    > You can skip this if you only plan to build APIs.
 
     ### 1. Install
 
@@ -243,6 +244,18 @@ class Guides::GettingStarted::Installing < GuideAction
     ```
 
     Node should return greater than v11. Yarn should return greater than 1.x.
+
+    ## Chrome Browser (optional)
+
+    > You can skip this if you only plan to only build APIs.
+
+    Lucky uses Chromedriver for [Testing HTML](#{Guides::Testing::HtmlAndInteractivity.path}).
+    The Chromedriver utility will be installed for you once you start running your tests; however,
+    it requires the Chrome browser to be installed on your machine. If you don't already have it
+    installed, you can install it directly from [Google](https://www.google.com/chrome/).
+
+    > You can also use an alternative chrome-like browser (e.g. Brave, Edge, etc...). See the
+    > [Flow](#{Guides::Testing::HtmlAndInteractivity.path}) guides for customization options.
 
     MD
   end

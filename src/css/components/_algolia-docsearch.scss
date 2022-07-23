@@ -1,50 +1,8 @@
-#algolia-docsearch {
-  padding-left: 32px;
-}
-
-.algolia-docsearch {
-  background: transparentize($color: #fff, $amount: 0.8);
-  border-radius: 20px;
-  border: none;
-  color: #fff;
-  margin: 0;
-  max-width: 160px;
-  padding-left: 15px;
-
-  &:focus {
-    background: #fff;
-    color: #000;
-  }
-
-  &::placeholder {
-    color: transparentize($color: #fff, $amount: 0.4);
-    font-style: italic;
-  }
-
-  &:focus::placeholder {
-    color: transparentize($color: #000, $amount: 0.6);
-  }
-}
-
-.algolia-autocomplete {
-  width: 100%;
-}
-
-.header-search {
-  position: relative;
-
-  img {
-      height: 20px;
-      left: 11px;
-      position: absolute;
-      top: 36px;
-      width: 20px;
-
-    @media only screen and (min-width: 768px) {
-      height: 20px;
-      left: 11px;
-      top: 12px;
-      width: 20px;
-    }
-  }
+// https://github.com/algolia/docsearch/blob/ca19e0163524dbc9a883c12e72e99aa774734cc2/packages/docsearch-css/src/_variables.css#L3
+:root {
+  --docsearch-primary-color: rgb(36, 76, 135);
+  --docsearch-highlight-color: var(--docsearch-primary-color);
+  --docsearch-text-color: rgb(3, 30, 55);
+  --docsearch-muted-color: rgb(150, 159, 175);
+  --docsearch-logo-color: rgba(55, 222, 151, 1);
 }

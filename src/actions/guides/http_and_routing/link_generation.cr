@@ -9,38 +9,77 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     <<-MD
     ## Path and route helpers
 
-    Lucky automatically generates some helpers for generating links.
+    Lucky automatically generates some helpers for generating routes to your actions.
 
     You can access them as class methods on the action itself. They are:
 
-    * `route` - will return a `Lucky::RouteHelper` object that contains both the
-      path, the HTTP method, and the full URL as methods `path`, `method`, `url`
-    * `with` - an alias for `route` that is used for passing parameters
-    * `path` - will return a string of just the path
-    * `url` - will return a string with the whole URL including query params
-    * `url_without_query_params` - will return the URL but without query params
+    * `route` - returns a `Lucky::RouteHelper` object that contains the path, HTTP method,
+      and the full URL as methods `path`, `method`, `url`.
+    * `with` - an alias for `route` that is used for passing parameters.
+    * `path` - returns a string of just the path.
+    * `url` - returns a string with the whole URL including query params.
+    * `url_without_query_params` - will return the URL but without query params.
 
     ```crystal
+    # src/actions/projects/users/index.cr
     class Projects::Users::Index < BrowserAction
-      # Normally you would use `nested_route`
-      # We'll use `get` here to make the example more clear
-      get "projects/:project_id/users" do
+
+      get "/projects/:project_id/users" do
         plain_text "Users"
       end
     end
     ```
 
-    You can then call these methods:
+    From your pages or components, you can use these with the `link` method:
 
-    * `Projects::Users::Index.path(project_id: "my_project_id")` and it will return ->
-      `"/projects/my_project_id/users"`
-    * `Projects::Users::Index.with(project_id: "my_project_id")` and it will return a
-      `LuckyWeb::RouteHelper` whose `#path` method returns
-      `"/projects/my_project_id/users"` and `#method` method return `"GET"`. This
-      is what you'll usually use for generating links, submitting forms, and redirecting.
+    ```crystal
+    class Projects::Users::ShowPage < MainLayout
 
-    We'll talk about this more in the [Pages guide](#{Guides::Frontend::RenderingHtml.path}). You can use the route helper with
-    links and operations to automatically set the path *and* HTTP method at the same time.
+      def content
+        # <a href="/projects/my_project_id/users">Back to Users Index</a>
+        link "Back to Users Index",
+          to: Projects::Users::Index.with(project_id: "my_project_id")
+      end
+    end
+    ```
+
+    The route `Projects::Users::Index.with(project_id: "my_project_id")` returns a `Lucky::RouteHelper`
+    object that gives you access to a few methods:
+
+    * `path` - `"/projects/my_project_id/users"`
+    * `url` - `"http://example.com/projects/my_project_id/users"`
+    * `method` - `"get"`
+
+    These values are based on the action class this route points to.
+
+    Learn more about using the routes in the [Pages guide](#{Guides::Frontend::RenderingHtml.path}).
+
+    ### Setting an anchor
+
+    In a web page, an anchor is a an element you can use to take a user to a specific part of a page.
+    For example, we use this to link to different parts of a guide page.
+
+    The `path` method takes an `anchor` argument.
+
+    ```crystal
+    def content
+      # href="/guides/making-tacos#cheeses"
+      link "See Section 2 of the guide",
+        to: Guides::Show.with(id: "making-tacos", anchor: "cheeses")
+    end
+    ```
+
+    ### Using raw strings
+
+    If you need to pass arbitrary query params, or just need the path as a string,
+    you can use the `path` or `url` methods directly. Note that `link` doesn't take a `String`,
+    so you would need to use the `a()` HTML helper method directly.
+
+    ```crystal
+    def content
+      a "Search again", href: Search::Index.path + "?a=1&b=2"
+    end
+    ```
     MD
   end
 end

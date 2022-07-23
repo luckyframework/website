@@ -1,12 +1,15 @@
-class Guides::Database::ValidatingSaving < GuideAction
-  ANCHOR_USING_WITH_HTML_FORMS = "perma-using-with-html-forms"
-  ANCHOR_PARAM_KEY             = "perma-param-key"
-  ANCHOR_PERMITTING_COLUMNS    = "perma-permitting-columns"
-  ANCHOR_CHANGE_TRACKING       = "perma-change-tracking"
-  guide_route "/database/validating-saving"
+class Guides::Database::SavingRecords < GuideAction
+  ANCHOR_USING_WITH_HTML_FORMS  = "perma-using-with-html-forms"
+  ANCHOR_PARAM_KEY              = "perma-param-key"
+  ANCHOR_PERMITTING_COLUMNS     = "perma-permitting-columns"
+  ANCHOR_CHANGE_TRACKING        = "perma-change-tracking"
+  ANCHOR_SAVING_WITHOUT_PARAMS  = "perma-saving-without-params"
+  ANCHOR_SAVING_ENUMS           = "perma-saving-enums"
+  ANCHOR_SAVING_SERIALIZED_JSON = "perma-saving-serialized-json"
+  guide_route "/database/saving-records"
 
   def self.title
-    "Validating and Saving"
+    "Saving and Updating records"
   end
 
   def markdown : String
@@ -111,8 +114,106 @@ class Guides::Database::ValidatingSaving < GuideAction
     > [save without a params object](#saving-without-a-params-object), for example, in your specs, or in
     > a seeds file.
 
-    ## Using with JSON endpoints
+    ### Bulk updating
 
+    Bulk updating is when you update one or more columns on more than one record at a time.
+    This is a much faster procedure than iterating over each record to update individually.
+
+    ```crystal
+    # Query for all users that are inactive
+    users = UserQuery.new.active(false)
+
+    # Make them all active! Returns the total count of updated records.
+    total_updated = users.update(active: true)
+    ```
+
+    > The bulk update is called on a Query object instead of a `SaveOperation`.
+
+    ## Upsert records
+
+    An "upsert" is short for "update or insert", or in Avram terminology a
+    "create or update". If the values in an operation conflict with an existing
+    record in the database, Avram updates that record. If there is no
+    conflicting record, then Avram will create new one.
+
+    In Avram, you must define which columns the SaveOperation should look at when
+    determining if a conflicting record exists. This is done using the macro
+    `Avram::Upsert.upsert_lookup_columns`
+
+    > In almost _every_ case the `upsert_lookup_columns` should have a **unique index** defined
+    > in the database to ensure no conflicting records are created, even from outside Avram.
+
+    ### Full Example
+
+    ```crystal
+    class User < BaseModel
+      table do
+        column name : String
+        column email : String # This column has a unique index
+      end
+    end
+
+    class SaveUser < User::SaveOperation
+      # Can be one or more columns. In this case we choose just :email
+      upsert_lookup_columns :email
+    end
+
+    # Will create a new row in the database since no row with
+    # `email: "bob@example.com"` exists yet
+    SaveUser.upsert!(name: "Bobby", email: "bob@example.com")
+
+    # Will update the name on the row we just created since the email is
+    # the same as one in the database
+    SaveUser.upsert!(name: "Bob", email: "bob@example.com")
+    ```
+
+    ### Difference between `upsert` and `upsert!`
+
+    There is an `upsert` and `upsert!` that work similarly to `create` and `create!`.
+    `upsert!` will raise an error if the operation is invalid. Whereas `upsert`
+    will yield the operation and the new record if the operation is valid, or
+    the operation and `nil` if it is invalid.
+
+    ```crystal
+    # Will raise because the name is blank
+    SaveUser.upsert!(name: "", email: "bob@example.com")
+
+    # Operation is invalid because name is blank
+    SaveUser.upsert(name: "", email: "bob@example.com") do |operation, user|
+      # `user` is `nil` because the operation is invalid.
+      # If the `name` was valid `user` would be the newly created user
+    end
+    ```
+
+    #{permalink(ANCHOR_SAVING_SERIALIZED_JSON)}
+    ## Saving Serialized JSON
+
+    Serialized columns will be deserialized before being saved allowing you
+    to work with the serialized object directly.
+
+    ```crystal
+    class SignUpUser < User::SaveOperation
+      before_save do
+        preferences.value = User::Preferences.from_json("{}")
+      end
+    end
+    ```
+
+    You can set your operation up wity virtual properties to map
+    back to your serializable object when updating.
+
+    ```crystal
+    class UpdateUser < User::SaveOperation
+      attribute allow_email : Bool
+      before_save do
+        if prefs = preferences.value
+          prefs.receive_email = !!allow_email.value
+        end
+      end
+    end
+    ```
+
+    For more info on working with JSON APIs,
     See [Writing JSON APIs guide](#{Guides::JsonAndApis::RenderingJson.path(anchor: Guides::JsonAndApis::SavingToTheDatabase::ANCHOR_SAVING_TO_THE_DATABASE)}).
 
     #{permalink(ANCHOR_USING_WITH_HTML_FORMS)}
@@ -148,7 +249,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ```crystal
     class Users::Create < BrowserAction
-      route do
+      post "/users" do
         # params will have the form params sent from the HTML form
         SaveUser.create(params) do |operation, user|
           if user # if the user was saved
@@ -193,63 +294,10 @@ class Guides::Database::ValidatingSaving < GuideAction
     To see a list of all the different form element inputs, check out the
     [HTML Forms](#{Guides::Frontend::HtmlForms.path}) guide.
 
-
-    ## Validating data
-
-    Lucky comes with a few built in validations:
-
-    * `validate_required` - ensures that a field is not `nil` or blank (e.g. `""`).
-    * `validate_confirmation_of` - ensures that fields have the same values.
-    * `validate_acceptance_of` - great for checking if someone accepts terms of service.
-    * `validate_inclusion_of` - check that value is in a list of accepted values.
-    * `validate_size_of` - check the size of a number.
-    * `validate_uniqueness_of` - to only allow one record with a field's value
-
-    > Note: non-nilable (required) fields automatically use
-    `validate_required`. They will run after all other `before_save` callbacks have run. This way data
-    with missing fields will never be sent to the database.
-
-    ### Using validations
-
-    You can use validations inside of `before_save` callbacks:
-
-    ```crystal
-    class SaveUser < User::SaveOperation
-      permit_columns name, password, password_confirmation, terms_of_service, age
-
-      before_save do
-        validate_required name
-        validate_confirmation_of password, with: password_confirmation
-        validate_acceptance_of terms_of_service
-        validate_inclusion_of age, in: [30, 40, 50]
-        validate_uniqueness_of name
-        # Alternatively, pass optional second argument to use a custom query
-        validate_uniqueness_of name, query: UserQuery.new.name.lower
-        # Showing these version as an example
-        # You would not want all three of these on a real form
-        validate_size_of name, is: 4 # Name must be 4 characters long
-        validate_size_of name, min: 4 # Can't be too short
-        validate_size_of name, max: 8 # Must have a short name
-      end
-
-      before_save reject_scary_monsters
-
-      def reject_scary_monsters
-        if name.value == "Skeletor"
-          name.add_error "Mmmyyaahhh!"
-        end
-      end
-    end
-    ```
-
-    The `before_save` callbacks will run just before calling `save`. They each return `true` if
-    the attributes are all `valid?`. They will also run if you call the `valid?` method.
-
     ## What are attributes?
 
-    First you’ll need to know that the attributes defined in the operation do not return the
-    value of the attribute. They return a `Avram::Attribute` that contains the value
-    of the attribute, the name of the attribute, the param value, and any errors the attribute
+    Attributes defined in the operation do not return the value of the attribute. They return an `Avram::Attribute`
+    that contains the value of the attribute, the name of the attribute, the param value, and any errors the attribute
     has.
 
     This means that to access their value you must call `value` on the attribute.
@@ -262,92 +310,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
-    ## Custom validations
-
-    You can easily create your own validations. For example, let’s say we want to
-    make sure the user is old enough to use the site.
-
-    ```crystal
-    before_save validate_user_is_old_enough
-
-    private def validate_user_is_old_enough
-      # The value might be `nil` so we need to use `try`.
-      age.value.try do |value|
-        if value < 13
-          age.add_error "must be at least 13 to use this site"
-        end
-      end
-    end
-    ```
-
-    ## Callbacks
-
-    > Callbacks often get a bad rep because they can quickly lead to hard to
-    maintain code. One reason for this is situations arrive when you want callbacks
-    to run only in certain conditions. In Lucky this situation is quickly solved
-    by adding a new operation. For example you might have a `SignUpUser` for a `User`
-    that encrypts the users password and sends a welcome email after saving. Or you
-    might have an `SaveAdminUser` that saves a user and sends an admin specific
-    email.
-
-    ### Callbacks for running before and after save
-
-    * `before_save` - Ran before the record is saved.
-    * `after_save` - Ran after the record is saved.
-    * `after_commit` - Ran after `after_save`, and the database transaction has committed.
-
-    Create a method you'd like to run and then pass the method name to the
-    callback macro. Note that the methods used by the `after_*` callbacks needs
-    to accept the newly created record. In this example, a `Post`.
-
-    ```crystal
-    class SavePost < Post::SaveOperation
-      before_save run_this_before_save
-      after_save run_this_after_save
-      after_commit run_this_after_commit
-
-      def run_this_before_save
-        # do something
-      end
-
-      def run_this_after_save(newly_created_post : Post)
-        # do something
-      end
-
-      def run_this_after_commit(newly_created_post : Post)
-        # do something
-      end
-    end
-    ```
-
-    ### When to use `after_save` vs. `after_commit`
-
-    The `after_save` callback is a great place to do other database saves because if something goes
-    wrong the whole transaction would be rolled back.
-
-    ```crystal
-    class SaveComment < Comment::SaveOperation
-      after_save also_update_post
-
-      # If this fails, we roll back the comment save too
-      def also_update_post(saved_comment : Comment)
-        SavePost.update!(latest_comment: saved_comment.body)
-      end
-    end
-    ```
-
-    The `after_commit` callback is best used for things like email notifications and such
-    since this is only called if the records were actually saved in to the database.
-
-    ```crystal
-    class SaveComment < Comment::SaveOperation
-      after_commit notify_user_of_new_comment
-
-      def notify_user_of_new_comment(new_comment : Comment)
-        NewCommentNotificationEmail.new(new_comment, to: comment.author!).deliver_now
-      end
-    end
-    ```
+    > All of the columns from a model exist in SaveOperations as attributes, as well as any additional `attribute` specified.
 
     #{permalink(ANCHOR_CHANGE_TRACKING)}
     ## Tracking changed attributes
@@ -391,7 +354,7 @@ class Guides::Database::ValidatingSaving < GuideAction
 
       def log_changes(user : User)
         # Get changed attributes and log each of them
-        attributes.select(&.changed).each do |attribute|
+        attributes.select(&.changed?).each do |attribute|
           Log.dexter.info do
             {
               user_id: user.id,
@@ -413,8 +376,8 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ```crystal
     class Posts::Comments::Create < BrowserAction
-      route do
-        post = PostQuery.find(id)
+      post "/posts/:post_id/comments" do
+        post = PostQuery.find(post_id)
         # Params contain the title and body, but not the post_id
         # So we set it ourselves
         SaveComment.create(params, post_id: post.id) do |operation, comment|
@@ -536,7 +499,7 @@ class Guides::Database::ValidatingSaving < GuideAction
     ## Basic Operations
 
     Just like `attribute`, there may also be a time where you have an operation **not** tied to the database.
-    Maybe a search operation, or a contact operation that just sends an email.
+    Maybe a search operation, signing in a user, or even requesting a password reset.
 
     For these, you can use `Avram::Operation`:
 
@@ -546,16 +509,24 @@ class Guides::Database::ValidatingSaving < GuideAction
       attribute query : String = ""
       attribute active : Bool = true
 
-      def submit
+      def run
         validate_required query
 
-        yield self, UserQuery.new.name.ilike(query.value).active(active.value)
+        UserQuery.new.name.ilike(query.value).active(active.value)
       end
     end
     ```
 
-    > Note: The convention is to define a `submit` method that yields the operation, and your result;
-    > however, you can name this method whatever you want with any signature.
+    Just define your `run` method, and have it return some value, and you're set!
+
+    These operations work similar to `SaveOperation`. You can use `attribute`, and `needs`, plus any of the validations that you need.
+    There are a few differences though.
+
+    ### Operation Callbacks
+
+    You will use `before_run` and `after_run` for the callbacks. These work the same as `before_save` and `after_save` on `SaveOperation`.
+
+    ### Using with HTML Forms
 
     Using operations in HTML works exactly the same as the rest:
 
@@ -586,8 +557,8 @@ class Guides::Database::ValidatingSaving < GuideAction
 
     ```crystal
     class Searches::Create < BrowserAction
-      route do
-        SearchData.new(params).submit do |operation, results|
+      post "/searches" do
+        SearchData.run(params) do |operation, results|
           # `valid?` is defined on `operation` for you!
           if operation.valid?
             html SearchResults::IndexPage, users: results
@@ -599,6 +570,53 @@ class Guides::Database::ValidatingSaving < GuideAction
     end
     ```
 
+    ### Handling errors
+
+    Each `attribute` in your operation has an `add_error` method. This lets you specify errors directly on the attribute
+    which can be used in forms to highlight specific fields.
+
+    ```crystal
+    class SignInUser < Avram::Operation
+      attribute username : String
+      attribute password : String
+
+      def run
+        user = UserQuery.new.username(username).first?
+
+        unless Authentic.correct_password?(user, password.value.to_s)
+          # Add an error to the `password` attribute.
+          password.add_error "is wrong"
+          return nil
+        end
+
+        user
+      end
+    end
+    ```
+
+    Then to get the errors, you can call `operation.errors`.
+
+    ```crystal
+    SignInUser.run(params) do |operation, user|
+      operation.errors #=> {"password" => ["password is wrong"]}
+    end
+    ```
+
+    If you need to set custom errors that are not on any attributes, you can use the `add_error` method.
+
+    ```crystal
+    def run
+      user = UserQuery.new.username(username).first?
+
+      if user.try(&.banned)
+        add_error(:user_banned, "Sorry, you've been banned.")
+      end
+    end
+    ```
+
+    Now your `operation.errors` will include `{"user_banned" => ["Sorry, you've been banned"]}`.
+
+    #{permalink(ANCHOR_SAVING_WITHOUT_PARAMS)}
     ## Saving without a params object
 
     This can be helpful if you’re saving something that doesn’t need an HTML form,
@@ -611,41 +629,76 @@ class Guides::Database::ValidatingSaving < GuideAction
     SaveUser.update!(existing_user, name: "David")
     ```
 
-    ## Sharing common validations, callbacks, etc.
+    #{permalink(ANCHOR_SAVING_ENUMS)}
+    ### Saving an enum value
 
-    When using multiple operations for one model you often want to share a common set of
-    validations, allowances, etc.
-
-    You can do this with a module:
+    You can pass an instance of your `enum` to the column you wish to update.
 
     ```crystal
-    # src/operations/mixins/age_validation.cr
-    module AgeValidation
-      private def validate_old_enough_to_use_website
-        # The value of age might be `nil` so we need to use `try`
-        age.value.try do |value|
-          if value < 13
-            age.add_error "must be at least 13 to use this site"
-          end
-        end
+    SaveUser.create!(name: "Paul", role: User::Role::Superadmin)
+    ```
+
+    ## Using URL slugs instead of ID
+
+    When it comes to passing a model reference through the URL, you can
+    pass the ID for easy lookup. (e.g. `/posts/1234`)
+
+    However, it's also common practice to use a more human readable form like
+    `/posts/learning-lucky`. In this case, we call the "learning-lucky" a "slug".
+    Avram comes built with a way to "slugify" a column with some type-safe checks.
+
+    You will first want to require the `Avram::Slugify` extension in your `src/shards.cr`
+
+    ```crystal
+    # src/shards.cr
+    require "avram"
+    require "avram/slugify"
+    # ...
+    ```
+
+    Next, be sure to add a `slug : String` column to your model you wish to slufigy.
+    For this example, we'll use a `Post`.
+
+    ```crystal
+    # src/models/post.cr
+    class Post < BaseModel
+      table do
+        column title : String
+        column slug : String
       end
     end
     ```
 
-    Then in your operation:
+    Lastly, we will want to make sure that our `title` is slugified before saving the
+    post.
 
     ```crystal
-    # src/operations/save_admin_user.cr
-    class SaveAdminUser < User::SaveOperation
-      include AgeValidation
-      permit_columns email, age
+    # src/operations/save_post.cr
+    class SavePost < Post::SaveOperation
+      permit_columns title
 
       before_save do
-        validate_old_enough_to_use_website
-        admin.value = true
+        Avram::Slugify.set slug,
+          using: title,
+          query: PostQuery.new
       end
     end
     ```
+
+    > The query allows us to check for slug uniqueness. If that one exists,
+    > a random UUID will be appended to the slug.
+
+    Now when we save our post, the title will be transformed in to a URL safe slug
+    that we can use to look the record up, but also allow it to be both SEO friendly,
+    and human readable.
+
+    To find the record, you can find by the `slug`.
+
+    ```crystal
+    PostQuery.new.slug("learning-lucky").first
+    ```
+
+    > Checkout the [querying guide](#{Guides::Database::Querying.path}) for more examples.
 
     ## Ideas for naming
 

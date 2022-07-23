@@ -9,20 +9,20 @@ class Guides::Testing::CreatingTestData < GuideAction
     <<-MD
     ## Introduction
 
-    A Box is a class that allows you to easily create test data.
+    A Factory is a class that allows you to easily create test data.
 
-    Even though a Box is generally used for test data, you can also use it to seed your database with
+    Even though a Factory is generally used for test data, you can also use it to seed your database with
     development data as mentioned in [database setup](#{Guides::Database::DatabaseSetup.path(anchor: Guides::Database::DatabaseSetup::ANCHOR_SEEDING_DATA)}).
 
-    ## Creating a Box
+    ## Creating a Factory
 
-    Boxes will live in your `spec/support/boxes/` directory. Each box will inherit from `Avram::Box`,
-    and take the naming convention of the name of your model followed by `Box`.
-    (e.g. a `User` model and `UserBox`)
+    Factories will live in your `spec/support/factories/` directory. Each factory will inherit from `Avram::Factory`,
+    and take the naming convention of the name of your model followed by `Factory`.
+    (e.g. a `User` model and `UserFactory`)
 
     ```crystal
-    # spec/support/boxes/post_box.cr
-    class PostBox < Avram::Box
+    # spec/support/factories/post_factory.cr
+    class PostFactory < Avram::Factory
       def initialize
         title "My Post"
         body "Test Body"
@@ -30,19 +30,19 @@ class Guides::Testing::CreatingTestData < GuideAction
     end
     ```
 
-    ### Box model attributes
+    ### Factory model attributes
 
-    Each box will have access to the associated model's column fields. In the example `PostBox`, if
-    our `Post` model has a `column title : String` and `column body : String`, then the box will have
+    Each factory will have access to the associated model's column fields. In the example `PostFactory`, if
+    our `Post` model has a `column title : String` and `column body : String`, then the factory will have
     a `title` method and `body` method.
 
-    These methods take an argument of the default value you want to set for that box.
+    These methods take an argument of the default value you want to set for that factory.
 
     ```crystal
-    class PostBox < Avram::Box
+    class PostFactory < Avram::Factory
       def initialize
         title "Milk was a bad choice"
-        body "Every post created from this PostBox will default to these values"
+        body "Every post created from this PostFactory will default to these values"
       end
     end
     ```
@@ -58,54 +58,83 @@ class Guides::Testing::CreatingTestData < GuideAction
     be unique.
 
     ```crystal
-    class PostBox < Avram::Box
+    class PostFactory < Avram::Factory
       def initialize
         title sequence("My new blog post")
       end
     end
     ```
 
-    The first time a `PostBox` is created, the `title` will be set to `"My new blog post-1"`. The next time
+    The first time a `PostFactory` is created, the `title` will be set to `"My new blog post-1"`. The next time
     one is created, the `title` will be set to `"My new blog post-2"`, and so on.
 
     > Sequences always return a `String`. For sequence type values on other types, you'll need to
     > implement those yourself.
 
-    ## Associations with boxes
+    ## Associations with factories
 
-    When you create a Box, you may want to have an association already set for you. In this case,
-    you'll just use that association's box to set the `foreign_key` value.
+    When you create a Factory, you may want to have an association already set for you. In this case,
+    you'll just use that association's factory to set the `foreign_key` value.
 
     ```crystal
-    class PostBox < Avram::Box
+    class PostFactory < Avram::Factory
       def initialize
         title sequence("post-title")
         body "blah"
-        user_id UserBox.create.id
+        user_id UserFactory.create.id
       end
     end
     ```
 
-    > Creating a Box returns an instance of that model, which means you have access to all of the model
+    > Creating a Factory returns an instance of that model, which means you have access to all of the model
     > methods.
+
+    ## Factory callbacks
+
+    Similar to [SaveOperation](#{Guides::Database::SavingRecords.path}), Factories also have `before_save`,
+    and `after_save` callbacks. However, these methods are meant to be used within your factory's `initialize`
+    method.
+
+    These can be great for dynamically setting an association.
+
+    ```crystal
+    class PostFactory < Avram::Factory
+      def initialize
+        title sequence("post-title")
+        body "blah"
+
+        before_save do
+          if operation.user_id.value.nil?
+            user_id UserFactory.create.id
+          end
+        end
+
+        after_save do |new_post|
+          10.times do
+            CommentFactory.create &.post_id(new_post.id).text(sequence("blah"))
+          end
+        end
+      end
+    end
+    ```
 
     ## Saving records
 
-    As shown previously, a Box has a `create` method which saves the record to your database. A Box is
-    essentially a fancy wrapper around [SaveOperation](#{Guides::Database::ValidatingSaving.path}).
+    As shown previously, a Factory has a `create` method which saves the record to your database. A Factory is
+    essentially a fancy wrapper around [SaveOperation](#{Guides::Database::SavingRecords.path}).
 
-    Boxes give you access to two helpful class methods `create` and `create_pair`.
+    Factories give you access to two helpful class methods `create` and `create_pair`.
 
-    ### Box.create
+    ### Factory.create
 
     This will create a `Post`, and store it in your database, then return the instance of `Post`.
-    It will use the defaults you defined in your `initialize` method of `PostBox`.
+    It will use the defaults you defined in your `initialize` method of `PostFactory`.
 
     ```crystal
-    post = PostBox.create
+    post = PostFactory.create
     post.title #=> "post-title-1"
 
-    post2 = PostBox.create
+    post2 = PostFactory.create
     post2.title #=> "post-title-2"
     ```
 
@@ -114,33 +143,33 @@ class Guides::Testing::CreatingTestData < GuideAction
     When you need to override the defaults previously set, you'll pass a block to `create`.
 
     ```crystal
-    PostBox.create do |box|
-      box.title("Draft")
-      box.body("custom body")
+    PostFactory.create do |factory|
+      factory.title("Draft")
+      factory.body("custom body")
     end
     ```
 
     Thanks to Crystal's [short one-argument syntax](https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html#short-one-argument-syntax), we can shorten this with
 
     ```crystal
-    PostBox.create &.title("Draft").body("custom body")
+    PostFactory.create &.title("Draft").body("custom body")
     ```
 
-    ### Box.create_pair
+    ### Factory.create_pair
 
     It may be common for you to need to create more than 1 test object at a time. For this, you can use
     the `create_pair` method to create 2 test objects!.
 
     ```crystal
-    PostBox.create_pair
+    PostFactory.create_pair
     ```
 
     > The big difference here is that `create_pair` will return `nil`, and you can't override
     > the default data. Use this as "set it and forget it".
 
-    ## Testing with Boxes
+    ## Testing with Factories
 
-    Once you have your boxes setup, and you're ready to test, you'll add your tests to your `spec/` directory.
+    Once you have your factories setup, and you're ready to test, you'll add your tests to your `spec/` directory.
 
     ```crystal
     # spec/post_spec.cr
@@ -148,14 +177,14 @@ class Guides::Testing::CreatingTestData < GuideAction
 
     describe Post do
       it "has 2 posts" do
-        PostBox.create_pair
+        PostFactory.create_pair
 
         query = PostQuery.new.select_count
         query.should eq 2
       end
 
       it "sets a custom post title" do
-        post = PostBox.create &.title("Custom Post")
+        post = PostFactory.create &.title("Custom Post")
 
         query = PostQuery.new.title("Custom Post")
         query.first.should eq post
@@ -169,7 +198,7 @@ class Guides::Testing::CreatingTestData < GuideAction
 
     ```crystal
     it "updates a post title" do
-      post = PostBox.create &.title("Custom Post")
+      post = PostFactory.create &.title("Custom Post")
 
       SavePost.update!(post, title: "New Post Title")
 
