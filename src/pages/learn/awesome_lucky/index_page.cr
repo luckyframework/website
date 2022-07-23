@@ -125,6 +125,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://joystick.tv/",
         description: "Twitch-like live streaming platform for content creators with more freedom",
         tags: [AwesomeLink::Tags::Adult]
+      mount AwesomeLink,
+        text: "Erro",
+        url: "https://www.erro.sh",
+        description: "Erro monitor and help you handle exceptions and errors for your apps."
     end
   end
 
