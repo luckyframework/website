@@ -1,12 +1,12 @@
 class Learn::AwesomeLucky::IndexPage < PageLayout
   def hero_content
-    div class: "flex flex-col flex-1 justify-start mt-5" do
-      render_blog_posts_list
-      render_tools_list
     render_hero_content
   end
 
   def content
+    div class: "flex flex-col flex-1 justify-start mt-5" do
+      render_blog_posts_list
+      render_tools_list
       render_sites_list
       render_shards_list
     end
