@@ -67,15 +67,27 @@ class Guides::GettingStarted::Installing < GuideAction
       are using ZSH or Bash.
 
     **For ZSH (the default as of macOS Catalina):**
-
+    
+    MacOS (Intel)
     ```plain
     echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.zshrc
     ```
-
+    
+    Macos (M1)
+    ```plain
+    echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.zshrc
+    ```
+    
     **For Bash:**
 
+    MacOS (Intel)
     ```plain
     echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.bash_profile
+    ```
+    
+    MacOs (M1)
+    ```plain
+    echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.bash_profile
     ```
 
     > If you get an error like this: "Package libssl/libcrypto was not found in the
@@ -162,8 +174,14 @@ class Guides::GettingStarted::Installing < GuideAction
 
     This will let you use `lucky` from the command line.
 
+    MacOS (Intel)
     ```plain
     cp bin/lucky /usr/local/bin
+    ```
+    
+    MacOS (M1)
+    ```plain
+    cp bin/lucky /opt/homebrew/bin
     ```
 
     ### 7. Check installation
