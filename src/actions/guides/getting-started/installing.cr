@@ -173,16 +173,11 @@ class Guides::GettingStarted::Installing < GuideAction
     ### 6. Move the generated binary to your path
 
     This will let you use `lucky` from the command line.
-
-    macOS (Intel)
+    
     ```plain
     cp bin/lucky /usr/local/bin
     ```
-    
-    macOS (M1)
-    ```plain
-    cp bin/lucky /opt/homebrew/bin
-    ```
+    Or anywhere else you deem fit
 
     ### 7. Check installation
 
