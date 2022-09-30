@@ -11,20 +11,6 @@ class Errors::Show < Lucky::ErrorAction
     end
   end
 
-  # When the request is JSON and an InvalidOperationError is raised, show a
-  # helpful error with the param that is invalid, and what was wrong with it.
-  def render(error : Avram::InvalidOperationError)
-    if html?
-      error_html DEFAULT_MESSAGE, status: 500
-    else
-      error_json \
-        message: error.renderable_message,
-        details: error.renderable_details,
-        param: error.invalid_attribute_name,
-        status: 400
-    end
-  end
-
   # Always keep this below other 'render' methods or it may override your
   # custom 'render' methods.
   def render(error : Lucky::RenderableError)

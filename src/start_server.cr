@@ -1,8 +1,5 @@
 require "./app"
 
-if LuckyEnv.development?
-  Avram::Migrator::Runner.new.ensure_migrated!
-end
 Habitat.raise_if_missing_settings!
 
 app_server = AppServer.new

@@ -5,7 +5,6 @@ Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
 
 require "../config/server"
 require "../config/**"
-require "./app_database"
 require "./models/mixins/**"
 require "./models/**"
 require "./posts/base_post"
