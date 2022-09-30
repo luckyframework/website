@@ -90,15 +90,15 @@ class Lucky100rc1Release < BasePost
 
     Along those same lines, Lucky also came out-of-the-box with [Laravel-Mix](https://laravel-mix.com/)
     which is "An elegant wrapper around Webpack". This made bringing javascript to Lucky
-    seemless, and easy. However, the Laravel framework has [moved to Vite](https://laravel-news.com/vite-is-the-default-frontend-asset-bundler-for-laravel-applications)
+    seamless, and easy. However, the Laravel framework has [moved to Vite](https://laravel-news.com/vite-is-the-default-frontend-asset-bundler-for-laravel-applications)
     as their default front-end. Laravel-Mix may or may not stick around, but with the
-    uncertianty, the 1.0.0-rc1 release opens up the possibility to use [Vite](https://vitejs.dev/)
+    uncertainty, the 1.0.0-rc1 release opens up the possibility to use [Vite](https://vitejs.dev/)
     while keeping with the type-safe traditions Lucky brings.
 
     So why even include a javascript build system with Lucky?
 
     One of Lucky's goals is to be type-safe and help catch bugs in development. This
-    is done many ways, but one of the most important ways is when it comes to loading
+    is done in many ways, but one of the most important ways is when it comes to loading
     your assets in production. By utilizing a generated manifest file, Crystal can
     generate an internal Hash at compile-time that can be referenced in the app.
 
