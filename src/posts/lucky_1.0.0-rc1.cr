@@ -16,7 +16,7 @@ class Lucky100rc1Release < BasePost
   def content : String
     <<-MD
     As many developers know, reaching a 1.0 milestone is huge, and something to
-    be celebrated. We're excited to publish the first release candidate of Lucky 1.0. 
+    be celebrated. We're excited to publish the first release candidate of Lucky 1.0.
     We will be using this and the next few release candidates to clean up
     the rough edges of the framework, and make sure all of the dependencies in the
     Lucky ecosystem are solid and ready to take us to the next level.
@@ -83,8 +83,8 @@ class Lucky100rc1Release < BasePost
     In 2017, when Lucky began, the Rails core team had a neat library called
     [Turbolinks](https://github.com/turbolinks/turbolinks-classic).
     This library helped to make pages feel even faster, and who doesn't love speed?
-    Lucky included this library by default, but it has since been deprecated in favor
-    of [Turbo](https://turbo.hotwired.dev/). Although Lucky doesn't include Turbo currently,
+    Lucky included this library by default, but Rails has since deprecated Turbolinks in favor
+    of [Turbo](https://turbo.hotwired.dev/). Although Lucky doesn't include Turbo yet,
     we would still like to encourage users to give it a shot, and let us know if this
     is something you'd like to see included by default.
 
@@ -95,20 +95,24 @@ class Lucky100rc1Release < BasePost
     uncertainty, the 1.0.0-rc1 release opens up the possibility to use [Vite](https://vitejs.dev/)
     while keeping with the type-safe traditions Lucky brings.
 
+    If you'd like to experiment with it, updated your `src/app.cr`, with this code
+
+    ```crystal
+    # src/app.cr
+    Lucky::AssetHelpers.load_manifest "public/manifest.json", use_vite: true
+    ```
+
+    Then you'll just need to setup Vite as your build system. For some examples,
+    you can visit this [Vite Lucky test app](https://github.com/jwoertink/vite_lucky)
+
     So why even include a javascript build system with Lucky?
 
     One of Lucky's goals is to be type-safe and help catch bugs in development. This
     is done in many ways, but one of the most important ways is when it comes to loading
     your assets in production. By utilizing a generated manifest file, Lucky can
     generate an internal `NamedTuple` at compile-time that can be referenced in the app.
-
-    This means in development, you can do `img src: asset("images/logo.svg")`, and
-    Lucky knows this file is located at `public/assets/images/logo.svg`, and will raise an error at compile-time if that asset does not exist/
-    you may need to use a cache buster, or even a CDN where the filename may change to
-    say `assets.mysite.com/images/logo-abc123xyz.svg`. If this file is missing, then
-    your app will not compile. That means that last second production deploy you're
-    doing on a Friday before a 3-day weekend won't have you back in the "office"
-    doing another deploy because the file isn't showing.
+    When you forget to add an asset (i.e. image, style, script, etc...), a compile-time
+    error will raise letting you know.
 
     ### Email layouts and callbacks
 
@@ -179,8 +183,6 @@ class Lucky100rc1Release < BasePost
     enums now support both `Int64` values, as well as the `@[Flags]` annotations making bitwise
     permissions super easy to achieve in Lucky!
 
-    We've also added support for the `bytea` column with Crystal's `Byte` (`Slice(UInt8)`) alias.
-
     Another amazing update is the addition of the `extract()` query method for timestamp columns.
     This allows you to query for date parts of a `Time` object. For example, query for
     all users that signed up in July.
@@ -215,6 +217,15 @@ class Lucky100rc1Release < BasePost
       TimezoneMinute
       Week
       Year
+    end
+    ```
+
+    We've also added support for the `bytea` column with Crystal's `Byte` (`Slice(UInt8)`) alias.
+
+    ```crystal
+    # In your model
+    table do
+      column data : Byte
     end
     ```
 
