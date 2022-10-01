@@ -37,7 +37,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
-    Routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros. 
+    Routes can be defined for specific request types by using the `get`, `put`, `post`, `patch`, `trace`, and `delete` macros.
     Each Action class must only implement one route.
 
     If you still need access to different methods like `options`, you can use the `match` macro.
