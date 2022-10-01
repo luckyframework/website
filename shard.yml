@@ -13,16 +13,13 @@ crystal: ">= 1.4.0"
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: ~> 0.30.0
-  authentic:
-    github: luckyframework/authentic
-    version: ~> 0.8.2
+    version: ~> 1.0.0-rc1
   carbon:
     github: luckyframework/carbon
-    version: ~> 0.2
+    version: ~> 0.3
   carbon_sendgrid_adapter:
     github: luckyframework/carbon_sendgrid_adapter
-    version: ~> 0.2.0
+    version: ~> 0.3
   lucky_env:
     github: luckyframework/lucky_env
     version: ~> 0.1.4
@@ -34,7 +31,7 @@ dependencies:
     branch: master
   lexbor:
     github: kostya/lexbor
-    version: ~> 3.0.3
+    version: ~> 3.0.4
   sitemapper:
     github: jwoertink/sitemapper
     version: ~> 0.8.1
@@ -45,4 +42,4 @@ development_dependencies:
     version: ~> 0.7.3
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.0.0
+    version: ~> 1.1.0
