@@ -1,5 +1,5 @@
 class Lucky100rc1Release < BasePost
-  title "Lucky reaches the 1.0 ascent with the first release candidate"
+  title "Lucky begins the 1.0 ascent with the first release candidate"
   slug "lucky-1_0_0-rc1-release"
 
   def published_at : Time
@@ -16,17 +16,17 @@ class Lucky100rc1Release < BasePost
   def content : String
     <<-MD
     As many developers know, reaching a 1.0 milestone is huge, and something to
-    be celebrated. We're stoked to release the first prelease of the 1.0 series with
-    `rc1`. We will be using this and the next few release candidates to clean up
+    be celebrated. We're excited to publish the first release candidate of Lucky 1.0. 
+    We will be using this and the next few release candidates to clean up
     the rough edges of the framework, and make sure all of the dependencies in the
-    Lucky ecosystem are all solid and ready to take us to the next level.
+    Lucky ecosystem are solid and ready to take us to the next level.
 
     We will cover a few notable differences, but you can view all the changes
     from the [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md)
 
     ### How to upgrade
 
-    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-029-to-030).
+    See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-030-to-100-rc1).
 
     You can also view the changes using [LuckyDiff](https://luckydiff.com/?from=0.30.0&to=1.0.0-rc1).
     This tool helps see what has changed between versions and will be included in upgrade notes from now on.
@@ -44,7 +44,7 @@ class Lucky100rc1Release < BasePost
 
     In this release, Avram is no longer a dependency of Lucky, but instead,
     Lucky is now an optional dependency of Avram. If you're using Avram outside
-    of Lucky, then nothing changes for you. However, for Lucky users using Avram,
+    of Lucky, then nothing changes for you. However, for existing Lucky users upgrading to `rc1` that need Avram,
     you'll now have to include it as an additional dependency. Be sure to add it
     to your `shard.yml` file, and require it in your `src/shards.cr`.
 
@@ -60,12 +60,12 @@ class Lucky100rc1Release < BasePost
     # before this release
     # post:tags[]=lucky&post:tags[]=crystal
     tags = params.nested_arrays("post")["tags"]
-    SavePost.create(params, tags: tags) do |o, p|
+    SavePost.create(params, tags: tags) do |operation, post|
       # ...
     end
 
     # after this release
-    SavePost.create(params) do |o, p|
+    SavePost.create(params) do |operation, post|
       # ...
     end
     ```
@@ -99,11 +99,11 @@ class Lucky100rc1Release < BasePost
 
     One of Lucky's goals is to be type-safe and help catch bugs in development. This
     is done in many ways, but one of the most important ways is when it comes to loading
-    your assets in production. By utilizing a generated manifest file, Crystal can
-    generate an internal Hash at compile-time that can be referenced in the app.
+    your assets in production. By utilizing a generated manifest file, Lucky can
+    generate an internal `NamedTuple` at compile-time that can be referenced in the app.
 
     This means in development, you can do `img src: asset("images/logo.svg")`, and
-    Lucky knows this file is located at `public/assets/images/logo.svg`. In production,
+    Lucky knows this file is located at `public/assets/images/logo.svg`, and will raise an error at compile-time if that asset does not exist/
     you may need to use a cache buster, or even a CDN where the filename may change to
     say `assets.mysite.com/images/logo-abc123xyz.svg`. If this file is missing, then
     your app will not compile. That means that last second production deploy you're
