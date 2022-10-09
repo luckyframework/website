@@ -326,7 +326,7 @@ class Guides::Frontend::Internationalization < GuideAction
       needs current_user : User
       # ...
       def page_title
-        r(".page_title")
+        r(".page_title").t
       end
 
       def render
@@ -338,22 +338,16 @@ class Guides::Frontend::Internationalization < GuideAction
 
       private def render_signed_in_user
         # ...
-        link r("default.button.sign_out"), to: SignIns::Delete, flow_id: "sign-out-button"
+        link r("default.button.sign_out").t, to: SignIns::Delete, flow_id: "sign-out-button"
       end
     end
     ```
 
     > **Note**: the locale key for `page_title` starts with a `.` to tell
     > Rosetta the prefix for this key should be derived from the current class.
-    > For example, in the `Me::ShowPage`, the locale key will resolve to
+    > For example, in the `Me::ShowPage` page, the locale key will resolve to
     > `me.show_page.page_title`. It's an easy way to avoid having to define a
     > `page_title` method for every single page.
-
-    > **Note 2**: when translating the link with `r("default.button.sign_out")`,
-    > the `.t` method isn't called. That's because the returned value of the `r`
-    > macro includes `Lucky::AllowedInTags`, so it's translated implicitly. This
-    > is true almost everywhere, except for custom validation error messages in
-    > operations.
 
     Do the same for `AuthLayout`:
 
@@ -362,7 +356,7 @@ class Guides::Frontend::Internationalization < GuideAction
     abstract class AuthLayout
       # ...
       def page_title
-        r(".page_name")
+        r(".page_name").t
       end
 
       def render
@@ -383,7 +377,7 @@ class Guides::Frontend::Internationalization < GuideAction
         # ...
         html lang: Rosetta.locale do
           # ...
-          title r(".page_title")
+          title r(".page_title").t
           # ...
         end
 
@@ -392,7 +386,7 @@ class Guides::Frontend::Internationalization < GuideAction
             #..
             ul class: "helpful-links" do
               li do
-                a r(".helpful_link"), href: "/", class: "helpful-link"
+                a r(".helpful_link").t, href: "/", class: "helpful-link"
               end
             end
           end
@@ -415,31 +409,31 @@ class Guides::Frontend::Internationalization < GuideAction
     class SignUps::NewPage < AuthLayout
       # ...
       def content
-        h1 r(".page_title")
+        h1 r(".page_title").t
         # ...
       end
 
       private def render_sign_up_form(op)
         form_for SignUps::Create do
           # ...
-          submit r("default.button.sign_up"), flow_id: "sign-up-button"
+          submit r("default.button.sign_up").t, flow_id: "sign-up-button"
         end
-        link r(".sign_in_instead"), to: SignIns::New
+        link r(".sign_in_instead").t, to: SignIns::New
       end
 
       private def sign_up_fields(op)
         mount Shared::Field,
           attribute: op.email,
-          label_text: r("default.field.email"), &.email_input(autofocus: "true")
+          label_text: r("default.field.email").t, &.email_input(autofocus: "true")
         mount Shared::Field,
           attribute: op.password,
-          label_text: r("default.field.password"), &.password_input
+          label_text: r("default.field.password").t, &.password_input
         mount Shared::Field,
           attribute: op.password_confirmation,
-          label_text: r("default.field.password_confirmation"), &.password_input
+          label_text: r("default.field.password_confirmation").t, &.password_input
         mount Shared::Field,
           attribute: op.language,
-          label_text: r("default.field.language"), &.select_input do
+          label_text: r("default.field.language").t, &.select_input do
           options_for_select(op.language, [{"English", "en"}])
         end
       end
@@ -454,22 +448,22 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/pages/me/show_page.cr
     class Me::ShowPage < MainLayout
       def content
-        h1 r(".page_title")
+        h1 r(".page_title").t
         h3 r(".user_email").t(email: @current_user.email)
         # ...
       end
 
       private def helpful_tips
-        h3 r(".next_you_may_want_to")
+        h3 r(".next_you_may_want_to").t
         ul do
           # ...
-          li r(".modify_page")
-          li r(".after_signin")
+          li r(".modify_page").t
+          li r(".after_signin").t
         end
       end
 
       private def link_to_authentication_guides
-        a r(".auth_guides"), href: "https://luckyframework.org/guides/authentication"
+        a r(".auth_guides").t, href: "https://luckyframework.org/guides/authentication"
       end
     end
     ```
@@ -477,7 +471,7 @@ class Guides::Frontend::Internationalization < GuideAction
     > **Note**: The `t` method for the `r(".user_email")` translation takes an
     > argument called `email`. If a translation includes interpolation keys (in
     > this case `%{email}`), Rosetta will require an argument with the same
-    > name.
+    > name, or raise an error at compile time.
 
     Follow the same logic for the following files (as desired):
 
@@ -498,10 +492,10 @@ class Guides::Frontend::Internationalization < GuideAction
       # ...
           if authenticated_user
             # ...
-            flash.success = r(".success")
+            flash.success = r(".success").t
             # ...
           else
-            flash.failure = r(".failure")
+            flash.failure = r(".failure").t
             # ...
           end
       # ...
@@ -517,10 +511,10 @@ class Guides::Frontend::Internationalization < GuideAction
       post "/sign_up" do
         SignUpUser.create(params) do |operation, user|
           if user
-            flash.success = r(".success")
+            flash.success = r(".success").t
             # ...
           else
-            flash.failure = r(".failure")
+            flash.failure = r(".failure").t
             # ...
           end
         end
@@ -535,7 +529,7 @@ class Guides::Frontend::Internationalization < GuideAction
     class SignIns::Delete < BrowserAction
       delete "/sign_out" do
         sign_out
-        flash.info = r(".success")
+        flash.info = r(".success").t
         redirect to: SignIns::New
       end
     end
