@@ -199,7 +199,7 @@ class Guides::Database::SavingRecords < GuideAction
     end
     ```
 
-    You can set your operation up wity virtual properties to map
+    You can set your operation up with virtual properties to map
     back to your serializable object when updating.
 
     ```crystal
