@@ -162,6 +162,50 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
 
     [read more](https://github.com/luckyframework/carbon#delay-email-delivery) on the `deliver_later` strategy.
 
+    ### Marking emails as undeliverable
+
+    In cases where you may need to avoid sending emails programmatically, Carbon emails have
+    a `deliverable` property that is set to `true` by default, but can be set to `false` as needed.
+    When `false`, the `deliver` and `deliver_later` won't send.
+
+    ```crystal
+    email = MarketingEmail.new(current_user)
+
+    if current_user.has_unsubscribed?
+      email.deliverable = false
+    end
+
+    email.deliver
+    ```
+
+    ## Before / After send callbacks
+
+    Carbon emails have two callbacks available; `before_send` and `after_send`. These callbacks
+    can be used for things like marking an email as undeliverable, or tracking when emails are sent.
+
+    ```crystal
+    class MarketingEmail < BaseEmail
+      before_send do
+        if @recipient.has_unsubscribed?
+          self.deliverable = false
+        end
+      end
+
+      after_send do |response|
+        MarkEmailSent.create!(recipient: @recipient, response: response)
+      end
+
+      def initialize(@recipient : Carbon::Emailable)
+      end
+
+      # ...
+    end
+    ```
+
+    The `after_send` will yield the return value of sending the email. This value will be different
+    depending on the Carbon Adapter you're using. For SendGrid, this will be the `HTTP::Client::Response`
+    of the API call.
+
     ## Testing Emails
 
     Carbon comes with a few methods you can use in your specs to ensure emails are being sent. [read more](https://github.com/luckyframework/carbon#testing)
