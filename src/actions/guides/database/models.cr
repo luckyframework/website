@@ -233,6 +233,7 @@ class Guides::Database::Models < GuideAction
     * `Bool` - `boolean` column type.
     * `Time` - `timestamp with time zone` (`timestamptz`) column type.
     * `UUID` - `uuid` column type.
+    * `Bytes` - `bytea` column type.
     * `JSON::Any` - `jsonb` column type.
     * `JSON::Serializable` - `jsonb` column type.
     * `Array(T)` - `[]` column type where `T` is any other supported type.

@@ -147,6 +147,7 @@ class Guides::Database::Migrations < GuideAction
     * `Bool` - Maps to postgres `boolean`.
     * `Float64` - Maps to postgres `decimal`. With options for precision and scale.
     * `UUID` - Maps to postgres `uuid`.
+    * `Bytes` - Maps to postgres `bytea`.
     * `JSON::Any` - Maps to postgres `jsonb`.
     * `Array(T)` - Maps to postgres array fields where `T` is any of the other datatypes.
 
