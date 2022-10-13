@@ -6,7 +6,7 @@
     "highlight.js": "^11.6.0",
     "modern-normalize": "^1.1.0",
     "@rails/ujs": "^7.0.4",
-    "@hotwired/turbo": "^7.2.0"
+    "@hotwired/turbo": "^7.2.2"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
