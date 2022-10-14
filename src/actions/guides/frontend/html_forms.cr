@@ -434,7 +434,32 @@ class Guides::Frontend::HtmlForms < GuideAction
            name="param_key:with_cheese"
            value="yes"
            class="custom-check"
-           checked="true" />
+           checked />
+    ```
+
+    > The `checkbox` method is generally used for `Bool` type values. For collections, use `grouped_checkbox`.
+
+    ### Grouped Checkbox
+
+    The `grouped_checkbox` method is used for collections of values. (e.g. the user may select multiple checkboxes).
+
+    ```crystal
+    grouped_checkbox(op.colors, "Yellow", attrs: [:checked], class: "inline")
+    grouped_checkbox(op.colors, "Red", class: "inline")
+    ```
+
+    ```html
+    <input type="checkbox"
+           id="param_key_colors_0"
+           name="param_key:colors[]"
+           value="Yellow"
+           class="inline"
+           checked />
+    <input type="checkbox"
+           id="param_key_colors_1"
+           name="param_key:colors[]"
+           value="Red"
+           class="inline" />
     ```
 
     ### Radio
