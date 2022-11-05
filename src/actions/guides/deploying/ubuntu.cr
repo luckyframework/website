@@ -32,13 +32,13 @@ class Guides::Deploying::Ubuntu < GuideAction
       optional (but recommended) packages.
     * Follow the [installation instructions](https://yarnpkg.com/lang/en/docs/install/#debian-stable) to install yarn
     * Install PostgreSQL
-      ```bash
-      sudo apt install postgresql
-      ```
+    ```bash
+    sudo apt install postgresql
+    ```
     * Install git
-      ```bash
-      sudo apt install git
-      ```
+    ```bash
+    sudo apt install git
+    ```
 
     ## Add a deployment user
 
