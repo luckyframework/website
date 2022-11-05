@@ -268,7 +268,7 @@ class Guides::Deploying::Ubuntu < GuideAction
 
             root /srv/<yourapp>/public;
 
-            server_name <yourapp>;
+            server_name <yourdomain>;
 
             location / {
                     proxy_pass http://lucky;
@@ -279,14 +279,17 @@ class Guides::Deploying::Ubuntu < GuideAction
     }
     ```
 
+    > If you keep `default_server` in config above, remove the `default` 
+    > sites config from `/etc/nginx/sites-enabled`. If you intend to host your 
+    > app alongside other virtual hosts and it's not your default site then 
+    > remove `default_server` from the config above.
+
     Create a symbolic link for your configuration
     in `/etc/nginx/sites-enabled`:
 
     ```bash
-    sudo ln -s /etc/sites-available/<yourapp>.conf /etc/sites-enabled/<yourapp>.conf
+    sudo ln -s /etc/nginx/sites-available/<yourapp>.conf /etc/nginx/sites-enabled/<yourapp>.conf
     ```
-
-    Optional: Remove the `default` site's config from `/etc/sites-enabled`.
 
     Restart nginx:
 
