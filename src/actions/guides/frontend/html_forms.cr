@@ -441,7 +441,7 @@ class Guides::Frontend::HtmlForms < GuideAction
 
     ### Grouped Checkbox
 
-    The `grouped_checkbox` method is used for collections of values. (e.g. the user may select multiple checkboxes).
+    The `grouped_checkbox` method is used for collections of values (e.g. the user may select multiple checkboxes).
 
     ```crystal
     grouped_checkbox(op.colors, "Yellow", attrs: [:checked], class: "inline")
