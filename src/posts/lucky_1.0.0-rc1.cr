@@ -38,7 +38,7 @@ class Lucky100rc1Release < BasePost
 
     ### No more DB dependency
 
-    Many sites (including this one) have no need for a databaase. In some cases,
+    Many sites (including this one) have no need for a database. In some cases,
     your data comes from a 3rd party API, or maybe you need a custom database
     engine other than PostgreSQL.
 

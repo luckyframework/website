@@ -189,7 +189,13 @@ class Guides::GettingStarted::Installing < GuideAction
     This should return `#{LuckyCliVersion.current_version}`
 
     #{permalink(ANCHOR_POSTGRESQL)}
-    ## Postgres database
+    ## Postgres database (optional)
+
+    > You can skip this if you don't need database. Many sites (including this one) have no need for a database. In some cases,
+    your data comes from a 3rd party API, or maybe you need a custom database engine other than PostgreSQL.
+
+    > You can skip this if you plan to use Lucky with a Postgres docker container. Please note that a docker-compose configuration (with Postgres included)
+    is provided out of the box when you start your project with `lucky init`.
 
     ### 1. Install Postgres
 
