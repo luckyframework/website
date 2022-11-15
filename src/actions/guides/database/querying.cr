@@ -876,7 +876,7 @@ class Guides::Database::Querying < GuideAction
     If you'd prefer to see every query that is being run in your server logs, you can configure Avram's log level like this:
 
     ```crystal
-    # This is often set in `config/database.cr`
+    # This is often set in `config/log.cr`
     Avram::QueryLog.dexter.configure(:info)
     ```
     MD
