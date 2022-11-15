@@ -630,7 +630,10 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     Sometimes you want to require that an endpoint is called with a subdomain. For example, you might have endpoints
     you only expose in the test environment which is called with a subdomain.
     That would allow `test.example.com/some-route` to work but `example.com/some-route` would raise a `Lucky::InvalidSubdomainError`.
-    To specifiy and require subdomains, you use `require_subdomain` in your action.
+
+    To specify and require subdomains, you need to `include Lucky::Subdomain` in your action or in the class your action inherits. For example, in `src/actions/browser_action.cr`
+
+    Once included, you use `require_subdomain`
 
     ```crystal
     # subdomain required but can be anything
