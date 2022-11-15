@@ -67,24 +67,24 @@ class Guides::GettingStarted::Installing < GuideAction
       are using ZSH or Bash.
 
     **For ZSH (the default as of macOS Catalina):**
-    
+
     macOS (Intel)
     ```plain
     echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.zshrc
     ```
-    
+
     macOS (M1)
     ```plain
     echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.zshrc
     ```
-    
+
     **For Bash:**
 
     macOS (Intel)
     ```plain
     echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.bash_profile
     ```
-    
+
     macOS (M1)
     ```plain
     echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.bash_profile
