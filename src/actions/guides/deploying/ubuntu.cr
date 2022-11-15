@@ -32,13 +32,13 @@ class Guides::Deploying::Ubuntu < GuideAction
       optional (but recommended) packages.
     * Follow the [installation instructions](https://yarnpkg.com/lang/en/docs/install/#debian-stable) to install yarn
     * Install PostgreSQL
-      ```bash
-      sudo apt install postgresql
-      ```
+    ```bash
+    sudo apt install postgresql
+    ```
     * Install git
-      ```bash
-      sudo apt install git
-      ```
+    ```bash
+    sudo apt install git
+    ```
 
     ## Add a deployment user
 
@@ -268,7 +268,7 @@ class Guides::Deploying::Ubuntu < GuideAction
 
             root /srv/<yourapp>/public;
 
-            server_name <yourapp>;
+            server_name <yourdomain>;
 
             location / {
                     proxy_pass http://lucky;
@@ -279,14 +279,17 @@ class Guides::Deploying::Ubuntu < GuideAction
     }
     ```
 
+    > If you keep `default_server` in config above, remove the `default`
+    > sites config from `/etc/nginx/sites-enabled`. If you intend to host your
+    > app alongside other virtual hosts and it's not your default site then
+    > remove `default_server` from the config above.
+
     Create a symbolic link for your configuration
     in `/etc/nginx/sites-enabled`:
 
     ```bash
-    sudo ln -s /etc/sites-available/<yourapp>.conf /etc/sites-enabled/<yourapp>.conf
+    sudo ln -s /etc/nginx/sites-available/<yourapp>.conf /etc/nginx/sites-enabled/<yourapp>.conf
     ```
-
-    Optional: Remove the `default` site's config from `/etc/sites-enabled`.
 
     Restart nginx:
 
