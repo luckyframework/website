@@ -173,7 +173,6 @@ class Guides::GettingStarted::Installing < GuideAction
     ### 6. Move the generated binary to your path
 
     This will let you use `lucky` from the command line.
-    
     ```plain
     cp bin/lucky /usr/local/bin
     ```
