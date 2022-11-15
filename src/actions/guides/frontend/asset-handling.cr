@@ -39,14 +39,12 @@ class Guides::Frontend::AssetHandling < GuideAction
     Babel is set up so you can use new features of JavaScript.
 
     The entry point for JavaScript is `src/js/app.js`. You'll see that by default
-    it imports Turbolinks for fast page rendering and RailsUjs to handle AJAX, links
+    it imports RailsUjs to handle AJAX, links
     with PUT and DELETE requests, and a few other things. Check the
-    [Turbolinks](https://github.com/turbolinks/turbolinks) and
     [RailsUjs](https://github.com/rails/jquery-ujs/wiki) docs for more info.
 
-    Note that *RailsUjs is required* if you are rendering HTML pages in Lucky. If
-    you remove it, PUT and DELETE links will no longer work correctly. You can
-    safely remove Turbolinks without any problems if you don't want to use it.
+    > *RailsUjs is required* if you are rendering HTML pages in Lucky. If
+    you remove it, PUT and DELETE links will no longer work correctly.
 
     To add new JavaScript add files to `src/js/{filename}` and import them in `src/js/app.js`
 

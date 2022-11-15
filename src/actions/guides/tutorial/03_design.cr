@@ -124,7 +124,7 @@ class Guides::Tutorial::Design < GuideAction
 
     ```diff
     // src/js/app.js
-    require("turbolinks").start();
+    require("@rails/ujs").start();
 
     + import "bootstrap";
     ```
