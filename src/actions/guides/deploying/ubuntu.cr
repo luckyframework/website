@@ -279,9 +279,9 @@ class Guides::Deploying::Ubuntu < GuideAction
     }
     ```
 
-    > If you keep `default_server` in config above, remove the `default` 
-    > sites config from `/etc/nginx/sites-enabled`. If you intend to host your 
-    > app alongside other virtual hosts and it's not your default site then 
+    > If you keep `default_server` in config above, remove the `default`
+    > sites config from `/etc/nginx/sites-enabled`. If you intend to host your
+    > app alongside other virtual hosts and it's not your default site then
     > remove `default_server` from the config above.
 
     Create a symbolic link for your configuration
