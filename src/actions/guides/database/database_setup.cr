@@ -154,7 +154,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     Let's say you're getting ready to launch your application to production for the very first time.
     You may need an initial Admin user account that will be able to login and create your other Admin accounts.
 
-    This code will go in `tasks/seed/db/required_data.cr`.
+    This code will go in `tasks/db/seed/required_data.cr`.
 
     ```crystal
     def call
