@@ -60,9 +60,9 @@ class Guides::Testing::TestingActions < GuideAction
     client = ApiClient.new
 
     client
-      .headers("Accept", "application/vnd.api.v1+json")
-      .headers("Set-Cookie", "remember_me=1")
-      .headers("Authorization", "Bearer abc123")
+      .headers("Accept": "application/vnd.api.v1+json")
+      .headers("Set-Cookie": "remember_me=1")
+      .headers("Authorization": "Bearer abc123")
 
     # Then make your request:
     client.exec(Api::Users::Index)
@@ -80,7 +80,7 @@ class Guides::Testing::TestingActions < GuideAction
 
       def page(page : Int32, per_page = 10)
         # Set pagination headers
-        headers("Range",  "order,id \#{page * per_page}; order=desc,max=\#{per_page}"
+        headers("Range":  "order,id \#{page * per_page}; order=desc,max=\#{per_page}"
       end
     end
     ```
