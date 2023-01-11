@@ -38,6 +38,8 @@ class Guides::GettingStarted::Configuration < GuideAction
     LuckyEnv.add_env :staging
     ```
 
+    > Make sure `config/server.cr` accounts for the new environment. Otherwise your app may not start properly.
+
     ## Configuring Lucky
 
     By default there are some files in the `config/` folder that are used to configure Lucky.
