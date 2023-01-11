@@ -2,8 +2,8 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@docsearch/js": "^3.3.0",
-    "highlight.js": "^11.6.0",
+    "@docsearch/js": "^3.3.2",
+    "highlight.js": "^11.7.0",
     "modern-normalize": "^1.1.0",
     "@rails/ujs": "^7.0.4",
     "@hotwired/turbo": "^7.2.4"
@@ -15,12 +15,12 @@
     "prod": "yarn run mix --production"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.20.1",
+    "@babel/compat-data": "^7.20.5",
     "browser-sync": "^2.27.10",
     "compression-webpack-plugin": "^10.0.0",
     "laravel-mix": "^6.0.49",
-    "postcss": "^8.4.18",
-    "sass": "^1.56.1",
+    "postcss": "^8.4.20",
+    "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "tailwindcss": "^3.2.4"
   }
