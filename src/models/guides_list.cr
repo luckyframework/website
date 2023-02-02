@@ -70,6 +70,7 @@ class GuidesList
       ] of GuideAction.class),
       GuideCategory.new("Deploying", [
         Guides::Deploying::Heroku,
+        Guides::Deploying::Flyio,
         Guides::Deploying::Ubuntu,
         Guides::Deploying::Dokku,
       ] of GuideAction.class),
