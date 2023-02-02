@@ -405,6 +405,22 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.none?
     ```
 
+    ### Extract with Time
+
+    Postgres supports several time units with the `EXTRACT()` function. Avram supports all of these:
+    `Century`, `Day`, `Decade`, `Dow`, `Doy`, `Epoch`, `Hour`, `Isodow`, `Isoyear`, `Julian`, `Microseconds`, `Millennium`, `Milliseconds`, `Minute`, `Month`, `Quarter`, `Second`, `Timezone`, `TimezoneHour`, `TimezoneMinute`, `Week`, `Year`.
+
+    Find rows that were created on a July 4th:
+
+    `WHERE EXTRACT(month FROM created_at) = 7 AND EXTRACT(day FROM created_at) = 4`
+
+    ```crystal
+    UserQuery.new.created_at.extract_month.eq(7).created_at.extract_day.eq(4)
+    ```
+
+    > For each supported time unit, you can either pass it as an enum value to `extract` (i.e. `extract(Avram::ChronoUnits::Year)`)
+    > or append the lowercase version to `extract_` (i.e. `extract_julian`)
+
     ## Order By
 
     Return rows ordered by the `age` column in descending (or ascending) order.
