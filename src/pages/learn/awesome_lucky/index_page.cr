@@ -126,9 +126,9 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         description: "Twitch-like live streaming platform for content creators with more freedom",
         tags: [AwesomeLink::Tags::Adult]
       mount AwesomeLink,
-        text: "Erro",
-        url: "https://www.erro.sh",
-        description: "Erro monitor and help you handle exceptions and errors for your apps."
+        text: "ErrorDeck",
+        url: "https://www.errordeck.com/",
+        description: "Errordeck is an error monitoring, tracking and handling service that will help you know the most common error and help you solve them more straightforwardly."
     end
   end
 
