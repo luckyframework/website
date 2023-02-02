@@ -879,7 +879,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     here is what you can do.
 
     > We still recommend using Lucky HTML methods if possible. If you're having
-    > trouble getting started, try the [HTML to Lucky converter](https://luckyhtml.herokuapp.com)
+    > trouble getting started, try the [HTML to Lucky converter](#{HtmlConversions::New.path})
 
     ### Install Kilt
 
