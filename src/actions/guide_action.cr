@@ -31,5 +31,14 @@ abstract class GuideAction < BrowserAction
     private def guide_file_path
       __FILE__
     end
+
+    # By default, all guides are internal
+    def self.external_link? : Bool
+      false
+    end
+    # with no external URL
+    def self.external_url : String
+      ""
+    end
   end
 end
