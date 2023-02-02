@@ -36,6 +36,7 @@ abstract class GuideAction < BrowserAction
     def self.external_link? : Bool
       false
     end
+
     # with no external URL
     def self.external_url : String
       ""
