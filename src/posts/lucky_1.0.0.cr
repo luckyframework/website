@@ -84,55 +84,24 @@ class Lucky100Release < BasePost
 
     ### Native Windows support
 
-    Crystal itself has been gaining more traction in this space over the past few releases. With the
-    upcoming (as of this writing) version 1.8.0, there will be a lot more fixes to how well Crystal
-    works natively on Windows.
-
-    With this push, we have slowly started ensuring that the entire Lucky ecosystem is available
-    to work on Windows natively. You can follow along with in [#1746](https://github.com/luckyframework/lucky/issues/1746).
+    We have slowly started ensuring that the entire Lucky ecosystem is available
+    to work on Windows natively. You can follow along with in [Issue #1746](https://github.com/luckyframework/lucky/issues/1746).
     If you're currently a developer using Windows, any help you can provide will be greatly beneficial,
     to all of us.
 
-    ### Supporting other DBs
+    ### Supporting other ORMs
 
-    When we started Lucky, we knew supporting multiple DBs would just be a huge undertaking.
-    By only supporting Postgres, we can focus on changes without worry of breaking a different DB engine
-    like MySQL, for example.
-
-    This saves us a lot of time, but comes at the cost of alienating users that can't or don't want
-    to use Postgres as their database. Thankfully, there are options like CockroachDB that we can
-    support with not much extra effort, but if you're looking to use something like MySQL, or even
-    a nosql DB like MongoDB, you will need to use an alternate ORM.
-
-    Currently, you have the option to remove Avram as your ORM, and replace it with any ORM that
-    supports what you need. In a future version of Lucky, it would be nice if we had a small
-    framework that would allow developers to create their own extensions for a tighter integration.
+    For better support with other ORMs that allow you to choose alternate DBs, we'd love to
+    have a better interface for shard extensions with ORMs. Supporting all of the form helper
+    methods, file uploads, and features Avram gives you within Lucky, but for other ORM shards.
 
     ### Better complex queries
 
-    Avram works beautifully when constructing queries. You have the typesafety, and abstracting
-    parts of your query in to simple methods is a breeze. This starts to fail the second you
-    need anything slightly custom. For example, returning only some columns of a row, or doing
-    aggregate queries, or the ever famous CTE queries.
-
-    For these, you have the option to drop down to raw SQL. We would love to make the barrier
-    between a high level query object, and low level raw SQL reduced. Adding a better interface
-    for complex queries, and interoperability between a Query object and Array of results will
-    help developers to scale out their applications to larger and more complex apps while keeping
-    all of the safety Lucky provides.
+    Building more complex queries with Avram allowing you to use better casting, CTEs, dynamic
+    functions and more. This would become a happy medium place between using Query objects and
+    dropping down to raw SQL.
 
     ### Asset Management
-
-    One of the best features of Lucky is that your application comes with typesafe asset
-    management, as well as a build tool out of the box. This means that you can ensure
-    that an image loaded on your site is guaranteed to be there in production. You have
-    the ability to use Vue, or React right away.
-
-    Currently Lucky ships with [LaravelMix](https://laravel-mix.com/). This tool was
-    the default setup for the Laravel PHP Framework, until they announced that
-    [Vite is now the default](https://laravel-news.com/vite-is-the-default-frontend-asset-bundler-for-laravel-applications).
-    [ViteJS](https://vitejs.dev/) is a great tool, and Lucky actually has support for this
-    out of the box as well, but the question now is.... what should the default be?
 
     We would like to put some time into keeping our typesafe system for assets, but also
     make swapping out build tools a lot easier. Lucky will always ship with some default,
