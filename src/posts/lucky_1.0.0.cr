@@ -34,13 +34,13 @@ class Lucky100Release < BasePost
 
     ## Here's what's new
 
-    This release was one of the smaller ones that we've had in a while. The main
+    This release is smaller compared to our regular releases. The main
     focus has been bug fixes and stability to ensure the 1.0 release felt solid.
 
     ### Bug and stability fixes
 
     We had several contributions from developers that fixed bugs ranging from how
-    the Accept headers are handled, to fixes with the SSE Lucky watcher. These
+    the Accept headers are handled, to fixes with the server-sent events (SSE) Lucky watcher. These
     fixes help polish the edges of the framework for many edge cases that appear as
     your app starts to grow.
 
@@ -60,7 +60,7 @@ class Lucky100Release < BasePost
     this release, it's required some manual configurations to work.
 
     We spent some time on this setup. Now when you generate a new Lucky app, the generated
-    dockerfile will be configured for your setup. If you generate an API only app, the dockerfile
+    Dockerfile will be configured for your setup. If you generate an API only app, the Dockerfile
     no longer needs to install NodeJS.
 
     After generating your new Lucky application, just run `docker compose up`, and Docker will
@@ -68,8 +68,7 @@ class Lucky100Release < BasePost
 
     ### CockroachDB
 
-    If you haven't heard of [CockroachDB](https://www.cockroachlabs.com/product/), yet, now
-    is a great time as any! This amazing database uses a PostgreSQL interface allowing you
+    If you haven't heard of [CockroachDB](https://www.cockroachlabs.com/product/), it's "A distributed SQL database designed for speed, scale, and survival". This amazing database uses a PostgreSQL interface allowing you
     to connect as if you're just connecting to Postgres. Since it works just like Postgres,
     this means we can support it natively with Avram.
 
@@ -79,41 +78,40 @@ class Lucky100Release < BasePost
 
     ## Roadmap
 
-    Roadmaps can be difficult to layout, especially with OSS. Things may change at anytime; however,
-    here's a small list of a few things that feel sound when it comes to what to expect next with Lucky.
+    Roadmaps can be difficult to layout, especially with open-source software. Things may change at anytime; however,
+    here's a small taste of what to expect next with Lucky:
 
     ### Native Windows support
 
     We have slowly started ensuring that the entire Lucky ecosystem is available
     to work on Windows natively. You can follow along with in [Issue #1746](https://github.com/luckyframework/lucky/issues/1746).
-    If you're currently a developer using Windows, any help you can provide will be greatly beneficial,
-    to all of us.
+    If you're a developer using Windows, we'd love to hear from you.
 
     ### Supporting other ORMs
 
     For better support with other ORMs that allow you to choose alternate DBs, we'd love to
-    have a better interface for shard extensions with ORMs. Supporting all of the form helper
-    methods, file uploads, and features Avram gives you within Lucky, but for other ORM shards.
+    have a better interface for shard extensions with ORMs. Our goal is to support all of the form helper
+    methods, file uploads, and features Avram gives you within Lucky, in an ORM-agnostic way.
 
     ### Better complex queries
 
-    Building more complex queries with Avram allowing you to use better casting, CTEs, dynamic
-    functions and more. This would become a happy medium place between using Query objects and
+    Building more complex queries with Avram allowing you to use better casting, common table expressions, dynamic
+    functions and more. This would become a happy medium place between using Lucky's query objects and
     dropping down to raw SQL.
 
     ### Asset Management
 
-    We would like to put some time into keeping our typesafe system for assets, but also
-    make swapping out build tools a lot easier. Lucky will always ship with some default,
+    We would like to put some time into keeping our type-safe system for assets, but also
+    make swapping out build tools a lot easier. Lucky will always ship with a reasonable default,
     but it shouldn't take you an entire day to swap it for something else.
 
     ### Updated CLI UI/UX
 
     One of the most requested features for the CLI is the ability to generate a default
-    application without a DB. This makes sense as the website itself is a Lucky app
+    application without a DB. This makes sense as our main Lucky website (the one you're reading now) is a Lucky app
     without a DB. Doing this will also be a step towards supporting alternate ORMs.
 
-    Maybe we can even make this CLI interface look really nice with a fancy UI!
+    We're also excited to try out some fancy, command line UI design!
 
     ## Parting words
 
