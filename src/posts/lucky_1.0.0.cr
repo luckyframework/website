@@ -1,6 +1,6 @@
 class Lucky100Release < BasePost
   title "Announcing the official release of Lucky 1.0.0!"
-  slug "lucky-1_0_0-rc1-release"
+  slug "lucky-1_0_0-release"
 
   def published_at : Time
     Time.utc(year: 2023, month: 3, day: 14)
