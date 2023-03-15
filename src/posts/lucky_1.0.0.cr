@@ -16,11 +16,11 @@ class Lucky100Release < BasePost
 
   def content : String
     <<-MD
-    Congratulations to the Lucky community for coming together and bringing this
-    great stable release! We are pleased to announce Lucky is officially 1.0.
-    This was a smaller release compared to the RC1, and mainly focused on bug fixes
-    and overal stability to ensure going foward, the framework is solid and ready
-    to ship out all over the world.
+    We are pleased to announce Lucky is officially 1.0! After a successful RC1
+    that helped us polish a handful of bugs, the framework is solid, and ready
+    to start planning for the next major 2.0 release in the future. This could
+    not have been done without all of the support and effort from community
+    members that contributed along the way.
 
     We will cover a few notable differences, but you can view all the changes
     from the [CHANGELOG](https://github.com/luckyframework/lucky/blob/main/CHANGELOG.md)
