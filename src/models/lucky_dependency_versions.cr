@@ -8,6 +8,6 @@ module LuckyDependencyVersions
   end
 
   def min_compatible_node_version
-    SemanticVersion.new(14, 0, 0)
+    SemanticVersion.new(16, 5, 0)
   end
 end
