@@ -59,7 +59,7 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
     In a web page, an anchor is a an element you can use to take a user to a specific part of a page.
     For example, we use this to link to different parts of a guide page.
 
-    The `path` method takes an `anchor` argument.
+    The `with` method takes an `anchor` argument.
 
     ```crystal
     def content
