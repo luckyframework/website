@@ -129,6 +129,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "ErrorDeck",
         url: "https://www.errordeck.com/",
         description: "Errordeck is an error monitoring, tracking and handling service that will help you know the most common error and help you solve them more straightforwardly."
+      mount AwesomeLink,
+        text: "Paste69",
+        url: "https://0x45.st/",
+        description: "Paste69 is a free, open-source, beautiful pastebin alternative"
     end
   end
 
