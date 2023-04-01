@@ -60,6 +60,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://luckyframework.org/html",
         description: "Convert your HTML markup in to Lucky supported Crystal code"
       mount AwesomeLink,
+        text: "Horseshoe (Lucky Template)",
+        url: "https://github.com/grepsedawk/horseshoe",
+        description: "An opinionated Lucky template with ESBuild, Turbo, Stimulus, and Github Actions"
+      mount AwesomeLink,
         text: "Kindmetrics",
         url: "https://github.com/kindmetrics/kindmetrics",
         description: "A privacy focused open-source analytics server"
