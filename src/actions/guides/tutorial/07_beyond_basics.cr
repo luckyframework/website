@@ -13,7 +13,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     no `user_id` is set. We can get this value from our `current_user` method as this is available
     once we've logged in.
 
-    We will need to update many of Fortune actions, as well as our `SaveFortune` operation to include
+    We will need to update our Fortune actions, as well as our `SaveFortune` operation to include
     this.
 
     ### Updating the operation
@@ -44,7 +44,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     With the addition of the `needs` any time we instantiate the `SaveFortune`, we must pass in the `current_user` object.
     For now this is in the following fortune actions: `Fortunes::New`, `Fortunes::Create`, `Fortunes::Edit`, and `Fortunes::Update`.
 
-    We will start the `Fortunes::New` action in `src/actions/fortunes/new.cr`. Update with this code:
+    We will start in the `Fortunes::New` action in `src/actions/fortunes/new.cr`. Update with this code:
 
     ```crystal
     # src/actions/fortunes/new.cr
@@ -89,7 +89,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     ### Adding an action mixin
 
     Mixins are just modules you can reuse in multiple classes. You'll find some existing mixins in the
-    `src/actions/mixins/` directory. We will create a new on called `OnlyAllowCurrentUser` in `src/actions/mixins/only_allow_current_user.cr`.
+    `src/actions/mixins/` directory. We will create a new one called `OnlyAllowCurrentUser` in `src/actions/mixins/only_allow_current_user.cr`.
     The idea of this mixin will be to check that the `current_user` owns the `fortune`. If not, then we will raise an error.
 
     Add this file with this code:
@@ -148,7 +148,7 @@ class Guides::Tutorial::BeyondBasics < GuideAction
     Save your files, boot your app, and give it a shot. Try editing a fortune that doesn't belong to you; you
     should see the [exception page](https://github.com/crystal-loot/exception_page) with a code snippet, and
     stack trace. This page is helpful when debugging, but only shows up in development. To see what your users
-    will see, open up `config/error_handler.cr`, and set the `show_debug_output` setting to `false`.
+    will see in production, open up `config/error_handler.cr`, and set the `show_debug_output` setting to `false`.
 
     Once your app recompiles, try the action again, and you'll now see the default Lucky error page with
     your custom message, and the 401 status. Be sure to set that setting back once you've had a chance to

@@ -125,11 +125,11 @@ class Guides::Tutorial::Queries < GuideAction
 
     Try this...
 
-    * Create a new `latest` method in your `FortuneQuery` class.
-    * Update your `Home::Index` action to use the new `latest` method.
+    * Create a new `latest` method in your `FortuneQuery` class that fetches the last 10 records created.
+    * Update your `Home::Index` action to use the new `latest` method instead of the limit and ordering.
     * Add a new `name : String` column to your `User` model. (hint: generate a new migration)
     * Update your `UserFactory` to generate a random `name`.
-    * Update existing user records with a random name. (hint: the guides mention "bulk updating")
+    * Update existing user records with a random name. (hint: search the guides (`ctrl-k`) for mention of "bulk updating")
     * Update the fortunes to display the user's name that wrote it.
 
     MD

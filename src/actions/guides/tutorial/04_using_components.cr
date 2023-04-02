@@ -17,13 +17,17 @@ class Guides::Tutorial::UsingComponents < GuideAction
     we can see all of the markup that would go in our website's `<head>` tags are here. They are in the `render`
     method (required for all components).
 
-    At the top of this file are two `needs` lines. The `needs page_title : String` and `needs context : HTTP::Server::Context`.
-    You will find `needs` in several different classes in Lucky. It's used for type-safety when a class requires specific data.
+    At the top of this file you will see a line that starts with `needs`. The `needs page_title : String`.
+    This tells the `Shared::LayoutHead` component that it requires the `page_title` value to be passed in
+    when mounting this component. (e.g. `mount Shared::Header, page_title: "Clover App"`)
+
+    Each `needs` specified will create a method with that name that will return the value type specified.
+    We use `needs` in several different classes in Lucky. It's used for type-safety when a class requires specific data.
 
     ## Reusing Components
 
     We currently have two separate layouts, but our custom footer is only in the `AuthLayout`. Let's create a
-    new component that will allow us to render our footer in both layouts:
+    new component that will allow us to render our footer in both layouts with the `gen.component` CLI task:
     ```bash
     lucky gen.component Shared::Footer
     ```
@@ -58,7 +62,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
     As an added benefit, if you inspect your page's markup, you'll see HTML comments wrapped around each
     component. This allows you to see which component is responsible for the markup being rendered.
 
-    When creating your own components that require specific data (i.e. page_title), you will add your `needs`
+    When creating your own components that require specific data (i.e. `page_title`), you will add your `needs`
     for that data, then in your `mount`, you'll pass each as a named argument. (e.g. `mount Shared::Footer, copyright_year: 3099`)
 
     > For more information on components, read the [Components](#{Guides::Frontend::RenderingHtml.path(anchor: Guides::Frontend::RenderingHtml::ANCHOR_COMPONENTS)})
@@ -73,6 +77,8 @@ class Guides::Tutorial::UsingComponents < GuideAction
 
     * Generate a new component for a nav bar
     * Mount your new component in both layouts
+    * Add a `needs` line to your component, and pass in the data
+    * Display the value of that `needs` method in your component
     MD
   end
 end
