@@ -17,6 +17,7 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     dependencies:
       shrine:
         github: jetrockets/shrine.cr
+        branch: master
     ```
 
     Next you will require the shard in `src/shards.cr`
@@ -38,8 +39,8 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     ```crystal
     # config/shrine.cr
     Shrine.configure do |config|
-      config.storages["cache"] = Shrine::Storage::FileSystem.new("uploads", prefix: "cache")
-      config.storages["store"] = Shrine::Storage::FileSystem.new("uploads")
+      config.storages["cache"] = Shrine::Storage::FileSystem.new("public/uploads", prefix: "cache")
+      config.storages["store"] = Shrine::Storage::FileSystem.new("public/uploads", prefix: "uploads")
     end
     ```
 
@@ -51,7 +52,25 @@ class Guides::HandlingFiles::FileUploads < GuideAction
     # src/models/user.cr
     class User < BaseModel
       table do
-        column profile_image_id : String
+        column profile_image_id : String?
+      end
+    end
+    ```
+
+    You will also need to add the migration. Run `lucky gen.migration AddProfileImageToUser`
+
+    ```crystal
+    # db/migrations/00000_add_profile_image_to_user.cr
+
+    def migrate
+      alter table_for(User) do
+        add profile_image_id : String?
+      end
+    end
+
+    def rollback
+      alter table_for(User) do
+        remove :profile_image_id
       end
     end
     ```
@@ -144,7 +163,12 @@ class Guides::HandlingFiles::FileUploads < GuideAction
       end
 
       private def profile_url(user) : String
-        Shrine.find_storage("store").url(user.profile_image_id)
+        if image_id = user.profile_image_id
+          Shrine.find_storage("store").url(image_id)
+        else
+          # Set a fallback if there's no image.
+          asset("images/fallback.jpg")
+        end
       end
     end
     ```
