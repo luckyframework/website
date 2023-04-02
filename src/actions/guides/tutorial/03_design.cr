@@ -12,17 +12,17 @@ class Guides::Tutorial::Design < GuideAction
     It's nice that we can boot our application and see a home page, but we know that page won't stick around.
     We will swap it out for our own Home page to make this site a little more ours.
 
-    First, we should create a new `Page`. We will use the `gen.page` cli task. Enter `lucky gen.page Home::IndexPage`.
+    First, we should create a new `Page`. We will use the `gen.page` CLI task. Enter `lucky gen.page Home::IndexPage`.
 
     ```bash
     lucky gen.page Home::IndexPage
     ```
 
-    This will generate a new `Page` class in `src/pages/homes/index_page.cr` which we will need to make a small change
+    This will generate a new `Page` class in `src/pages/home/index_page.cr` which we will need to make a small change
     in. Open that file, and update this code:
 
     ```diff
-    # src/pages/homes/index_page.cr
+    # src/pages/home/index_page.cr
     - class Home::IndexPage < MainLayout
     + class Home::IndexPage < AuthLayout
     ```

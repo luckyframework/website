@@ -27,7 +27,7 @@ class Guides::Tutorial::NewResource < GuideAction
 
     ### Generating the model
 
-    Let's run our generator cli task. Enter this command in your terminal:
+    Let's run our generator CLI task. Enter this command in your terminal:
 
     ```bash
     lucky gen.resource.browser Fortune text:String
@@ -50,7 +50,7 @@ class Guides::Tutorial::NewResource < GuideAction
     This migration file will generate a SQL statement for us that will create our "fortunes" table and add the columns our
     table needs like `text`, as well as a few other columns Avram gives to us for free: `id`, `created_at`, and `updated_at`.
 
-    To execute this code, we will run the `db.migrate` cli task. Enter `lucky db.migrate`:
+    To execute this code, we will run the `db.migrate` CLI task. Enter `lucky db.migrate`:
 
     ```bash
     lucky db.migrate

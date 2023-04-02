@@ -15,7 +15,7 @@ class Guides::Tutorial::Associations < GuideAction
 
     ### Generating a new migration
 
-    We will use the `gen.migration` cli task to create a new migration file that will add a reference to User from the
+    We will use the `gen.migration` CLI task to create a new migration file that will add a reference to users from the
     "fortunes" table. Generate the migration like this:
 
     ```
@@ -58,7 +58,7 @@ class Guides::Tutorial::Associations < GuideAction
     Each time we generate a new migration, we must run it so it will update our database.
     However, if we run our migration right now, we would see an error. Lucky ensures type-safety by
     adding the foreign key constraints and references. By specifying `user : User` for the type, we tell
-    Lucky that this association is required. We could make it optional by using Crystal Nil Union `user : User?`,
+    Lucky that this association is required. We could make it optional by making the type nilable with `user : User?`,
     but this is an easy fix, so we will keep the code as is.
 
     > This error will only happen if you have fortune records. To see the error, run `lucky db.migrate`.
@@ -68,12 +68,14 @@ class Guides::Tutorial::Associations < GuideAction
     Since we don't need any fortunes we created when playing with our app, we can just delete all of them to start
     fresh. This gives us a chance to see how we can run "one-off" queries similar to other frameworks that use REPL consoles.
 
-    We will use the `exec` cli task which will open a code editor allowing us to write arbitrary Crystal code, including some Avram
+    We will use the `exec` CLI task which will open a code editor allowing us to write arbitrary Crystal code, including some Avram
     queries. Enter `lucky exec`.
 
     ```bash
     lucky exec
     ```
+
+    > This will open with VIM be default. To use a different editor, use the `-e` or `--editor` flag. (e.g. `lucky exec -e code`)
 
     Once your code editor opens, you can write your query code below all of the comments. We will use the `FortuneQuery` object
     which is defined in `src/queries/fortune_query.cr`.
@@ -106,7 +108,7 @@ class Guides::Tutorial::Associations < GuideAction
     Associations work in two parts; the database, and the model. We update the database by writing our migration, so now we just need
     to update the models.
 
-    Open up the file `src/models/user.cr`. This `User` model was generated when we ran our setup wizard.
+    Open up the file `src/models/user.cr`. This `User` model was generated when we ran our setup wizard by saying `y` to authentication.
 
     At the bottom of the `table` block, we will add this new code:
 
@@ -147,7 +149,7 @@ class Guides::Tutorial::Associations < GuideAction
     * Boot your application. (`lucky dev`)
     * Sign in, and try to create a fortune. Notice it fails
     * View your logs to see "Failed to save SaveFortune".
-    * Use `lucky exec` to truncate all `User` records.
+    * Use `lucky exec` to truncate all `User` records with the `UserQuery` object.
     * Then use your app to make a new user record, because we still need one 😄
 
     We will update the forms later in the tutorial.

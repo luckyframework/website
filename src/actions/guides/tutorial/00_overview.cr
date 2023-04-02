@@ -43,7 +43,6 @@ class Guides::Tutorial::Overview < GuideAction
     * installed Lucky. `lucky -v` should be #{LuckyCliVersion.current_tag}.
     * installed [Postgres](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_POSTGRESQL)}). `psql --version` should be `>= #{LuckyDependencyVersions.min_compatible_postgres_version}`
     * installed [Node](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_NODE)}). `node -v` should be `>= v#{LuckyDependencyVersions.min_compatible_node_version}` (used for building css and javascript)
-    * installed a [Process Manager](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_PROC_MANAGER)}). (used for booting Webpack and Lucky at the same time)
 
     ## The Wizard
 
@@ -136,7 +135,12 @@ class Guides::Tutorial::Overview < GuideAction
 
     ## Browsing your Application
 
-    Open up your favorite browser, and head over to `http://127.0.0.1:3001`. You should see the Lucky home page.
+    Open up your favorite browser, and head over to `http://127.0.0.1:3000`. This URL will be printed
+    in your terminal log output.
+
+    > To change the port your app runs on, update the `port` option in the `config/watch.yml` file.
+
+    You should now see the Lucky home page.
 
     Click the "VIEW YOUR NEW APP" button to be taken to a "Sign Up" page. Because the wizard set us up
     with Authentication, we now have the ability to create a User account, and log in. Make your account!
