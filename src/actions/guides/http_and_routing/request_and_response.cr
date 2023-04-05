@@ -112,7 +112,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    You can read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html).
+    You can read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/HTTP/Headers.html).
 
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
