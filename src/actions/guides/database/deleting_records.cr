@@ -158,7 +158,7 @@ class Guides::Database::DeletingRecords < GuideAction
     ```crystal
     def migrate
       alter table_for(Article) do
-        add soft_deleted_at : Time?
+        add soft_deleted_at : Time?, index: true
       end
     end
     ```
