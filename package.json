@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@docsearch/js": "^3.3.5",
-    "highlight.js": "^11.7.0",
+    "highlight.js": "^11.8.0",
     "modern-normalize": "^1.1.0",
     "@rails/ujs": "^7.0.4",
     "@hotwired/turbo": "^7.3.0"
