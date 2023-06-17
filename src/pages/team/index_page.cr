@@ -12,9 +12,8 @@ class Team::IndexPage < PageLayout
       div class: "mx-auto max-w-7xl px-6 text-center lg:px-8" do
         div class: "mx-auto max-w-2xl" do
           h2 "Meet the Lucky team", class: "text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
-          para "We're a dynamic group of individuals who are passionate about what we do.", class: "mt-4 text-lg leading-8 text-gray-600"
         end
-        ul class: "mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3", role: "list" do
+        ul class: "mx-auto mt-20 px-0 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3", role: "list" do
           li class: "col-span-full" do
             render_member(creator)
           end
@@ -76,7 +75,11 @@ class Team::IndexPage < PageLayout
   end
 
   private def render_member(member : Member)
-    img alt: member.fullname, class: "mx-auto h-56 w-56 rounded-full", src: member.avatar
+    tag "object", data: member.avatar, class: "mx-auto h-56 w-56 rounded-full", type: "image/jpeg", title: member.fullname  do
+      tag "svg", aria_hidden: "true", fill: "currentColor", viewbox: "0 0 512 512", xmlns: "http://www.w3.org/2000/svg" do
+          tag "path", d: "M399 384.2C376.9 345.8 335.4 320 288 320H224c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"
+      end
+    end
     h3 member.fullname, class: "mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900"
     para member.title, class: "text-sm leading-6 text-gray-600"
     ul class: "mt-6 flex justify-center px-6 gap-x-6", role: "list" do
