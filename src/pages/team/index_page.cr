@@ -1,11 +1,5 @@
 class Team::IndexPage < PageLayout
-  record Member,
-    fullname : String,
-    avatar : String,
-    title : String,
-    github_link : String,
-    twitter_link : String? = nil,
-    mastodon_link : String? = nil
+  delegate creator, team_members, to: ::Members
 
   def content
     div class: "pt-16 pb-32" do
@@ -27,55 +21,12 @@ class Team::IndexPage < PageLayout
     end
   end
 
-  def creator
-    Member.new(
-      fullname: "Paul Smith",
-      title: "Creator",
-      avatar: "https://avatars.githubusercontent.com/u/22394?v=4",
-      github_link: "https://github.com/paulcsmith"
-    )
+  private def github_link(member)
+    "https://github.com/#{member.github}"
   end
 
-  def team_members
-    [
-      Member.new(
-        fullname: "Jeremy Woertink",
-        title: "Core Member",
-        avatar: "https://avatars.githubusercontent.com/u/2391?v=4",
-        github_link: "https://github.com/jwoertink",
-        twitter_link: "https://twitter.com/jeremywoertink"
-      ),
-      Member.new(
-        fullname: "Matthew McGarvey",
-        title: "Core Member",
-        avatar: "https://avatars.githubusercontent.com/u/17329408?v=4",
-        github_link: "https://github.com/matthewmcgarvey"
-      ),
-      Member.new(
-        fullname: "Stephen Dolan",
-        title: "Core Member",
-        avatar: "https://avatars.githubusercontent.com/u/6677875?v=4",
-        github_link: "https://github.com/stephendolan",
-        twitter_link: "https://twitter.com/Stephen_Dolan"
-      ),
-      Member.new(
-        fullname: "Edward Loveall",
-        title: "Core Member",
-        avatar: "https://avatars.githubusercontent.com/u/49549?v=4",
-        github_link: "https://github.com/edwardloveall"
-      ),
-      Member.new(
-        fullname: "Michael Wagner",
-        title: "Core Member",
-        avatar: "https://avatars.githubusercontent.com/u/13472976?v=4",
-        github_link: "https://github.com/mdwagner",
-        mastodon_link: "https://mindly.social/@chocolate42"
-      ),
-    ] of Member
-  end
-
-  private def render_member(member : Member)
-    tag "object", data: member.avatar, class: "mx-auto h-56 w-56 rounded-full", type: "image/jpeg", title: member.fullname do
+  private def render_member(member)
+    tag "object", data: dynamic_asset("images/#{member.github}.jpg"), class: "mx-auto h-56 w-56 rounded-full", type: "image/jpeg", title: member.fullname do
       tag "svg", aria_hidden: "true", fill: "currentColor", viewbox: "0 0 512 512", xmlns: "http://www.w3.org/2000/svg" do
         tag "path", d: "M399 384.2C376.9 345.8 335.4 320 288 320H224c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"
       end
@@ -84,7 +35,7 @@ class Team::IndexPage < PageLayout
     para member.title, class: "text-sm leading-6 text-gray-600"
     ul class: "mt-6 flex justify-center px-6 gap-x-6", role: "list" do
       li do
-        render_github_icon_link(member.github_link)
+        render_github_icon_link(github_link(member))
       end
       member.twitter_link.try do |url|
         li do
