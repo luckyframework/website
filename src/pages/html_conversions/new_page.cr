@@ -11,7 +11,7 @@ class HtmlConversions::NewPage < PageLayout
         form_for HtmlConversions::Create, class: "my-4 space-y-2" do
           div class: "space-y-1" do
             h3 "HTML Input", class: "text-2xl"
-            textarea input, name: "input", class: "appearance-none mt-2 border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-white", placeholder: "Paste your HTML here", attrs: [:required], rows: 4
+            textarea input, id: "code-textarea", name: "input", class: "appearance-none mt-2 border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-white", placeholder: "Paste your HTML here", attrs: [:required], rows: 4
           end
 
           render_down_arrow
@@ -35,12 +35,28 @@ class HtmlConversions::NewPage < PageLayout
     end
   end
 
+  private def render_clear_button
+    button "Clear",
+      id: "code-clear-button",
+      class: "btn",
+      type: "button",
+      onclick: clear_button_javascript
+  end
+
+  private def clear_button_javascript
+    <<-JAVASCRIPT.lines.join(" ")
+      document.querySelector("#code-textarea").value = "";
+    JAVASCRIPT
+  end
+
   private def render_copy_button
-    div do
+    div class: "space-x-4" do
       textarea output,
         id: "code-copy-target",
         readonly: true,
         class: "sr-only whitespace-pre-wrap"
+
+      render_clear_button
 
       button "Copy",
         id: "code-copy-button",
