@@ -42,4 +42,4 @@ development_dependencies:
     version: ~> 0.7.3
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.4.0
+    branch: master
