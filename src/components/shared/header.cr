@@ -7,7 +7,7 @@ class Shared::Header < BaseComponent
         div class: "flex flex-wrap md:flex-no-wrap justify-between items-center md:px-6" do
           div do
             link(Home::Index, class: "text-white ml-6 md:ml-0 mr-10 self-center") do
-              img src: asset("images/logo.png"), class: "h-8 inline", alt: "Lucky Logo"
+              img src: asset("images/logo.png"), class: "inline", width: "138", height: "32", alt: "Lucky Logo"
             end
           end
           main_navigation
