@@ -12,7 +12,7 @@ class Shared::LayoutHead < BaseComponent
       rss_link
 
       responsive_meta_tag
-      live_reload_connect_tag
+      live_reload_connect_tag if LuckyEnv.development?
       meta name: "mobile-web-app-capable", content: "yes"
       open_graph_tags
 
