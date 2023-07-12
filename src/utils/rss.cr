@@ -36,7 +36,7 @@ module RSS
     end
 
     private def last_build_date
-      @posts.map(&.published_at).max
+      @posts.max_of(&.published_at)
     end
 
     private def post_url(post)
