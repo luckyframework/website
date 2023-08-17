@@ -2,43 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://luckyframework.org/</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>yearly</changefreq>
   <priority>0.9</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/html</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>yearly</changefreq>
   <priority>0.2</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/blog</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.6</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/learn</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>yearly</changefreq>
   <priority>0.4</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/awesome</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.5</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/community</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.5</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/ecosystem</loc>
-  <lastmod>2022-09-30T00:51:51+00:00</lastmod>
+  <lastmod>2023-03-15T17:23:33+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.5</priority>
  </url>
@@ -50,7 +50,7 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/getting-started/installing</loc>
-  <lastmod>2022-04-27T18:42:31-07:00</lastmod>
+  <lastmod>2022-11-15T08:14:15-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -68,7 +68,7 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/getting-started/configuration</loc>
-  <lastmod>2021-07-24T08:26:22-07:00</lastmod>
+  <lastmod>2023-01-11T10:15:24-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -92,7 +92,7 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/tutorial/design</loc>
-  <lastmod>2021-08-24T23:16:11-04:00</lastmod>
+  <lastmod>2022-11-15T08:06:28-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -122,13 +122,13 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/http-and-routing/routing-and-params</loc>
-  <lastmod>2022-06-15T07:50:00-07:00</lastmod>
+  <lastmod>2022-11-15T15:28:37-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/http-and-routing/request-and-response</loc>
-  <lastmod>2022-06-04T15:58:06-07:00</lastmod>
+  <lastmod>2023-02-02T07:56:48-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -164,7 +164,7 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/http-and-routing/http-handlers</loc>
-  <lastmod>2022-06-06T07:52:38-07:00</lastmod>
+  <lastmod>2023-02-02T07:56:33-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -176,25 +176,25 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/frontend/rendering-html</loc>
-  <lastmod>2022-06-06T07:56:20-07:00</lastmod>
+  <lastmod>2023-03-15T08:33:45-07:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/frontend/html-forms</loc>
-  <lastmod>2021-07-26T07:37:32-07:00</lastmod>
+  <lastmod>2022-11-15T08:06:15-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/frontend/asset-handling</loc>
-  <lastmod>2021-07-24T08:26:22-07:00</lastmod>
+  <lastmod>2022-11-15T08:06:28-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/frontend/internationalization</loc>
-  <lastmod>2022-06-03T14:44:56-07:00</lastmod>
+  <lastmod>2022-11-15T08:00:40-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -206,31 +206,31 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/database/database-setup</loc>
-  <lastmod>2022-02-16T18:11:43-08:00</lastmod>
+  <lastmod>2022-12-20T08:00:31-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/database/migrations</loc>
-  <lastmod>2022-06-06T07:52:15-07:00</lastmod>
+  <lastmod>2022-11-15T08:01:17-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/database/models</loc>
-  <lastmod>2022-06-06T07:52:26-07:00</lastmod>
+  <lastmod>2022-11-15T08:01:17-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/database/querying-records</loc>
-  <lastmod>2022-06-04T15:57:52-07:00</lastmod>
+  <lastmod>2023-02-02T07:58:09-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>
   <loc>https://luckyframework.org/guides/database/saving-records</loc>
-  <lastmod>2022-06-06T07:52:26-07:00</lastmod>
+  <lastmod>2022-11-15T08:00:56-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -320,7 +320,7 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/emails/sending-emails-with-carbon</loc>
-  <lastmod>2022-06-04T08:27:51-07:00</lastmod>
+  <lastmod>2022-11-15T08:01:48-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -331,8 +331,14 @@
   <priority>0.7</priority>
  </url>
  <url>
+  <loc>https://luckyframework.org/guides/deploying/flyio</loc>
+  <lastmod>2023-02-02T08:06:23-08:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+ </url>
+ <url>
   <loc>https://luckyframework.org/guides/deploying/ubuntu</loc>
-  <lastmod>2020-12-16T08:26:46-08:00</lastmod>
+  <lastmod>2022-11-15T08:11:35-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -362,7 +368,7 @@
  </url>
  <url>
   <loc>https://luckyframework.org/guides/testing/testing-actions</loc>
-  <lastmod>2021-04-22T08:49:42-07:00</lastmod>
+  <lastmod>2023-02-02T07:56:20-08:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
  </url>
@@ -388,6 +394,18 @@
   <loc>https://luckyframework.org/guides/testing/continuous-integration</loc>
   <lastmod>2022-02-16T18:11:43-08:00</lastmod>
   <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+ </url>
+ <url>
+  <loc>https://luckyframework.org/blog/lucky-1_0_0-release</loc>
+  <lastmod>2023-03-14T00:00:00+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.7</priority>
+ </url>
+ <url>
+  <loc>https://luckyframework.org/blog/lucky-1_0_0-rc1-release</loc>
+  <lastmod>2022-10-01T00:00:00+00:00</lastmod>
+  <changefreq>yearly</changefreq>
   <priority>0.7</priority>
  </url>
  <url>

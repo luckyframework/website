@@ -7,7 +7,7 @@ class Shared::Header < BaseComponent
         div class: "flex flex-wrap md:flex-no-wrap justify-between items-center md:px-6" do
           div do
             link(Home::Index, class: "text-white ml-6 md:ml-0 mr-10 self-center") do
-              img src: asset("images/logo.png"), class: "h-8 inline", alt: "Lucky Logo"
+              img src: asset("images/logo.png"), class: "inline", width: "138", height: "32", alt: "Lucky Logo"
             end
           end
           main_navigation
@@ -55,6 +55,7 @@ class Shared::Header < BaseComponent
     nav_link("Guides", Guides::GettingStarted::Installing.path)
     nav_link("Learn", Learn::Index.path)
     nav_link("Blog", Blog::Index.path)
+    nav_link("Team", Team::Index.path)
     nav_link("Chat", Chat::Index.path, target: "_blank")
     nav_link("GitHub", "https://github.com/luckyframework/lucky", target: "_blank")
   end

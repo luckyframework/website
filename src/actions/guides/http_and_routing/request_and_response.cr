@@ -112,7 +112,7 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     end
     ```
 
-    You can read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/0.30.1/HTTP/Headers.html).
+    You can read more about working with headers in the [Crystal docs on HTTP::Headers](https://crystal-lang.org/api/HTTP/Headers.html).
 
     #{permalink(ANCHOR_HANDLING_RESPONSES)}
     ## Handling Responses
@@ -303,6 +303,30 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     ```
 
     #{permalink(ANCHOR_RUN_CODE_BEFORE_OR_AFTER_ACTIONS_WITH_PIPES)}
+
+    ## Custom Content Types
+
+    Each of the response methods will have a built-in content type for that specific
+    method. If you're using `html`, it'll return `text/html`. For JSON, it'll return `application/json`.
+    When you need to change these values, there's a method for the specific type you can
+    override.
+
+    For html, you'll use the `html_content_type` method. For JSON, it's the `json_content_type`.
+    There's also XML, and plain text available in `xml_content_type` and `plain_content_type`
+    respectively.
+
+    ```crystal
+    class Logs::Index < BrowserAction
+      get "/logs" do
+        logs = LogQuery.new
+        html IndexPage, logs: logs
+      end
+
+      def html_content_type
+        "text/html; charset=ISO-8859-1"
+      end
+    end
+    ```
     MD
   end
 end

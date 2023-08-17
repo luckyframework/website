@@ -29,5 +29,5 @@
   "name": "website-v2",
   "scripts": {
   },
-  "stack": "heroku-18"
+  "stack": "heroku-22"
 }

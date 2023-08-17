@@ -356,7 +356,7 @@ class Guides::Frontend::Internationalization < GuideAction
     abstract class AuthLayout
       # ...
       def page_title
-        r(".page_name").t
+        r(".page_title").t
       end
 
       def render

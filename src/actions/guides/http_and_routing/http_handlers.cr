@@ -47,17 +47,27 @@ class Guides::HttpAndRouting::HTTPHandlers < GuideAction
     The remote IP, or remote address, is the IP address of the user on your site. Getting this value can be helpful for things like banning spammers, tracking password sharing
     with user accounts, geo locating based on IP, and many other options.
 
-    This handler sets the `HTTP::Request#remote_address` value to the value of the first IP in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
+    This handler sets the `HTTP::Request#remote_ip` value to the value of the first IP in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
     header, or fallback to the default `remote_address`.
 
-    The `remote_address` method can be accessed in your actions from `context.request.remote_address`. Since this method returns `Socket::IPAddress?`, you may need to use the Crystal `try`
-    method for accessing the client IP address string value.
+    To use a different header other than `X-Forwarded-For`, for example, with a Load Balancer you may use `X-Client-IP`, you can update the `ip_header_name`
+    setting for `Lucky::RemoteIpHandler`.
+
+    ```crystal
+    # config/server.cr
+    Lucky::RemoteIpHandler.configure do |settings|
+      settings.ip_header_name = "X-Client-IP"
+    end
+    ```
+
+    The `remote_ip` method can be accessed in your actions from `context.request.remote_ip`.
 
     ```crystal
     # src/actions/home/index.cr
     class Home::Index < BrowserAction
       get "/" do
-        ip_address = context.request.remote_address.try(&.address) || "N/A"
+        # This method is an extension provided by Lucky
+        ip_address = context.request.remote_ip || "0.0.0.0"
 
         html IndexPage, ip_address: ip_address
       end

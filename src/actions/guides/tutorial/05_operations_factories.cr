@@ -34,7 +34,7 @@ class Guides::Tutorial::OperationsFactories < GuideAction
 
     ### Playing with SaveOperation
 
-    We can get a quick feel for these by using the `exec` cli task in our terminal:
+    We can get a quick feel for these by using the `exec` CLI task in our terminal:
 
     ```bash
     lucky exec
@@ -50,7 +50,9 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     end
     ```
 
-    Once done, save and exit the file. It will compile and print out a `Hash(String, Array(String))` object, and `nil`.
+    > Note that the `password` and `password_confirmation` are intentionally different.
+
+    Once done, save and exit the file. It will compile and print out an errors object of type `Hash(String, Array(String))`, and `nil` for `saved_user` because this failed to save.
     Our SaveOperation has a `create` method which takes named args of what the operation requires from us. It
     also takes a block that will pass the operation instance and the saved user (if one exists). The `operation` has
     an `errors` method allowing us to inspect what errors we get back and why we don't have a `saved_user` object.
@@ -75,8 +77,9 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     ### Factory breakdown
 
     Every Factory is directly tied to a SaveOperation which means that all columns in the Model are available in the Factory.
-    The column methods in the Factory take an argument to set their value. You can also use the `sequence()` method
-    to generate a new number each time you generate a new Factory record to keep things a bit more dynamic.
+    The column methods in the Factory take an argument to set their value. (e.g. `email("test@test.com")`)
+    You can also use the `sequence()` method to generate a new number each time you generate a new Factory record
+    to keep things a bit more dynamic.
 
     ## Create a New Factory
 
@@ -88,7 +91,9 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     class FortuneFactory < Avram::Factory
       def initialize
         text "Have a Lucky day! \#{rand(100)} \#{rand(100)} \#{rand(100)}"
-        # Default assign to user 1
+
+        # Default assign to user 1 for now
+        # We will show how to override this further down
         user_id 1
       end
     end
@@ -97,7 +102,8 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     We must add a value for every required column. The auto-generated columns `id`, `created_at`, and `updated_at` are automatically
     assigned a value.
 
-    > It's important that the name of this class matches the name of the model (`Fortune`), and then ends in `Factory` (`FortuneFactory`).
+    > It's important that the name of this class matches the name of the model (`Fortune`), and then ends in `Factory` (i.e. `FortuneFactory`).
+    > See more on the [Factories](#{Guides::Testing::CreatingTestData.path}) guide
 
     ### Adding sample data
 
@@ -121,7 +127,7 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     end
     ```
 
-    With that file updated we can now run our `db.seed.sample_data` cli task to execute this code:
+    With that file updated we can now run our `db.seed.sample_data` CLI task to execute this code:
 
     ```bash
     lucky db.seed.sample_data

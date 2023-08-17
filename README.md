@@ -8,7 +8,7 @@ This is the repository for Lucky's official website https://luckyframework.org/
 1. Ensure you have `cmake` and `libxml2` installed for your system. These are required for some shard dependencies of this project
 1. Run `script/setup`
 1. Run `lucky dev` to start the app
-1. Visit `http://localhost:5000`
+1. Visit `http://localhost:3000`
 
 ## Editing guides
 
