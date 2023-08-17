@@ -156,10 +156,6 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://github.com/grottopress/shield",
         description: "Comprehensive security solution and authentication for Lucky"
       mount AwesomeLink,
-        text: "Lucky SVG builder",
-        url: "https://github.com/wout/lucky_svg_sprite",
-        description: "Turn your SVG markup into reusable Lucky components"
-      mount AwesomeLink,
         text: "Lucky Favicon",
         url: "https://github.com/wout/lucky_favicon",
         description: "Add favicons from the Real Favicon Generator to your Lucky project"
