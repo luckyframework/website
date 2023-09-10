@@ -164,6 +164,7 @@ class Guides::Database::Migrations < GuideAction
       add login_count : Int32, default: 0
       add tags : Array(String)
       add preferences : JSON::Any
+      add key : String, index: true
     end
     ```
 
@@ -355,6 +356,8 @@ class Guides::Database::Migrations < GuideAction
     alter table_for(User) do
       # set all existing, and future users `active` to `true`
       add active : Bool, default: true
+      # `:now` is a special symbol that casts to NOW() for Time columns
+      add active_at : Time, default: :now
 
       # set all existing users `otp_code` to `"fake-otp-code-123".
       # New users will require a value to be set.
