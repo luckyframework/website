@@ -115,6 +115,59 @@ class Guides::Database::RawSql < GuideAction
 
     > The `args` argument is always an Array, even for a single argument.
 
+    ## Using existing models
+
+    In cases where you need some custom SQL, but you also need to return your existing models,
+    you can easily map to you model. The trick here is using the `Model.column_names` method.
+
+    ```crystal
+    sql = <<-SQL
+    WITH blocked_ids AS (
+      SELECT id
+      FROM blocked_accounts
+      WHERE issuer = $1
+    )
+    SELECT \#{User.column_names.join(',') { |col| "users.\#{col}" }}
+    FROM users
+    WHERE id NOT IN (blocked_ids)
+    SQL
+
+    AppDatabase.query_all(sql, args: ["system"], as: User)
+    ```
+
+    In this example, we're able to take advantage of complex SQL structures like CTEs,
+    and have the query return `Array(User)`.
+
+    > The `column_names` method returns `Array(Symbol)` and needs to be converted in to a proper SQL string.
+    > Though `*` may work in some cases, if the SQL generates more columns than your model has, you'll get an error.
+
+    ### Example with sub-types
+
+    Often times you'll find yourself needing to do reports on models with aggregate queries.
+    For these, you can create a sub-type class that uses the columns you need.
+
+    ```crystal
+    class User < BaseModel
+      class Report
+        include DB::Serializable
+        property total : Int64
+        property date : Time
+      end
+    end
+
+    class UserReportQuery
+      def self.all : Array(User::Report)
+        sql = <<-SQL
+        SELECT COUNT(*) AS total, DATE(created_at) AS date
+        FROM users
+        GROUP BY DATE(created_at)
+        SQL
+
+        AppDatabase.query_all(sql, as: User::Report)
+      end
+    end
+    ```
+
     ## Additional Supported Methods
 
     The `query_all` method is the most common since it returns an Array of rows. However,
