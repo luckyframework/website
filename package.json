@@ -15,7 +15,7 @@
     "prod": "yarn run mix --production"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.21.9",
+    "@babel/compat-data": "^7.22.20",
     "browser-sync": "^2.29.3",
     "compression-webpack-plugin": "^10.0.0",
     "laravel-mix": "^6.0.49",
