@@ -276,6 +276,28 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.name.upper.eq("GAR")
     ```
 
+    ### TRIM A = B
+
+    Find rows where (trimming blankspace from `A`) is equal to `B`
+
+    `SELECT COLUMNS FROM posts WHERE TRIM(posts.title) = 'First Post'`
+
+    ```crystal
+    PostQuery.new.title.trim.eq("First Post")
+    ```
+
+    ### A as DATE = B
+
+    Find rows where (casting `A` to a DATE()) is equal to `B`
+
+    `SELECT COLUMNS FROM schedules WHERE DATE(schedules.starts_at) = '2017-03-11'`
+
+    ```crystal
+    ScheduleQuery.new.starts_at.as_date.eq(Time.utc.to_s("%F"))
+    ```
+
+    > The dates are compared with Strings, so a date formatted String object must be passed in.
+
     ### A gt/lt B
 
     * gt: >
