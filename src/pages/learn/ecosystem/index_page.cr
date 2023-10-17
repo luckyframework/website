@@ -72,6 +72,16 @@ class Learn::Ecosystem::IndexPage < PageLayout
           name: "LuckySecTester",
           description: "Integrated Security specs with BrightSec.",
           slug: "lucky_sec_tester"
+        mount ProjectCard,
+          name: "LuckyTemplate",
+          description: "Templatize files and folders.",
+          slug: "lucky_template",
+          api_ref_url: "https://crystaldoc.info/github/luckyframework/lucky_template"
+        mount ProjectCard,
+          name: "LuckyHXML",
+          description: "Like LuckyHTML, but for Hyperview.",
+          slug: "lucky_hxml",
+          api_ref_url: "https://crystaldoc.info/github/luckyframework/lucky_hxml"
       end
     end
   end
