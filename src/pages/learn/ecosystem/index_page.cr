@@ -5,7 +5,7 @@ class Learn::Ecosystem::IndexPage < PageLayout
 
   def content
     # List all of the Lucky shards
-    # Link to repos and API References. e.g. https://luckyframework.github.io/lucky/
+    # Link to Repositories and API References (using CrystalDoc.info)
     div class: "py-16 container" do
       ul class: "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" do
         mount ProjectCard,
@@ -75,13 +75,11 @@ class Learn::Ecosystem::IndexPage < PageLayout
         mount ProjectCard,
           name: "LuckyTemplate",
           description: "Templatize files and folders.",
-          slug: "lucky_template",
-          api_ref_url: "https://crystaldoc.info/github/luckyframework/lucky_template"
+          slug: "lucky_template"
         mount ProjectCard,
           name: "LuckyHXML",
           description: "Like LuckyHTML, but for Hyperview.",
-          slug: "lucky_hxml",
-          api_ref_url: "https://crystaldoc.info/github/luckyframework/lucky_hxml"
+          slug: "lucky_hxml"
       end
     end
   end
