@@ -471,7 +471,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
         end
 
         li data_current: current_page?(Dashboard::Index) do
-          link "Your dashboard", to: Dashboard::Index,
+          link "Your dashboard", to: Dashboard::Index
         end
 
         li data_current: current_page?(Me::Show) do
