@@ -243,6 +243,14 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Bill",
         url: "https://github.com/GrottoPress/bill",
         description: "Bill is an Accounts Receivable automation system for Lucky framework"
+      mount AwesomeLink,
+        text: "Lucky Vite",
+        url: "https://github.com/wout/lucky_vite",
+        description: "A Crystal shard to seamlessly integrate Vite with Lucky Framework"
+      mount AwesomeLink,
+        text: "Lucky Swagger",
+        url: "https://github.com/marmaxev/lucky-swagger",
+        description: "Easily add SwaggerUI to your Lucky project"
     end
   end
 
