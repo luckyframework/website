@@ -466,20 +466,19 @@ class Guides::Frontend::RenderingHtml < GuideAction
     ```crystal
     nav do
       ul do
-        link "Home",
-          to: Home::Index,
-          data_selected: current_page?(Home::Index)
+        li data_current: current_page?(Home::Index) do
+          link "Home", to: Home::Index
+        end
 
-        link "Your dashboard",
-          to: Dashboard::Index,
-          data_selected: current_page?(Dashboard::Index)
+        li data_current: current_page?(Dashboard::Index) do
+          link "Your dashboard", to: Dashboard::Index
+        end
 
-        link "Your profile",
-          to: Me::Show,
-          data_selected: current_page?(Me::Show)
+        li data_current: current_page?(Me::Show) do
+          link "Your profile", to: Me::Show
+        end
       end
     end
-
     ```
 
     ### Advanced usage
