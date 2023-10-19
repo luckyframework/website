@@ -467,7 +467,7 @@ class Guides::Frontend::RenderingHtml < GuideAction
     nav do
       ul do
         li data_current: current_page?(Home::Index) do
-          link "Home", to: Home::Index,
+          link "Home", to: Home::Index
         end
 
         li data_current: current_page?(Dashboard::Index) do
