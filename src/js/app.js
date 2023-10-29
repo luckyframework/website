@@ -1,7 +1,8 @@
 /* eslint no-console:0 */
 
 // RailsUjs is *required* for links in Lucky that use DELETE, POST and PUT.
-require("@rails/ujs").start();
+import Rails from "@rails/ujs"
+Rails.start();
 require("@hotwired/turbo");
 
 
