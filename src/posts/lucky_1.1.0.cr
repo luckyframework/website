@@ -39,20 +39,20 @@ class Lucky110Release < BasePost
     [OptionParser](https://crystal-lang.org/api/latest/OptionParser.html) a little more, and moving
     around some logic.
 
-    Previously, just running `lucky -h` would require compiling your app. This was because the `lucky -h`
-    command would print out a list of all the custom tasks available in your application. This list can
-    change without notice, and requires a compilation each time.
-
     Now, when running `lucky -h`, you get the help menu instantly as you would normally expect. The list
     of custom tasks is still available to you, but through the `lucky tasks` command. This will be a nicer
     dev UX for new users to Lucky.
+
+    Previously, just running `lucky -h` would require compiling your app. This was because the `lucky -h`
+    command would print out a list of all the custom tasks available in your application. This list can
+    change without notice, and requires a compilation each time.
 
     On top of the nicer UX, the underlying code generation for generating new applications has received an
     overhaul itself. Before this release, we would run `crystal init app` under the hood, then delete the
     files we didn't need, rename a few files, and finally fill in the remaining files for the project structure.
     This was overly complex, and added steps that were not neccessary. With this release, Lucky will generate
     all of the files needed from the start. This also happens in a manner that is now cross-platform compatible
-    which will allow LuckyCLI to build on Windows.
+    which better paves the way for future Windows support.
 
     ### New Shards
 
@@ -191,7 +191,7 @@ class Lucky110Release < BasePost
 
     If you have hesitations about using Lucky, or there's features missing that you would need
     in order to start using Lucky, please let us know. You can join our [Discord](#{Chat::Index.path}),
-    or open up a new [Discussion](https://github.com/luckyframework/lucky/discussions) on 
+    or open up a new [Discussion](https://github.com/luckyframework/lucky/discussions) on
     Github so we can help make Lucky even better.
 
     ### Follow and spread the word
