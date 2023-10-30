@@ -71,22 +71,19 @@ class Lucky110Release < BasePost
     front-end of your mobile application.
 
     [LuckyHTMX](https://github.com/watzon/lucky_htmx) is a shard extension to make working with the
-    popular [HTMX](https://htmx.org/) library a little easier. This shard isn't directly maintained
-    by the Lucky organization, and just provided by a community member, we still want to showcase this
-    as a few changes in Lucky v1.1.0 were around working with HTMX. For example, when using `hx-boost`,
+    popular [HTMX](https://htmx.org/) library a little easier. While this shard is unofficial and maintained by a community member, a few changes in Lucky v1.1.0 were needed to allow htmx compatibility. For example, to use `hx-boost`,
     you must return a 303 redirect response. One change made in this version of Lucky allows you to
     set your default redirect status to 303 globally. Set it once and forget it.
 
     ### Changes to LuckyTask
 
-    [LuckyTask](https://github.com/luckyframework/lucky_task) received a bit of an updated too!
+    [LuckyTask](https://github.com/luckyframework/lucky_task) received a bit of an update too!
     If you're unfamiliar with this shard, it's the backbone to creating custom CLI tasks. Lucky
-    ships with several pre-built tasks like `lucky db.create`, `lucky routes`, and even `lucky dev`.
+    ships with several pre-built tasks like `lucky db.create`, `lucky routes`, and `lucky dev`.
 
-    When designing your custom task, you may have wanted to use `--name` as a flag, but previously,
-    this wasn't possible. Because the CLI args created instance methods, and we had several instance
-    methods reserved, this would cause some conflicts. To fix this, it required a bit of a **breaking change**
-    to the structure.
+    this wasn't possible. This is because CLI arguments created instance methods and we had several instance
+    methods reserved. We've fixed this, but it required a **breaking change**
+    to existing tasks.
 
     Before the update, a custom task would look like this:
 
@@ -105,7 +102,7 @@ class Lucky110Release < BasePost
     end
     ```
 
-    After the update:
+    After the update the `help_message` moves to the class level with `summary` and `name`:
 
     ```crystal
     class GenerateSitemaps < LuckyTask::Task
@@ -120,14 +117,14 @@ class Lucky110Release < BasePost
     ```
 
     The three methods here `summary`, `name`, and `help_message` were all instance methods.
-    By moving `help_message` to a macro, these three now generate class level methods all
+    By moving `help_message` to a macro, these are now generated as class level methods all
     prefixed with `task_`. (i.e. `task_summary`, `task_name`, `task_help_message`)
 
     ### JSON Serialized Arrays
 
     In a previous release of Avram, we added the ability to set columns as a serialized column.
-    When using the `serialize: true` option on a JSON::Any column, it will serialize that column
-    in to an object.
+    When using the `serialize: true` option on a JSON::Any column, it would serialize that column
+    into an object.
 
     ```crystal
     class User < BaseModel
@@ -159,17 +156,17 @@ class Lucky110Release < BasePost
     end
     ```
 
-    > Note: this stores the column as `'[]'::jsonb` which is a jsonb array of objects
-    > as opposed to `[]::jsonb[]` which is an array column of jsonb objects. The column
-    > is still `jsonb`.
+    _Note: this stores the column as `'[]'::jsonb` which is a jsonb array of objects
+    as opposed to `[]::jsonb[]` which is an array column of jsonb objects. The column
+    is still `jsonb`._
 
     ### SecTester is fully Crystal
 
     In case you weren't aware, Lucky ships with direct integration with the [Bright Security](https://brightsec.com/)
-    [SecTester](https://github.com/NeuraLegion/sec-tester-cr) by way of the [LuckySecTester](https://github.com/luckyframework/lucky_sec_tester).
+    [SecTester](https://github.com/NeuraLegion/sec-tester-cr) by way of the [LuckySecTester shard](https://github.com/luckyframework/lucky_sec_tester).
 
-    Once you have an API key to Bright, your Lucky app can run numerous different security tests
-    to ensure you're not pushing vulnerabilities to production.
+    Once you have an API key to Bright, your Lucky app can run a number of security tests
+    to ensure you're not introducing vulnerabilities on your site.
 
     Lucky v1.1.0 now ships with the latest SecTester v1.6.x series which ported the internal repeater
     over to Crystal. This means your application no longer needs to boot a NodeJS repeater in development
@@ -181,7 +178,7 @@ class Lucky110Release < BasePost
 
     * Internal refactors to keep the codebase clean, and make contributing easier.
     * Getting more Windows support (Pending any remaining issues in Crystal).
-    * Better dev UX for some of the pain point areas, like swapping out Avram.
+    * Better dev UX for ares that still cause pain, like swapping out Avram.
     * Consistency across the shard ecosystem
 
     If there's anything you'd like to see, let us know!
@@ -195,7 +192,7 @@ class Lucky110Release < BasePost
     If you have hesitations about using Lucky, or there's features missing that you would need
     in order to start using Lucky, please let us know. You can join our [Discord](#{Chat::Index.path}),
     or open up a new [Discussion](https://github.com/luckyframework/lucky/discussions) on 
-    Github so we can start tracking what needs to happen to bring on more users.
+    Github so we can help make Lucky even better.
 
     ### Follow and spread the word
 
