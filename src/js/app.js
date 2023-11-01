@@ -38,6 +38,9 @@ hljs.registerLanguage('yaml', yaml);
 import diff from 'highlight.js/lib/languages/diff';
 hljs.registerLanguage('diff', diff);
 
+import plain from 'highlight.js/lib/languages/plaintext';
+hljs.registerLanguage('plain', plain);
+
 import docsearch from '@docsearch/js';
 
 document.addEventListener("turbo:load", function () {
