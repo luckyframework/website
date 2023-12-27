@@ -13,13 +13,14 @@ class Learn::Ecosystem::IndexPage < PageLayout
           description: "The main shard for the Lucky framework.",
           slug: "lucky"
         mount ProjectCard,
-          name: "Lucky Cli",
-          description: "CLI for generating new Lucky applications.",
-          slug: "lucky_cli"
-        mount ProjectCard,
           name: "Avram",
           description: "Lucky's ORM named after Henriette Avram.",
           slug: "avram"
+        mount ProjectCard,
+          name: "Lucky Cli",
+          description: "CLI for generating new Lucky applications.",
+          slug: "lucky_cli",
+          docs: false
         mount ProjectCard,
           name: "Authentic",
           description: "User authentication with Avram.",
