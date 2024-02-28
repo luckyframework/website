@@ -1,28 +1,21 @@
 require "./html_autolink"
 
 class CustomMarkdownRenderer
-  COPY_ICON_SVG = <<-SVG
-    #{File.read("public/assets/icons/copy.svg")}
-  SVG
-
-  TICK_ICON_SVG = <<-SVG
-    #{File.read("public/assets/icons/tick.svg")}
-  SVG
+  COPY_ICON_SVG = File.read("public/assets/icons/copy.svg")
+  TICK_ICON_SVG = File.read("public/assets/icons/tick.svg")
 
   def self.render_to_html(content : String) : String
-    html_content = html(content).lines.map do |line|
+    html(content).lines.map do |line|
       if line.starts_with?("<h2>")
         add_anchor_to_heading("h2", line)
       elsif line.starts_with?("<h3>")
         add_anchor_to_heading("h3", line)
-      elsif line.starts_with?("<pre><code")
-        add_copy_button_to_code_block(line)
       else
         line
       end
-    end.join("\n")
-
-    html_content + copy_functionality_script
+    end
+      .join("\n")
+      .gsub("</code></pre>", "</code><button class=\"copy-code-button\">#{COPY_ICON_SVG}</button></pre>") + copy_functionality_script
   end
 
   def self.add_anchor_to_heading(tag : String, heading_html : String) : String
@@ -36,12 +29,6 @@ class CustomMarkdownRenderer
       <a href="##{anchor}" class="md-anchor">#</a>
       #{heading_without_wrapper_tag}
     </#{tag}>
-    HTML
-  end
-
-  def self.add_copy_button_to_code_block(code_block_html : String) : String
-    <<-HTML
-      #{code_block_html.chomp}</code><button class="copy-code-button">#{COPY_ICON_SVG}</button></pre>
     HTML
   end
 

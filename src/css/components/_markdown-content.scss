@@ -123,18 +123,22 @@
   }
 
   pre {
-    @apply relative;
+    position: relative;
 
     .copy-code-button {
-      @apply absolute right-3 -top-3 transition-opacity duration-100 ease-in-out opacity-0 bg-gray-800;
-
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      transition: opacity 0.1s ease;
+      opacity: 0;
+      background-color: #2e3440; // Assuming a default background color for the button
       &:hover {
-        @apply opacity-100;
+        opacity: 1 !important;
       }
     }
 
     &:hover .copy-code-button {
-      @apply opacity-80;
+      opacity: 0.8;
     }
   }
 
