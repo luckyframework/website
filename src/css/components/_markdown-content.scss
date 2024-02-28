@@ -111,6 +111,7 @@
     font-family: Menlo, Roboto Mono, Courier New, monospace;
     border-radius: 4px;
     padding: 1px 5px;
+    scrollbar-color: #4a5568 #2e3440;
 
     a {
       @apply text-blue-dark no-underline border-b border-blue-light;
@@ -122,10 +123,18 @@
   }
 
   pre {
-    code {
-      a {
-        @apply no-underline text-grey border-grey-dark;
+    @apply relative;
+
+    .copy-code-button {
+      @apply absolute right-3 -top-3 transition-opacity duration-100 ease-in-out opacity-0 bg-gray-800;
+
+      &:hover {
+        @apply opacity-100;
       }
+    }
+
+    &:hover .copy-code-button {
+      @apply opacity-80;
     }
   }
 
@@ -214,5 +223,8 @@
         }
       }
     }
+  }
+  .bordered-icon {
+    @apply w-6 h-6 rounded-md border border-grey-light p-1;
   }
 }
