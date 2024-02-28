@@ -26,19 +26,19 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 2. Check installation
 
-    ```plain
+    ```bash
     crystal -v
     ```
 
     Should return between `#{LuckyCliVersion.min_compatible_crystal_version}` and `#{LuckyCliVersion.max_compatible_crystal_version}`
 
-    ## macOS (M1) requirements
+    ## macOS (Apple Silicon) requirements
 
     ### 1. Install Homebrew
 
     Installation instructions from the [Homebrew website](https://brew.sh/)
 
-    ```plain
+    ```bash
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
 
@@ -48,46 +48,57 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Installation instructions from the [Homebrew website](https://brew.sh/)
 
-    ```plain
+    ```bash
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
 
     ### 2. Install OpenSSL
 
-    ```plain
+    ```bash
     brew install openssl
     ```
 
     ### 3. Configure SSL for Crystal
 
-    You'll need to tell Crystal how to find OpenSSL by adding an `export`
-    to your `~/.bash_profile` or `~/.zshrc`.
+    Add the following line to your shell configuration file. This will let Crystal know where to find OpenSSL.
 
     > You can run `echo $SHELL` in your terminal if you're not sure whether you
-      are using ZSH or Bash.
+      are using ZSH, Bash or Fish.
 
     **For ZSH (the default as of macOS Catalina):**
 
-    macOS (Intel)
-    ```plain
-    echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.zshrc
+    macOS (Apple Silicon)
+    ```bash
+    echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.zshrc
     ```
 
-    macOS (M1)
-    ```plain
-    echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.zshrc
+    macOS (Intel)
+    ```bash
+    echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.zshrc
     ```
 
     **For Bash:**
 
+    macOS (Apple Silicon)
+    ```bash
+    echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.bash_profile
+    ```
+
     macOS (Intel)
-    ```plain
+    ```bash
     echo 'export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig' >>~/.bash_profile
     ```
 
-    macOS (M1)
-    ```plain
-    echo 'export PKG_CONFIG_PATH=/opt/homebrew/opt/openssl/lib/pkgconfig' >>~/.bash_profile
+    **For Fish:**
+
+    macOS (Apple Silicon)
+    ```bash
+    echo 'set -gx PKG_CONFIG_PATH /opt/homebrew/opt/openssl/lib/pkgconfig' >> ~/.config/fish/config.fish
+    ```
+
+    macOS (Intel)
+    ```bash
+    echo 'set -gx PKG_CONFIG_PATH /usr/local/opt/openssl/lib/pkgconfig' >> ~/.config/fish/config.fish
     ```
 
     > If you get an error like this: "Package libssl/libcrypto was not found in the
@@ -100,19 +111,19 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### Debian
 
-    ```plain
+    ```bash
     apt-get install libc6-dev libevent-dev libpcre2-dev libpng-dev libssl-dev libyaml-dev zlib1g-dev
     ```
 
     ### Ubuntu
 
-    ```plain
+    ```bash
     apt-get install libc6-dev libevent-dev libpcre2-dev libpcre3-dev libpng-dev libssl-dev libyaml-dev zlib1g-dev
     ```
 
     ### Fedora (28)
 
-    ```plain
+    ```bash
     dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
     ```
 
@@ -122,7 +133,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 1. Install the Lucky CLI with Homebrew
 
-    ```plain
+    ```bash
     brew install luckyframework/homebrew-lucky/lucky
     ```
 
@@ -130,7 +141,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Let's make sure the Lucky CLI installed correctly:
 
-    ```plain
+    ```bash
     lucky -v
     ```
 
@@ -140,19 +151,19 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 1. Clone the CLI repo
 
-    ```plain
+    ```bash
     git clone https://github.com/luckyframework/lucky_cli
     ```
 
     ### 2. Change into the newly cloned directory
 
-    ```plain
+    ```bash
     cd lucky_cli
     ```
 
     ### 3. Check out the latest released version
 
-    ```plain
+    ```bash
     git checkout #{LuckyCliVersion.current_tag}
     ```
 
@@ -160,20 +171,20 @@ class Guides::GettingStarted::Installing < GuideAction
 
     We call packages/libraries in Crystal "shards". Let's install the shards that Lucky CLI needs:
 
-    ```plain
+    ```bash
     shards install --without-development
     ```
 
     ### 5. Build the CLI
 
-    ```plain
+    ```bash
     shards build --production
     ```
 
     ### 6. Move the generated binary to your path
 
     This will let you use `lucky` from the command line.
-    ```plain
+    ```bash
     cp bin/lucky /usr/local/bin
     ```
     Or anywhere else you deem fit
@@ -182,7 +193,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     Let's make sure the Lucky CLI installed correctly:
 
-    ```plain
+    ```bash
     lucky -v
     ```
 
@@ -206,7 +217,7 @@ class Guides::GettingStarted::Installing < GuideAction
     If you're using [Postgres.app](https://postgresapp.com) on macOS make sure
     [Postgres CLI tools](https://postgresapp.com/documentation/cli-tools.html) are installed
 
-    ```plain
+    ```bash
     sudo mkdir -p /etc/paths.d &&
       echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp
     ```
@@ -219,7 +230,7 @@ class Guides::GettingStarted::Installing < GuideAction
     use PostgreSQL without a password, you'll need to ensure your `pg_hba.conf` file is updated.
     We recommend adding this entry right after the `postgres` user entry:
 
-    ```plain
+    ```bash
     # TYPE  DATABASE        USER            ADDRESS                 METHOD
     # "local" is for Unix domain socket connections only
     local   all             all                                     trust
@@ -238,7 +249,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     First open a new session to reload your terminal, then:
 
-    ```plain
+    ```bash
     psql --version
     ```
 
@@ -256,7 +267,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     ### 2. Check installation
 
-    ```plain
+    ```bash
     node -v
     yarn -v
     ```
