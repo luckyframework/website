@@ -325,10 +325,10 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     respectively.
 
     ```crystal
-    class Logs::Index < BrowserAction
-      get "/logs" do
-        logs = LogQuery.new
-        html IndexPage, logs: logs
+    class LogEntries::Index < BrowserAction
+      get "/log_entries" do
+        log_entries = LogEntryQuery.new
+        html IndexPage, log_entries: log_entries
       end
 
       def html_content_type
