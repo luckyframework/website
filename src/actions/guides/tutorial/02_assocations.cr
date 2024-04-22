@@ -150,6 +150,7 @@ class Guides::Tutorial::Associations < GuideAction
     * Sign in, and try to create a fortune. Notice it fails
     * View your logs to see "Failed to save SaveFortune".
     * Use `lucky exec` to truncate all `User` records with the `UserQuery` object.
+    * Pass `user_id: current_user.id` to `SaveFortune.create`
     * Then use your app to make a new user record, because we still need one 😄
 
     We will update the forms later in the tutorial.
