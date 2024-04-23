@@ -26,7 +26,6 @@ class Lucky120Release < BasePost
     See the [UPGRADE_NOTES](https://github.com/luckyframework/lucky/blob/main/UPGRADE_NOTES.md#upgrading-from-110-to-120).
 
     You can also view the changes using [LuckyDiff](https://luckydiff.com/?from=1.1.0&to=1.2.0).
-    This tool helps see what has changed between versions and will be included in upgrade notes from now on.
 
     ## Here's what's new
 
@@ -42,8 +41,8 @@ class Lucky120Release < BasePost
     ### DB.mapping replaced with DB::Serializable
 
     Avram models use [crystal-db](https://github.com/crystal-lang/crystal-db/) under the hood to build the
-    columns. Previously we used `DB.mapping` to construct the columns, but as of [this commit](https://github.com/crystal-lang/crystal-db/),
-    that way has been deprecated in favor of using `DB::Serializable`. This now keeps things consistent with `JSON::Serialzable` and
+    columns. Previously we used `DB.mapping` to construct the columns, but as of [this PR](https://github.com/crystal-lang/crystal-db/pull/196),
+    that way has been deprecated in favor of using `DB::Serializable`. This is now more consistent with `JSON::Serialzable` and
     `YAML::Serializable`, but it does come with a small breaking change.
 
     `DB::Serializable` is a module that is included in `Avram::Model`. It works by mapping the instance variables to columns
@@ -89,19 +88,19 @@ class Lucky120Release < BasePost
     can be a bit tricky, and Avram now allows you to avoid a few unsafe raw WHERE queries by using type-safe ones.
 
     ```crystal
-    # where the preferences jsonb has the key 'theme'
+    # Where the preferences jsonb has the key 'theme'
     UserQuery.new.preferences.has_key("theme")
 
-    # where the preferences jsonb has the key 'theme' or the key 'color'
+    # Where the preferences jsonb has the key 'theme' or the key 'color'
     UserQuery.new.preferences.has_any_keys(["theme", "color"])
 
-    # where the preferences jsonb has the key 'theme' and the key 'color'
+    # Where the preferences jsonb has the key 'theme' and the key 'color'
     UserQuery.new.preferences.has_all_keys(["theme", "color"])
 
-    # where the preferences jsonb contains the JSON {"theme": "dark"}
+    # Where the preferences jsonb contains the JSON {"theme": "dark"}
     UserQuery.new.preferences.includes({theme: "dark"})
 
-    # where the preferences jsonb is found in this json document
+    # Where the preferences jsonb is found in this json document
     UserQuery.new.preferences.in(large_json_document)
     ```
 
@@ -153,15 +152,23 @@ class Lucky120Release < BasePost
     ### The IGNORE constant
 
     In Avram, the attributes defined on operations are a union of the type you specified, and `Avram::Nothing`.
-    The `Avram::Nothing` type is used as a way to differentiate between you intending to update a column to `nil`
-    by passing in a `nil` value versus a `nil` value existing in params but with no intention of updating the column.
+    The `Avram::Nothing` type is used as a way to differentiate `nil` values passed through params that are
+    intended to update columns to a `NULL` value versus values you wish to ignore.
 
     Previously, each attribute would define a default value of `Avram::Nothing.new`. The larger your application grew,
-    the more instances of `Avram::Nothing` you would have. These all have now been replaced with a single constant `IGNORE`.
+    the more instances of `Avram::Nothing` you would have. These all have now been replaced with a single instance of `Avram::Nothing`
+    assigned as the constant `IGNORE`.
 
-    Use the `IGNORE` constant when you want to fallback to ignoring a column in a SaveOperation.
+    Use the `IGNORE` constant in place of instantiating `Avram::Nothing` when you want to fallback to ignoring a column in a SaveOperation.
 
     ```crystal
+    # Before the update
+    UpdateUserEmail.update!(
+      current_user,
+      email: new_email.presence || Avram::Nothing.new
+    )
+
+    # After the update
     # If `new_email.presence` is nil, then just ignore this update
     UpdateUserEmail.update!(
       current_user,
@@ -177,7 +184,10 @@ class Lucky120Release < BasePost
     ```crystal
     class BirthdayEmail < BaseEmail
       def initiailize(@recipient : Carbon::Emailable)
-        @image = File.open("birthday_cake.png")
+        @image = IO::Memory.new
+        File.open("birthday_cake.png") do |f|
+          IO.copy(f, @image)
+        end
       end
 
       subject "Happy Birthday"
@@ -191,10 +201,6 @@ class Lucky120Release < BasePost
           file_name: "birthday_cake.png",
           mime_type: "image/png"
         }
-      end
-
-      def after_send(result)
-        @image.close
       end
     end
     ```
