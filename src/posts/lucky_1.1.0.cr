@@ -64,7 +64,7 @@ class Lucky110Release < BasePost
     one of the issues holding us back from supporting Windows. With this shard, the majority of our
     shards are now fully Windows compatible!
 
-    [LuckyHXML](https://github.com/luckyframework/lucky_hxml) is an extension to Lucky wich allows
+    [LuckyHXML](https://github.com/luckyframework/lucky_hxml) is an extension to Lucky which allows
     you to generate backend code used for making mobile applications in [Hyperview](https://hyperview.org/).
     By utilizing the structure that Lucky provides for HTML, the LuckyHXML shard mimics this in a
     familiar way allowing you to build type-safe mobile apps with compile-time catches for the
