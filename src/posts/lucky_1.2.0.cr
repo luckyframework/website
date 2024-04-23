@@ -10,7 +10,7 @@ class Lucky120Release < BasePost
     <<-TEXT
     We're well in to 2024 now. Crystal 1.12 is out,
     and so is Lucky 1.2.0. Let's check out all
-    of the great new features and updates
+    of the great new features and updates.
     TEXT
   end
 
@@ -46,7 +46,7 @@ class Lucky120Release < BasePost
     that way has been deprecated in favor of using `DB::Serializable`. This now keeps things consistent with `JSON::Serialzable` and
     `YAML::Serializable`, but it does come with a small breaking change.
 
-    The `DB::Serializable` is a module that is included in `Avram::Model`. It works by mapping the instance variables to columns
+    `DB::Serializable` is a module that is included in `Avram::Model`. It works by mapping the instance variables to columns
     in the database. This also means that any instance variable you've defined as custom will be mistaken for a database related column.
     To avoid this, you will need to add the annotation `@[DB::Field(ignore: true)]` to any instance variable you may have added
     in your model.
@@ -75,10 +75,10 @@ class Lucky120Release < BasePost
     # Find all users that have a username length of 8
     UserQuery.new.username.length.eq(8)
 
-    # Find all cards with a palindrome
+    # Find all cards with this palindrome
     CardQuery.new.title.reverse.eq("tacocat")
 
-    # Find all purchases where the amount rounded up is greater than 5
+    # Find all purchases where the rounded-up amount is greater than 5
     PurchaseQuery.new.amount.ceil.gt(5)
 
     # Turn a negative number in to positive, and use in your query
@@ -127,7 +127,7 @@ class Lucky120Release < BasePost
     end
     ```
 
-    You can now ignore the index created on `add_belongs_to` by specifying `index: false`.
+    You can also ignore the index created on `add_belongs_to` by specifying `index: false`.
 
     ```crystal
     alter table_for(Reaction), if_exists: true do
@@ -136,7 +136,7 @@ class Lucky120Release < BasePost
     end
     ```
 
-    This will allow you to create a custom unique index utilizing multiple columns instead of separate indexes on each column.
+    This will allow you to create a custom, unique index utilizing multiple columns instead of separate indexes on each column.
 
     We've also added the `create_sequence` and `drop_sequence` helpers.
 
@@ -201,8 +201,7 @@ class Lucky120Release < BasePost
 
     ### even more!
 
-    There were quite a few updates in this release, and unfortunately we can't show them all. Here's several
-    more that were added just for an encore!
+    Beyond the major changes listed above, there were quite a few updates in this release:
 
     * Support for Array(Enum) columns
     * Support for String primary keys
