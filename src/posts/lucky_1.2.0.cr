@@ -152,11 +152,10 @@ class Lucky120Release < BasePost
     ### The IGNORE constant
 
     In Avram, the attributes defined on operations are a union of the type you specified, and `Avram::Nothing`.
-    The `Avram::Nothing` type is used as a way to differentiate `nil` values passed through params that are
-    intended to update columns to a `NULL` value versus values you wish to ignore.
+    Passing `nil` during an operation sets a value to `NULL` in the database. In contrast, using `Avram::Nothing` ignores the value; the value is unchanged.
 
     Previously, each attribute would define a default value of `Avram::Nothing.new`. The larger your application grew,
-    the more instances of `Avram::Nothing` you would have. These all have now been replaced with a single instance of `Avram::Nothing`
+    the more instances of `Avram::Nothing` you would have. These have all been replaced with a single instance of `Avram::Nothing`
     assigned as the constant `IGNORE`.
 
     Use the `IGNORE` constant in place of instantiating `Avram::Nothing` when you want to fallback to ignoring a column in a SaveOperation.
@@ -178,8 +177,7 @@ class Lucky120Release < BasePost
 
     ### Email attachments
 
-    [Carbon](https://github.com/luckyframework/carbon/pull/88) received a nice update with the addition of
-    attachment support.
+    Carbon received a nice update that adds of [attachment support](https://github.com/luckyframework/carbon/pull/88).
 
     ```crystal
     class BirthdayEmail < BaseEmail
