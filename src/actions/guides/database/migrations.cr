@@ -145,11 +145,13 @@ class Guides::Database::Migrations < GuideAction
     * `Int64` - Maps to postgres `bigint`.
     * `Time` - Maps to postgres `timestamptz`.
     * `Bool` - Maps to postgres `boolean`.
-    * `Float64` - Maps to postgres `decimal`. With options for precision and scale.
+    * `Float64` - Maps to postgres `numeric`. With options for precision and scale.
     * `UUID` - Maps to postgres `uuid`.
     * `Bytes` - Maps to postgres `bytea`.
     * `JSON::Any` - Maps to postgres `jsonb`.
     * `Array(T)` - Maps to postgres array fields where `T` is any of the other datatypes.
+
+    > Enums are also support on the Crystal side. They map to an Int that you specify for the postgres side
 
     ### Adding a column
 
@@ -314,6 +316,7 @@ class Guides::Database::Migrations < GuideAction
     * `Int32` - maps to postgres `serial`.
     * `Int64` - maps to postgres `bigserial`.
     * `UUID` - maps to postgres `uuid`. Generates V4 UUID (requires the "pgcrypto" extension)
+    * `String` - maps to postgres `text`.
 
     To specify your primary key, you'll use the `primary_key` method.
 
