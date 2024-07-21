@@ -54,9 +54,6 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
     ### Create a Flow spec in spec/flows/
 
-    When writing flow specs, it’s best to *write the spec as a full flow that a
-    user might take*. For example, here is a flow for publishing an article:
-
     When writing flow specs, your flow object will handle all of the interactions,
     and should read as a step-by-step guide that a user will take flowing from point A to B.
     Each of your spec assertions can remain in the spec for transparency.
