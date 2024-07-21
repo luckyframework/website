@@ -666,6 +666,14 @@ class Guides::Frontend::RenderingHtml < GuideAction
     # => "almost 42 years"
     ```
 
+    You can also pass in a `Time::Span` object to get a String representation.
+
+    ```crystal
+    distance_of_time_in_words(5.seconds)  # => "5 seconds"
+    distance_of_time_in_words(25.minutes) # => "25 minutes"
+    distance_of_time_in_words(2.days)     # => "2 days"
+    ```
+
     ### Time ago in words
 
     Similar to `distance_of_time_in_words`.
