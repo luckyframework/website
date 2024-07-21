@@ -443,6 +443,17 @@ class Guides::Database::Querying < GuideAction
     > For each supported time unit, you can either pass it as an enum value to `extract` (i.e. `extract(Avram::ChronoUnits::Year)`)
     > or append the lowercase version to `extract_` (i.e. `extract_julian`)
 
+    ### Raw Where Queries
+
+    For more complex queries, and as an escape hatch to support queries beyond Avram's support, you can pass raw strings to
+    `where` and use the `?` character as a value placeholder. The arguments after the first are the values to be replaced in the query.
+
+    ```crystal
+    UserQuery.new.where("preferences->>'theme' = ? AND preferences->>'version' = ?", "rose", "v2")
+    ```
+
+    > Due to the placeholder character being a `?`, some jsonb operations won't work here. (e.g. `jsonb ? text`)
+
     ## Order By
 
     Return rows ordered by the `age` column in descending (or ascending) order.
