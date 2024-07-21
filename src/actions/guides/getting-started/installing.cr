@@ -127,6 +127,19 @@ class Guides::GettingStarted::Installing < GuideAction
     dnf install glibc-devel libevent-devel pcre2-devel openssl-devel libyaml-devel zlib-devel libpng-devel
     ```
 
+    ## Windows requirements
+
+    Please see the requirements to install [Crystal on Windows](https://crystal-lang.org/install/on_windows/) first.
+
+    ### Install with Scoop
+
+    If you're using [Scoop](https://scoop.sh/) on Windows, you can install the Lucky CLI using our Scoop package.
+
+    ```bash
+    scoop bucket add lucky https://github.com/luckyframework/scoop-bucket
+    scoop install lucky
+    ```
+
     ## Install Lucky CLI with Homebrew
 
     Once the required dependencies above are installed, set up Lucky for your system.
