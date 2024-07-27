@@ -376,6 +376,37 @@ class Guides::Database::Models < GuideAction
     end
     ```
 
+    ### Array Enums
+
+    For `Array(SomeEnum)` columns, you will store these on the postgres side as array of ints. Then on the model side, you must
+    use the `PG::EnumArrayConverter` custom converter.
+
+    ```crystal
+    # Use this for your migrations
+    create table_for(Post) do
+      primary_key id : Int64
+
+      add reactions : Array(Int32), default: [] of Int32
+    end
+    ```
+
+    ```crystal
+    # src/models/post.cr
+    class Post < BaseModel
+
+      enum Reaction
+        Like
+        Love
+        Funny
+        Shocked
+      end
+
+      table do
+        column reactions : Array(Reaction) = [] of Post::Reaction, converter: PG::EnumArrayConverter(Post::Reaction)
+      end
+    end
+    ```
+
     To learn more about using enums, read up on [saving with enums](#{Guides::Database::SavingRecords.path(anchor: Guides::Database::SavingRecords::ANCHOR_SAVING_ENUMS)})
     and [querying with enums](#{Guides::Database::Querying.path(anchor: Guides::Database::Querying::ANCHOR_QUERYING_ENUMS)}).
 
