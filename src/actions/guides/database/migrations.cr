@@ -97,6 +97,11 @@ class Guides::Database::Migrations < GuideAction
       create table_for(User) do
         # Add column definitions here. Shown later in the guide
       end
+
+      # Only create if the `posts` table doesn't not exist
+      create table_for(Post), if_not_exists: true do
+        # Add column definitions here. Shown later in the guide
+      end
     end
     ```
 
@@ -127,6 +132,9 @@ class Guides::Database::Migrations < GuideAction
     ```crystal
     def migrate
       drop table_for(User)
+
+      # Only drop the `posts` table if it exists
+      drop table_for(Post), if_exists: true
     end
     ```
 
@@ -608,7 +616,9 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    This will generate a column called `author_id` on the `comments` table with a foreign key constraint pointing to an entry in the `users` table. It will also ensure that when a `User` is removed from the database, all associated `Comments` are also removed:
+    This will generate a column called `author_id` on the `comments` table with a foreign key constraint pointing to
+    an entry in the `users` table. It will also ensure that when a `User` is removed from the database, all associated
+    `Comments` are also removed:
 
     ```
     comments_author_id_fkey" FOREIGN KEY (author_id)
@@ -631,6 +641,24 @@ class Guides::Database::Migrations < GuideAction
         add_timestamps
         add_belongs_to author : User, on_delete: :cascade, foreign_key_type: UUID
       end
+    end
+    ```
+
+    Along with the foreign key constraint, an index on the table is also created automatically. In this example,
+    the "users" table will have an index on `author_id` added. If you would like to skip adding the index, you can
+    specify the `index: false` option.
+
+    ```crystal
+    def migrate
+      create table_for(Follow) do
+        primary_key id : UUID
+        add_timestamps
+        add_belongs_to follower : User, on_delete: :cascade, index: false
+        add_belongs_to followed : User, on_delete: :cascade, index: false
+      end
+
+      # Create a single unique index
+      create_index table_for(Follow), [:follower_id, :followed_id], unique: true
     end
     ```
 
@@ -658,7 +686,7 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
-    ## Postgres Extensions, Functions, and Triggers
+    ## Postgres Extensions, Functions, Triggers, Sequences
 
     ### Extensions
 
@@ -757,6 +785,23 @@ class Guides::Database::Migrations < GuideAction
       SQL
 
       create_trigger :reports, "update_counts", callback: :after, on: [:insert, :update]
+    end
+    ```
+
+    ### Sequences
+
+    A sequence can be used to auto-increment a number similar to using an Int primary key. Create your own
+    custom sequences for use in your tables. Each of the sequences will be named after the table name and column
+    name joined by an underscore `_` with the `_seq` suffix. (e.g. 'accounts.number' would be `accounts_number_seq`)
+
+    ```crystal
+    def migrate
+      # use with `nextval('accounts_number_seq')`
+      create_sequence table_for(Account), :number
+    end
+
+    def rollback
+      drop_sequence table_for(Account), :number
     end
     ```
 
