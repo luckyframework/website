@@ -401,12 +401,21 @@ class Guides::Database::Querying < GuideAction
         Admin
       end
 
-      #...
+      enum Color
+        Red
+        Blue
+        Green
+        Yellow
+      end
+
+      column role : User::Role
+      column colors : Array(User::Color)
     end
     ```
 
     ```crystal
     UserQuery.new.role(User::Role::Admin)
+    UserQuery.new.colors.includes(User::Color::Green)
     ```
 
     ### Any? / None?
