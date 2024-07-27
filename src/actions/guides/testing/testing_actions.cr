@@ -52,6 +52,20 @@ class Guides::Testing::TestingActions < GuideAction
     ApiClient.exec(Users::Update.with(user.id), user: {email: "updated@email.co"})
     ```
 
+    When you need custom control over the format of the body params (i.e. sending streaming JSON data, etc...), you can use
+    the `exec_raw` method.
+
+    ```crystal
+    test_data = <<-JSON
+      { "event_id": "1"}
+      { "type": "event"}
+      { "event_id": "2", "type": "event", "platform": ""}
+    JSON
+    ApiClient.new.exec_raw(EventLogs::Create, test_data)
+    ```
+
+    > Sending raw strings can be unsafe and is only used as an escape hatch when standard formats will not work
+
     ### Setting headers
 
     If you need to set custom headers, you'll use the `headers` method on an instance of the `ApiClient`.
