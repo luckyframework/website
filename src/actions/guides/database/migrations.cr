@@ -254,6 +254,16 @@ class Guides::Database::Migrations < GuideAction
     end
     ```
 
+    ### Changing column default
+
+    When your column currently has a default value, but you'd like to change that default, you can use the `change_default` macro.
+
+    ```crystal
+    alter table_for(Post) do
+      change_default published_at : Time, default: :now
+    end
+    ```
+
     ### Removing a column
 
     The `remove` method must go in the `alter` block.
