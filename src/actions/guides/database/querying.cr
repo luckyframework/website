@@ -298,6 +298,50 @@ class Guides::Database::Querying < GuideAction
 
     > The dates are compared with Strings, so a date formatted String object must be passed in.
 
+    ### LENGTH/REVERSE A = B
+
+    Find rows where the length of string `A` is equal to `B`
+
+    `SELECT COLUMNS FROM users WHERE LENGTH(users.username) = 2`
+
+    ```crystal
+    UserQuery.new.username.length.eq(2)
+    ```
+
+    Find rows where the reverse of string `A` is equal to `B`
+
+    `SELECT COLUMNS FROM users WHERE REVERSE(users.username) = 'tacocat'`
+
+    ```crystal
+    UserQuery.new.username.reverse.eq("tacocat")
+    ```
+
+    ### ABS/CEIL/FLOOR A = B
+
+    Find rows where the ABS of the number `A` is equal to `B`
+
+    `SELECT COLUMNS FROM reports WHERE ABS(reports.amount) = 400`
+
+    ```crystal
+    ReportQuery.new.amount.abs.eq(400)
+    ```
+
+    Find rows where the FLOOR number `A` is equal to `B`
+
+    `SELECT COLUMNS FROM reports WHERE FLOOR(reports.rating) = 5`
+
+    ```crystal
+    ReportQuery.new.rating.floor.eq(5)
+    ```
+
+    Find rows where the CEIL number `A` is equal to `B`
+
+    `SELECT COLUMNS FROM reports WHERE CEIL(reports.rating) = 5`
+
+    ```crystal
+    ReportQuery.new.rating.ceil.eq(5)
+    ```
+
     ### A gt/lt B
 
     * gt: >
@@ -451,6 +495,52 @@ class Guides::Database::Querying < GuideAction
 
     > For each supported time unit, you can either pass it as an enum value to `extract` (i.e. `extract(Avram::ChronoUnits::Year)`)
     > or append the lowercase version to `extract_` (i.e. `extract_julian`)
+
+    ### jsonb Type Queries
+
+    These are special query methods designed for quering against `JSON::Any` / `jsonb` type columns.
+
+    Find rows where the jsonb field `A` has the key `B`.
+
+    `SELECT COLUMNS FROM users WHERE users.preferences ? 'theme'`
+
+    ```crystal
+    UserQuery.new.preferences.has_key("theme")
+    ```
+
+    Find rows where the jsonb field `A` has any of the keys `B` or `C`
+
+    `SELECT COLUMNS FROM users WHERE users.preferences ?| '{"theme", "style"}'`
+
+    ```crystal
+    UserQuery.new.preferences.has_any_keys(["theme", "style"])
+    ```
+
+    Find rows where the jsonb field `A` has all of the keys `B` and `C`
+
+    `SELECT COLUMNS FROM users WHERE users.preferences ?& '{"theme", "size"}'`
+
+    ```crystal
+    UserQuery.new.preferences.has_all_keys(["theme", "size"])
+    ```
+
+    Find rows where the jsonb field `A` includes the jsonb data `B`
+
+    `SELECT COLUMNS FROM users WHERE users.preferences @> '{"theme":"dark"}'`
+
+    ```crystal
+    UserQuery.new.preferences.includes({theme: "dark"})
+    ```
+
+    Find rows where the jsonb field `A` is in the jsonb data `B`
+
+    `SELECT COLUMNS FROM users WHERE users.preferences <@ '{"theme":"dark","size":"large","audio":"on","transparentBg":true}'`
+
+    ```crystal
+    UserQuery.new.preferences.in({theme: "dark", size: "large", audio: "on", transparentBg: true})
+    ```
+
+    > The `JSON::Any` `includes` and `in` methods accept any structure that responds to `to_json`
 
     ### Raw Where Queries
 
