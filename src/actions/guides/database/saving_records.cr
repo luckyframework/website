@@ -185,6 +185,23 @@ class Guides::Database::SavingRecords < GuideAction
     end
     ```
 
+    ### Detecting updated or created
+
+    Since an `upsert` will attempt to find first and then update when found, you may want to know if the operation
+    performed a create or an update. You can use `created?` or `updated?` on the operation to get this value.
+
+    ```crystal
+    SaveUser.upsert(name: "Will", email: "bob@example.com") do |operation, user|
+      operation.created? # => true
+      operation.updated? # => false
+    end
+
+    SaveUser.upsert(name: "William", email: "bob@example.com") do |operation, user|
+      operation.created? # => false
+      operation.updated? # => true
+    end
+    ```
+
     #{permalink(ANCHOR_SAVING_SERIALIZED_JSON)}
     ## Saving Serialized JSON
 
