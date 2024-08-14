@@ -4332,10 +4332,10 @@ mkdirp@^0.5.5:
   dependencies:
     minimist "^1.2.5"
 
-modern-normalize@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-2.0.0.tgz#3d04ed01c81a3d4e0a0fd9ceba6abd1b16f5964b"
-  integrity sha512-CxBoEVKh5U4DH3XuNbc5ONLF6dQBc8dSc7pdZ1957FGbIO5JBqGqqchhET9dTexri8/pk9xBL6+5ceOtCIp1QA==
+modern-normalize@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-3.0.0.tgz#b44f1e4f1e8781333fb5fe0dec3956b69e17c0bb"
+  integrity sha512-oY2uocgMUQC33i5rKZMWzhyJ+U2nsoiHDYyoDVFxYVBob8RIjZoCbRSbE4+a2/SfbGmZOhOJIavLrzz3BC72tw==
 
 ms@2.0.0:
   version "2.0.0"
