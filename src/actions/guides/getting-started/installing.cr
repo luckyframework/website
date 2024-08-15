@@ -276,24 +276,23 @@ class Guides::GettingStarted::Installing < GuideAction
 
     You will need to create a database user with proper permissions to allow Lucky to manage the application database.
     There are several ways to accomplish this, but fortunatly PostgreSQL ships several command line tools to simplify
-    this step. You will need to become the 'postgres' user:
+    this step. You will need to become the "postgres" user:
     ```bash
     sudo su - postgres
     ```
 
     Now create the user, and set the roles `createrole`, `superuser`, `createdb` then enter a password. In
-    this example below, we will create a user named 'lucky' and set a password of 'lucky'.
+    this example below, we will create a user named "lucky" and set a password of "lucky".
     ```bash
     createuser -dsrP lucky
     ```
 
-    > Due to a bug in Lucky version 1.20, you will have to create a database with the same name as your
-    > postgres user, otherwise the setup script and database tasks will fail after init. This will be fixed in the
-    > next release
+    > Lucky versions 1.1.0 - 1.2.0 expects an existing database with the same name as the user you created in the
+    > previous step. The setup script and database tasks will fail after init if it does not exist. This requirement
+    > wil be removed in the next release.
     ```bash
     createdb -O lucky lucky
     ```
-
 
     Return back to your normal user.
     ```bash
@@ -314,7 +313,7 @@ class Guides::GettingStarted::Installing < GuideAction
     SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
     Type "help" for help.
 
-    postgres=#  \ \q
+    postgres=# \\q
     ```
 
     #{permalink(ANCHOR_NODE)}
