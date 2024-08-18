@@ -237,7 +237,7 @@ class Guides::GettingStarted::Installing < GuideAction
 
     There are other installation methods available in [Postgres CLI tools docs](https://postgresapp.com/documentation/cli-tools.html)
 
-    ### 1b. (Linux only) Password-less logins for local development
+    ### 1b. (Linux only) Configure PostgreSQL authentication trust for local development
 
     Homebrew installed PostgreSQL on macOS are configured by default to allow password-less logins. But for Linux, if you wish to
     use PostgreSQL without a password, you'll need to ensure your `pg_hba.conf` file is updated.
@@ -253,12 +253,16 @@ class Guides::GettingStarted::Installing < GuideAction
     host    all             all             ::1/128                 trust
     ```
 
-    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/12/auth-methods.html) to learn
+    Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/14/auth-methods.html) to learn
     more more about available authentication methods and how to configure them for PostgreSQL.
 
     > Restart the `postgresql` service to activate the configuration changes.
 
-    ### 2. Ensure Postgres CLI tools installed
+    ```bash
+    sudo systemctl restart postgresql
+    ```
+
+    ### 2. Verify PostgreSQL CLI client (psql) is installed
 
     First open a new session to reload your terminal, then:
 
@@ -267,6 +271,50 @@ class Guides::GettingStarted::Installing < GuideAction
     ```
 
     Should return `psql (PostgreSQL) 10.x` or higher.
+
+    ### 3. Create a database user and set a password
+
+    You will need to create a database user with proper permissions to allow Lucky to manage the application database.
+    There are several ways to accomplish this, but fortunatly PostgreSQL ships several command line tools to simplify
+    this step. You will need to become the "postgres" user:
+    ```bash
+    sudo su - postgres
+    ```
+
+    Now create the user, and set the roles `createrole`, `superuser`, `createdb` then enter a password. In
+    this example below, we will create a user named "lucky" and set a password of "lucky".
+    ```bash
+    createuser -dsrP lucky
+    ```
+
+    > Lucky versions 1.1.0 - 1.2.0 expects an existing database with the same name as the user you created in the
+    > previous step. The setup script and database tasks will fail after init if it does not exist. This requirement
+    > wil be removed in the next release.
+    ```bash
+    createdb -O lucky lucky
+    ```
+
+    Return back to your normal user.
+    ```bash
+    exit
+    ```
+
+    Now test the user can connect to the local postgres datbabase, enter the password for the user you just created when prompted.
+    ```bash
+    psql -h localhost -U lucky -W postgres
+    ```
+
+    If successful, you should see the following output, then type `\\q` and hit `enter` to quit the client.
+    ```
+    > psql -h localhost -U lucky -W postgres
+
+    Password:
+    psql (14.12 (Ubuntu 14.12-0ubuntu0.22.04.1))
+    SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+    Type "help" for help.
+
+    postgres=# \\q
+    ```
 
     #{permalink(ANCHOR_NODE)}
     ## Node and Yarn (optional)
