@@ -4,7 +4,7 @@
   "dependencies": {
     "@docsearch/js": "^3.6.1",
     "@hotwired/turbo": "^8.0.5",
-    "@rails/ujs": "7.1.3",
+    "@rails/ujs": "7.1.400",
     "highlight.js": "^11.10.0",
     "modern-normalize": "^3.0.0"
   },
