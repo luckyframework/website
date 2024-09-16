@@ -254,7 +254,7 @@ class Guides::GettingStarted::Installing < GuideAction
     ```
 
     Visit [PostgreSQL Authentication Methods](https://www.postgresql.org/docs/14/auth-methods.html) to learn
-    more more about available authentication methods and how to configure them for PostgreSQL.
+    more about available authentication methods and how to configure them for PostgreSQL.
 
     > Restart the `postgresql` service to activate the configuration changes.
 
