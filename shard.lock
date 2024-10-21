@@ -23,15 +23,15 @@ shards:
 
   carbon:
     git: https://github.com/luckyframework/carbon.git
-    version: 0.5.1
+    version: 0.6.0
 
   carbon_sendgrid_adapter:
     git: https://github.com/luckyframework/carbon_sendgrid_adapter.git
-    version: 0.5.1
+    version: 0.6.0
 
   cmark:
     git: https://github.com/amauryt/cr-cmark-gfm.git
-    version: 0.1.3+git.commit.ff464803e2006b1047e3bb4c798f426f621cd7e6
+    version: 0.1.3+git.commit.9e6b023c72a077142d03e1c1fd2c3cedb4a93e56
 
   cry:
     git: https://github.com/luckyframework/cry.git
@@ -47,7 +47,7 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.4.1
+    version: 0.5.0
 
   fnv:
     git: https://github.com/naqvis/crystal-fnv.git
@@ -67,7 +67,7 @@ shards:
 
   lucky:
     git: https://github.com/luckyframework/lucky.git
-    version: 1.2.0
+    version: 1.3.0
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git
@@ -79,7 +79,7 @@ shards:
 
   lucky_router:
     git: https://github.com/luckyframework/lucky_router.git
-    version: 0.5.2
+    version: 0.6.0
 
   lucky_task:
     git: https://github.com/luckyframework/lucky_task.git

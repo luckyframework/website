@@ -140,6 +140,8 @@ class Guides::GettingStarted::Installing < GuideAction
     scoop install lucky
     ```
 
+    > Windows compatibility is still experimental. Please report any issues you may have
+
     ## Install Lucky CLI with Homebrew
 
     Once the required dependencies above are installed, set up Lucky for your system.
