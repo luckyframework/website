@@ -97,10 +97,6 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://luckycasts.com",
         description: "Video screencasts on Lucky and the Crystal programming language"
       mount AwesomeLink,
-        text: "Lucky Bits",
-        url: "https://www.luckybits.link",
-        description: "Create small link snippets to share with friends"
-      mount AwesomeLink,
         text: "The Offline Pink",
         url: "https://the.offline.pink",
         description: "Service availability monitoring"
