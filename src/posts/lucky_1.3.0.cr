@@ -76,8 +76,8 @@ class Lucky130Release < BasePost
     Previously, when installing these shards, they would need to run a bash script that would then precompile a few binaries
     for use with your app. For example, the `lucky gen.secret_key` task which generates a random unique key.
 
-    Aside from these bash scripts not being directly usable on Windows, there's also been [talk about postinstall](https://forum.crystal-lang.org/t/shards-postinstall-considered-harmful/3910)
-    being considered "harmful" and possibly removed in a future version of Crystal. By removing the use of the postinstall,
+    Aside from these bash scripts not being directly usable on Windows, there's also been discussion that [postinstall can be "harmful"](https://forum.crystal-lang.org/t/shards-postinstall-considered-harmful/3910)
+ and may possibly removed in a future version of Crystal. By removing the use of the postinstall,
     Lucky was able to do a few things:
 
     * Installing the shards is **way** faster since it no longer needs to stop and precompile several binaries
@@ -93,12 +93,12 @@ class Lucky130Release < BasePost
 
     Next time you execute this call, it'll run the compiled version instantly.
 
-    > In the next release, a new `lucky build` command will make this easier
+    > The next release, a new `lucky build` command will make this easier.
     
     ## Parting words
 
     Thank you for sticking with Lucky. While there's many options out there to choose from,
-    it means a lot that you're using Lucky. If you're using Lucky in production, and would like
+    it means a lot that you've chosen this framework. If you're using Lucky in production, and would like
     to add your application to our [Awesome Lucky](https://luckyframework.org/awesome) "built-with"
     section, feel free to open an issue on the [Website](https://github.com/luckyframework/website/issues)
     or a PR!
