@@ -30,6 +30,6 @@ jobs:
       - name: Install shards
         run: shards install
       - name: Setup Lucky
-        run: script/setup
+        run: crystal ./script/setup.cr
       - name: Run tests
         run: crystal spec
