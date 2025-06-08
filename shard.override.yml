@@ -1,4 +1,4 @@
-dependencies:
-  habitat:
-    github: luckyframework/habitat
-    version: ~> 0.4.9
+# dependencies:
+#   habitat:
+#     github: luckyframework/habitat
+#     version: ~> 0.4.9

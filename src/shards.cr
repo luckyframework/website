@@ -1,7 +1,8 @@
 # Require your shards here
 require "lucky_env"
 
-LuckyEnv.load?(".env")
+LuckyEnv.init_env(".env")
+LuckyEnv.load(".env")
 
 require "lucky"
 require "carbon"

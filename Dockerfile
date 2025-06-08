@@ -1,4 +1,4 @@
-FROM crystallang/crystal:1.7.3
+FROM crystallang/crystal:1.16.3
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -9,7 +9,7 @@ EXPOSE 5000
 RUN apt-get update && \
   apt-get install -y libnss3 libgconf-2-4 chromium-browser curl libreadline-dev golang-go postgresql postgresql-contrib locales && \
   # Set up node and yarn
-  curl --silent --location https://deb.nodesource.com/setup_11.x | bash - && \
+  curl --silent --location https://deb.nodesource.com/setup_18.x | bash - && \
   apt-get install -y nodejs && \
   npm install -g yarn && \
   # Lucky cli
