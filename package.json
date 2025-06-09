@@ -5,7 +5,7 @@
     "@docsearch/js": "^3.8.0",
     "@hotwired/turbo": "^8.0.12",
     "@rails/ujs": "7.1.501",
-    "highlight.js": "^11.10.0",
+    "highlight.js": "^11.11.1",
     "modern-normalize": "^3.0.1"
   },
   "scripts": {
