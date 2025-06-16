@@ -133,6 +133,10 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Paste69",
         url: "https://0x45.st/",
         description: "Paste69 is a free, open-source, beautiful pastebin alternative"
+      mount AwesomeLink,
+        text: "Crystal China",
+        url: "https://crystal-china.org",
+        description: "Crystal China website"
     end
   end
 
