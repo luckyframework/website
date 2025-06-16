@@ -17,8 +17,25 @@ class Guides::HttpAndRouting::LinkGeneration < GuideAction
       and the full URL as methods `path`, `method`, `url`.
     * `with` - an alias for `route` that is used for passing parameters.
     * `path` - returns a string of just the path.
+    * `url_without_query_params` - returns a string of just path but without query
+       params requried.
     * `url` - returns a string with the whole URL including query params.
     * `url_without_query_params` - will return the URL but without query params.
+
+     ```crystal
+    class SomeAction < BrowserAction
+      param page : Int32
+
+      get "/path" do
+        plain_text "ok"
+      end
+    end
+
+    # This will raise because `page` is required
+    SomeAction.path
+
+    SomeAction.path_without_query_params # => "/path"
+    ```
 
     ```crystal
     # src/actions/projects/users/index.cr
