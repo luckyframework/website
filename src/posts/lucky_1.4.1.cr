@@ -142,7 +142,7 @@ class Lucky141Release < BasePost
     ### State of LuckyFlow
 
     If you're not familiar, LuckyFlow is a shard that ships with new browser based Lucky apps that
-    helps with doing Acceptance testing by spinning up a browser and wallking through a user's flow
+    helps with doing Acceptance testing by spinning up a browser and walking through a user's flow
     using your site.
 
     As you can see, we went from v1.4.0 right to v1.4.1. This was due to some bugs we found in LuckyFlow
@@ -154,9 +154,9 @@ class Lucky141Release < BasePost
     quite complex. On top of this, needing to support these drivers across different platforms is also
     very complex.
 
-    For the time being, generating a new Lucky app will still sihp with LuckyFlow, but the specs will be
+    For the time being, generating a new Lucky app will still ship with LuckyFlow, but the specs will be
     set to "pending" until we can release a new version with the issues fixed. You are still free to use
-    LuckyFlow, but just keep in mind that your specs may radomly fail, and the failure may be unrelated
+    LuckyFlow, but just keep in mind that your specs may randomly fail, and the failure may be unrelated
     to your code.
 
     > Follow along with the discussion on [Github](https://github.com/luckyframework/lucky_cli/issues/890)
