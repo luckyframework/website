@@ -48,7 +48,7 @@ class Lucky141Release < BasePost
     end
     ```
 
-    As you can see, this will limit the number of requests to the endpoint to a max of 1 every 1 minute. It will use the
+    This will limit the number of requests to the endpoint to a max of 1 every 1 minute. It will use the
     `rate_limit_identifier` key for the lookup which you can customize if you need to set the limit to different amounts
     on a per user basis, for example.
 
@@ -90,12 +90,12 @@ class Lucky141Release < BasePost
 
     ### Table Locking
 
-    In general, a table lock is a way to lock your table while you perform operations on it preventing other connections
-    from altering that table during that time. In Postgres, however, there's 8 different types of locking that can
-    allow for a lot more customization and handling when it comes to locking your table.
+    Table locks control which actions can be performed on a table at the same time. Postgres has
+    [eight different table locking modes](https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES) that
+    allow you to specify the locking behavior. Avram now supports all eight.
 
     The `AppDatabase.with_lock_on` method takes the model whose table you will be locking, and the locking `mode`.
-    Then within the block, all queries made will happen within the transaction.
+    Then within the block, the lock is applied and all queries made will happen within a transaction.
 
     ```crystal
     AppDatabase.with_lock_on(User, mode: :row_exclusive) do
@@ -104,7 +104,7 @@ class Lucky141Release < BasePost
     end
     ```
 
-    Avram supports the following lock modes:
+    These are the eight modes:
 
     ```
     ACCESS_SHARE
@@ -145,7 +145,7 @@ class Lucky141Release < BasePost
     helps with doing Acceptance testing by spinning up a browser and walking through a user's flow
     using your site.
 
-    As you can see, we went from v1.4.0 right to v1.4.1. This was due to some bugs we found in LuckyFlow
+    We released LuckyFlow v1.4.1 and skipped v1.4.0. This was due to some bugs we found in LuckyFlow
     that were causing specs to fail randomly on new generated apps. These failures are new and seem to be
     race conditions that we have yet to find.
 
