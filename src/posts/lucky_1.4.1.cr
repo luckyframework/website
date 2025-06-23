@@ -149,10 +149,10 @@ class Lucky141Release < BasePost
     that were causing specs to fail randomly on new generated apps. These failures are new and seem to be
     race conditions that we have yet to find.
 
-    Due to the complexity of LuckyFlow needing several dependencies, like Selenium, and handling several
-    different webdrivers (e.g chromedriver, geckodriver, etc...), keeping LuckyFlow updated has become
-    quite complex. On top of this, needing to support these drivers across different platforms is also
-    very complex.
+    Keeping LuckyFlow updated has become quite complex. There are several shards required to make it work
+    which are [Selenium](https://github.com/crystal-loot/selenium.cr), [Webdrivers](https://github.com/crystal-loot/webdrivers.cr),
+    and [Webless](https://github.com/crystal-loot/webless). There are two supported browsers, Chrome, and
+    Firefox. Plus the addition of supporting Linux, MacOS, and Windows.
 
     For the time being, generating a new Lucky app will still ship with LuckyFlow, but the specs will be
     set to "pending" until we can release a new version with the issues fixed. You are still free to use
