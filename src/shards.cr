@@ -2,7 +2,7 @@
 require "lucky_env"
 
 LuckyEnv.init_env(".env")
-LuckyEnv.load(".env")
+LuckyEnv.load?(".env")
 
 require "lucky"
 require "carbon"
