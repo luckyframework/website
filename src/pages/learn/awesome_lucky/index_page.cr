@@ -97,10 +97,6 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         url: "https://luckycasts.com",
         description: "Video screencasts on Lucky and the Crystal programming language"
       mount AwesomeLink,
-        text: "The Offline Pink",
-        url: "https://the.offline.pink",
-        description: "Service availability monitoring"
-      mount AwesomeLink,
         text: "Valheim Server Hosting",
         url: "https://valheimserverhosting.com",
         description: "Server hosting for the Valheim game"
@@ -112,10 +108,6 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Scribe",
         url: "https://scribe.rip/",
         description: "Alternative frontend to Medium.com"
-      mount AwesomeLink,
-        text: "Review My Email",
-        url: "https://reviewmy.email/",
-        description: "ReviewMy helps you submit quick snippets for review for emails, text messages, portions of larger documents"
       mount AwesomeLink,
         text: "DendroRithms",
         url: "https://dendrorithms.com/",
@@ -129,10 +121,6 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "ErrorDeck",
         url: "https://www.errordeck.com/",
         description: "Errordeck is an error monitoring, tracking and handling service that will help you know the most common error and help you solve them more straightforwardly."
-      mount AwesomeLink,
-        text: "Paste69",
-        url: "https://0x45.st/",
-        description: "Paste69 is a free, open-source, beautiful pastebin alternative"
       mount AwesomeLink,
         text: "Crystal China",
         url: "https://crystal-china.org",
