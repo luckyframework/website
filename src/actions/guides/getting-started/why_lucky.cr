@@ -43,7 +43,7 @@ class Guides::GettingStarted::WhyLucky < GuideAction
     UserQuery.new.age.gte(30).admin(true).email.ilike("%thoughtbot.com")
     ```
 
-    ## Send content to users _fast_
+    ## Send content to users *fast*
 
     Lucky helps you spend less time fixing performance issues, and more time
     delighting your customers with fast applications.
