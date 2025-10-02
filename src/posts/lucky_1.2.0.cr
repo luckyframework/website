@@ -230,7 +230,7 @@ class Lucky120Release < BasePost
     ### Follow and spread the word
 
     If you haven't already, give us a [star on GitHub](https://github.com/luckyframework/lucky),
-    and be sure to follow us on [X/Twitter](https://twitter.com/luckyframework/).
+    and be sure to follow us on [Bluesky](https://bsky.app/profile/luckyframework.org/).
 
     Learn tips and tricks with [LuckyCasts](https://luckycasts.com/).
 

@@ -204,7 +204,7 @@ class Lucky023Release < BasePost
     ### Follow and spread the word
 
     If you haven't already, give us a [star on github](https://github.com/luckyframework/lucky),
-    and be sure to follow us on [Twitter](https://twitter.com/luckyframework/).
+    and be sure to follow us on [Bluesky](https://bsky.app/profile/luckyframework.org/).
 
     For questions, or just to chat, come say hi on [gitter](https://gitter.im/luckyframework/Lobby).
     MD
