@@ -197,7 +197,7 @@ class Home::IndexPage
 
     If you're not quite ready to dive in but want to stay up to date,
     [subscribe to our blog](#{Blog::Index.path}), or [follow us on
-    Twitter](https://twitter.com/luckyframework).
+    Bluesky](https://bsky.app/profile/luckyframework.org).
     TEXT
   end
 

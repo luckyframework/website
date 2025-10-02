@@ -6,6 +6,7 @@ module Members
     title : String,
     github : String,
     twitter_link : String? = nil,
+    bluesky_link : String? = nil,
     mastodon_link : String? = nil
 
   def creator
@@ -22,7 +23,8 @@ module Members
         fullname: "Jeremy Woertink",
         title: "Core Member",
         github: "jwoertink",
-        twitter_link: "https://twitter.com/jeremywoertink"
+        # twitter_link: "https://twitter.com/jeremywoertink"
+        bluesky_link: "https://bsky.app/profile/jeremywoertink.bsky.social"
       ),
       Member.new(
         fullname: "Matthew McGarvey",
