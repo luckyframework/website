@@ -54,8 +54,9 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
     ### Create a Flow spec in spec/flows/
 
-    When writing flow specs, it’s best to *write the spec as a full flow that a
-    user might take*. For example, here is a flow for publishing an article:
+    When writing flow specs, your flow object will handle all of the interactions,
+    and should read as a step-by-step guide that a user will take flowing from point A to B.
+    Each of your spec assertions can remain in the spec for transparency.
 
     ```crystal
     # spec/flows/publish_post_spec.cr
@@ -65,10 +66,12 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
         flow.start_draft
         flow.create_draft
-        flow.draft_should_be_saved
+        flow.should have_element("@draft-title")
         flow.open_draft
         flow.publish_post
-        flow.post_should_be_published
+
+        flow.should have_element("@post-title")
+        flow.should have_text("Published Post")
       end
     end
     ```
@@ -92,10 +95,6 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
         click "@save-draft"
       end
 
-      def draft_should_be_created
-        draft_title.should be_on_page
-      end
-
       def open_draft
         draft_title.click
       end
@@ -108,10 +107,6 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
         fill_form PublishArticle,
           title: "Published Post"
         click "@publish-post"
-      end
-
-      def post_should_be_published
-        el("@post-title", text: "Published Post").should be_on_page
       end
     end
     ```
@@ -320,11 +315,12 @@ class Guides::Testing::HtmlAndInteractivity < GuideAction
 
     ### Asserting elements are on the page
 
-    You can use `el` combined with the `be_on_page` matcher to assert that an
-    element is on the page:
+    You can use the `have_element` and `have_text` expectations to check for specific elements using CSS
+    selectors, or elements containing specific text.
 
     ```crystal
-    el("@post-title", text: "My post").should be_on_page
+    flow.should have_element(%(span[data-arg="4"]))
+    flow.should have_text("Welcome")
     ```
 
     ### Asserting the current URL path

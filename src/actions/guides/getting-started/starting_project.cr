@@ -36,7 +36,7 @@ class Guides::GettingStarted::StartingProject < GuideAction
 
     This option is great if you need to generate a Lucky app programmatically, or just prefer to get going right away.
 
-    ```
+    ```bash
     # Generate a Full Web app with Authentication
     lucky init.custom my_app
 

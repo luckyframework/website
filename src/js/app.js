@@ -1,7 +1,8 @@
 /* eslint no-console:0 */
 
 // RailsUjs is *required* for links in Lucky that use DELETE, POST and PUT.
-require("@rails/ujs").start();
+import Rails from "@rails/ujs"
+Rails.start();
 require("@hotwired/turbo");
 
 
@@ -36,6 +37,9 @@ hljs.registerLanguage('yaml', yaml);
 
 import diff from 'highlight.js/lib/languages/diff';
 hljs.registerLanguage('diff', diff);
+
+import plain from 'highlight.js/lib/languages/plaintext';
+hljs.registerLanguage('plain', plain);
 
 import docsearch from '@docsearch/js';
 

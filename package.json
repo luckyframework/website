@@ -2,11 +2,11 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@docsearch/js": "^3.5.2",
-    "highlight.js": "^11.9.0",
-    "modern-normalize": "^2.0.0",
-    "@rails/ujs": "7.0.8",
-    "@hotwired/turbo": "^7.3.0"
+    "@docsearch/js": "^3.9.0",
+    "@hotwired/turbo": "^8.0.13",
+    "@rails/ujs": "7.1.502",
+    "highlight.js": "^11.11.1",
+    "modern-normalize": "^3.0.1"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
@@ -15,13 +15,13 @@
     "prod": "yarn run mix --production"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.22.20",
-    "browser-sync": "^2.29.3",
-    "compression-webpack-plugin": "^10.0.0",
+    "@babel/compat-data": "^7.28.4",
+    "browser-sync": "^3.0.4",
+    "compression-webpack-plugin": "^11.1.0",
     "laravel-mix": "^6.0.49",
-    "postcss": "^8.4.31",
-    "sass": "^1.69.2",
-    "sass-loader": "^13.2.2",
-    "tailwindcss": "^3.3.3"
+    "postcss": "^8.5.6",
+    "sass": "^1.93.0",
+    "sass-loader": "^16.0.3",
+    "tailwindcss": "^3.4.15"
   }
 }

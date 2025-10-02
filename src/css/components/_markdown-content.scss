@@ -111,6 +111,7 @@
     font-family: Menlo, Roboto Mono, Courier New, monospace;
     border-radius: 4px;
     padding: 1px 5px;
+    scrollbar-color: #4a5568 #2e3440;
 
     a {
       @apply text-blue-dark no-underline border-b border-blue-light;
@@ -122,10 +123,22 @@
   }
 
   pre {
-    code {
-      a {
-        @apply no-underline text-grey border-grey-dark;
+    position: relative;
+
+    .copy-code-button {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      transition: opacity 0.1s ease;
+      opacity: 0;
+      background-color: #2e3440; // Assuming a default background color for the button
+      &:hover {
+        opacity: 1 !important;
       }
+    }
+
+    &:hover .copy-code-button {
+      opacity: 0.8;
     }
   }
 
@@ -214,5 +227,8 @@
         }
       }
     }
+  }
+  .bordered-icon {
+    @apply w-6 h-6 rounded-md border border-grey-light p-1;
   }
 }

@@ -17,20 +17,20 @@ class Guides::Deploying::Heroku < GuideAction
 
     If not already created, create an app:
 
-    ```plain
+    ```bash
     heroku create <APP_NAME>
     ```
 
     **Optional**: if you created the app through the dashboard instead of the CLI,
     add a git remote that points to your Heroku app:
 
-    ```plain
+    ```bash
     heroku git:remote -a <APP-NAME>
     ```
 
     Add the following buildpacks in order:
 
-    ```plain
+    ```bash
     # Skip this buildpack for API only app. Add this for HTML and Assets
     heroku buildpacks:add heroku/nodejs
 
@@ -40,19 +40,19 @@ class Guides::Deploying::Heroku < GuideAction
 
     Set `LUCKY_ENV` to `production`:
 
-    ```plain
+    ```bash
     heroku config:set LUCKY_ENV=production
     ```
 
     Set `SECRET_KEY_BASE`:
 
-    ```plain
+    ```bash
     heroku config:set SECRET_KEY_BASE=$(lucky gen.secret_key)
     ```
 
     Set `APP_DOMAIN`:
 
-    ```plain
+    ```bash
     heroku config:set APP_DOMAIN=https://your-domain.com
     ```
 
@@ -60,7 +60,7 @@ class Guides::Deploying::Heroku < GuideAction
 
     Set `SEND_GRID_KEY`:
 
-    ```plain
+    ```bash
     heroku config:set SEND_GRID_KEY=<key from sendgrid.com>
     ```
 
@@ -70,13 +70,13 @@ class Guides::Deploying::Heroku < GuideAction
     Add a [postgresql database](https://elements.heroku.com/addons/heroku-postgresql)
     add-on:
 
-    ```plain
+    ```bash
     heroku addons:create heroku-postgresql:hobby-dev
     ```
 
     Push to Heroku:
 
-    ```plain
+    ```bash
     git push heroku main
     ```
 

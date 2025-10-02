@@ -28,8 +28,8 @@ class Guides::Database::DatabaseSetup < GuideAction
 
     * database : `String` - This is the name of your database. The default is set at the top of this file.
     * hostname : `String?` - The host where your database is located. Generally "localhost".
-    * username : `String?` - Your database user.
-    * password : `String?` - Your password.
+    * username : `String?` - Your database user. Our example uses a database user "lucky".
+    * password : `String?` - Your password. (Caution: do not store production passwords in your src repo)
     * port : `Int32?` - The port to connect to. Default is `5432`
     * query : `String?` - A query string of connection pool settings.
 
@@ -40,7 +40,8 @@ class Guides::Database::DatabaseSetup < GuideAction
         database: database_name,
         hostname: "localhost",
         port: 5432,
-        username: "postgres",
+        username: "lucky",
+        password: "lucky",
         query: "initial_pool_size=5&retry_attempts=2"
       )
     end
@@ -88,7 +89,7 @@ class Guides::Database::DatabaseSetup < GuideAction
     (e.g. `query: "initial_pool_size=5&max_pool_size=10"`).
 
     > If using a connection string, set the query at the end.
-    > (e.g. `postgres://postgres@localhost/my_db?initial_pool_size=5`)
+    > (e.g. `postgres://lucky@localhost/my_db?initial_pool_size=5`)
 
     ### Other Avram Options
 
@@ -228,8 +229,8 @@ class Guides::Database::DatabaseSetup < GuideAction
       settings.credentials = Avram::Credentials.parse?(ENV["SECOND_DATABASE_URL"]?) || Avram::Credentials.new(
         database: "db_two",
         hostname: "localhost",
-        username: "postgres",
-        password: "postgres"
+        username: "dbuser2",
+        password: "pass2"
       )
     end
     ```

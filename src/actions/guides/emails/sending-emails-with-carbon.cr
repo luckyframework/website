@@ -206,6 +206,46 @@ class Guides::Emails::SendingEmailsWithCarbon < GuideAction
     depending on the Carbon Adapter you're using. For SendGrid, this will be the `HTTP::Client::Response`
     of the API call.
 
+    ## Email Attachments
+
+    Each file attachment will use a NamedTuple with the keys dependant on if the file is located physically on disk,
+    or in-memory using an IO. Below is an example of multiple attachments using each style.
+
+    ```crystal
+    # src/emails/purchase_email.cr
+    class PurchaseEmail < BaseEmail
+
+      # Define your own initializer with the
+      # references it needs
+      def initializer(@user : User, @purchase : Purchase)
+      end
+
+      to @user
+      subject "Thank you for your purchase"
+      templates html, text
+      attachment receipt
+      attachment logo
+
+      # Attach file using in-memory IO
+      def receipt : Carbon::AttachIO
+        {
+          io: IO::Memory.new(@purchase.to_pdf_format),
+          file_name: "purchase_receipt.pdf",
+          mime_type: "application/pdf"
+        }
+      end
+
+      # Attach file using path to file
+      def logo : Carbon::AttachFile
+        {
+          file_path: "./path/to/logo.png",
+          file_name: "logo.png",
+          mime_type: "image/png"
+        }
+      end
+    end
+    ```
+
     ## Testing Emails
 
     Carbon comes with a few methods you can use in your specs to ensure emails are being sent. [read more](https://github.com/luckyframework/carbon#testing)

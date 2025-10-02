@@ -1,7 +1,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  purge: ["./src/**/*.cr", "./src/**/*.scss"],
+  content: ["./src/**/*.cr", "./src/**/*.scss"],
   theme: {
     extend: {
       colors: {
@@ -49,13 +49,6 @@ module.exports = {
       width: {
         sidebar: "335px",
       },
-    },
-  },
-  variants: {
-    width: ["responsive", "focus"],
-    textColor: ["responsive", "hover", "focus", "group-hover"],
-    extend: {
-      ringWidth: ["hover"],
     },
   },
   plugins: [],

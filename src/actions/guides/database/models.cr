@@ -170,7 +170,7 @@ class Guides::Database::Models < GuideAction
     ### Setting the primary key
 
     The primary key is `Int64` by default. If that's what you need, then everything is already set for
-    you. If you need `Int32`, `Int16`, `UUID`, or your own custom set one, you'll need to update the
+    you. If you need `Int32`, `Int16`, `UUID`, or your own custom `String`, you'll need to update the
     `primary_key` in your `BaseModel` or set one in the `table` macro.
 
     Setting your primary key with the `primary_key` method works the same as you did in
@@ -182,6 +182,18 @@ class Guides::Database::Models < GuideAction
       macro default_columns
         # Sets the type for `id` to `UUID`
         primary_key id : UUID
+        timestamps
+      end
+    end
+    ```
+
+    For `String` primary keys, you will need to define a method that generates the value when the record is saved.
+
+    ```crystal
+    abstract class BaseModel < Avram::Model
+      macro default_columns
+        # Sets the type for `id` to `text`
+        primary_key id : String = UUID.v7.to_s
         timestamps
       end
     end
@@ -361,6 +373,37 @@ class Guides::Database::Models < GuideAction
 
       add status : Int32
       add role : Int32
+    end
+    ```
+
+    ### Array Enums
+
+    For `Array(SomeEnum)` columns, you will store these on the postgres side as array of ints. Then on the model side, you must
+    use the `PG::EnumArrayConverter` custom converter.
+
+    ```crystal
+    # Use this for your migrations
+    create table_for(Post) do
+      primary_key id : Int64
+
+      add reactions : Array(Int32), default: [] of Int32
+    end
+    ```
+
+    ```crystal
+    # src/models/post.cr
+    class Post < BaseModel
+
+      enum Reaction
+        Like
+        Love
+        Funny
+        Shocked
+      end
+
+      table do
+        column reactions : Array(Reaction) = [] of Post::Reaction, converter: PG::EnumArrayConverter(Post::Reaction)
+      end
     end
     ```
 

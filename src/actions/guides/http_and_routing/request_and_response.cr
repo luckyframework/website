@@ -275,6 +275,15 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
 
     The default status for a redirect is `HTTP::Status::FOUND` (302), but if you need a different status code, you can pass any [HTTP Status Enum](https://crystal-lang.org/api/HTTP/Status.html).
 
+    Alternatively, the default status value can also be configured globally:
+
+    ```crystal
+    # config/server.cr
+    Lucky::Redirectable.configure do |settings|
+      settings.redirect_status = HTTP::Status::SEE_OTHER.value
+    end
+    ```
+
     ### Redirect back
 
     `redirect_back` allows an action to send the user back to where they made the request from. This is really useful in situations like submitting
@@ -316,10 +325,10 @@ class Guides::HttpAndRouting::RequestAndResponse < GuideAction
     respectively.
 
     ```crystal
-    class Logs::Index < BrowserAction
-      get "/logs" do
-        logs = LogQuery.new
-        html IndexPage, logs: logs
+    class LogEntries::Index < BrowserAction
+      get "/log_entries" do
+        log_entries = LogEntryQuery.new
+        html IndexPage, log_entries: log_entries
       end
 
       def html_content_type

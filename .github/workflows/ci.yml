@@ -10,7 +10,7 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -23,13 +23,13 @@ jobs:
   specs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.7.3
+          crystal: latest
       - name: Install shards
         run: shards install
       - name: Setup Lucky
-        run: script/setup
+        run: crystal ./script/setup.cr
       - name: Run tests
         run: crystal spec
