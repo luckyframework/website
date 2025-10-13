@@ -2,7 +2,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@docsearch/js": "^3.9.0",
+    "@docsearch/js": "^4.2.0",
     "@hotwired/turbo": "^8.0.13",
     "@rails/ujs": "7.1.502",
     "highlight.js": "^11.11.1",
