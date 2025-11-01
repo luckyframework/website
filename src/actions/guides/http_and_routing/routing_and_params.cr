@@ -327,6 +327,44 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     end
     ```
 
+    ## Route aliases
+
+    Sometimes you may want to send more than one path to the same action. A
+    good use case, for example, are localized routes:
+
+     ```
+    # Posts::Index in the default language
+    /posts
+
+    # also Posts::Index, but in an alternative language
+    /:locale/posts
+    ```
+
+    To use route aliases, you can pass the paths as additional arguments:
+
+    ```crystal
+    class Posts::Index < BrowserAction
+      get "/posts", "/:locale/posts" do
+        if locale = params.get?(:locale)
+          # locale == "nl"
+        else
+          # locale == nil
+        end
+      end
+    end
+    ```
+
+    To access those routes in links, you can use both variants of the route
+    helpers as usual:
+
+    ```crystal
+    Posts::Index.path
+    # => "/posts"
+
+    Posts::Index.with(locale: "nl").path
+    # => "/nl/posts"
+    ```
+
     ## Routing style
 
     By default Lucky ensures that all routes adhere to the same style. All
