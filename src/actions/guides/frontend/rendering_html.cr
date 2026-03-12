@@ -389,6 +389,12 @@ class Guides::Frontend::RenderingHtml < GuideAction
     > The full path of the icon resolves to `src/svgs/menu/home.svg`. The svgs
     > directory can be configured, as described further down in this section.
 
+    You can also omit the `.svg` extension and Lucky will resolve it automatically:
+
+    ```crystal
+    inline_svg("menu/home")
+    ```
+
     By default, this macro will strip the XML declaration, comments, unnecessary
     whitespace and all attributes related to styling.
 
@@ -425,6 +431,29 @@ class Guides::Frontend::RenderingHtml < GuideAction
     > additional CSS styling, they have a different selector:
     > `[data-inline-svg-styled]` or `[data-inline-svg-styled="menu/logo.svg"]`.
 
+    ### Adding attributes to inline SVGs
+
+    You can pass arbitrary attributes to the SVG tag, which is especially useful
+    for accessibility attributes, class names, or data attributes:
+
+    ```crystal
+    inline_svg("menu/home.svg", aria_hidden: true, class: "icon")
+    ```
+
+    Attributes can be combined with the `strip_styling` flag using either
+    positional or named arguments:
+
+    ```crystal
+    # Positional argument
+    inline_svg("menu/logo.svg", false, data_label: "logo")
+
+    # Named argument
+    inline_svg("menu/logo.svg", strip_styling: false, data_label: "logo")
+    ```
+
+    > As with other Lucky HTML helpers, underscores in attribute names are
+    > converted to dashes. For example, `aria_hidden` becomes `aria-hidden`,
+    > and `data_label` becomes `data-label`.
 
     ### Configuration
 
