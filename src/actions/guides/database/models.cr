@@ -505,6 +505,66 @@ class Guides::Database::Models < GuideAction
 
     > The `has_many` macro also supports a `foreign_key` option like `belongs_to`.
 
+    ## Has one through (one to one)
+
+    Sometimes you need to access a record through an intermediary association.
+    For example, if a `Customer` `belongs_to` an `Employee`, and that
+    `Employee` `belongs_to` a `Manager`, you can access the `Manager` directly
+    from a `Customer` using `has_one through`.
+
+    ```crystal
+    class Manager < BaseModel
+      table do
+        has_many employees : Employee
+      end
+    end
+
+    class Employee < BaseModel
+      table do
+        belongs_to manager : Manager?
+        has_many customers : Customer
+      end
+    end
+
+    class Customer < BaseModel
+      table do
+        belongs_to employee : Employee
+        has_one manager : Manager?, through: [:employee, :manager]
+      end
+    end
+
+    # Access manager directly from the customer (may be nil here)
+    customer.manager
+    ```
+
+    This also works when the intermediate association uses `has_one` instead of
+    `belongs_to`. For example, if a `TaxId` `belongs_to` a `Business`, and that
+    `Business` `has_one` `EmailAddress`:
+
+    ```crystal
+    class Business < BaseModel
+      table do
+        has_one email_address : EmailAddress
+      end
+    end
+
+    class EmailAddress < BaseModel
+      table do
+        belongs_to business : Business
+      end
+    end
+
+    class TaxId < BaseModel
+      table do
+        belongs_to business : Business
+        has_one email_address : EmailAddress?, through: [:business, :email_address]
+      end
+    end
+
+    # Access email_address directly from tax_id (may be nil here)
+    tax_id.email_address
+    ```
+
     ## Has many through (many to many)
 
     Let's say we want to have many tags that can belong to any number of posts.
