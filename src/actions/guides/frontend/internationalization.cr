@@ -101,7 +101,20 @@ class Guides::Frontend::Internationalization < GuideAction
 
     This file contains translations for Avram's validations. For every
     additional locale, you'll need to copy and translate this file. Please
-    consider contributing your translations.
+    consider contributing your translations. This file also contains a special
+    namespace (`avram.attribute_variants`) to translate attribute names in form
+    field errors:
+
+    ```yaml
+    en:
+      avram:
+        attribute_variants:
+          email: "Email"
+          language: "Language"
+          password: "Password"
+          password_confirmation: "Password confirmation"
+      # ...
+    ```
 
     **4. `config/locales/example.en.yml`**
 
@@ -236,9 +249,9 @@ class Guides::Frontend::Internationalization < GuideAction
       end
 
       private def set_language
-        if language = current_user.try(&.language) || params.get?(:language)
-          Rosetta.locale = language
-        end
+        Rosetta.locale = current_user.try(&.language) ||
+                         params.get?(:language) ||
+                         Rosetta.default_locale
 
         continue
       end
@@ -482,7 +495,28 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/pages/errors/show_page.cr
     ```
 
-    ## Step 10 - Internationalize Actions
+    ## Step 10 - Internationalize Components
+
+    The `Shared::FieldErrors` component currently does not translate attribute
+    names in the error messages. To make the attribute names translatable,
+    change the `label_text` method into the following:
+
+    ```crystal
+    class Shared::FieldErrors(T) < BaseComponent
+      # ...
+      def label_text
+        r("avram.attribute_variants",
+          Wordsmith::Inflector.humanize(attribute.name.to_s)
+        ).t(variant: attribute.name.to_s)
+      end
+    end
+    ```
+
+    With this change, the label text method will now look up the attribute name
+    under the `avram.attribute_variants` key, and if it is not present, use the
+    original humanized version.
+
+    ## Step 11 - Internationalize Actions
 
     Translate flash messages.
 
@@ -542,7 +576,7 @@ class Guides::Frontend::Internationalization < GuideAction
     # src/actions/password_reset_requests/create.cr
     ```
 
-    ## Step 11 - Internationalize API Responses
+    ## Step 12 - Internationalize API Responses
 
     Similar to all previous steps, replace all untranslated strings:
 
