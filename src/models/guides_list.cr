@@ -64,6 +64,11 @@ class GuidesList
       ] of GuideAction.class),
       GuideCategory.new("Handling Files", [
         Guides::HandlingFiles::FileUploads,
+        Guides::HandlingFiles::Setup,
+        Guides::HandlingFiles::Uploaders,
+        Guides::HandlingFiles::ExtractingMetadata,
+        Guides::HandlingFiles::ProcessingFiles,
+        Guides::HandlingFiles::AvramIntegration,
       ] of GuideAction.class),
       GuideCategory.new("Emails", [
         Guides::Emails::SendingEmailsWithCarbon,
