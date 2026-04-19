@@ -12,7 +12,7 @@
   "publicPath": "/assets",
   "plugins": {
     "css": ["aliases", "cssGlobs", "config/bun/tailwind.js"],
-    "js": ["aliases", "jsGlobs"]
+    "js": ["jsGlobs"]
   },
   "devServer": {
     "host": "127.0.0.1",
