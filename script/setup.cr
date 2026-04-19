@@ -6,11 +6,11 @@ require "./system_check"
 
 print_done
 
-notice "Installing node dependencies"
-run_command "yarn", "install", "--no-progress"
+notice "Installing JS dependencies"
+run_command "bun", "install"
 
 notice "Compiling assets"
-run_command "yarn", "dev"
+run_command "bun", "run", "build"
 
 print_done
 
