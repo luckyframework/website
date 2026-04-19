@@ -131,7 +131,7 @@
       top: 12px;
       transition: opacity 0.1s ease;
       opacity: 0;
-      background-color: #2e3440; // Assuming a default background color for the button
+      background-color: #2e3440;
       &:hover {
         opacity: 1 !important;
       }
@@ -181,7 +181,7 @@
     margin: 30px 0 30px 0;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 
-    @screen md {
+    @media (min-width: 768px) {
       margin-right: -16px;
     }
   }
@@ -228,6 +228,7 @@
       }
     }
   }
+
   .bordered-icon {
     @apply w-6 h-6 rounded-md border border-grey-light p-1;
   }

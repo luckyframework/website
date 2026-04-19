@@ -1,4 +1,4 @@
-// https://github.com/algolia/docsearch/blob/ca19e0163524dbc9a883c12e72e99aa774734cc2/packages/docsearch-css/src/_variables.css#L3
+/* https://github.com/algolia/docsearch/blob/ca19e0163524dbc9a883c12e72e99aa774734cc2/packages/docsearch-css/src/_variables.css#L3 */
 :root {
   --docsearch-primary-color: rgb(36, 76, 135);
   --docsearch-highlight-color: var(--docsearch-primary-color);

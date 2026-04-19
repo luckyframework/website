@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@source "../**/*.cr";
+@config "../../tailwind.config.js";
+
+@import "modern-normalize";
+@import "@docsearch/css/dist/style.css";
+@import "./components/btn.css";
+@import "./components/algolia-docsearch.css";
+@import "./components/markdown-content.css";
+@import "./vendor/nord-highlightjs-theme.css";
+
+@layer base {
+  ul {
+    @apply pl-10;
+  }
+
+  h3 {
+    @apply font-bold;
+  }
+}
+
+.split-columns {
+  column-count: 2;
+  break-inside: avoid;
+}
+
+.bg-blue-gradient {
+  background-image: linear-gradient(0deg, #274f8c 0%, #002748 100%);
+}
+
+.bg-green-gradient {
+  background-image: linear-gradient(30deg, #00a7c1 0%, #25e0c1 100%);
+}
+
+@utility bg-lucky-teal-blue-gradient {
+  background-image: linear-gradient(30deg, #274f8c 0%, #43d7cf 100%);
+}
+
+.bg-lucky-green-vertical-gradient {
+  background-image: linear-gradient(-180deg, #3ae298 0%, #20bd7b 100%);
+}
+
+.hover\:bg-lucky-green-vertical-gradient-dark:hover {
+  background-image: linear-gradient(-180deg, #1fcc84 0%, #1eae70 100%);
+}
+
+.transition-base {
+  transition: 0.1s ease-in-out all;
+}
+
+@utility pl-sidebar {
+  padding-left: 390px;
+}
+
+.text-shadow {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
