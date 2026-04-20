@@ -2,10 +2,10 @@
 @source "../**/*.cr";
 @config "../../tailwind.config.js";
 
-@import "modern-normalize";
+@import "./variables.css";
+@import "modern-normalize" layer(base);
 @import "@docsearch/css/dist/style.css";
 @import "./components/btn.css";
-@import "./components/algolia-docsearch.css";
 @import "./components/markdown-content.css";
 @import "./vendor/nord-highlightjs-theme.css";
 
@@ -45,7 +45,7 @@
 }
 
 .transition-base {
-  transition: 0.1s ease-in-out all;
+  transition: var(--transition-base);
 }
 
 @utility pl-sidebar {
@@ -53,5 +53,5 @@
 }
 
 .text-shadow {
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
 }

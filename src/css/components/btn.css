@@ -1,7 +1,7 @@
 .btn {
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
   border-radius: 500px;
-  background: #1fbe7f;
+  background: var(--medium-green);
   text-transform: uppercase;
   font-weight: bold;
   height: 50px;
@@ -11,9 +11,13 @@
   text-decoration: none;
   letter-spacing: 1px;
   display: inline-block;
-  transition: 0.1s ease-in-out all;
+  transition: var(--transition-base);
   box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(-180deg, #3de69f 0%, #22c37f 100%);
+  background-image: linear-gradient(
+    -180deg,
+    var(--green-gradient-light) 0%,
+    var(--green-gradient-dark) 100%
+  );
   transform: scale(1);
 
   &:hover {
@@ -24,6 +28,10 @@
 }
 
 .btn--blue {
-  background: #1c92b3;
-  background-image: linear-gradient(-180deg, #47c4ff 0%, #2ba4ec 100%);
+  background: var(--lucky-blue);
+  background-image: linear-gradient(
+    -180deg,
+    var(--blue-gradient-light) 0%,
+    var(--blue-gradient-dark) 100%
+  );
 }
