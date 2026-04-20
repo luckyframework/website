@@ -181,7 +181,7 @@
     margin: 30px 0 30px 0;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 
-    @media (min-width: 768px) {
+    @variant md {
       margin-right: -16px;
     }
   }
