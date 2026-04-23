@@ -13,7 +13,7 @@ crystal: ">= 1.10.0"
 dependencies:
   lucky:
     github: luckyframework/lucky
-    branch: main
+    version: ~> 1.5.0
   carbon:
     github: luckyframework/carbon
     version: ~> 0.6.0

@@ -6,16 +6,18 @@ require "./system_check"
 
 print_done
 
+notice "Installing shards"
+run_command "shards", "install"
+
+print_done
+
 notice "Installing JS dependencies"
-run_command "bun", "install"
+run_command "bun", "install", "--no-progress"
 
 notice "Compiling assets"
 run_command "bun", "run", "build"
 
 print_done
-
-notice "Installing shards"
-run_command "shards", "install"
 
 if !File.exists?(".env")
   notice "No .env found. Creating one."
