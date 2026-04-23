@@ -551,6 +551,53 @@ class Guides::Database::Models < GuideAction
     > The associations *must* be declared on both ends (the Post and the Tag in this example),
     > otherwise you will get a compile time error
 
+    ## Has one through (one to one)
+
+    Similar to `has_many through`, you can use `has_one` with a `through` option to reach a
+    single associated record across an intermediate association. This is useful when a record
+    is related to another through a chain of associations.
+
+    Let's say a `Business` has one `TaxId` and one `EmailAddress`. A `TaxId` itself doesn't
+    have an email address directly, but you may want to access the business's email address
+    from the tax id.
+
+    ```crystal
+    class Business < BaseModel
+      table do
+        column name : String
+        has_one tax_id : TaxId
+        has_one email_address : EmailAddress
+      end
+    end
+
+    class TaxId < BaseModel
+      table do
+        column number : Int32
+        belongs_to business : Business
+        has_one email_address : EmailAddress, through: [:business, :email_address]
+      end
+    end
+
+    class EmailAddress < BaseModel
+      table do
+        column address : String
+        belongs_to business : Business
+      end
+    end
+    ```
+
+    With this in place, you can call `tax_id.email_address` to get the email address
+    associated with the tax id's business, or preload it with
+    `TaxId::BaseQuery.new.preload_email_address`.
+
+    A `has_one :through` association always expects an array with *exactly two* symbols.
+    The first must be a previously defined association on the current model (e.g.
+    `belongs_to` or `has_one`), and the second must be an association defined on that
+    intermediate model which leads to the target record.
+
+    > If the intermediate record is missing, the target will resolve to `nil`. When that's
+    > possible, make the association type nilable (e.g. `has_one manager : Manager?, through: [:employee, :manager]`).
+
     #{permalink(ANCHOR_POLYMORPHIC_ASSOCIATIONS)}
     ## Polymorphic associations
 
