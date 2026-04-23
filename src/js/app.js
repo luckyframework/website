@@ -11,6 +11,9 @@ import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
 
+import css from 'highlight.js/lib/languages/css';
+hljs.registerLanguage('css', css);
+
 import scss from 'highlight.js/lib/languages/scss';
 hljs.registerLanguage('scss', scss);
 
