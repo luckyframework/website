@@ -840,7 +840,25 @@ class Guides::Database::Querying < GuideAction
     author.hide_avatar #=> true
     ```
 
-    > The `reload` method requires a `primary_key`. `view` models that need this method will need to implement it.
+    If there is a chance that the record may have been deleted between the
+    initial load and the reload, the `reload?` variant can be used, which
+    returns a nilable value.
+
+    ```crystal
+    # Safely try to reload the Author instance
+    if reloaded_author = author.reload?
+      reloaded_author.hide_avatar #=> false
+    end
+
+    # ... another process deletes it
+    DeleteAuthor.delete!(author)
+
+    # Safely try to reload the Author instance again
+    author.reload? #=> nil
+    ```
+
+    > The `reload` and `reload?` methods require a `primary_key`. `view` models
+    that need this method will need to implement it.
 
     ### Adding preloads when reloading
 
