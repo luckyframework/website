@@ -1,0 +1,25 @@
+:root {
+  /* Site palette */
+  --lucky-blue: #1c92b3;
+  --medium-green: #1fbe7f;
+
+  /* Button gradients */
+  --green-gradient-light: #3de69f;
+  --green-gradient-dark: #22c37f;
+  --blue-gradient-light: #47c4ff;
+  --blue-gradient-dark: #2ba4ec;
+
+  /* Motion */
+  --transition-base: 0.1s ease-in-out all;
+
+  /* Shadows */
+  --text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+
+  /* Algolia DocSearch overrides
+     https://github.com/algolia/docsearch/blob/ca19e0163524dbc9a883c12e72e99aa774734cc2/packages/docsearch-css/src/_variables.css#L3 */
+  --docsearch-primary-color: rgb(36, 76, 135);
+  --docsearch-highlight-color: var(--docsearch-primary-color);
+  --docsearch-text-color: rgb(3, 30, 55);
+  --docsearch-muted-color: rgb(150, 159, 175);
+  --docsearch-logo-color: rgba(55, 222, 151, 1);
+}

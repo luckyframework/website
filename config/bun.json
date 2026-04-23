@@ -1,0 +1,21 @@
+{
+  "entryPoints": {
+    "js": "src/js/app.js",
+    "css": "src/css/app.css"
+  },
+  "staticDirs": ["src/images", "src/media", "src/icons"],
+  "watchDirs": ["src"],
+  "watchExtensions": {
+    "css": ["cr"]
+  },
+  "outDir": "public/assets",
+  "publicPath": "/assets",
+  "plugins": {
+    "css": ["aliases", "cssGlobs", "config/bun/tailwind.js"],
+    "js": ["jsGlobs"]
+  },
+  "devServer": {
+    "host": "127.0.0.1",
+    "port": 3002
+  }
+}

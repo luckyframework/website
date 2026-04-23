@@ -7,11 +7,10 @@ EXPOSE 3001
 EXPOSE 5000
 
 RUN apt-get update && \
-  apt-get install -y libnss3 libgconf-2-4 chromium-browser curl libreadline-dev golang-go postgresql postgresql-contrib locales && \
-  # Set up node and yarn
-  curl --silent --location https://deb.nodesource.com/setup_18.x | bash - && \
-  apt-get install -y nodejs && \
-  npm install -g yarn && \
+  apt-get install -y libnss3 libgconf-2-4 chromium-browser curl unzip libreadline-dev golang-go postgresql postgresql-contrib locales && \
+  # Install Bun
+  curl -fsSL https://bun.sh/install | bash && \
+  ln -s /root/.bun/bin/bun /usr/local/bin/bun && \
   # Lucky cli
   git clone https://github.com/luckyframework/lucky_cli --branch main --depth 1 /usr/local/lucky_cli && \
   cd /usr/local/lucky_cli && \
@@ -25,8 +24,8 @@ RUN locale-gen en_US.UTF-8
 COPY shard.* ./
 RUN shards install
 
-# Install node_modules
-COPY package.json .
-RUN yarn install
+# Install JS dependencies
+COPY package.json bun.lock* ./
+RUN bun install
 
 COPY . /data

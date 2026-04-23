@@ -27,8 +27,13 @@ jobs:
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
+      - uses: oven-sh/setup-bun@v2
       - name: Install shards
         run: shards install
+      - name: Install JS dependencies
+        run: bun install --frozen-lockfile
+      - name: Build assets
+        run: bun run build
       - name: Setup Lucky
         run: crystal ./script/setup.cr
       - name: Run tests

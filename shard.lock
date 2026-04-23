@@ -66,11 +66,11 @@ shards:
 
   lucky:
     git: https://github.com/luckyframework/lucky.git
-    version: 1.4.0
+    version: 1.4.0+git.commit.93e9d9e32a5bd68c2219bf470f87b5977653dc3a
 
   lucky_cache:
     git: https://github.com/luckyframework/lucky_cache.git
-    version: 0.1.1
+    version: 0.2.0
 
   lucky_env:
     git: https://github.com/luckyframework/lucky_env.git
@@ -82,7 +82,7 @@ shards:
 
   lucky_router:
     git: https://github.com/luckyframework/lucky_router.git
-    version: 0.6.0
+    version: 0.6.1
 
   lucky_task:
     git: https://github.com/luckyframework/lucky_task.git
