@@ -8,14 +8,14 @@ module LuckyCliVersion
   end
 
   def current_version : SemanticVersion
-    SemanticVersion.new(1, 4, 1)
+    SemanticVersion.new(1, 5, 0)
   end
 
   def min_compatible_crystal_version : SemanticVersion
-    SemanticVersion.new(1, 10, 0)
+    SemanticVersion.new(1, 16, 0)
   end
 
   def max_compatible_crystal_version : SemanticVersion
-    SemanticVersion.new(1, 16, 3)
+    SemanticVersion.new(1, 20, 0)
   end
 end

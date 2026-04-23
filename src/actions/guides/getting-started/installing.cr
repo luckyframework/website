@@ -272,7 +272,7 @@ class Guides::GettingStarted::Installing < GuideAction
     psql --version
     ```
 
-    Should return `psql (PostgreSQL) 10.x` or higher.
+    Should return `psql (PostgreSQL) #{LuckyDependencyVersions.min_compatible_postgres_version}` or higher.
 
     ### 3. Create a database user and set a password
 
@@ -319,23 +319,21 @@ class Guides::GettingStarted::Installing < GuideAction
     ```
 
     #{permalink(ANCHOR_NODE)}
-    ## Node and Yarn (optional)
+    ## Bun (optional)
 
     > You can skip this if you only plan to build APIs.
 
     ### 1. Install
 
-    * [Node](https://nodejs.org/en/download/). Requires at least v11
-    * [Yarn](https://yarnpkg.com/lang/en/docs/install/)
+    * [Bun](https://bun.sh). Requires at least #{LuckyDependencyVersions.min_compatible_bun_version}
 
     ### 2. Check installation
 
     ```bash
-    node -v
-    yarn -v
+    bun -v
     ```
 
-    Node should return greater than v11. Yarn should return greater than 1.x.
+    Bun should return at least #{LuckyDependencyVersions.min_compatible_bun_version}.
 
     ## Chrome Browser (optional)
 

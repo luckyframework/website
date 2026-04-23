@@ -71,7 +71,7 @@ class Guides::GettingStarted::Concepts < GuideAction
 
     ### `script` folder
 
-    This folder contains a setup script for bootstrapping your app by default. Place any other bash style scripts or executables you may need for your app in here.
+    This folder contains a setup script for bootstrapping your app by default. Place any other scripts or executables you may need for your app in here.
 
     ### `spec` folder
 
