@@ -2,176 +2,132 @@ class Guides::HandlingFiles::FileUploads < GuideAction
   guide_route "/handling-files/file-uploads"
 
   def self.title
-    "Uploading Files"
+    "File Uploads"
   end
 
   def markdown : String
     <<-MD
-    ## Setup
+    ## Birds-eye view
 
-    For handling file uploads, we will use [Shrine.cr](https://github.com/jetrockets/shrine.cr).
+    Lucky handles file uploads through [Latch](https://github.com/wout/latch),
+    a Crystal library purpose-built for attaching files to your application.
+    Latch is short for **L**ucky **At**ta**ch**ment, and while it works with any
+    Crystal framework it ships with first-class Lucky and Avram support.
 
-    Start by adding the `shrine` shard to your `shard.yml` and run `shards install`.
+    A typical Latch setup involves three things:
 
-    ```yaml
-    dependencies:
-      shrine:
-        github: jetrockets/shrine.cr
-        branch: master
-    ```
+    - An **uploader** describes how a file is stored, what metadata is
+       extracted from it, and how it should be processed.
+    - A **storage backend** persists the file: locally on disk, in S3 (or any
+       S3-compatible service), or in memory for tests.
+    - An **Avram integration** lets you attach a file to a model column with
+       a single macro, with caching, promotion, replacement, and cleanup all
+       handled for you.
 
-    Next you will require the shard in `src/shards.cr`
-
-    ```crystal
-    # src/shards.cr
-
-    # Require your shards here
-    require "avram"
-    require "lucky"
-    require "carbon"
-    require "authentic"
-    require "shrine"
-    ```
-
-    Lastly, we can create a config file for configuring where our uploaded files will be stored.
-    Create a new file in `confg/shrine.cr`
+    Here is a complete example end-to-end:
 
     ```crystal
-    # config/shrine.cr
-    Shrine.configure do |config|
-      config.storages["cache"] = Shrine::Storage::FileSystem.new("public/uploads", prefix: "cache")
-      config.storages["store"] = Shrine::Storage::FileSystem.new("public/uploads", prefix: "uploads")
+    # src/uploaders/avatar_uploader.cr
+    struct AvatarUploader
+      include Latch::Uploader
+
+      struct VersionsProcessor
+        include Latch::Processor::Magick
+
+        original resize: "2000x2000>"
+        variant thumb, resize: "200x200", crop: "200x200+0+0", gravity: "center"
+      end
+
+      extract dimensions, using: Latch::Extractor::DimensionsFromMagick
+      process versions, using: VersionsProcessor
     end
-    ```
 
-    ## Model setup
-
-    We need to store a reference ID to the image in our database.
-
-    ```crystal
     # src/models/user.cr
     class User < BaseModel
+      include Latch::Avram::Model
+
       table do
-        column profile_image_id : String?
-      end
-    end
-    ```
-
-    You will also need to add the migration. Run `lucky gen.migration AddProfileImageToUser`
-
-    ```crystal
-    # db/migrations/00000_add_profile_image_to_user.cr
-
-    def migrate
-      alter table_for(User) do
-        add profile_image_id : String?
+        attach avatar : AvatarUploader::StoredFile?
       end
     end
 
-    def rollback
-      alter table_for(User) do
-        remove :profile_image_id
-      end
-    end
-    ```
-
-    ## SaveOperation setup
-
-    The `file_attribute` is used in your save operation to specify the name of the param attribute that will contain the file.
-
-    ```crystal
     # src/operations/save_user.cr
     class SaveUser < User::SaveOperation
-      permit_columns name
-      file_attribute :profile_picture
+      attach avatar, process: true
 
       before_save do
-        profile_picture.value.try { |pic| upload_pic(pic) }
-      end
-
-      private def upload_pic(pic)
-        result = Shrine.upload(File.new(pic.tempfile.path), "store", metadata: { "filename" => pic.filename })
-
-        # If the new file is uploaded, no reason to keep the old one!
-        # If multiple models can share an image, run a query before deleting
-        # to ensure you're not breaking any references.
-        if old_image = profile_image_id.original_value
-          delete_old_profile_image(old_image)
-        end
-
-        profile_image_id.value = result.id
-      end
-
-      private def delete_old_profile_image(old_image)
-        storage = Shrine.find_storage("store")
-        if storage.exists?(old_image)
-          storage.delete(old_image)
-        end
+        validate_file_size_of avatar_file, max: 5_000_000
+        validate_file_mime_type_of avatar_file, in: %w[image/png image/jpeg image/webp]
       end
     end
     ```
 
-    ## Action setup
-
-    Your action code will look standard with no additional code needed.
+    Saving a user with an attached file is then no different from any other
+    Avram operation:
 
     ```crystal
-    # src/actions/users/create.cr
-    class Users::Create < BrowserAction
-      post "/users" do
-        SaveUser.create(params) do |op, user|
-          if user
-            redirect to: Users::Show.with(user.id)
-          else
-            html Users::NewPage, op: op
-          end
-        end
-      end
-    end
+    user = SaveUser.create!(params)
+    user.avatar.try(&.url)              # => "/uploads/user/1/avatar/a1b2c3d4.jpg"
+    user.avatar.try(&.versions_thumb.url) # => ".../versions_thumb.jpg"
+    user.avatar.try(&.width)            # => 2000
     ```
 
-    ## Page setup
+    The remaining guides in this section walk through each piece in detail:
 
-    The two main items to take note of is the `form_for` uses the `multipart: true` option to properly set the `enctype`,
-    and the use of the `file_input`.
+    - [Setup and Configuration](#{Guides::HandlingFiles::Setup.path}). Install
+      Latch and configure your storage backends.
+    - [Uploaders](#{Guides::HandlingFiles::Uploaders.path}). Define how files
+      are stored and what their `StoredFile` looks like.
+    - [Extracting Metadata](#{Guides::HandlingFiles::ExtractingMetadata.path}).
+      Pull data like dimensions, page counts, or anything else out of an upload.
+    - [Processing Files](#{Guides::HandlingFiles::ProcessingFiles.path}).
+      Generate variants with ImageMagick, FFmpeg, or libvips.
+    - [Avram Integration](#{Guides::HandlingFiles::AvramIntegration.path}).
+      Attach files to models, validate uploads, and process them in the
+      background with Mel or Mosquito.
 
-    ```crystal
-    # src/pages/users/new_page.cr
-    class Users::NewPage < MainLayout
-      needs op : SaveUser
+    ## A note on Shrine.cr
 
-      def content
-        form_for Users::Create, multipart: true do
-          mount Shared::Field, op.name
-          mount Shared::Field, op.profile_picture, &.file_input
-        end
-      end
-    end
+    Earlier versions of this guide recommended
+    [Shrine.cr](https://github.com/jetrockets/shrine.cr), a port of Ruby's
+    Shrine library. That project is no longer actively maintained, and its
+    Ruby-flavoured API never really fit Crystal's macro-driven style.
+
+    Latch was written from the ground up for Crystal and leans on its macro
+    system for compile-time validation of processor options, generated
+    `StoredFile` accessors, and zero-runtime-cost integration with Avram. It is
+    not a port of Shrine.
+
+    For the sake of interoperability, however, Latch serializes `StoredFile`
+    objects in a format that is compatible with Shrine's database
+    representation:
+
+    ```json
+    {
+      "id": "uploads/a1b2c3d4.jpg",
+      "storage": "store",
+      "metadata": {
+        "filename": "photo.jpg",
+        "size": 102400,
+        "mime_type": "image/jpeg",
+        "width": 2000,
+        "height": 1333
+      }
+    }
     ```
 
-    ## Rendering images
+    This means existing data uploaded by Shrine.cr (or even by Ruby's Shrine)
+    can be read back through Latch without a migration, as long as the
+    underlying files remain in the same storage location.
 
-    When you're ready to render the uploaded image
+    ## Where to get help
 
-    ```crystal
-    # src/pages/users/show_page.cr
-    class Users::ShowPage < MainLayout
-      needs user : User
-
-      def content
-        img src: profile_url(user)
-      end
-
-      private def profile_url(user) : String
-        if image_id = user.profile_image_id
-          Shrine.find_storage("store").url(image_id)
-        else
-          # Set a fallback if there's no image.
-          asset("images/fallback.jpg")
-        end
-      end
-    end
-    ```
+    These guides cover the most common cases for building file upload features
+    in a Lucky app. For an exhaustive reference of every macro, option, and
+    extension point, see the
+    [Latch README](https://github.com/wout/latch/blob/main/README.md) and the
+    [API docs](https://wout.github.io/latch/). Each of the following pages
+    links into the relevant section of the README where applicable.
     MD
   end
 end
