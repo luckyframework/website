@@ -9,7 +9,7 @@ class Lucky150Release < BasePost
   def summary : String
     <<-TEXT
     The biggest change in 1.5.0 is the asset pipeline: the old Yarn + Laravel Mix setup is deprecated in favor of a single Bun install that's
-    faster, simpler, and drops NodeJS entirely. Lots of new features like table partitioning, a new Redis extension for LuckyCache,
+    faster, simpler, and drops NodeJS entirely. Plus, other new features like table partitioning, a new Redis extension for LuckyCache,
     per-action request body limits, security fixes, and more!
     TEXT
   end
@@ -47,19 +47,19 @@ class Lucky150Release < BasePost
     of the time, automatic browser reloading happens magically, and cache-buster fingerprints on production
     assets (including images, fonts, and more) all exist without the need for extra configuration.
 
-    This is just the start, but if there's anything missing, take a look at the [Lucky.js](https://github.com/luckyframework/lucky/blob/d498d4d2d4d7a77e83a7a103cd4338ea6caa6ca6/src/bun/lucky.js#L6)
+    This is just the start, but if there's anything missing, take a look at [Lucky.js](https://github.com/luckyframework/lucky/blob/d498d4d2d4d7a77e83a7a103cd4338ea6caa6ca6/src/bun/lucky.js#L6)
     and open an issue to discuss.
 
     ### Infrastructure
 
-    The release system has been fixed again allowing us to release 1.5.0 to Scoop on Windows. With each release of
+    The release system has been fixed allowing us to release 1.5.0 to Scoop on Windows. With each release of
     Crystal and Lucky, native Windows support is getting better. Lucky is already fully usable on Windows, but in
     some cases, it can take a little extra work. The latest release moves us closer to a smooth out-of-the-box experience.
 
     ### Cookie update
 
-    A bug was discovered in how cookies were being encrypted where there was a small chance a cookie could be
-    susceptible to being decrypted by a 3rd party. This bug was fixed; however, it is considered a breaking change.
+    Our previous cookie encryption had a small bug that allowed, in a small number of cases, cookies to be decrypted by a
+    3rd party. This bug was fixed. However, it is considered a breaking change.
     Any cookie that was encrypted before Lucky 1.5.0 will fail to decrypt. To solve this, you will just need
     your users to generate new cookies.
 
