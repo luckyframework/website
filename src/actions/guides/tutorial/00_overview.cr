@@ -42,7 +42,7 @@ class Guides::Tutorial::Overview < GuideAction
     * installed Crystal. `crystal -v` should be at least #{LuckyCliVersion.min_compatible_crystal_version} or higher
     * installed Lucky. `lucky -v` should be #{LuckyCliVersion.current_tag}.
     * installed [Postgres](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_POSTGRESQL)}). `psql --version` should be `>= #{LuckyDependencyVersions.min_compatible_postgres_version}`
-    * installed [Node](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_NODE)}). `node -v` should be `>= v#{LuckyDependencyVersions.min_compatible_node_version}` (used for building css and javascript)
+    * installed [Bun](#{Guides::GettingStarted::Installing.path(anchor: Guides::GettingStarted::Installing::ANCHOR_BUN)}). `bun -v` should be `>= v#{LuckyDependencyVersions.min_compatible_bun_version}` (used for bundling css and javascript/typescript)
 
     ## The Wizard
 
@@ -98,22 +98,22 @@ class Guides::Tutorial::Overview < GuideAction
 
     > For more information on setting up your database, read the [Database Setup](#{Guides::Database::DatabaseSetup.path}) guide.
 
-    ### Setup Script
+    ### Bootstrap Setup
 
-    Next we will run our setup script. This script does a few things:
+    Next we will run our setup script to bootstrap our app. This script does a few things:
 
     * Run a system check for 3rd party dependencies needed to run this app.
-    * Setup our assets (css, javascript) using Yarn
+    * Setup our assets (css, javascript) using Bun
     * Install Crystal shard dependencies. (e.g. Lucky, Avram, etc...)
     * Create our database. In this case, a database named `clover_developement`
     * Verify that we can connect to this new database
     * Run SQL code (migration) to create our users table.
     * Import sample data in to our database. On the first run, there's no sample data.
 
-    Run the setup script. Enter `./script/setup`:
+    Run the setup script. Enter `crystal script/setup.cr`:
 
     ```bash
-    ./script/setup
+    crystal script/setup.cr
     ```
 
     > This may take a bit of time to run. If anything fails at any point, let us know!
@@ -136,14 +136,14 @@ class Guides::Tutorial::Overview < GuideAction
     ## Browsing your Application
 
     Open up your favorite browser, and head over to `http://127.0.0.1:3000`. This URL will be printed
-    in your terminal log output.
+    in your terminal log output when the `web` process has booted.
 
     > To change the port your app runs on, update the `port` option in the `config/watch.yml` file.
 
     You should now see the Lucky home page.
 
-    Click the "VIEW YOUR NEW APP" button to be taken to a "Sign Up" page. Because the wizard set us up
-    with Authentication, we now have the ability to create a User account, and log in. Make your account!
+    Click the "VIEW YOUR NEW APP" button to be taken to a "Sign Up" page. Because the wizard set up
+    authentication, we now have the ability to create a User account, and log in. Make your account!
 
     After you've signed up, you are taken to your "Profile" page.
 
@@ -160,7 +160,7 @@ class Guides::Tutorial::Overview < GuideAction
     * Sign back in to your account
     * View your terminal to see how each request is logged to the output
 
-    > When you're done, stop your server with `ctrl-C` before moving on to the next section.
+    > When you're done, stop your server with `ctrl-c` before moving on to the next section.
 
     MD
   end

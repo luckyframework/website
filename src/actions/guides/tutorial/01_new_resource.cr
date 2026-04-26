@@ -10,9 +10,12 @@ class Guides::Tutorial::NewResource < GuideAction
     ## Using the Generator CLI
 
     Lucky comes with a lot of neat commands to make building your application a little easier.
-    From your terminal, type `lucky -h`. Give it a moment to compile, then see a list of the commands you can use.
+    From your terminal, type `lucky -h`. This will display a few commands you can run; one in particular is the `tasks` command.
+    Now run `lucky tasks` and give it a moment to compile. This will display even more commands you can run.
 
-    For our next section, we will be generating a new "resource"; the "Fortune". In this context, a resource is a Model,
+    > This commands must compile because it includes any custom commands you've added as well as commands added by 3rd party dependencies (shards).
+
+    For our next section, we will be generating a new "resource"; the `Fortune`. In this context, a resource is a Model,
     Action, Page, Component, Query, and Operation. Lucky breaks a resource down in to smaller class components which we
     will discuss over the tutorial.
 
