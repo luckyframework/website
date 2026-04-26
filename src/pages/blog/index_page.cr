@@ -33,6 +33,7 @@ class Blog::IndexPage < BlogLayout
           para class: "my-3 leading-loose" do
             raw post.summary
           end
+          link "Read More", to: Blog::Show.with(post.slug), class: "mt-2 hover:underline hover:text-teal-darker font-normal text-sm text-teal-dark"
         end
       end
     end
