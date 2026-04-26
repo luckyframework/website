@@ -92,7 +92,7 @@ class Lucky150Release < BasePost
     A small memory leak was fixed as well as support for Arrays.
 
     Along with that, a new [LuckyCache::RedisStore](https://github.com/luckyframework/lucky_cache_redis_store) shard was
-    created by [@rmarronnier](https://github.com/rmarronnier) as a plugin allowing you to move that cache from memory store.
+    created by [@rmarronnier](https://github.com/rmarronnier) as a plugin giving you a new place to store your cache.
 
     ```crystal
     require "lucky_cache_redis_store"
