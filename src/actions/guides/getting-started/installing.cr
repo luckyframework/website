@@ -1,8 +1,7 @@
 class Guides::GettingStarted::Installing < GuideAction
   ANCHOR_INSTALL_REQUIRED_DEPENDENCIES = "perma-install-required-dependencies"
   ANCHOR_POSTGRESQL                    = "perma-install-postgres"
-  ANCHOR_PROC_MANAGER                  = "perma-install-process-manager"
-  ANCHOR_NODE                          = "perma-install-node"
+  ANCHOR_BUN                           = "perma-install-bun"
   guide_route "/getting-started/installing"
 
   def self.title
@@ -318,7 +317,7 @@ class Guides::GettingStarted::Installing < GuideAction
     postgres=# \\q
     ```
 
-    #{permalink(ANCHOR_NODE)}
+    #{permalink(ANCHOR_BUN)}
     ## Bun (optional)
 
     > You can skip this if you only plan to build APIs.

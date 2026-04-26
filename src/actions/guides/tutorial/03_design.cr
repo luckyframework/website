@@ -46,12 +46,12 @@ class Guides::Tutorial::Design < GuideAction
 
     ## Updating the Layout
 
-    As mentioned previously, we currently have two separate layouts. One for when users are logged in `MainLayout`, and one for
-    when users are logged out `AuthLayout`. These files live in the root of your `src/pages/` directory. We will update our `AuthLayout`
+    As mentioned previously, we currently have two separate layouts. One for when users are logged-in `MainLayout`, and one for
+    when users are logged-out `AuthLayout`. These files live in the root of your `src/pages/` directory. We will update our `AuthLayout`
     to start so we can get a feel for writing HTML in Lucky.
 
     When it comes to writing HTML in Lucky, we use plain Crystal methods that generate HTML for us!
-    [Read the HTML guide](#{Guides::Frontend::RenderingHtml.path}) for more details.
+    Read the [Rendering HTML guide](#{Guides::Frontend::RenderingHtml.path}) for more details.
 
     ### Anatomy of the layout
 
@@ -70,16 +70,16 @@ class Guides::Tutorial::Design < GuideAction
 
     ```crystal
     # src/pages/auth_layout.cr
-    html class: "h-100", lang: "en" do
+    html lang: "en" do
       mount Shared::LayoutHead, page_title: page_title
 
-      body class: "d-flex flex-column h-100" do
+      body do
         mount Shared::FlashMessages, context.flash
-        main class: "flex-shrink-0" do
+        main class: "main-content" do
           content
         end
 
-        footer class: "footer mt-auto py-3 bg-light" do
+        footer class: "footer" do
           div class: "container" do
             span "CloverApp", class: "text-muted"
           end
@@ -95,38 +95,25 @@ class Guides::Tutorial::Design < GuideAction
 
     ## Adding a CSS framework
 
-    If you haven't guessed by now, we've started adding [Bootstrap](https://getbootstrap.com/) classes to our HTML. You're free
-    to use any (or no) CSS framework you wish. There are no limitations since Lucky includes [LaravelMix](https://laravel-mix.com/)
-    which just wraps Webpack. We will stick with Bootstrap just for the purposes of this Tutorial.
+    You have the flexibility to use any (or no) css framework you would like. Lucky comes with [Bun](https://bun.sh/) out of the box
+    allowing you to add in packages as you need. For the purposes of this tutorial, we are going to keep it very simple and use
+    [SimpleCSS](https://simplecss.org/)
 
     ### Installing a CSS framework
 
-    Lucky uses `yarn` by default, so this tutorial will as well. If you prefer a different installation you may use that.
-
-    Before we install Bootstrap, we should shut down our server. (`ctrl-c`) Then from the terminal, we can run:
+    Before we install SimpleCSS, we should shut down our server. (`ctrl-c`) Then from the terminal, we can run:
 
     ```bash
-    yarn add bootstrap @popperjs/core
+    bun add simpledotcss
     ```
 
-    > PopperJS is required for some of the Bootstrap components such as dropdowns and popovers to function correctly.
+    Next we will import SimpleCSS in our stylesheet. Open up `src/css/app.css`. You'll find some default normalize styles in here.
 
-    Next we will import Bootstrap in our stylesheet. Open up `src/css/app.scss`. You'll find some default normalize styles in here. Now that we're using
-    a CSS framework, all of these can go away! Replace everything with this code:
+    Add this to the top:
 
     ```scss
-    // src/css/app.scss
-    @import "bootstrap";
-    ```
-
-    Now, import Bootstrap into `src/js/app.js` to ensure the Bootstrap components that require Javascript function correctly.
-    Open that file and add this code:
-
-    ```diff
-    // src/js/app.js
-    require("@rails/ujs").start();
-
-    + import "bootstrap";
+    // src/css/app.css
+    @import "simpledotcss/simple.min.css";
     ```
 
     Finally, restart the dev server from the terminal `lucky dev`.
@@ -144,13 +131,13 @@ class Guides::Tutorial::Design < GuideAction
     ```crystal
     # src/pages/home/index_page.cr
     def content
-      div class: "px-4 py-5 my-5 text-center" do
-        h1 "CloverApp", class: "display-5 fw-bold"
-        div class: "col-lg-6 mx-auto" do
-          para "It's your Lucky day! See a fortune, and share the luck.", class: "lead mb-4"
-          div class: "d-grid gap-2 d-sm-flex justify-content-sm-center" do
-            link "Join", to: SignUps::New, class: "btn btn-primary btn-lg px-4 me-sm-3"
-            link "Login", to: SignIns::New, class: "btn btn-outline-secondary btn-lg px-4"
+      div do
+        h1 "CloverApp", class: "title"
+        div do
+          para "It's your Lucky day! See a fortune, and share the luck.", class: "tagline"
+          div class: "button-group" do
+            link "Join", to: SignUps::New, class: "btn-primary"
+            link "Login", to: SignIns::New, class: "btn-secondary"
           end
         end
       end
@@ -176,7 +163,7 @@ class Guides::Tutorial::Design < GuideAction
     Try this:
 
     * Add a copyright note to your footer that always displays the current year.
-    * Create a custom CSS style using normal raw CSS in your `src/css/app.scss`.
+    * Create custom CSS styles using normal raw CSS in your `src/css/app.css`.
     * Apply that custom style to a tag on your Home Page.
     * Update the styles for your Login / Signup pages
 

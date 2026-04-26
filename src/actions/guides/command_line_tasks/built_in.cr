@@ -12,7 +12,7 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     Lucky comes bundled with [LuckyTask](https://github.com/luckyframework/lucky_task) for creating tasks.
 
     Tasks are used to run some code that sits outside of your main application. When you need to add a task, you'll place it in the `tasks` folder.
-    To see a list of the available tasks in your application, use `lucky --help`.
+    To see a list of the available tasks in your application, use `lucky tasks`.
 
     You can think of a Luck Task just like a [Rake task](https://github.com/ruby/rake) in Ruby, [npm script](https://docs.npmjs.com/misc/scripts) for Node,
     or [Mix Task](https://hexdocs.pm/mix/Mix.Task.html) for Elixir.
@@ -27,7 +27,7 @@ class Guides::CommandLineTasks::BuiltIn < GuideAction
     By default, Lucky has lots of tasks already built in that you may find really handy while developing your application. These are the ones that you get by default.
 
     ```plain
-    # Generated with lucky --help
+    # Generated with lucky tasks
     ▸ db.console             Access PostgreSQL console
     ▸ db.create              Create the database
     ▸ db.drop                Drop the database
