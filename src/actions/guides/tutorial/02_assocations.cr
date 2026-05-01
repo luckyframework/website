@@ -9,7 +9,7 @@ class Guides::Tutorial::Associations < GuideAction
     <<-MD
     ## New Migrations
 
-    When we generated our migration, we didn't add a way to tie Fortunes to a specific User. It may be common
+    When we generated our migration, we didn't add a way to tie Fortunes to a specific `User`. It may be common
     that you will need to generate separate migrations to update models that already exist in your application.
     Let's try that now.
 
@@ -36,7 +36,7 @@ class Guides::Tutorial::Associations < GuideAction
     # db/migrations/#{Time.utc.to_s("%Y%m%d%H%I%S")}_add_belongs_to_user_for_fortune.cr
 
     def migrate
-      # FYI: We will run in to an error. Be sure to keep reading before running any code
+      # NOTE: We will run into an error. Be sure to keep reading before running any code
       alter table_for(Fortune) do
         add_belongs_to user : User, on_delete: :cascade, fill_existing_with: :nothing
       end
@@ -112,26 +112,26 @@ class Guides::Tutorial::Associations < GuideAction
 
     At the bottom of the `table` block, we will add this new code:
 
-    ```diff
+    ```crystal
     # src/models/user.cr
 
     table do
       column email : String
       column encrypted_password : String
 
-    + has_many fortunes : Fortune
+      has_many fortunes : Fortune # <--- Add this line
     end
     ```
 
     Next we will update our `Fortune` model in `src/models/fortune.cr` with this code:
 
-    ```diff
+    ```crystal
     # src/models/fortune.cr
 
     table do
       column text : String
 
-    + belongs_to user : User
+      belongs_to user : User # <--- Add this line
     end
     ```
 
@@ -150,10 +150,10 @@ class Guides::Tutorial::Associations < GuideAction
     * Sign in, and try to create a fortune. Notice it fails
     * View your logs to see "Failed to save SaveFortune".
     * Use `lucky exec` to truncate all `User` records with the `UserQuery` object.
-    * Pass `user_id: current_user.id` to `SaveFortune.create`
-    * Then use your app to make a new user record, because we still need one 😄
 
     We will update the forms later in the tutorial.
+
+    > Before continuing to the next section, create a new user account. We will need it in the next section.
 
     MD
   end

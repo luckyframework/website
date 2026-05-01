@@ -41,7 +41,7 @@ class Guides::Tutorial::OperationsFactories < GuideAction
     ```
 
     You should now have a code editor open which may still show code from the last time we ran this.
-    Comment out any existing code and add this:
+    Comment out any code you previously added and add this below it:
 
     ```crystal
     SignUpUser.create(email: "mytest@test.com", password: "notsecret", password_confirmation: "not_secret") do |operation, saved_user|
