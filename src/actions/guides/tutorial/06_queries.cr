@@ -96,22 +96,28 @@ class Guides::Tutorial::Queries < GuideAction
     ```crystal
     # src/pages/home/index_page.cr
     def content
-      div class: "px-4 py-5 my-5 text-center" do
-        # ... previous markup
+      div do
+        h1 "CloverApp", class: "title"
+        div do
+          para "It's your Lucky day! See a fortune, and share the luck.", class: "tagline"
+          div class: "button-group" do
+            link "Join", to: SignUps::New, class: "btn-primary"
+            link "Login", to: SignIns::New, class: "btn-secondary"
+          end
+        end
       end
       div class: "container" do
-        # Add this block of code here
-        div class: "list-group list-group-flush border-bottom scrollarea" do
-          fortunes.each do |fortune|
-            link to: Fortunes::Show.with(fortune.id), class: "list-group-item list-group-item-action py-3 lh-tight" do
-              div class: "d-flex w-100 align-items-center justify-content-between" do
+        # we're adding code here
+        fortunes.each do |fortune|
+          div class: "fortune-card" do
+            link to: Fortunes::Show.with(fortune.id) do
+              div class: "fortune-timestamp" do
                 small time_ago_in_words(fortune.created_at), class: "text-muted"
               end
-              div fortune.text, class: "col-10 mb-1 small"
+              div fortune.text, class: "fortune-text"
             end
           end
         end
-
       end
     end
     ```
@@ -131,7 +137,6 @@ class Guides::Tutorial::Queries < GuideAction
     * Update your `UserFactory` to generate a random `name`.
     * Update existing user records with a random name. (hint: search the guides (`ctrl-k`) for mention of "bulk updating")
     * Update the fortunes to display the user's name that wrote it.
-
     MD
   end
 end

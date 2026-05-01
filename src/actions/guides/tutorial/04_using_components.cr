@@ -37,7 +37,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
 
     ```diff
       # src/pages/auth_layout.cr
-    - footer class: "footer mt-auto py-3 bg-light" do
+    - footer class: "footer" do
     -   div class: "container" do
     -     span "CloverApp", class: "text-muted"
     -   end
@@ -50,7 +50,7 @@ class Guides::Tutorial::UsingComponents < GuideAction
     ```crystal
     # src/components/shared/footer.cr
     def render
-      footer class: "footer mt-auto py-3 bg-light" do
+      footer class: "footer" do
         div class: "container" do
           span "CloverApp", class: "text-muted"
         end
