@@ -1,0 +1,30 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+    depends_on:
+      - app
+
+  app:
+    image: ${APP_IMAGE}
+    restart: unless-stopped
+    environment:
+      LUCKY_ENV: production
+      PORT: 8080
+      APP_DOMAIN: https://${APP_DOMAIN}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    expose:
+      - "8080"
+
+volumes:
+  caddy_data:
+  caddy_config:
