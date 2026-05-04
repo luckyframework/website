@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [production]
   workflow_dispatch:
 
 concurrency:
@@ -16,11 +16,11 @@ jobs:
       contents: read
       packages: write
 
-    env:
-      IMAGE: ghcr.io/${{ github.repository }}
-
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set lowercase image name
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
 
       - uses: docker/setup-buildx-action@v3
 
@@ -55,5 +55,21 @@ jobs:
             export APP_IMAGE="${{ env.IMAGE }}:${{ github.sha }}"
             sed -i "s|^APP_IMAGE=.*|APP_IMAGE=${APP_IMAGE}|" .env
             docker compose pull app
-            docker compose up -d app
-            docker image prune -f
+            docker compose up -d --remove-orphans app
+
+            # Health check: wait up to 60s for container to stay running
+            for i in {1..12}; do
+              sleep 5
+              status=$(docker compose ps --format '{{.State}}' app)
+              if [ "$status" = "running" ]; then
+                echo "App is running."
+                break
+              fi
+              if [ "$i" -eq 12 ]; then
+                echo "App failed to start. Logs:"
+                docker compose logs --tail=100 app
+                exit 1
+              fi
+            done
+
+            docker image prune -f --filter "until=168h"
