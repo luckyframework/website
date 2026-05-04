@@ -1,8 +1,15 @@
 require "./html_autolink"
 
 class CustomMarkdownRenderer
-  COPY_ICON_SVG = File.read("public/assets/icons/copy.svg")
-  TICK_ICON_SVG = File.read("public/assets/icons/tick.svg")
+  include Lucky::SvgInliner
+
+  # This is a workaround to make the `inline_svg` method work here.
+  def self.raw(content : String) : String
+    content
+  end
+
+  COPY_ICON_SVG = inline_svg("copy")
+  TICK_ICON_SVG = inline_svg("tick")
 
   def self.render_to_html(content : String) : String
     html(content).lines.map do |line|
