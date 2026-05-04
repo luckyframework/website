@@ -22,6 +22,7 @@ services:
       PORT: 8080
       APP_DOMAIN: https://${APP_DOMAIN}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      SEND_GRID_KEY: unused
     expose:
       - "8080"
 
