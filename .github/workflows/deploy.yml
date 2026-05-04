@@ -56,7 +56,7 @@ jobs:
             export APP_IMAGE="${{ env.IMAGE }}:${{ github.sha }}"
             sed -i "s|^APP_IMAGE=.*|APP_IMAGE=${APP_IMAGE}|" .env
             docker compose pull app
-            docker compose up -d --remove-orphans app
+            docker compose up -d --remove-orphans
 
             # Health check: wait up to 60s for container to stay running
             for i in {1..12}; do
