@@ -562,8 +562,8 @@ class Guides::Database::Migrations < GuideAction
     special table. Looking up data from this special table will always be the same until you
     have told the view to refresh the data. This can increase performance.
 
-    Currently Lucky does not have any built-in methods, but you can use the `execute` method
-    with raw SQL.
+    Currently Lucky does not have any built-in methods to handle the migration. Use the `execute`
+    method to define your view.
 
     It is up to you to define how the data should be fetched.
 
@@ -587,17 +587,25 @@ class Guides::Database::Migrations < GuideAction
       # The SchemaEnforcer must be ignored for materialzed views
       skip_schema_enforcer
 
-      view do
+      view materialized: true do
         column campaign_id : UUID
         column amount : Int64
       end
-
-      # Use this to refresh your view periodically
-      def self.refresh_view(*, concurrent : Bool = false)
-        database.exec("REFRESH MATERIALIZED VIEW \#{concurrent ? "CONCURRENTLY" : ""} \#{table_name}")
-      end
     end
     ```
+
+    To refresh your materialized view, you'll use the Query object for your model.
+
+    ```crystal
+    CampaignStat::BaseQuery.refresh_view
+
+    # or
+
+    CampaignStat::BaseQuery.refresh_view(concurrent: true)
+    ```
+
+    > NOTE: In order to refresh concurrently, your materialized view will need a unique index. Be sure to look up docs
+    > on postgres for more information.
 
     #{permalink(ANCHOR_ASSOCIATIONS)}
     ## Associations
