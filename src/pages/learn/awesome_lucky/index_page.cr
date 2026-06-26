@@ -239,6 +239,18 @@ class Learn::AwesomeLucky::IndexPage < PageLayout
         text: "Lucky Swagger",
         url: "https://github.com/marmaxev/lucky-swagger",
         description: "Easily add SwaggerUI to your Lucky project"
+      mount AwesomeLink,
+        text: "Lucky Honeypot",
+        url: "https://codeberg.org/fluck/lucky_honeypot",
+        description: "Simple invisible captcha spam protection for Lucky Framework apps."
+      mount AwesomeLink,
+        text: "AvramEncrypted",
+        url: "https://codeberg.org/fluck/avram_encrypted",
+        description: "Encrypted columns for Avram supporting multiple types and automatic key rotation"
+      mount AwesomeLink,
+        text: "Marquery",
+        url: "https://codeberg.org/fluck/marquery.cr",
+        description: "A compile-time markdown file query engine for Crystal."
     end
   end
 
