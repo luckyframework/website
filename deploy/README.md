@@ -1,47 +1,28 @@
 # Deploy
 
-Production deployment to a single Docker host (e.g. Hetzner) with Caddy in front.
+Production deployment of the Lucky website to [Fly.io](https://fly.io). No database is required.
 
 ## Architecture
 
-- GitHub Actions builds the image (using `deploy/Dockerfile`) and pushes it to GHCR.
-- The server runs `docker compose` with two services: `caddy` (reverse proxy + Let's Encrypt) and `app` (the Lucky binary).
-- A deploy = `docker compose pull app && docker compose up -d app`.
+- **`fly.toml`** (repo root) configures the app: it points `[build]` at `deploy/Dockerfile`, sets non-secret env, listens on port `8080`, forces HTTPS, and scales to zero when idle.
+- **Fly builds the image** from `deploy/Dockerfile` on its remote builders — no local Docker needed.
+- **Fly's edge** provides the `*.fly.dev` domain (and custom domains) with automatic, auto-renewing TLS.
+- A deploy = `flyctl deploy --remote-only`, run for you by the **Deploy** GitHub Action.
 
-## One-time server setup
+## Deploying
 
-1. Provision a Ubuntu 24.04 box, harden it, enable `unattended-upgrades` with automatic reboots.
-2. Install Docker Engine + Compose plugin.
-3. Point your DNS A record at the server.
-4. Create a deploy directory and copy these files into it:
-   ```
-   /opt/lucky_website/
-     docker-compose.yml
-     Caddyfile
-     .env
-   ```
-5. Fill in `.env` from `.env.example`. Generate the secret key with `lucky gen.secret_key` on your laptop.
-6. Log in to GHCR so the server can pull private images (skip if the package is public):
-   ```
-   echo $GHCR_PAT | docker login ghcr.io -u <github-user> --password-stdin
-   ```
-7. Start it:
-   ```
-   docker compose up -d
-   ```
-   Caddy will request a certificate on first request to the domain.
+Run the **Deploy** Action: **Actions → Deploy → Run workflow**, choose the branch (defaults to `main`). It checks out that branch and runs `flyctl deploy --remote-only`, which builds `deploy/Dockerfile` on Fly and releases it. Fly performs a rolling release.
 
-## GitHub Actions secrets
+You can also deploy from your laptop with `fly deploy` for testing.
 
-Set these on the repo:
+## Cost / scaling
 
-- `SSH_HOST` — server hostname or IP
-- `SSH_USER` — deploy user (must be in the `docker` group)
-- `SSH_KEY` — private key matching an authorized key on the server
-- `DEPLOY_PATH` — absolute path to the deploy directory on the server, e.g. `/opt/lucky_website`
+`fly.toml` is configured **always-on**: `min_machines_running = 1` keeps one 512MB shared-cpu-1x machine running so there are no cold starts (~$3.32/mo + minimal bandwidth, no volume needed). To trade that for lower cost, set `min_machines_running = 0` to scale to zero when idle (the machine then cold-starts within a few seconds on the next request).
 
-The workflow uses the built-in `GITHUB_TOKEN` to push to GHCR; no extra secret needed.
+## Verify
 
-## Updating
-
-Push to `main`. The workflow builds, pushes `:latest` and `:<sha>`, then SSHes in and runs `docker compose pull app && docker compose up -d app`. Brief downtime during the swap.
+```bash
+fly status
+fly logs
+curl -I https://<app>.fly.dev
+```

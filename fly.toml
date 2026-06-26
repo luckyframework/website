@@ -1,0 +1,37 @@
+# fly.toml — Lucky Framework website deployment to Fly.io
+#
+# App name is globally unique on Fly. If `fly launch` reports it's taken,
+# change `app` here and update APP_DOMAIN below to match.
+app = "luckyframework"
+
+# US West. Other US options: "sea" (Seattle), "ord" (Chicago), "iad" (Ashburn).
+primary_region = "sjc"
+
+[build]
+  # Build the production multi-stage image (not the dev Dockerfile at repo root).
+  dockerfile = "deploy/Dockerfile"
+
+[env]
+  LUCKY_ENV = "production"
+  PORT = "8080"
+  # No real email yet; the app exits at boot if this is unset (config/email.cr).
+  SEND_GRID_KEY = "unused"
+  # Full base URL used for absolute links. Match this to the app's *.fly.dev
+  # hostname (or your custom domain) after the app is created.
+  APP_DOMAIN = "https://luckyframework.fly.dev"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Always-on: keep one machine running so there are no cold starts.
+  # To save cost by scaling to zero when idle, set min_machines_running = 0.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+
+# SECRET_KEY_BASE is a secret, NOT set here. Before the first deploy run:
+#   fly secrets set SECRET_KEY_BASE="$(lucky gen.secret_key)"
