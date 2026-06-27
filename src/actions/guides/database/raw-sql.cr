@@ -45,25 +45,24 @@ class Guides::Database::RawSql < GuideAction
 
     ## Map the Query to a Class
 
-    [crystal-db](https://github.com/crystal-lang/crystal-db) comes with a powerful
-    [DB.mapping](https://github.com/crystal-lang/crystal-db/blob/master/src/db/mapping.cr) macro that makes
-    it simple to map a database query to a class by defining the keys and types of each column.
+    [crystal-db](https://github.com/crystal-lang/crystal-db) comes with a `DB::Serializable` module you include
+    in your model to help map database columns to the model attributes. This pattern matches several other classes
+    within Crystal like `JSON::Serializable`, for example.
 
     Let's create a `ComplexPost` class in our models folder and define the database mapping.
 
     ```crystal
     # src/models/complex_post.cr
     class ComplexPost
-      DB.mapping({
-        id: Int64,
-        title: String,
-        content: {
-            type: String,
-            nilable: false,
-            key: "custom_key"
-        },
-        author: JSON::Any
-      })
+      include DB::Serializable
+
+      getter id : Int64
+      getter title : String
+
+      @[DB::Field(key: "custom_key", nilable: false)]
+      getter content : String
+
+      getter author : JSON::Any
     end
     ```
 
