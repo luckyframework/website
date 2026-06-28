@@ -678,14 +678,14 @@ class Guides::Database::Querying < GuideAction
 
     ### Associations
 
-    Each association defined on your model will have a method prefixed with `where_` that takes a
+    Each association defined on your model will have a method prefixed with `join_` that takes a
     query from the association. This method will add an inner join for you.
 
     You can use this to help refine your association.
 
     ```crystal
     # SELECT COLUMNS FROM users INNER JOIN tasks ON users.id = tasks.user_id WHERE tasks.title = 'Clean up notes'
-    UserQuery.new.where_tasks(TaskQuery.new.title("Clean up notes"))
+    UserQuery.new.join_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
     This will return all users who have a task with a title "Clean up notes".
@@ -697,16 +697,11 @@ class Guides::Database::Querying < GuideAction
 
     ### Joins
 
-    By default, using the `where_` methods will use `INNER JOIN`, but you have the option
-    to configure this by passing `false` to the `auto_inner_join` argument, and specifying
-    a different join method.
+    By default, using the `join_` methods will use `INNER JOIN`. Avram has methods for other join
+    types like `left_join`, `right_join`, and `full_join`.
 
     ```crystal
-    UserQuery.new
-      .left_join_tasks
-      .where_tasks(
-        TaskQuery.new.title("Clean up notes"),
-        auto_inner_join: false)
+    UserQuery.new.left_join_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
     ### Inner joins
@@ -918,7 +913,7 @@ class Guides::Database::Querying < GuideAction
       def recently_completed_admin_tasks
         task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
 
-        admin(true).where_tasks(task_query)
+        admin(true).join_tasks(task_query)
       end
     end
 
@@ -927,18 +922,13 @@ class Guides::Database::Querying < GuideAction
     ```
 
     When adding an associated query (like `task_query`), Avram will handle adding the join
-    for you. By default, this is an `INNER JOIN`, but if you need to customize that, you can
-    set the `auto_inner_join` option to `false`.
+    for you. By default, this is an `INNER JOIN`.
 
     ```crystal
     def recently_completed_admin_tasks
       task_query = TaskQuery.new.completed(true).updated_at.gte(1.day.ago)
 
-      # Tell the `where_tasks` to skip adding the `inner_join` so we can
-      # use the `left_join_tasks` instead.
-      admin(true)
-        .left_join_tasks
-        .where_tasks(task_query, auto_inner_join: false)
+      admin(true).left_join_tasks(task_query)
     end
     ```
 
@@ -1033,7 +1023,7 @@ class Guides::Database::Querying < GuideAction
 
     ```crystal
     UserQuery.new
-      .where_posts(PostQuery.new.published(true).tags(["crystal", "lucky"]))
+      .join_posts(PostQuery.new.published(true).tags(["crystal", "lucky"]))
       .limit(10)
       .to_prepared_sql
     #=> "SELECT COLUMNS FROM users INNER JOIN posts ON users.id = posts.user_id WHERE posts.tags = '{"crystal", "lucky"}' LIMIT 10"
