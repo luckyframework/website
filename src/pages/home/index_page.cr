@@ -181,10 +181,10 @@ class Home::IndexPage
     ```crystal
     class Home::IndexPage < MainLayout
       def content
-        # Lucky includes Webpack!
+        # Lucky includes Bun! You can also use Webpack, Vite, or anything else
         # You can enable React or Vue.js support. Then...
 
-        # Mount your JavaScript component/app
+        # Mount your JavaScript component/app to `<MyApp title="MyApp is the best" />`
         tag("MyApp", title: "MyApp is the best")
 
         # Optionally render regular HTML for non-interactive elements
