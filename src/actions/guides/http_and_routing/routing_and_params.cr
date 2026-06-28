@@ -701,7 +701,7 @@ class Guides::HttpAndRouting::RoutingAndParams < GuideAction
     ### TLD Configuration
 
     For the subdomains matcher, Lucky needs to know how many segments your TLD has. In production, most websites will
-    have 1 segment like `.com` or `.io`. In some cases, there may be 2 segments like `.co.uk`, or 0 segments like 
+    have 1 segment like `.com` or `.io`. In some cases, there may be 2 segments like `.co.uk`, or 0 segments like
     development being just `localhost`. If you need to change this value, you can set this in your `config/server.cr`
 
     ```crystal
