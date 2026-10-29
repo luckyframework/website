@@ -3,9 +3,9 @@ require "http/client"
 class GenerateTeamImages < LuckyTask::Task
   summary "generate team images"
 
-  property(members : Array(::Members::Member)) {
+  property(members : Array(::Members::Member)) do
     [::Members.creator] + ::Members.team_members
-  }
+  end
 
   def call
     members.each do |member|

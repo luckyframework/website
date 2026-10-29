@@ -4,7 +4,7 @@ Habitat.raise_if_missing_settings!
 
 app_server = AppServer.new
 
-Signal::INT.trap do
+Process.on_terminate do
   app_server.close
 end
 
