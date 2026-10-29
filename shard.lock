@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.5.0
+    version: 1.7.0
 
   awscr-s3:
     git: https://github.com/taylorfinnell/awscr-s3.git
@@ -78,7 +78,7 @@ shards:
 
   lucky_router:
     git: https://github.com/luckyframework/lucky_router.git
-    version: 0.6.1
+    version: 0.6.2
 
   lucky_task:
     git: https://github.com/luckyframework/lucky_task.git
@@ -106,7 +106,7 @@ shards:
 
   splay_tree_map:
     git: https://github.com/wyhaines/splay_tree_map.cr.git
-    version: 0.3.0
+    version: 0.4.0
 
   webdrivers:
     git: https://github.com/crystal-loot/webdrivers.cr.git

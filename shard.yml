@@ -42,4 +42,3 @@ development_dependencies:
     version: ~> 0.10.0
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.5.0
