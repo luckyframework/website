@@ -704,6 +704,40 @@ class Guides::Database::Querying < GuideAction
     UserQuery.new.left_join_tasks(TaskQuery.new.title("Clean up notes"))
     ```
 
+    ### Additional join conditions
+
+    Pass a query with `on:` to add conditions to the join's `ON` clause instead of `WHERE`:
+
+    ```crystal
+    UserQuery.new.left_join_tasks(on: TaskQuery.new.title("Clean up notes"))
+    ```
+
+    ```sql
+    SELECT COLUMNS FROM users
+    LEFT JOIN tasks ON users.id = tasks.user_id AND (tasks.title = $1)
+    ```
+
+    This keeps users with no matching tasks in the results. Without `on:`, the query is passed
+    to the existing `where_tasks` parameter.
+
+    These two calls are equivalent:
+
+    ```crystal
+    UserQuery.new.left_join_tasks(TaskQuery.new.title("Clean up notes"))
+
+    UserQuery.new.left_join_tasks(where_tasks: TaskQuery.new.title("Clean up notes"))
+    ```
+
+    ```sql
+    SELECT COLUMNS FROM users
+    LEFT JOIN tasks ON users.id = tasks.user_id
+    WHERE tasks.title = $1
+    ```
+
+    The `on:` argument works with all join types. It accepts only filter conditions;
+    queries with ordering, limits, offsets, grouping, distinct, locking, or additional joins
+    raise `Avram::InvalidQueryError`.
+
     ### Inner joins
 
     `SELECT COLUMNS FROM users INNER JOIN tasks ON users.id = tasks.user_id`
